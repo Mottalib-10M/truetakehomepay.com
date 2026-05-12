@@ -1,0 +1,76 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Bonus Tax Calculator ${TAX_YEAR}: How Much Tax on Your Bonus`;
+const description = `Calculate how much tax you'll pay on your bonus in ${TAX_YEAR}. See the federal flat 22% withholding rate, FICA taxes, and your actual take-home bonus amount.`;
+
+const faqs = [
+  {
+    question: 'How are bonuses taxed?',
+    answer: `Bonuses are considered supplemental wages by the IRS and are typically taxed using the flat 22% federal withholding rate (37% for bonuses over $1 million). In addition, you'll pay Social Security (6.2% up to $176,100 in total wages), Medicare (1.45%), and state income tax. Your employer may also use the "aggregate method," which withholds based on your regular tax bracket.`,
+  },
+  {
+    question: 'Is the bonus tax rate 22% or 40%?',
+    answer: `The federal flat withholding rate on bonuses is 22% for amounts up to $1 million and 37% for amounts exceeding $1 million. However, total taxes on your bonus also include FICA (7.65%) and state tax (0%-13.3%), which can push the total to 30%-45%+. The 22% is only the federal <em>withholding</em> rate — your actual tax depends on your annual income bracket.`,
+  },
+  {
+    question: 'Will I get some of my bonus tax back as a refund?',
+    answer: `Possibly. The 22% flat rate is a <em>withholding</em> rate, not your actual tax rate. If your effective federal tax rate is lower than 22% (common for incomes under ~$95,000), you may get a refund when you file. Conversely, if you're in the 32% or higher bracket, the 22% withholding may not be enough and you could owe more.`,
+  },
+  {
+    question: 'What is the aggregate method for bonus withholding?',
+    answer: `The aggregate method adds your bonus to your most recent regular paycheck, calculates withholding on the combined total as if it were a single payment, then subtracts the tax already withheld from the regular portion. This method often results in higher withholding than the flat 22% rate for high earners, but may be more accurate.`,
+  },
+  {
+    question: 'Are bonuses subject to FICA taxes?',
+    answer: `Yes. Bonuses are subject to Social Security tax (6.2%) until your total wages for the year reach $176,100, and Medicare tax (1.45%) with no cap. If your combined wages and bonus exceed $200,000 (Single), you'll also pay the 0.9% Additional Medicare Tax on the excess. Your employer pays a matching 7.65%.`,
+  },
+  {
+    question: 'How can I reduce the tax on my bonus?',
+    answer: `Strategies to reduce bonus tax include: (1) Ask your employer to increase your 401(k) contribution for the bonus paycheck (traditional 401(k) contributions reduce taxable income), (2) Contribute to an HSA if eligible, (3) Time the bonus to a year when your income is lower if possible, or (4) Adjust your W-4 withholding to account for the bonus. These reduce income tax but not FICA.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Paycheck Calculator', href: '/', desc: 'Regular paycheck take-home' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Full federal + state tax' },
+  { title: 'Salary Calculator', href: '/salary-calculator', desc: 'Annual salary breakdown' },
+  { title: 'Overtime Pay Calculator', href: '/overtime-pay-calculator', desc: 'Calculate OT after taxes' },
+  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator', desc: '1099 contractor taxes' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Bonus Tax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/bonus-tax-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Bonus Tax Calculator ${TAX_YEAR}`}
+  intro={`Find out how much of your bonus you'll actually keep. Bonuses are taxed at a flat 22% federal rate plus FICA and state taxes. Enter your bonus amount to see your take-home.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Publication 15 (Employer's Tax Guide, supplemental wage withholding), IRS Rev. Proc. 2025-11 (${TAX_YEAR} tax brackets), SSA.gov (Social Security wage base $176,100). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator
+    client:load
+    defaultPayFrequency="annual"
+    defaultGross={10000}
+  />
+</CalculatorLayout>

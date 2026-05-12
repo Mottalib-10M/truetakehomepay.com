@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Medicare Surtax Calculator ${TAX_YEAR}: 0.9% + 3.8% NIIT`;
+const description = `Calculate the ${TAX_YEAR} Additional Medicare Tax (0.9%) and Net Investment Income Tax (3.8% NIIT). See if your income triggers these surtaxes.`;
+
+const faqs = [
+  {
+    question: 'Who pays the 0.9% Additional Medicare Tax?',
+    answer: `You owe the 0.9% Additional Medicare Tax on wages, compensation, and self-employment income exceeding $200,000 (single), $250,000 (married filing jointly), or $125,000 (married filing separately). Your employer withholds it once your wages pass $200,000, regardless of filing status.`,
+  },
+  {
+    question: 'What is the 3.8% Net Investment Income Tax (NIIT)?',
+    answer: `The NIIT is a 3.8% tax on the lesser of your net investment income or the amount your modified adjusted gross income (MAGI) exceeds $200,000 (single) or $250,000 (married filing jointly). Investment income includes interest, dividends, capital gains, rental income, and royalties.`,
+  },
+  {
+    question: 'Can I reduce my exposure to the Medicare surtaxes?',
+    answer: `Strategies include maximizing pre-tax retirement contributions (401k, Traditional IRA) to lower MAGI, timing capital gains realization across tax years, investing in tax-exempt municipal bonds, and using Health Savings Accounts. Consult a tax professional for personalized planning.`,
+  },
+  {
+    question: 'Are these surtaxes in addition to regular Medicare tax?',
+    answer: `Yes. The standard Medicare tax is 1.45% on all wages (2.9% combined with employer). The 0.9% Additional Medicare Tax applies on top of that for high earners, making the total employee rate 2.35%. The 3.8% NIIT is a separate tax on investment income — it applies even if you're not subject to the 0.9% wage surtax.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Social Security Tax', href: '/social-security-tax-calculator', desc: 'Full FICA breakdown' },
+  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator', desc: 'Investment gains tax' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state estimate' },
+  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator', desc: '1099 FICA taxes' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Medicare Surtax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/medicare-surtax-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Medicare Surtax Calculator ${TAX_YEAR}`}
+  intro={`Determine whether you owe the 0.9% Additional Medicare Tax on wages or the 3.8% Net Investment Income Tax (NIIT) for ${TAX_YEAR}. Enter your income to see how these surtaxes apply to high earners.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Topic 560 (Additional Medicare Tax), IRS Form 8959, IRS Form 8960 (Net Investment Income Tax), IRC Section 1411. Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

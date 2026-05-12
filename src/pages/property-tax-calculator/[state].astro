@@ -1,0 +1,137 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TAX_YEAR } from '../../lib/constants';
+import { getAllStateSlugs, getStateBySlug } from '../../data/state-meta';
+
+export function getStaticPaths() {
+  return getAllStateSlugs().map((slug) => ({ params: { state: slug } }));
+}
+
+const { state: stateSlug } = Astro.params;
+const stateData = getStateBySlug(stateSlug!);
+if (!stateData) return Astro.redirect('/');
+
+const { name } = stateData;
+const title = `${name} Property Tax Calculator ${TAX_YEAR}: Rates & Estimates`;
+const description = `Calculate property tax in ${name} for ${TAX_YEAR}. See effective rates by county, homestead exemptions, and how ${name} compares to other states.`;
+
+const faqs = [
+  {
+    question: `What is the average property tax rate in ${name}?`,
+    answer: `Property tax rates in ${name} vary by county and municipality. Use our calculator above to see the effective rate for your specific location. Rates are updated for ${TAX_YEAR}.`,
+  },
+  {
+    question: `Does ${name} offer a homestead exemption?`,
+    answer: `Many states, including ${name}, offer homestead exemptions that reduce the taxable value of your primary residence. Check with your county assessor's office for specific eligibility requirements and exemption amounts in ${name}.`,
+  },
+  {
+    question: `How often are properties reassessed in ${name}?`,
+    answer: `Reassessment frequency varies by jurisdiction within ${name}. Some counties reassess annually while others may reassess every few years. Contact your local assessor's office for the specific schedule in your area.`,
+  },
+  {
+    question: `Can I appeal my property tax assessment in ${name}?`,
+    answer: `Yes. If you believe your property has been overvalued, you can appeal your assessment with your county board of equalization or assessment appeals board. The appeal process and deadlines vary by county in ${name}.`,
+  },
+];
+---
+
+<Layout title={title} description={description}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-8 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl text-center">
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+        {name} Property Tax Calculator {TAX_YEAR}
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+        Calculate your estimated property tax in {name}. See county rates, homestead exemptions, and comparisons.
+      </p>
+    </div>
+  </section>
+
+  <!-- Placeholder calculator input -->
+  <section class="px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Estimate Your {name} Property Tax</h2>
+        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Enter your home value to get a property tax estimate.</p>
+        <div class="mt-6">
+          <label for="home-value" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+            Home Value ($)
+          </label>
+          <input
+            type="text"
+            id="home-value"
+            placeholder="300,000"
+            class="mt-1 block w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 shadow-sm focus:border-navy-500 focus:ring-navy-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
+          />
+        </div>
+        <p class="mt-4 text-slate-600 dark:text-slate-400">
+          Full property tax calculator with county-level data coming soon.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- State rate display placeholder -->
+  <section class="px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <h2 class="mb-4 text-xl font-bold text-slate-900 dark:text-white">{name} Property Tax Rates</h2>
+      <div class="overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
+        <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+          <thead class="bg-slate-50 dark:bg-slate-800">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">County</th>
+              <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Effective Rate</th>
+              <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Median Tax</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-900">
+            <tr>
+              <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400" colspan="3">
+                County-level property tax data for {name} coming soon.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Homestead exemption info -->
+  <section class="px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <h2 class="mb-4 text-xl font-bold text-slate-900 dark:text-white">{name} Homestead Exemption</h2>
+      <div class="rounded-lg border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-800">
+        <p class="text-slate-600 dark:text-slate-400">
+          Homestead exemption details for {name} will be displayed here. These exemptions can significantly reduce your property tax bill on your primary residence.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <h2 class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
+        {name} Property Tax FAQ
+      </h2>
+      <dl class="space-y-6">
+        {faqs.map((faq) => (
+          <div class="rounded-lg border border-slate-200 p-6 dark:border-slate-700">
+            <dt class="text-lg font-semibold text-slate-900 dark:text-white">{faq.question}</dt>
+            <dd class="mt-2 text-slate-600 dark:text-slate-400">{faq.answer}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- Back link -->
+  <section class="px-4 pb-16 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl text-center">
+      <a href="/property-tax-calculator" class="text-sm font-medium text-navy-600 hover:text-navy-700 dark:text-navy-400 dark:hover:text-navy-300">
+        &larr; View all state property tax calculators
+      </a>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Credit Card Payoff Calculator: Debt-Free Date Estimator`;
+const description = `Calculate how long it will take to pay off your credit card debt. See your debt-free date, total interest cost, and how extra payments can save you thousands.`;
+
+const faqs = [
+  {
+    question: 'How long will it take to pay off my credit card?',
+    answer: `It depends on your balance, APR, and monthly payment. For example, a $5,000 balance at 22% APR with minimum payments ($100/month) takes about 9 years and costs $5,840 in interest — more than the original balance. Paying $200/month cuts it to 2.5 years and $1,860 in interest, saving nearly $4,000.`,
+  },
+  {
+    question: 'What is the best strategy to pay off credit card debt?',
+    answer: `Two popular strategies: The Avalanche method (pay highest-APR card first) saves the most money mathematically. The Snowball method (pay smallest balance first) provides quick psychological wins. Both work — pick the one you'll stick with. Also consider balance transfer cards (0% APR for 12-21 months) or debt consolidation loans at lower rates.`,
+  },
+  {
+    question: 'How much of my payment goes to interest vs principal?',
+    answer: `Credit card interest is calculated daily on your remaining balance. At a 22% APR, a $5,000 balance accrues about $92 in interest per month. If your minimum payment is $100, only $8 goes to principal — that's why minimums keep you in debt for years. Larger payments dramatically shift the ratio toward principal reduction.`,
+  },
+  {
+    question: 'Does paying more than the minimum save a lot of money?',
+    answer: `Yes, dramatically. On a $10,000 balance at 24% APR, minimum payments (~$200) take 30+ years and cost $18,000+ in interest. Paying $400/month pays it off in 3 years with about $4,500 in interest — saving over $13,500. Even an extra $50/month makes a meaningful difference over time.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Debt Consolidation', href: '/debt-consolidation-calculator', desc: 'Combine debts at lower rate' },
+  { title: 'Loan Calculator', href: '/loan-calculator', desc: 'Personal loan payments' },
+  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Build savings after payoff' },
+  { title: 'Paycheck Calculator', href: '/', desc: 'Budget your take-home pay' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Credit Card Payoff Calculator',
+  description,
+  url: 'https://uspaycheck.com/credit-card-payoff-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1="Credit Card Payoff Calculator"
+  intro="Find out exactly when you'll be debt-free. Enter your credit card balance, APR, and monthly payment to see your payoff date, total interest cost, and how much extra payments can accelerate your progress."
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources="Federal Reserve Board (consumer credit data), CFPB credit card guides, Truth in Lending Act (TILA) minimum payment disclosures."
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

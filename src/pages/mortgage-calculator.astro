@@ -1,0 +1,60 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Mortgage Calculator ${TAX_YEAR}: Monthly Payment Estimator`;
+const description = `Calculate your monthly mortgage payment for ${TAX_YEAR} including principal, interest, taxes, and insurance (PITI). See amortization schedule and total cost.`;
+
+const faqs = [
+  {
+    question: 'How is a monthly mortgage payment calculated?',
+    answer: `Your monthly mortgage payment consists of four parts (PITI): Principal (loan repayment), Interest (cost of borrowing), Taxes (property tax, usually escrowed), and Insurance (homeowners + PMI if applicable). The principal and interest portion uses an amortization formula based on your loan amount, interest rate, and loan term.`,
+  },
+  {
+    question: 'How much does interest rate affect my payment?',
+    answer: `Interest rate has a significant impact. On a $400,000 30-year mortgage, each 1% increase in rate adds roughly $240/month to your payment. At 6%, the monthly P&I is about $2,398; at 7%, it's $2,661; at 8%, it's $2,935. Over 30 years, that 1% difference costs over $86,000 in total interest.`,
+  },
+  {
+    question: '15-year vs 30-year mortgage — which is better?',
+    answer: `A 15-year mortgage has higher monthly payments but much lower total interest (often half or less). A 30-year provides lower payments and more cash flow flexibility. For example, a $400,000 loan at 6.5%: 30-year payment is $2,528/month ($509,938 total interest); 15-year is $3,484/month ($227,185 total interest) — saving $282,753.`,
+  },
+  {
+    question: 'What is PMI and how do I avoid it?',
+    answer: `Private Mortgage Insurance (PMI) is required when your down payment is less than 20% on a conventional loan. PMI typically costs 0.5%-1.5% of the loan amount annually. You can avoid it by putting 20% down, using a VA or USDA loan, or requesting cancellation once you reach 20% equity. PMI automatically drops off at 22% equity.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Affordability Calculator', href: '/mortgage-affordability-calculator', desc: 'How much house can I afford?' },
+  { title: 'Refinance Calculator', href: '/mortgage-refinance-calculator', desc: 'Refinance break-even analysis' },
+  { title: 'Rent vs Buy', href: '/rent-vs-buy-calculator', desc: 'Compare renting vs buying' },
+  { title: 'Paycheck Calculator', href: '/', desc: 'Verify your take-home pay' },
+  { title: 'Loan Calculator', href: '/loan-calculator', desc: 'General loan payments' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Mortgage Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/mortgage-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Mortgage Calculator ${TAX_YEAR}`}
+  intro={`Calculate your monthly mortgage payment including principal, interest, property taxes, and insurance. See a full amortization schedule and understand the total cost of your home loan over time.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`Freddie Mac Primary Mortgage Market Survey (current rates), CFPB (Consumer Financial Protection Bureau) mortgage guides, IRS Publication 936 (home mortgage interest deduction). Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

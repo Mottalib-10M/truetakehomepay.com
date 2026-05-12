@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `HSA Calculator ${TAX_YEAR}: Health Savings Tax Advantages`;
+const description = `Calculate your HSA tax savings for ${TAX_YEAR}. See contribution limits, triple tax advantage, investment growth potential, and how much you can save on healthcare.`;
+
+const faqs = [
+  {
+    question: `What are the HSA contribution limits for ${TAX_YEAR}?`,
+    answer: `For ${TAX_YEAR}, HSA contribution limits are $4,300 for self-only coverage and $8,550 for family coverage. If you're age 55 or older, you can contribute an additional $1,000 catch-up. These limits include both employee and employer contributions.`,
+  },
+  {
+    question: 'What is the HSA triple tax advantage?',
+    answer: `HSAs offer three tax benefits: (1) Contributions are tax-deductible (pre-tax if through payroll, reducing FICA too), (2) investment growth is tax-free, and (3) withdrawals for qualified medical expenses are tax-free. No other account offers all three benefits — making the HSA the most tax-efficient savings vehicle available.`,
+  },
+  {
+    question: 'Can I invest my HSA funds?',
+    answer: `Yes. Most HSA providers let you invest once your balance reaches a threshold (often $1,000-$2,000). You can invest in mutual funds, ETFs, and other options similar to a 401(k). Many financial experts recommend paying current medical expenses out-of-pocket and investing HSA funds for long-term, tax-free growth.`,
+  },
+  {
+    question: 'What happens to my HSA after age 65?',
+    answer: `After age 65, your HSA becomes even more flexible. Withdrawals for qualified medical expenses remain tax-free. Non-medical withdrawals are taxed as ordinary income (like a Traditional IRA) but no longer incur the 20% penalty. You can use it for Medicare premiums (but not Medigap) tax-free.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Paycheck Calculator', href: '/', desc: 'See HSA impact on pay' },
+  { title: '401(k) Calculator', href: '/401k-calculator', desc: 'Retirement savings' },
+  { title: 'Tax Refund Calculator', href: '/tax-refund-calculator', desc: 'HSA deduction impact' },
+  { title: 'Compound Interest', href: '/compound-interest-calculator', desc: 'HSA growth projections' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `HSA Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/hsa-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`HSA Calculator ${TAX_YEAR}`}
+  intro={`Calculate the tax savings and growth potential of your Health Savings Account for ${TAX_YEAR}. See how the triple tax advantage — deductible contributions, tax-free growth, and tax-free withdrawals — can save you thousands.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Rev. Proc. 2025-17 (${TAX_YEAR} HSA contribution limits), IRS Publication 969 (Health Savings Accounts), IRC Section 223. Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

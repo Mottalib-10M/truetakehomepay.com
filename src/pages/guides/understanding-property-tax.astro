@@ -1,0 +1,277 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TAX_YEAR, SITE_NAME } from '../../lib/constants';
+
+const title = 'Understanding Property Tax: How It Works in Every State';
+const description = `Learn how property tax is calculated, including assessed value, mill rates, exemptions, and appeals. Compare rates across states and reduce your bill.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  author: { '@type': 'Organization', name: SITE_NAME },
+  publisher: { '@type': 'Organization', name: SITE_NAME },
+  datePublished: '2026-01-01',
+  dateModified: '2026-01-15',
+};
+---
+
+<Layout title={title} description={description} schema={schema}>
+  <article class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+      <h1>Understanding Property Tax: How It Works</h1>
+
+      <p>
+        Property tax is the largest recurring expense for most homeowners after their mortgage payment, yet
+        many people do not understand how it is calculated or that they have options to reduce it. This
+        guide explains the mechanics of property tax assessment, common exemptions, how mill rates work,
+        and the appeals process available in every state. Whether you are buying a home or managing your
+        current tax bill, understanding property tax is essential.
+      </p>
+
+      <p>
+        Estimate your property tax bill with our <a href="/property-tax-calculator">property tax
+        calculator</a>, and see how property tax compares to income tax in our
+        <a href="/guides/state-tax-comparison">state tax comparison guide</a>.
+      </p>
+
+      <h2>How Property Tax Is Calculated</h2>
+
+      <p>
+        The basic formula for property tax is straightforward:
+      </p>
+
+      <p>
+        <strong>Property Tax = Assessed Value x Tax Rate (Mill Rate)</strong>
+      </p>
+
+      <p>
+        However, the details behind each component vary significantly by state and locality.
+      </p>
+
+      <h3>Market Value vs. Assessed Value</h3>
+      <p>
+        The <strong>market value</strong> (also called fair market value) is what your property would sell
+        for on the open market. The <strong>assessed value</strong> is the value used for tax calculations,
+        which may be equal to market value or a percentage of it. Many states use an <strong>assessment
+        ratio</strong> that reduces the assessed value:
+      </p>
+
+      <ul>
+        <li><strong>100% assessment states:</strong> California, Florida, Idaho, Kentucky (assessed value = market value)</li>
+        <li><strong>Partial assessment states:</strong> South Carolina (4% for owner-occupied, 6% for other), Ohio (35%), Georgia (40%), Tennessee (25% residential)</li>
+      </ul>
+
+      <p>
+        For example, a home with a market value of $400,000 in South Carolina (owner-occupied) has an
+        assessed value of just $16,000 ($400,000 x 4%). The low assessment ratio makes rates appear higher
+        but results in a similar tax bill.
+      </p>
+
+      <h3>Mill Rates Explained</h3>
+      <p>
+        A <strong>mill</strong> is one-tenth of a cent, or $1 per $1,000 of assessed value. A mill rate of
+        25 mills means $25 per $1,000 of assessed value. If your assessed value is $300,000 and the mill
+        rate is 25, your property tax is $300,000 / 1,000 x 25 = <strong>$7,500</strong>.
+      </p>
+
+      <p>
+        Your total mill rate is typically the sum of multiple overlapping taxing jurisdictions:
+      </p>
+
+      <ul>
+        <li>County government: 5-15 mills</li>
+        <li>City/town government: 3-10 mills</li>
+        <li>School district: 10-25 mills (often the largest component)</li>
+        <li>Special districts (fire, library, parks): 1-5 mills</li>
+      </ul>
+
+      <h2>How Properties Are Assessed</h2>
+
+      <p>
+        County assessors use several methods to determine property value:
+      </p>
+
+      <h3>Sales Comparison Approach</h3>
+      <p>
+        The most common method for residential property. The assessor compares your property to similar
+        recently sold properties (comparables) in your area, adjusting for differences in size, condition,
+        features, and location.
+      </p>
+
+      <h3>Cost Approach</h3>
+      <p>
+        Used for unique or new properties. The assessor estimates the cost to rebuild the structure, subtracts
+        depreciation, and adds land value.
+      </p>
+
+      <h3>Income Approach</h3>
+      <p>
+        Used for rental and commercial properties. The assessor estimates the property's income-producing
+        potential and applies a capitalization rate to determine value.
+      </p>
+
+      <h3>Reassessment Frequency</h3>
+      <p>
+        How often properties are reassessed varies dramatically:
+      </p>
+      <ul>
+        <li><strong>Annual:</strong> Most states reassess every year or on a rolling basis</li>
+        <li><strong>Periodic:</strong> Some states reassess every 2-5 years (e.g., Ohio every 3 years)</li>
+        <li><strong>Upon sale only:</strong> California (Prop 13) only reassesses when a property is sold or significantly improved, with annual increases capped at 2%</li>
+      </ul>
+
+      <h2>Common Exemptions That Reduce Your Bill</h2>
+
+      <h3>Homestead Exemption</h3>
+      <p>
+        Available in most states for your primary residence. This exempts a portion of your home's value from
+        taxation. Examples:
+      </p>
+      <ul>
+        <li><strong>Florida:</strong> First $25,000 exempt from all taxes; additional $25,000 exempt from non-school taxes (total up to $50,000)</li>
+        <li><strong>Texas:</strong> $100,000 exemption from school district taxes, plus additional amounts from county/city</li>
+        <li><strong>Georgia:</strong> Various exemptions ranging from $2,000 to $10,000 depending on county</li>
+        <li><strong>Louisiana:</strong> First $75,000 of assessed value exempt (on a 10% assessment ratio, that covers homes up to $750,000 market value)</li>
+      </ul>
+
+      <h3>Senior Citizen Exemptions</h3>
+      <p>
+        Many states offer additional exemptions or assessment freezes for homeowners aged 65 or older:
+      </p>
+      <ul>
+        <li><strong>Assessment freeze:</strong> Some states freeze the assessed value at the current level so your tax does not increase even if home values rise</li>
+        <li><strong>Additional exemptions:</strong> Extra dollar amounts removed from assessed value</li>
+        <li><strong>Tax deferrals:</strong> Allow seniors to defer property tax until the home is sold</li>
+        <li><strong>Income-based limits:</strong> Some exemptions are only available below certain income thresholds</li>
+      </ul>
+
+      <h3>Disability and Veteran Exemptions</h3>
+      <p>
+        Disabled homeowners and veterans (especially those with service-connected disabilities) often qualify
+        for significant property tax reductions. Many states exempt 100% disabled veterans from all property
+        tax on their primary residence. Surviving spouses may retain the exemption.
+      </p>
+
+      <h3>Agricultural and Conservation Exemptions</h3>
+      <p>
+        Land used for farming, ranching, or conservation purposes may receive a special valuation based on
+        agricultural use rather than market value, which is typically much lower. Requirements vary by state
+        and usually include minimum acreage and income thresholds.
+      </p>
+
+      <h2>State-by-State Variation</h2>
+
+      <p>
+        Effective property tax rates (actual tax paid as a percentage of market value) vary enormously:
+      </p>
+
+      <h3>Highest Effective Property Tax Rates</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Effective Rate</th>
+            <th>Tax on $400K Home</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>New Jersey</td><td>2.23%</td><td>$8,920</td></tr>
+          <tr><td>Illinois</td><td>2.08%</td><td>$8,320</td></tr>
+          <tr><td>New Hampshire</td><td>1.86%</td><td>$7,440</td></tr>
+          <tr><td>Connecticut</td><td>1.79%</td><td>$7,160</td></tr>
+          <tr><td>Vermont</td><td>1.73%</td><td>$6,920</td></tr>
+          <tr><td>Texas</td><td>1.60%</td><td>$6,400</td></tr>
+          <tr><td>Nebraska</td><td>1.54%</td><td>$6,160</td></tr>
+          <tr><td>Wisconsin</td><td>1.51%</td><td>$6,040</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Lowest Effective Property Tax Rates</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Effective Rate</th>
+            <th>Tax on $400K Home</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Hawaii</td><td>0.29%</td><td>$1,160</td></tr>
+          <tr><td>Alabama</td><td>0.37%</td><td>$1,480</td></tr>
+          <tr><td>Colorado</td><td>0.49%</td><td>$1,960</td></tr>
+          <tr><td>Utah</td><td>0.52%</td><td>$2,080</td></tr>
+          <tr><td>Nevada</td><td>0.53%</td><td>$2,120</td></tr>
+          <tr><td>Wyoming</td><td>0.55%</td><td>$2,200</td></tr>
+          <tr><td>Tennessee</td><td>0.56%</td><td>$2,240</td></tr>
+          <tr><td>Idaho</td><td>0.58%</td><td>$2,320</td></tr>
+        </tbody>
+      </table>
+
+      <h2>How to Appeal Your Property Tax Assessment</h2>
+
+      <p>
+        If you believe your property is over-assessed, you have the right to appeal. Studies suggest that
+        30-60% of properties are over-assessed, and roughly half of all appeals result in a reduction. Here
+        is the typical process:
+      </p>
+
+      <h3>Step 1: Review Your Assessment Notice</h3>
+      <p>
+        When you receive your assessment notice (usually annually), check the details carefully: square
+        footage, number of bedrooms/bathrooms, lot size, and assessed value. Errors in physical
+        characteristics are the easiest to correct.
+      </p>
+
+      <h3>Step 2: Research Comparable Properties</h3>
+      <p>
+        Look up recent sales of similar homes in your neighborhood. Your assessed value should be in line
+        with what similar homes have actually sold for. Online real estate databases, county records, and
+        your real estate agent can help.
+      </p>
+
+      <h3>Step 3: File a Formal Appeal</h3>
+      <p>
+        Contact your county assessor's office for the appeal form and deadline. Most states require appeals
+        to be filed within 30-90 days of the assessment notice. Include your evidence: comparable sales data,
+        photos of property condition issues, and any errors you found.
+      </p>
+
+      <h3>Step 4: Attend the Hearing</h3>
+      <p>
+        Present your case to the Board of Equalization or Assessment Review Board. Be prepared, organized,
+        and factual. Bring multiple copies of your evidence. Many homeowners successfully represent
+        themselves without an attorney.
+      </p>
+
+      <h3>Step 5: Further Appeals</h3>
+      <p>
+        If the initial appeal is denied, most states allow further appeals to a state tax tribunal or court.
+        At this point, hiring a property tax attorney or consultant may be worthwhile if the potential
+        savings are significant.
+      </p>
+
+      <h2>Property Tax and Your Federal Taxes</h2>
+
+      <p>
+        Property taxes are deductible on your federal income tax return if you itemize deductions. However,
+        the Tax Cuts and Jobs Act (TCJA) capped the total state and local tax (SALT) deduction at $10,000
+        ($5,000 if married filing separately). This cap includes property tax, state income tax, and local
+        income tax combined. For taxpayers in high-tax states, this cap significantly limits the benefit.
+        See our <a href="/guides/tax-deductions-vs-credits">deductions vs. credits guide</a> for more.
+      </p>
+
+      <h2>Bottom Line</h2>
+
+      <p>
+        Property tax is a local tax, and rates, assessment methods, and exemptions vary enormously even
+        within a single state. Understanding how your bill is calculated gives you the power to claim all
+        eligible exemptions and challenge unfair assessments. Use our
+        <a href="/property-tax-calculator">property tax calculator</a> to estimate your liability, and
+        consider the property tax impact when comparing states with our
+        <a href="/guides/moving-to-a-no-income-tax-state">no-income-tax state guide</a>.
+      </p>
+    </div>
+  </article>
+</Layout>

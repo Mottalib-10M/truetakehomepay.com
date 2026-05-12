@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Lottery Tax Calculator ${TAX_YEAR}: Federal + State Taxes`;
+const description = `Calculate how much tax you'll owe on lottery winnings in ${TAX_YEAR}. See federal withholding (24%), state taxes, lump sum vs annuity, and your after-tax prize.`;
+
+const faqs = [
+  {
+    question: 'How much tax do you pay on lottery winnings?',
+    answer: `Lottery winnings are taxed as ordinary income. The IRS requires 24% federal withholding on prizes over $5,000, but your actual tax rate could be up to 37% depending on total income. State taxes vary from 0% (in states like Florida and Texas) to over 10% (in states like New York at 10.9%).`,
+  },
+  {
+    question: 'Should I take the lump sum or annuity?',
+    answer: `The lump sum is typically 40-60% of the advertised jackpot. While annuity payments spread the tax burden over 30 years (potentially keeping you in lower brackets), the lump sum lets you invest the money immediately. Most financial advisors recommend the lump sum if you have the discipline to invest wisely.`,
+  },
+  {
+    question: 'Which states have no tax on lottery winnings?',
+    answer: `States with no income tax on lottery winnings include Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming. California also does not tax lottery winnings at the state level, making it one of the best states to win the lottery.`,
+  },
+  {
+    question: 'Do I have to report small lottery prizes?',
+    answer: `Yes, all gambling and lottery winnings are taxable income regardless of amount. Prizes of $600 or more are reported to the IRS on Form W-2G. Even if you don't receive a W-2G, you're legally required to report all winnings on your tax return. You can deduct gambling losses up to the amount of your winnings if you itemize.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax estimate' },
+  { title: 'Tax Refund Calculator', href: '/tax-refund-calculator', desc: 'Estimate your IRS refund' },
+  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator', desc: 'Investment tax rates' },
+  { title: 'Paycheck Calculator', href: '/', desc: 'Take-home pay calculator' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Lottery Tax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/lottery-tax-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Lottery Tax Calculator ${TAX_YEAR}`}
+  intro={`Won the lottery? Estimate your after-tax prize for ${TAX_YEAR}. See federal withholding at 24%, your effective tax rate, state taxes by location, and compare lump sum vs annuity payouts.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Publication 525 (Taxable and Nontaxable Income), IRS Instructions for Form W-2G, individual state lottery commission tax policies. Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

@@ -1,0 +1,279 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TAX_YEAR, SITE_NAME } from '../../lib/constants';
+
+const title = `${TAX_YEAR} Federal Tax Brackets: Rates for All Filers`;
+const description = `Complete ${TAX_YEAR} federal income tax brackets for all filing statuses. Learn marginal vs effective rates with step-by-step calculation examples.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  author: { '@type': 'Organization', name: SITE_NAME },
+  publisher: { '@type': 'Organization', name: SITE_NAME },
+  datePublished: '2026-01-01',
+  dateModified: '2026-01-15',
+};
+---
+
+<Layout title={title} description={description} schema={schema}>
+  <article class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+      <h1>{TAX_YEAR} Federal Income Tax Brackets and Rates</h1>
+
+      <p>
+        The US federal income tax system uses seven marginal tax brackets that determine how much you owe
+        based on your taxable income and filing status. For {TAX_YEAR}, the brackets have been adjusted for
+        inflation from the previous year. This guide covers every bracket for all four filing statuses,
+        explains the critical difference between marginal and effective tax rates, and walks through a
+        complete calculation example.
+      </p>
+
+      <p>
+        Use our <a href="/income-tax-calculator">income tax calculator</a> to instantly compute your federal
+        tax liability for any income level.
+      </p>
+
+      <h2>{TAX_YEAR} Standard Deduction Amounts</h2>
+
+      <p>
+        Before applying the brackets, most taxpayers reduce their income by the standard deduction. For
+        {TAX_YEAR}, the standard deduction amounts are:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Filing Status</th>
+            <th>Standard Deduction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Single</td><td>$15,000</td></tr>
+          <tr><td>Married Filing Jointly</td><td>$30,000</td></tr>
+          <tr><td>Married Filing Separately</td><td>$15,000</td></tr>
+          <tr><td>Head of Household</td><td>$22,500</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        Taxpayers aged 65 or older receive an additional standard deduction of $1,950 (single/head of
+        household) or $1,550 per qualifying spouse (married filing jointly/separately).
+      </p>
+
+      <h2>{TAX_YEAR} Tax Brackets: Single Filers</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tax Rate</th>
+            <th>Taxable Income Range</th>
+            <th>Tax Owed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>10%</td><td>$0 - $11,925</td><td>10% of taxable income</td></tr>
+          <tr><td>12%</td><td>$11,926 - $48,475</td><td>$1,192.50 + 12% of amount over $11,925</td></tr>
+          <tr><td>22%</td><td>$48,476 - $103,350</td><td>$5,578.50 + 22% of amount over $48,475</td></tr>
+          <tr><td>24%</td><td>$103,351 - $197,300</td><td>$17,651.00 + 24% of amount over $103,350</td></tr>
+          <tr><td>32%</td><td>$197,301 - $250,525</td><td>$40,199.00 + 32% of amount over $197,300</td></tr>
+          <tr><td>35%</td><td>$250,526 - $626,350</td><td>$57,231.00 + 35% of amount over $250,525</td></tr>
+          <tr><td>37%</td><td>Over $626,350</td><td>$188,769.75 + 37% of amount over $626,350</td></tr>
+        </tbody>
+      </table>
+
+      <h2>{TAX_YEAR} Tax Brackets: Married Filing Jointly</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tax Rate</th>
+            <th>Taxable Income Range</th>
+            <th>Tax Owed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>10%</td><td>$0 - $23,850</td><td>10% of taxable income</td></tr>
+          <tr><td>12%</td><td>$23,851 - $96,950</td><td>$2,385.00 + 12% of amount over $23,850</td></tr>
+          <tr><td>22%</td><td>$96,951 - $206,700</td><td>$11,157.00 + 22% of amount over $96,950</td></tr>
+          <tr><td>24%</td><td>$206,701 - $394,600</td><td>$35,302.00 + 24% of amount over $206,700</td></tr>
+          <tr><td>32%</td><td>$394,601 - $501,050</td><td>$80,398.00 + 32% of amount over $394,600</td></tr>
+          <tr><td>35%</td><td>$501,051 - $751,600</td><td>$114,462.00 + 35% of amount over $501,050</td></tr>
+          <tr><td>37%</td><td>Over $751,600</td><td>$202,154.50 + 37% of amount over $751,600</td></tr>
+        </tbody>
+      </table>
+
+      <h2>{TAX_YEAR} Tax Brackets: Married Filing Separately</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tax Rate</th>
+            <th>Taxable Income Range</th>
+            <th>Tax Owed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>10%</td><td>$0 - $11,925</td><td>10% of taxable income</td></tr>
+          <tr><td>12%</td><td>$11,926 - $48,475</td><td>$1,192.50 + 12% of amount over $11,925</td></tr>
+          <tr><td>22%</td><td>$48,476 - $103,350</td><td>$5,578.50 + 22% of amount over $48,475</td></tr>
+          <tr><td>24%</td><td>$103,351 - $197,300</td><td>$17,651.00 + 24% of amount over $103,350</td></tr>
+          <tr><td>32%</td><td>$197,301 - $250,525</td><td>$40,199.00 + 32% of amount over $197,300</td></tr>
+          <tr><td>35%</td><td>$250,526 - $375,800</td><td>$57,231.00 + 35% of amount over $250,525</td></tr>
+          <tr><td>37%</td><td>Over $375,800</td><td>$101,077.25 + 37% of amount over $375,800</td></tr>
+        </tbody>
+      </table>
+
+      <h2>{TAX_YEAR} Tax Brackets: Head of Household</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tax Rate</th>
+            <th>Taxable Income Range</th>
+            <th>Tax Owed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>10%</td><td>$0 - $17,000</td><td>10% of taxable income</td></tr>
+          <tr><td>12%</td><td>$17,001 - $64,850</td><td>$1,700.00 + 12% of amount over $17,000</td></tr>
+          <tr><td>22%</td><td>$64,851 - $103,350</td><td>$7,442.00 + 22% of amount over $64,850</td></tr>
+          <tr><td>24%</td><td>$103,351 - $197,300</td><td>$15,912.00 + 24% of amount over $103,350</td></tr>
+          <tr><td>32%</td><td>$197,301 - $250,500</td><td>$38,460.00 + 32% of amount over $197,300</td></tr>
+          <tr><td>35%</td><td>$250,501 - $626,350</td><td>$55,484.00 + 35% of amount over $250,500</td></tr>
+          <tr><td>37%</td><td>Over $626,350</td><td>$187,031.50 + 37% of amount over $626,350</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Marginal vs. Effective Tax Rate</h2>
+
+      <p>
+        This is one of the most misunderstood concepts in personal finance. Many people believe that if they
+        are "in the 22% bracket," they pay 22% on all their income. That is not how it works.
+      </p>
+
+      <p>
+        <strong>Marginal tax rate</strong> is the rate you pay on your last (highest) dollar of income. It
+        determines the tax impact of earning one more dollar or claiming one more dollar of deductions.
+      </p>
+
+      <p>
+        <strong>Effective tax rate</strong> is the total tax you owe divided by your total taxable income. It
+        represents the blended, average rate across all brackets and is always lower than your marginal rate.
+      </p>
+
+      <h2>Step-by-Step Example: $100,000 Single Filer</h2>
+
+      <p>
+        Let us calculate the exact federal income tax for a single filer with $100,000 in gross income:
+      </p>
+
+      <h3>Step 1: Apply the Standard Deduction</h3>
+      <p>$100,000 - $15,000 = <strong>$85,000 taxable income</strong></p>
+
+      <h3>Step 2: Apply Each Bracket</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Bracket</th>
+            <th>Income in Bracket</th>
+            <th>Tax</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>10% ($0 - $11,925)</td><td>$11,925</td><td>$1,192.50</td></tr>
+          <tr><td>12% ($11,926 - $48,475)</td><td>$36,550</td><td>$4,386.00</td></tr>
+          <tr><td>22% ($48,476 - $85,000)</td><td>$36,525</td><td>$8,035.50</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>$85,000</strong></td><td><strong>$13,614.00</strong></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Step 3: Calculate Rates</h3>
+      <ul>
+        <li><strong>Marginal rate:</strong> 22% (the bracket containing the last dollar of income)</li>
+        <li><strong>Effective rate on taxable income:</strong> $13,614 / $85,000 = 16.0%</li>
+        <li><strong>Effective rate on gross income:</strong> $13,614 / $100,000 = 13.6%</li>
+      </ul>
+
+      <p>
+        Even though this filer is "in the 22% bracket," they only pay an effective rate of 13.6% on their
+        gross income. The first $15,000 is shielded by the standard deduction, the next $11,925 is taxed at
+        10%, the next $36,550 at 12%, and only the final $36,525 is taxed at 22%.
+      </p>
+
+      <h2>Why Marginal Rates Matter for Decisions</h2>
+
+      <p>
+        Your marginal rate is the relevant number when evaluating tax-impacting decisions:
+      </p>
+
+      <ul>
+        <li>
+          <strong>401(k) contributions:</strong> A $1,000 traditional 401(k) contribution saves $220 in
+          federal tax for someone in the 22% bracket. Use our
+          <a href="/401k-calculator">401(k) calculator</a> to see your savings.
+        </li>
+        <li>
+          <strong>Roth vs. traditional:</strong> If you expect your marginal rate to be higher in retirement,
+          Roth contributions are better. See our
+          <a href="/guides/401k-vs-roth-ira">401(k) vs. Roth IRA guide</a>.
+        </li>
+        <li>
+          <strong>Charitable giving:</strong> A $1,000 charitable deduction (if itemizing) saves $220 at the
+          22% marginal rate but $370 at the 37% rate.
+        </li>
+        <li>
+          <strong>Side income:</strong> Extra freelance income of $5,000 will be taxed at your marginal rate
+          plus <a href="/guides/self-employment-tax-explained">self-employment tax</a>.
+        </li>
+      </ul>
+
+      <h2>Common Misconceptions</h2>
+
+      <h3>"I don't want a raise because it will put me in a higher bracket"</h3>
+      <p>
+        Only the income within the new bracket is taxed at the higher rate. If you earn $48,475 (the top of
+        the 12% bracket as a single filer) and get a $5,000 raise, only that $5,000 is taxed at 22%. Your
+        total tax increases by $1,100, and you still take home an additional $3,900. You will never lose
+        money by earning more due to bracket progression.
+      </p>
+
+      <h3>"Married filing jointly brackets are exactly double single brackets"</h3>
+      <p>
+        This is mostly true for the lower brackets, which is intentional to reduce the "marriage penalty."
+        However, the 35% and 37% brackets for married filers are not exactly double the single filer
+        brackets, creating a marriage penalty for very high earners.
+      </p>
+
+      <h2>How Brackets Interact with State Tax</h2>
+
+      <p>
+        Federal brackets only determine your federal income tax. State income tax is calculated separately
+        using each state's own brackets and rules. Your total income tax is the sum of federal, state, and
+        any local income taxes. See our <a href="/guides/state-tax-comparison">state tax comparison</a>
+        for a complete overview.
+      </p>
+
+      <h2>Planning Around Bracket Boundaries</h2>
+
+      <p>
+        Smart tax planning involves keeping income below the next bracket when possible. Strategies include:
+      </p>
+
+      <ul>
+        <li>Maximizing traditional 401(k) or IRA contributions to reduce taxable income</li>
+        <li>Timing income recognition (bonus deferral, stock option exercise timing)</li>
+        <li>Accelerating or deferring deductions across tax years</li>
+        <li>Contributing to an HSA if you have a high-deductible health plan</li>
+      </ul>
+
+      <p>
+        Calculate your exact tax across all brackets using our
+        <a href="/income-tax-calculator">income tax calculator</a> or see how brackets affect your paycheck
+        with our <a href="/take-home-pay-calculator">take-home pay calculator</a>.
+      </p>
+    </div>
+  </article>
+</Layout>

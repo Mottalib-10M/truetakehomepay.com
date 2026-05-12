@@ -1,0 +1,60 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `California Tax Calculator ${TAX_YEAR}: 10 Brackets + SDI`;
+const description = `Calculate your California state income tax for ${TAX_YEAR}. See all 10 tax brackets (1%-13.3%), SDI withholding, and your total CA tax liability with deductions.`;
+
+const faqs = [
+  {
+    question: `What are California's ${TAX_YEAR} income tax brackets?`,
+    answer: `California has 10 progressive tax brackets ranging from 1% to 13.3%. For single filers in ${TAX_YEAR}: 1% on income up to $10,756; 2% up to $25,499; 4% up to $40,245; 6% up to $55,866; 8% up to $70,612; 9.3% up to $360,659; 10.3% up to $432,787; 11.3% up to $721,314; 12.3% up to $1,000,000; and 13.3% (with Mental Health Services Tax) on income over $1,000,000.`,
+  },
+  {
+    question: 'What is California SDI and how much does it cost?',
+    answer: `California State Disability Insurance (SDI) is a mandatory payroll deduction that funds short-term disability benefits and Paid Family Leave (PFL). In ${TAX_YEAR}, the SDI rate is 1.1% on all wages with no cap. This is deducted from your paycheck in addition to federal taxes, state income tax, and FICA.`,
+  },
+  {
+    question: 'Does California tax capital gains differently?',
+    answer: `No. Unlike the federal government, California taxes capital gains as ordinary income — there's no preferential long-term capital gains rate. This means long-term capital gains in California can be taxed at up to 13.3%, compared to the federal maximum of 20% (plus 3.8% NIIT). This makes California one of the most expensive states for investment income.`,
+  },
+  {
+    question: 'What is the California standard deduction?',
+    answer: `California's standard deduction for ${TAX_YEAR} is $5,540 for single filers and $11,080 for married filing jointly — significantly lower than the federal standard deduction of $15,700/$31,400. California also does not conform to all federal deductions, so your state taxable income may differ from your federal taxable income.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Paycheck Calculator', href: '/paycheck-calculator/california', desc: 'CA paycheck breakdown' },
+  { title: 'New York Tax Calculator', href: '/new-york-state-tax-calculator', desc: 'Compare with NY taxes' },
+  { title: 'Take-Home Comparison', href: '/take-home-comparison', desc: 'Compare all 50 states' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state taxes' },
+  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator', desc: 'CA taxes gains as income' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `California Tax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/california-state-tax-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`California Tax Calculator ${TAX_YEAR}`}
+  intro={`Calculate your California state income tax across all 10 brackets for ${TAX_YEAR}. See how the 1%-13.3% progressive rate, SDI withholding, and California-specific deductions affect your take-home pay in the Golden State.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`California Franchise Tax Board (ftb.ca.gov) ${TAX_YEAR} tax rates and brackets, California EDD (SDI rates), IRS Rev. Proc. 2025-11 (federal brackets). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `How Much House Can I Afford? ${TAX_YEAR} Mortgage Calculator`;
+const description = `Find out how much house you can afford in ${TAX_YEAR}. Enter your income, debts, and down payment to calculate your maximum home price and monthly payment.`;
+
+const faqs = [
+  {
+    question: 'How much house can I afford on my salary?',
+    answer: `A common guideline is the 28/36 rule: spend no more than 28% of gross monthly income on housing costs (mortgage, taxes, insurance) and no more than 36% on total debt (housing + car loans, student loans, credit cards). On a $100,000 salary, that's roughly $2,333/month for housing, supporting a home price around $350,000-$400,000 depending on rates and down payment.`,
+  },
+  {
+    question: 'What debt-to-income ratio do lenders require?',
+    answer: `Most conventional lenders require a front-end DTI (housing costs only) of 28% or less and a back-end DTI (all debts) of 36-43%. FHA loans allow up to 50% back-end DTI in some cases. VA loans have no official front-end limit. A lower DTI gives you more negotiating power and better interest rates.`,
+  },
+  {
+    question: 'How much do I need for a down payment?',
+    answer: `Down payment requirements vary by loan type: Conventional loans require 3-20% (PMI required under 20%), FHA loans require 3.5% (with 580+ credit score), VA loans require 0% for eligible veterans, and USDA loans require 0% for rural properties. A larger down payment means lower monthly payments and potentially better rates.`,
+  },
+  {
+    question: 'What other costs should I budget for beyond the mortgage?',
+    answer: `Beyond your monthly mortgage payment, budget for: property taxes (0.5%-2.5% of home value annually), homeowners insurance ($1,000-$3,000/year), maintenance/repairs (1-2% of home value/year), HOA fees if applicable, utilities, and closing costs (2-5% of loan amount). These can add $500-$1,500+/month to your housing costs.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Mortgage Calculator', href: '/mortgage-calculator', desc: 'Monthly payment estimator' },
+  { title: 'Rent vs Buy', href: '/rent-vs-buy-calculator', desc: 'Should you rent or buy?' },
+  { title: 'Paycheck Calculator', href: '/', desc: 'Verify your take-home pay' },
+  { title: 'Debt Consolidation', href: '/debt-consolidation-calculator', desc: 'Lower your DTI ratio' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Mortgage Affordability Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/mortgage-affordability-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`How Much House Can I Afford? ${TAX_YEAR}`}
+  intro={`Find out how much home you can afford based on your income, monthly debts, down payment, and current mortgage rates. Use the 28/36 rule and lender DTI guidelines to set a realistic home-buying budget.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`CFPB (Consumer Financial Protection Bureau) homebuyer guides, Fannie Mae and Freddie Mac lending guidelines, HUD FHA loan requirements. Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Social Security Tax Calculator ${TAX_YEAR}: FICA Breakdown`;
+const description = `Calculate your ${TAX_YEAR} Social Security and Medicare (FICA) taxes. See the 6.2% SS tax, 1.45% Medicare tax, and Additional Medicare Tax on your wages.`;
+
+const faqs = [
+  {
+    question: 'How much is Social Security tax in 2026?',
+    answer: `In ${TAX_YEAR}, Social Security tax is 6.2% of your wages up to the wage base limit of $176,100. Your employer pays a matching 6.2%, for a combined 12.4%. Self-employed individuals pay the full 12.4% through self-employment tax.`,
+  },
+  {
+    question: 'What is the Social Security wage base for 2026?',
+    answer: `The ${TAX_YEAR} Social Security wage base is $176,100. You only pay the 6.2% Social Security tax on earnings up to this amount. Any wages above $176,100 are not subject to Social Security tax, though they are still subject to Medicare tax.`,
+  },
+  {
+    question: 'What is the Additional Medicare Tax?',
+    answer: `The Additional Medicare Tax is an extra 0.9% on wages exceeding $200,000 (single), $250,000 (married filing jointly), or $125,000 (married filing separately). Unlike the standard 1.45% Medicare tax, your employer does not match the additional 0.9%.`,
+  },
+  {
+    question: 'Can I get a refund if I overpaid Social Security tax?',
+    answer: `If you had multiple employers and your combined wages exceeded the $176,100 wage base, you may have had too much Social Security tax withheld. You can claim the excess as a credit on your federal tax return (Form 1040, line 71). Your employers cannot adjust this — only you can claim it.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Paycheck Calculator', href: '/', desc: 'Full take-home pay breakdown' },
+  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator', desc: '1099 / freelancer FICA' },
+  { title: 'Medicare Surtax', href: '/medicare-surtax-calculator', desc: '0.9% + 3.8% NIIT calculator' },
+  { title: 'SS Benefits Calculator', href: '/social-security-benefits-calculator', desc: 'Estimate retirement benefits' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Social Security Tax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/social-security-tax-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Social Security Tax Calculator ${TAX_YEAR}`}
+  intro={`Calculate your ${TAX_YEAR} FICA tax breakdown including Social Security (6.2%) and Medicare (1.45%) taxes. See how the $176,100 wage base and Additional Medicare Tax affect your paycheck.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`SSA.gov (${TAX_YEAR} wage base and FICA rates), IRS Publication 15 (Employer's Tax Guide), IRS Topic 751 (Social Security and Medicare Withholding). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

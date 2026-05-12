@@ -1,0 +1,257 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TAX_YEAR, SITE_NAME } from '../../lib/constants';
+
+const title = 'Moving to a No-Income-Tax State: Is It Worth It?';
+const description = `Analyze the real savings of moving to TX, FL, WA, or NV. Compare total tax burden including property tax, sales tax, and cost of living.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  author: { '@type': 'Organization', name: SITE_NAME },
+  publisher: { '@type': 'Organization', name: SITE_NAME },
+  datePublished: '2026-01-01',
+  dateModified: '2026-01-15',
+};
+---
+
+<Layout title={title} description={description} schema={schema}>
+  <article class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+      <h1>Moving to a No-Income-Tax State: Is It Worth It?</h1>
+
+      <p>
+        The appeal is obvious: why give 5%, 8%, or even 13% of your income to a state government when you
+        could pay nothing? Nine US states levy no income tax on wages, and they have become increasingly
+        popular destinations, especially with the rise of remote work. But the full picture is more
+        complicated than simply comparing income tax rates. States without income taxes often have higher
+        property taxes, sales taxes, and costs of living. This guide helps you analyze whether a move truly
+        saves you money.
+      </p>
+
+      <p>
+        Use our <a href="/take-home-pay-calculator">take-home pay calculator</a> to compare your net pay
+        across different states.
+      </p>
+
+      <h2>The Nine No-Income-Tax States</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Avg. Property Tax Rate</th>
+            <th>State + Local Sales Tax</th>
+            <th>Key Considerations</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Alaska</td><td>1.04%</td><td>1.76%*</td><td>No state sales tax; some localities levy taxes. High cost of living.</td></tr>
+          <tr><td>Florida</td><td>0.80%</td><td>7.02%</td><td>Homestead exemption up to $50K. Hurricane insurance costs.</td></tr>
+          <tr><td>Nevada</td><td>0.53%</td><td>8.23%</td><td>Commerce tax on businesses. Affordable housing outside Las Vegas.</td></tr>
+          <tr><td>New Hampshire</td><td>1.86%</td><td>0.00%</td><td>No sales tax but very high property tax. No broad income tax.</td></tr>
+          <tr><td>South Dakota</td><td>1.08%</td><td>6.40%</td><td>No corporate income tax. Low cost of living.</td></tr>
+          <tr><td>Tennessee</td><td>0.56%</td><td>9.55%</td><td>Highest combined sales tax in the nation. No wage tax.</td></tr>
+          <tr><td>Texas</td><td>1.60%</td><td>8.20%</td><td>Very high property tax. No state income tax is constitutional.</td></tr>
+          <tr><td>Washington</td><td>0.87%</td><td>9.29%</td><td>Capital gains tax on high earners. High-cost metro areas.</td></tr>
+          <tr><td>Wyoming</td><td>0.55%</td><td>5.36%</td><td>Low property and sales tax. Small population and limited services.</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        *Alaska has no statewide sales tax, but local jurisdictions can impose their own.
+      </p>
+
+      <h2>The Hidden Costs: Property Tax</h2>
+
+      <p>
+        Texas is the poster child for the income-tax-to-property-tax tradeoff. With an effective property
+        tax rate averaging 1.60%, a homeowner with a $400,000 home pays approximately <strong>$6,400 per
+        year</strong> in property tax. Compare that to California, where Proposition 13 caps the base rate
+        at 1% of assessed value (typically the purchase price), meaning a $400,000 home might only incur
+        $4,000 in annual property tax.
+      </p>
+
+      <p>
+        For a deeper look at how property taxes work and how to appeal your assessment, see our
+        <a href="/guides/understanding-property-tax">property tax guide</a>, or use our
+        <a href="/property-tax-calculator">property tax calculator</a>.
+      </p>
+
+      <p>
+        New Hampshire has the second-highest property tax rate in the nation. Homeowners there may find that
+        their property tax bill exceeds what they would have paid in income tax in a neighboring state like
+        Massachusetts.
+      </p>
+
+      <h2>The Hidden Costs: Sales Tax</h2>
+
+      <p>
+        Tennessee has the highest combined state and local sales tax rate in the country at 9.55%. If you
+        spend $40,000 per year on taxable purchases, that is $3,820 in sales tax. Washington state is
+        similar at 9.29%. Meanwhile, Oregon has no sales tax at all (though it has income tax).
+      </p>
+
+      <p>
+        Sales tax hits lower-income households harder because they spend a greater percentage of their
+        income on taxable goods. For higher earners who save and invest a large portion of their income,
+        sales tax is a smaller factor. Read our <a href="/guides/sales-tax-explained">sales tax guide</a>
+        for more details.
+      </p>
+
+      <h2>When Moving Saves the Most Money</h2>
+
+      <p>
+        A move to a no-income-tax state is most beneficial when:
+      </p>
+
+      <ul>
+        <li>
+          <strong>You have high income (above $200,000).</strong> Income tax scales with income, while
+          property and sales taxes are more fixed. A person earning $500,000 in California pays over
+          $50,000 in state income tax. Moving to Texas eliminates that entirely, even with higher property
+          tax.
+        </li>
+        <li>
+          <strong>You rent rather than own.</strong> If you do not own a home, you avoid the high property
+          taxes that states like Texas use to replace income tax revenue.
+        </li>
+        <li>
+          <strong>You work remotely.</strong> If your salary stays the same after moving, you capture the
+          full income tax savings without any cost-of-living adjustment by your employer.
+        </li>
+        <li>
+          <strong>You are retiring with significant income.</strong> Retirees with pension income, IRA
+          distributions, or Social Security benefits that would be taxed in their current state can save
+          substantially by relocating.
+        </li>
+        <li>
+          <strong>You receive a large one-time payout.</strong> Stock options exercises, business sales, or
+          large bonuses are taxed at your marginal state rate. Establishing residency in a no-tax state
+          before the event can save tens of thousands.
+        </li>
+      </ul>
+
+      <h2>When Moving Does Not Save Much (or Costs More)</h2>
+
+      <ul>
+        <li>
+          <strong>You earn moderate income ($50,000-$75,000).</strong> At this level, the income tax saved
+          may be $2,000-$4,000 per year, which can easily be offset by higher property tax, sales tax, or
+          cost of living.
+        </li>
+        <li>
+          <strong>You are buying an expensive home in Texas.</strong> A $600,000 home with a 1.60% property
+          tax rate costs $9,600/year in property tax alone. That may exceed the income tax you would have
+          paid in a state like Colorado (4.4% flat rate on $100,000 = $4,400).
+        </li>
+        <li>
+          <strong>Moving to a high-cost metro area.</strong> Seattle, Austin, Miami, and Nashville have
+          experienced significant cost-of-living increases. Higher housing costs, even when renting, can eat
+          into any tax savings.
+        </li>
+        <li>
+          <strong>You lose your social and professional network.</strong> The financial cost of reduced career
+          opportunities, childcare support from family, and rebuilding professional connections is real,
+          though hard to quantify.
+        </li>
+      </ul>
+
+      <h2>Case Study: California to Texas</h2>
+
+      <p>
+        The most common move: a $150,000 earner leaving California for Texas. Let us compare the numbers:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tax Category</th>
+            <th>California</th>
+            <th>Texas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>State Income Tax</td><td>~$9,200</td><td>$0</td></tr>
+          <tr><td>Property Tax ($400K home)</td><td>~$4,000</td><td>~$6,400</td></tr>
+          <tr><td>Sales Tax (est. $30K spending)</td><td>~$2,625 (8.75%)</td><td>~$2,460 (8.20%)</td></tr>
+          <tr><td>Vehicle Registration</td><td>~$300</td><td>~$75</td></tr>
+          <tr><td><strong>Total Estimated Taxes</strong></td><td><strong>~$16,125</strong></td><td><strong>~$8,935</strong></td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        Net annual savings: approximately <strong>$7,190</strong>. That is significant, but remember to factor
+        in moving costs, any salary adjustment, insurance differences (homeowners insurance is notably higher
+        in Texas due to weather), and lifestyle changes.
+      </p>
+
+      <h2>Case Study: Massachusetts to New Hampshire</h2>
+
+      <p>
+        A shorter move with different dynamics:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tax Category</th>
+            <th>Massachusetts</th>
+            <th>New Hampshire</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>State Income Tax ($100K)</td><td>~$5,000</td><td>$0</td></tr>
+          <tr><td>Property Tax ($500K home)</td><td>~$5,600 (1.12%)</td><td>~$9,300 (1.86%)</td></tr>
+          <tr><td>Sales Tax (est. $25K spending)</td><td>~$1,563 (6.25%)</td><td>$0</td></tr>
+          <tr><td><strong>Total Estimated Taxes</strong></td><td><strong>~$12,163</strong></td><td><strong>~$9,300</strong></td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        Net annual savings: approximately <strong>$2,863</strong>. Much more modest because New Hampshire's
+        very high property tax recaptures a large portion of the income tax savings. For a renter, the
+        savings would be closer to $6,500.
+      </p>
+
+      <h2>Establishing Residency: The Rules</h2>
+
+      <p>
+        Simply moving is not enough to change your tax residence. Most states consider you a resident if you
+        maintain a domicile there, meaning it is your permanent home where you intend to return. To
+        successfully establish residency in a new state:
+      </p>
+
+      <ul>
+        <li>Spend more than 183 days per year in the new state</li>
+        <li>Update your driver's license and vehicle registration</li>
+        <li>Register to vote in the new state</li>
+        <li>Update your address with banks, the IRS, and the post office</li>
+        <li>Sever ties with the old state (selling property, ending memberships)</li>
+        <li>File a part-year resident return in your old state for the year of the move</li>
+      </ul>
+
+      <p>
+        Some high-tax states (notably New York and California) aggressively audit taxpayers who claim to
+        have moved. They may examine cell phone records, social media, credit card statements, and even
+        veterinary records to challenge your claimed residency.
+      </p>
+
+      <h2>The Bottom Line</h2>
+
+      <p>
+        Moving to a no-income-tax state can produce real savings, particularly for high earners. But it is
+        essential to look at the complete tax picture, including property tax, sales tax, and cost of living.
+        The decision should never be made solely on income tax rates.
+      </p>
+
+      <p>
+        Compare your take-home pay across all 50 states with our
+        <a href="/take-home-pay-calculator">take-home pay calculator</a>, or see a comprehensive
+        <a href="/guides/state-tax-comparison">state tax comparison</a> to evaluate your options.
+      </p>
+    </div>
+  </article>
+</Layout>

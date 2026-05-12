@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { TAX_YEAR } from '../lib/constants';
+import { STATES, getAllStateSlugs, getStateBySlug } from '../data/state-meta';
+
+const title = `Property Tax Calculator ${TAX_YEAR}: Estimate by State & County`;
+const description = `Calculate your property tax by state and county. Compare effective rates across all 50 states. Free ${TAX_YEAR} property tax estimator.`;
+
+const faqs = [
+  {
+    question: 'How is property tax calculated?',
+    answer: `Property tax is calculated by multiplying your home's assessed value by the local tax rate (mill rate). For example, a home assessed at $300,000 with a 1.5% effective rate would owe $4,500 annually. Assessed value may differ from market value depending on your state's assessment ratio.`,
+  },
+  {
+    question: 'What is the average property tax rate in the US?',
+    answer: `The national average effective property tax rate is approximately 1.1% of a home's assessed value. However, rates vary widely — from as low as 0.31% in Hawaii to over 2.2% in New Jersey. Local rates within a state can also vary significantly by county and municipality.`,
+  },
+  {
+    question: 'What is a homestead exemption?',
+    answer: `A homestead exemption reduces the taxable value of your primary residence, lowering your property tax bill. Most states offer some form of homestead exemption, ranging from a fixed dollar amount (e.g., $25,000 off assessed value) to a percentage reduction. You typically must apply and meet residency requirements.`,
+  },
+  {
+    question: 'Can I deduct property taxes on my federal return?',
+    answer: `Yes, property taxes are deductible on your federal income tax return if you itemize deductions. However, the ${TAX_YEAR} SALT (State and Local Tax) deduction is capped at $10,000 for single filers and married filing jointly, which includes both property and income/sales taxes combined.`,
+  },
+];
+
+const stateEntries = Object.entries(STATES)
+  .map(([code, s]) => ({ code, ...s }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<Layout title={title} description={description}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-8 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl text-center">
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+        Property Tax Calculator {TAX_YEAR}
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+        Calculate your property tax by state and county. Compare effective rates across all 50 states and DC.
+      </p>
+    </div>
+  </section>
+
+  <!-- Placeholder calculator -->
+  <section class="px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Estimate Your Property Tax</h2>
+        <p class="mt-2 text-slate-600 dark:text-slate-400">
+          Select your state below to see property tax rates, county-level breakdowns, and homestead exemption details.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- State grid -->
+  <section class="px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <h2 class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
+        Property Tax by State
+      </h2>
+      <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {stateEntries.map((s) => (
+          <a
+            href={`/property-tax-calculator/${s.slug}`}
+            class="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:border-navy-300 hover:bg-navy-50 hover:text-navy-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-navy-600 dark:hover:bg-slate-700 dark:hover:text-navy-400"
+          >
+            {s.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <h2 class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
+        Frequently Asked Questions
+      </h2>
+      <dl class="space-y-6">
+        {faqs.map((faq) => (
+          <div class="rounded-lg border border-slate-200 p-6 dark:border-slate-700">
+            <dt class="text-lg font-semibold text-slate-900 dark:text-white">{faq.question}</dt>
+            <dd class="mt-2 text-slate-600 dark:text-slate-400">{faq.answer}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+</Layout>

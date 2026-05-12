@@ -1,0 +1,270 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TAX_YEAR, SITE_NAME } from '../../lib/constants';
+
+const title = 'State Income Tax Comparison: All 50 States Ranked';
+const description = `Compare income tax rates across all 50 US states for ${TAX_YEAR}. See no-tax states, flat-tax states, and highest marginal rates at a glance.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  author: { '@type': 'Organization', name: SITE_NAME },
+  publisher: { '@type': 'Organization', name: SITE_NAME },
+  datePublished: '2026-01-01',
+  dateModified: '2026-01-15',
+};
+---
+
+<Layout title={title} description={description} schema={schema}>
+  <article class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+      <h1>State Income Tax Comparison: All 50 States</h1>
+
+      <p>
+        Where you live has a massive impact on your take-home pay. State income tax rates range from 0% to
+        over 13%, and the differences add up to thousands of dollars each year. This guide compares income
+        tax structures across all 50 states and the District of Columbia, organized by tax type, so you can
+        see exactly how your state stacks up.
+      </p>
+
+      <p>
+        Use our state-specific calculators to see your exact take-home pay. Try the
+        <a href="/take-home-pay-calculator">take-home pay calculator</a> and select your state for a
+        personalized breakdown.
+      </p>
+
+      <h2>The 9 States with No Income Tax</h2>
+
+      <p>
+        These states do not levy any tax on wage or salary income, making them popular destinations for
+        high earners and retirees:
+      </p>
+
+      <ol>
+        <li><strong>Alaska</strong> - No income tax; also distributes an annual Permanent Fund Dividend to residents</li>
+        <li><strong>Florida</strong> - No income tax; constitutionally prohibited from enacting one</li>
+        <li><strong>Nevada</strong> - No income tax; revenue comes from gaming and sales taxes</li>
+        <li><strong>New Hampshire</strong> - No tax on wages (previously taxed interest and dividends, but that tax was fully phased out)</li>
+        <li><strong>South Dakota</strong> - No income tax; also no corporate income tax</li>
+        <li><strong>Tennessee</strong> - No tax on wages (the Hall Tax on investment income was fully repealed in 2021)</li>
+        <li><strong>Texas</strong> - No income tax; constitutionally prohibited; relies heavily on property and sales tax</li>
+        <li><strong>Washington</strong> - No income tax on wages; has a capital gains tax on high earners enacted in 2022</li>
+        <li><strong>Wyoming</strong> - No income tax; also no corporate income tax</li>
+      </ol>
+
+      <p>
+        Living in a no-tax state does not automatically mean a lower total tax burden. These states often
+        compensate with higher property taxes, sales taxes, or other fees. For a deeper analysis, see our
+        guide on <a href="/guides/moving-to-a-no-income-tax-state">moving to a no-income-tax state</a>.
+      </p>
+
+      <h2>Flat-Tax States (Single Rate)</h2>
+
+      <p>
+        These states apply a single tax rate to all taxable income regardless of how much you earn. Flat
+        taxes are simpler to calculate and have become increasingly popular, with several states recently
+        converting from progressive systems:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Flat Rate</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Arizona</td><td>2.5%</td><td>Reduced from graduated rates in 2023</td></tr>
+          <tr><td>Colorado</td><td>4.4%</td><td>Reduced from 4.55% in 2024</td></tr>
+          <tr><td>Georgia</td><td>5.39%</td><td>Transitioning to 4.99% flat rate by 2029</td></tr>
+          <tr><td>Idaho</td><td>5.695%</td><td>Converted from graduated in 2023</td></tr>
+          <tr><td>Illinois</td><td>4.95%</td><td>Flat rate mandated by state constitution</td></tr>
+          <tr><td>Indiana</td><td>3.05%</td><td>Gradually reducing; was 3.23% in 2023</td></tr>
+          <tr><td>Iowa</td><td>3.8%</td><td>Transitioning to flat rate; was graduated</td></tr>
+          <tr><td>Kentucky</td><td>4.0%</td><td>Reduced from 5% in 2023</td></tr>
+          <tr><td>Michigan</td><td>4.25%</td><td>Long-standing flat rate</td></tr>
+          <tr><td>Mississippi</td><td>4.7%</td><td>Transitioning to lower flat rate</td></tr>
+          <tr><td>North Carolina</td><td>4.5%</td><td>Gradually reducing; was 5.25% in 2022</td></tr>
+          <tr><td>Pennsylvania</td><td>3.07%</td><td>One of the lowest flat rates</td></tr>
+          <tr><td>Utah</td><td>4.65%</td><td>Reduced from 4.85% in 2023</td></tr>
+          <tr><td>Massachusetts</td><td>5.0%</td><td>Plus 4% surtax on income over $1M</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Progressive-Tax States (Graduated Brackets)</h2>
+
+      <p>
+        The remaining states use graduated bracket systems similar to the federal tax code, where higher
+        income is taxed at progressively higher rates. Here are the states with the highest top marginal
+        rates:
+      </p>
+
+      <h3>States with Highest Top Marginal Rates</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Top Rate</th>
+            <th>Top Bracket Starts At</th>
+            <th>Number of Brackets</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>California</td><td>13.3%</td><td>$1,000,000</td><td>10</td></tr>
+          <tr><td>Hawaii</td><td>11.0%</td><td>$200,000</td><td>12</td></tr>
+          <tr><td>New Jersey</td><td>10.75%</td><td>$1,000,000</td><td>7</td></tr>
+          <tr><td>Oregon</td><td>9.9%</td><td>$125,000</td><td>4</td></tr>
+          <tr><td>Minnesota</td><td>9.85%</td><td>$193,240</td><td>4</td></tr>
+          <tr><td>New York</td><td>10.9%</td><td>$25,000,000</td><td>9</td></tr>
+          <tr><td>Vermont</td><td>8.75%</td><td>$229,500</td><td>4</td></tr>
+          <tr><td>District of Columbia</td><td>10.75%</td><td>$1,000,000</td><td>7</td></tr>
+          <tr><td>Wisconsin</td><td>7.65%</td><td>$405,550</td><td>4</td></tr>
+          <tr><td>Maine</td><td>7.15%</td><td>$58,050</td><td>3</td></tr>
+        </tbody>
+      </table>
+
+      <h3>States with Lowest Top Marginal Rates (Progressive)</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Top Rate</th>
+            <th>Brackets</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>North Dakota</td><td>2.5%</td><td>4</td></tr>
+          <tr><td>Arkansas</td><td>3.9%</td><td>3</td></tr>
+          <tr><td>Alabama</td><td>5.0%</td><td>3</td></tr>
+          <tr><td>Louisiana</td><td>4.25%</td><td>3</td></tr>
+          <tr><td>Oklahoma</td><td>4.75%</td><td>6</td></tr>
+        </tbody>
+      </table>
+
+      <h2>How $75,000 Is Taxed Across States</h2>
+
+      <p>
+        To put these rates in perspective, here is what a single filer earning $75,000 would pay in state
+        income tax across a selection of states:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Approx. State Tax</th>
+            <th>Effective Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Texas</td><td>$0</td><td>0.0%</td></tr>
+          <tr><td>Florida</td><td>$0</td><td>0.0%</td></tr>
+          <tr><td>Pennsylvania</td><td>$2,303</td><td>3.07%</td></tr>
+          <tr><td>Arizona</td><td>$1,875</td><td>2.5%</td></tr>
+          <tr><td>Illinois</td><td>$3,713</td><td>4.95%</td></tr>
+          <tr><td>Colorado</td><td>$3,300</td><td>4.4%</td></tr>
+          <tr><td>New York</td><td>$3,534</td><td>4.7%</td></tr>
+          <tr><td>California</td><td>$3,131</td><td>4.2%</td></tr>
+          <tr><td>Oregon</td><td>$6,178</td><td>8.2%</td></tr>
+          <tr><td>Hawaii</td><td>$4,784</td><td>6.4%</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        Notice that Oregon and Hawaii impose significantly higher effective rates even at moderate incomes
+        because their top brackets kick in at relatively low thresholds. California's effective rate at
+        $75,000 is moderate because its highest brackets only apply to very high earners.
+      </p>
+
+      <h2>Beyond Income Tax: Total State Tax Burden</h2>
+
+      <p>
+        Comparing states solely by income tax is misleading. States without income tax often have higher
+        taxes elsewhere:
+      </p>
+
+      <h3>Property Tax</h3>
+      <p>
+        Texas, which has no income tax, has one of the highest average property tax rates at 1.60% of
+        assessed home value. On a $400,000 home, that is $6,400 per year. New Hampshire's effective
+        property tax rate is even higher at around 1.86%. Compare this to Hawaii's rate of just 0.29%.
+        Learn more in our <a href="/guides/understanding-property-tax">property tax guide</a>.
+      </p>
+
+      <h3>Sales Tax</h3>
+      <p>
+        Combined state and local sales tax rates vary from 0% (Delaware, Montana, Oregon, New Hampshire)
+        to over 9% (Tennessee, Louisiana, Arkansas, Washington, Alabama when including local rates). A high
+        sales tax disproportionately affects lower-income residents. See our
+        <a href="/guides/sales-tax-explained">sales tax guide</a> for details.
+      </p>
+
+      <h3>Other Taxes and Fees</h3>
+      <p>
+        States also vary on vehicle registration fees, gas taxes, estate taxes, excise taxes, and various
+        fees. Washington state has one of the highest gas taxes in the nation. Florida charges a document
+        stamp tax on real estate transactions.
+      </p>
+
+      <h2>State Tax Trends</h2>
+
+      <p>
+        Several significant trends are shaping state tax policy:
+      </p>
+
+      <ul>
+        <li>
+          <strong>Flat tax conversions:</strong> Multiple states have switched from graduated to flat income
+          tax systems, including Arizona, Iowa, and Mississippi, often with plans to further reduce rates.
+        </li>
+        <li>
+          <strong>Rate reductions:</strong> States like North Carolina, Indiana, and Kentucky are on
+          multi-year schedules to lower their rates, sometimes contingent on revenue targets being met.
+        </li>
+        <li>
+          <strong>Millionaire surtaxes:</strong> Massachusetts added a 4% surtax on income over $1 million
+          in 2023. Similar proposals have been considered in other states.
+        </li>
+        <li>
+          <strong>Remote work complications:</strong> With more workers living in one state and working for
+          employers in another, state tax rules for remote workers remain complex and evolving.
+        </li>
+      </ul>
+
+      <h2>State Tax for Remote Workers</h2>
+
+      <p>
+        If you work remotely, you generally owe income tax to the state where you physically perform the
+        work (your residence state). However, some states have "convenience of the employer" rules that
+        tax you in the employer's state even if you never set foot there. New York is the most notable
+        example. If you split time between states, you may need to file returns in multiple states and claim
+        credits to avoid double taxation.
+      </p>
+
+      <h2>Choosing the Right State for You</h2>
+
+      <p>
+        When comparing states, consider these factors:
+      </p>
+
+      <ul>
+        <li>Your income level (high earners benefit most from no-tax states)</li>
+        <li>Whether you own or rent (property tax matters more for homeowners)</li>
+        <li>Your spending habits (sales tax matters more for high spenders)</li>
+        <li>Cost of living differences (a lower tax state may have higher housing costs)</li>
+        <li>Quality of public services (education, infrastructure, healthcare access)</li>
+      </ul>
+
+      <p>
+        Use our <a href="/take-home-pay-calculator">take-home pay calculator</a> to compare your net pay
+        across states, or explore <a href="/income-tax-calculator">income tax calculations</a> for any
+        state and filing status.
+      </p>
+    </div>
+  </article>
+</Layout>

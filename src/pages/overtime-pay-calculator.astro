@@ -1,0 +1,76 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Overtime Pay Calculator ${TAX_YEAR}: Calculate OT After Taxes`;
+const description = `Calculate your overtime take-home pay for ${TAX_YEAR}. See how time-and-a-half OT hours affect your paycheck after federal, state, FICA taxes, and deductions.`;
+
+const faqs = [
+  {
+    question: 'How is overtime pay calculated?',
+    answer: `Under the Fair Labor Standards Act (FLSA), non-exempt employees must receive 1.5 times their regular hourly rate for hours worked over 40 in a workweek. For example, if your regular rate is $20/hour, your OT rate is $30/hour. Some states (like California) also require overtime for hours over 8 in a single day, and double-time (2×) for hours over 12.`,
+  },
+  {
+    question: 'Is overtime taxed at a higher rate?',
+    answer: `Overtime is not taxed at a special rate — it's taxed the same as regular income. However, because OT increases your total income, it may push you into a higher marginal tax bracket, which means the OT dollars could be taxed at a higher percentage than your base pay. FICA taxes (7.65%) apply to all overtime wages until you hit the Social Security cap.`,
+  },
+  {
+    question: 'Who qualifies for overtime pay?',
+    answer: `Non-exempt employees are entitled to overtime. For ${TAX_YEAR}, employees earning less than $58,656/year ($1,128/week) on salary are automatically non-exempt and must receive OT. Employees above this threshold may be exempt if they perform executive, administrative, or professional duties. Hourly workers are nearly always non-exempt regardless of pay rate.`,
+  },
+  {
+    question: 'How does overtime affect my tax bracket?',
+    answer: `Overtime income is added to your regular income for the year. If the total pushes you above a bracket threshold, only the income <em>within</em> the higher bracket is taxed at the higher rate (the U.S. uses progressive brackets). For example, crossing from the 12% to 22% bracket doesn't mean all income is taxed at 22% — only the portion above the threshold.`,
+  },
+  {
+    question: 'Can my employer force me to work overtime?',
+    answer: `In most states, yes — employers can require mandatory overtime and may discipline or terminate employees who refuse, as long as they pay the required 1.5× rate. However, some states limit mandatory OT in certain industries (especially healthcare). Union contracts may also restrict mandatory overtime. Employers cannot require OT without paying the overtime premium.`,
+  },
+  {
+    question: 'Does overtime count toward Social Security?',
+    answer: `Yes. Overtime wages are subject to Social Security tax (6.2%) up to the annual wage base of $176,100 for ${TAX_YEAR}. If your regular pay plus overtime pushes your total wages above this cap, you stop paying Social Security tax on the excess but continue paying Medicare tax (1.45%) on all wages with no cap.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Paycheck Calculator', href: '/', desc: 'Regular paycheck breakdown' },
+  { title: 'Hourly Pay Calculator', href: '/hourly-paycheck-calculator', desc: 'Hourly rate to annual' },
+  { title: 'Salary Calculator', href: '/salary-calculator', desc: 'Annual salary take-home' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax estimate' },
+  { title: 'Tip Tax Calculator', href: '/tip-tax-calculator', desc: 'Tipped employee take-home' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Overtime Pay Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/overtime-pay-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Overtime Pay Calculator ${TAX_YEAR}`}
+  intro={`Calculate your take-home pay including overtime hours. See how time-and-a-half OT pay affects your net paycheck after federal and state taxes, FICA, and deductions.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`U.S. Department of Labor (FLSA overtime rules and salary threshold), IRS Rev. Proc. 2025-11 (${TAX_YEAR} federal tax brackets), SSA.gov (Social Security wage base $176,100). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator
+    client:load
+    defaultPayFrequency="biweekly"
+    defaultGross={52000}
+  />
+</CalculatorLayout>

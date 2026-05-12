@@ -1,0 +1,60 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `NYC Tax Calculator ${TAX_YEAR}: City + State Combined Taxes`;
+const description = `Calculate your combined NYC city + New York state income tax for ${TAX_YEAR}. See city tax brackets (3.078%-3.876%), state tax, and total NYC tax liability.`;
+
+const faqs = [
+  {
+    question: `What are NYC's ${TAX_YEAR} city income tax rates?`,
+    answer: `NYC has 4 city income tax brackets for ${TAX_YEAR} residents: 3.078% on taxable income up to $12,000; 3.762% up to $25,000; 3.819% up to $50,000; and 3.876% on income over $50,000. These rates apply on top of New York State income tax (4%-10.9%), making the combined marginal rate as high as 14.776% for high earners.`,
+  },
+  {
+    question: 'How much more tax do NYC residents pay vs the rest of New York?',
+    answer: `NYC residents pay significantly more than other New Yorkers. On a $100,000 salary (single filer), NYC city tax adds roughly $3,500-$3,800 per year on top of state tax. At $200,000, the additional city tax is about $7,500. Plus, NYC residents pay the MCTMT (0.34%), making the total additional cost $4,000-$8,000+ depending on income.`,
+  },
+  {
+    question: 'Do I owe NYC tax if I commute but live outside the city?',
+    answer: `No. NYC income tax applies only to residents of the five boroughs (Manhattan, Brooklyn, Queens, Bronx, Staten Island). If you live in New Jersey, Connecticut, or suburban New York and commute to NYC for work, you do not owe NYC city income tax. However, your home state will generally tax the income you earned in NYC.`,
+  },
+  {
+    question: 'What is the Yonkers tax for residents near NYC?',
+    answer: `Yonkers residents pay a surcharge equal to 16.75% of their New York State tax liability (not their income). Yonkers nonresidents who work in the city pay a smaller surcharge of 0.5% of their wages earned in Yonkers. This is separate from and lower than the NYC city income tax, but still an additional cost for Yonkers residents.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'New York Tax Calculator', href: '/new-york-state-tax-calculator', desc: 'NY state tax only' },
+  { title: 'California Tax', href: '/california-state-tax-calculator', desc: 'Compare NYC vs CA taxes' },
+  { title: 'Take-Home Comparison', href: '/take-home-comparison', desc: 'Compare all 50 states' },
+  { title: 'Cost of Living', href: '/cost-of-living-calculator', desc: 'NYC cost of living' },
+  { title: 'Rent vs Buy', href: '/rent-vs-buy-calculator', desc: 'NYC rent vs buy analysis' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `NYC Tax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/nyc-tax-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`NYC Tax Calculator ${TAX_YEAR}`}
+  intro={`Calculate your total tax burden as a New York City resident for ${TAX_YEAR}. See the combined impact of federal income tax, New York State tax (4%-10.9%), NYC city tax (3.078%-3.876%), and FICA on your take-home pay.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`NYC Department of Finance (city tax rates), New York State Department of Taxation and Finance (tax.ny.gov), IRS Rev. Proc. 2025-11 (federal brackets). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

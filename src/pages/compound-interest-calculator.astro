@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Compound Interest Calculator ${TAX_YEAR}: Savings Growth`;
+const description = `Calculate how compound interest grows your savings and investments over time. See the impact of contributions, interest rate, compounding frequency, and time horizon.`;
+
+const faqs = [
+  {
+    question: 'What is compound interest?',
+    answer: `Compound interest is "interest on interest" — you earn returns not only on your original principal but also on previously accumulated interest. For example, $10,000 at 7% annually grows to $10,700 after year 1, then $11,449 after year 2 (7% of $10,700), and so on. Over 30 years, that $10,000 becomes $76,123 — without any additional contributions.`,
+  },
+  {
+    question: 'How does compounding frequency affect growth?',
+    answer: `More frequent compounding produces slightly more growth. $10,000 at 7% for 10 years: annual compounding = $19,672; monthly compounding = $20,097; daily compounding = $20,138. The difference is relatively small for savings accounts, but daily compounding is standard at most banks. The real power comes from long time horizons and consistent contributions.`,
+  },
+  {
+    question: 'What is the Rule of 72?',
+    answer: `The Rule of 72 is a quick way to estimate how long it takes to double your money. Divide 72 by your annual interest rate: at 6%, money doubles in about 12 years; at 8%, in about 9 years; at 10%, in about 7.2 years. It's a mental math shortcut that's remarkably accurate for rates between 4% and 12%.`,
+  },
+  {
+    question: 'How much should I save each month?',
+    answer: `It depends on your goals, but starting early matters most. Saving $500/month at 7% annual return from age 25 to 65 yields about $1.2 million. Starting at age 35 with the same contributions yields only about $567,000 — less than half, despite only 10 fewer years. Even $100/month benefits enormously from decades of compound growth.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Reach your savings goals' },
+  { title: '401(k) Calculator', href: '/401k-calculator', desc: 'Retirement growth projections' },
+  { title: 'Roth IRA Calculator', href: '/roth-ira-calculator', desc: 'Tax-free growth projections' },
+  { title: 'Inflation Calculator', href: '/inflation-calculator', desc: 'Purchasing power over time' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Compound Interest Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/compound-interest-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Compound Interest Calculator ${TAX_YEAR}`}
+  intro={`See how compound interest can grow your money over time. Enter your starting balance, monthly contributions, interest rate, and time horizon to visualize the power of compounding on your savings and investments.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`Federal Reserve Economic Data (FRED) for historical interest rates, SEC Investor.gov compound interest resources, BLS CPI data for real return calculations. Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

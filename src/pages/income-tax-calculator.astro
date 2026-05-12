@@ -1,0 +1,76 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Income Tax Calculator ${TAX_YEAR}: Federal + State Tax Estimate`;
+const description = `Calculate your ${TAX_YEAR} federal and state income tax. See your marginal and effective tax rates, tax bracket breakdown, and estimated refund or amount owed.`;
+
+const faqs = [
+  {
+    question: `What are the ${TAX_YEAR} federal income tax brackets?`,
+    answer: `The ${TAX_YEAR} federal income tax brackets for Single filers are: 10% ($0-$11,925), 12% ($11,926-$48,475), 22% ($48,476-$103,350), 24% ($103,351-$197,300), 32% ($197,301-$250,525), 35% ($250,526-$626,350), and 37% (over $626,350). Married Filing Jointly brackets are roughly double. These apply to <em>taxable</em> income after the standard deduction.`,
+  },
+  {
+    question: 'What is the difference between marginal and effective tax rate?',
+    answer: `Your marginal tax rate is the rate on your last dollar of income (your highest bracket). Your effective tax rate is the average rate across all your income — total tax divided by total income. For example, a Single filer earning $80,000 has a 22% marginal rate but an effective federal rate of roughly 12.5%, because the first dollars are taxed at 10% and 12%.`,
+  },
+  {
+    question: `What is the standard deduction for ${TAX_YEAR}?`,
+    answer: `The ${TAX_YEAR} standard deduction is $15,700 for Single and Married Filing Separately, $31,400 for Married Filing Jointly, and $23,350 for Head of Household. Taxpayers age 65+ get an additional $1,600 (married) or $2,000 (single). Most taxpayers take the standard deduction rather than itemizing.`,
+  },
+  {
+    question: 'How does state income tax work with federal?',
+    answer: `State income tax is separate from federal and is calculated on your state taxable income (which may differ from federal). You file a federal return with the IRS and a state return with your state's revenue department. State tax rates vary: nine states have no income tax, some have a flat rate (e.g., Colorado 4.4%), and others use progressive brackets (e.g., California up to 13.3%).`,
+  },
+  {
+    question: 'What tax credits can reduce my income tax?',
+    answer: `Common tax credits for ${TAX_YEAR} include: Child Tax Credit ($2,000 per child under 17), Earned Income Tax Credit (up to $7,830 for 3+ children), Child and Dependent Care Credit (up to $2,100), education credits (American Opportunity up to $2,500, Lifetime Learning up to $2,000), and the Saver's Credit for retirement contributions. Credits directly reduce your tax bill.`,
+  },
+  {
+    question: 'Do I need to pay estimated taxes?',
+    answer: `You may need to pay estimated taxes quarterly if you expect to owe $1,000+ in tax after withholding and credits. This commonly applies to freelancers, self-employed individuals, and those with significant investment income. Quarterly due dates are April 15, June 15, September 15, and January 15 of the following year. Underpayment may incur penalties.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Paycheck Calculator', href: '/', desc: 'Per-paycheck tax breakdown' },
+  { title: 'Salary Calculator', href: '/salary-calculator', desc: 'Annual salary take-home' },
+  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator', desc: '1099 and freelancer taxes' },
+  { title: 'Bonus Tax Calculator', href: '/bonus-tax-calculator', desc: 'Tax on bonus payments' },
+  { title: 'Take-Home Pay Calculator', href: '/take-home-pay-calculator', desc: 'Net pay after all taxes' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Income Tax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/income-tax-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Income Tax Calculator ${TAX_YEAR}`}
+  intro={`Estimate your federal and state income tax for ${TAX_YEAR}. See your tax bracket, marginal rate, effective rate, and total tax owed based on your income, filing status, and deductions.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Rev. Proc. 2025-11 (${TAX_YEAR} federal tax brackets, standard deductions, and credit amounts), IRS Publication 17, state revenue department tax rate schedules. Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator
+    client:load
+    defaultPayFrequency="annual"
+    defaultGross={75000}
+  />
+</CalculatorLayout>

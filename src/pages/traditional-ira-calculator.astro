@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Traditional IRA Calculator ${TAX_YEAR}: Tax-Deferred Growth`;
+const description = `Calculate your Traditional IRA growth for ${TAX_YEAR}. See tax-deductible contributions, deduction phase-outs, tax-deferred compounding, and retirement value.`;
+
+const faqs = [
+  {
+    question: `What is the Traditional IRA contribution limit for ${TAX_YEAR}?`,
+    answer: `The ${TAX_YEAR} Traditional IRA contribution limit is $7,000 ($8,000 if you're age 50 or older). Anyone with earned income can contribute, but the tax deduction may be limited if you or your spouse are covered by a workplace retirement plan and your income exceeds certain thresholds.`,
+  },
+  {
+    question: 'Are Traditional IRA contributions tax-deductible?',
+    answer: `It depends. If neither you nor your spouse has a workplace retirement plan, contributions are fully deductible. If you have a workplace plan, the deduction phases out at $79,000-$89,000 MAGI (single) or $126,000-$146,000 (married filing jointly) in ${TAX_YEAR}. Non-deductible contributions are still allowed.`,
+  },
+  {
+    question: 'When do I have to take distributions from a Traditional IRA?',
+    answer: `You must begin taking required minimum distributions (RMDs) by April 1 of the year after you turn 73 (under the SECURE 2.0 Act). Early withdrawals before age 59½ typically incur a 10% penalty plus income tax, though exceptions exist for first-time home purchases, education expenses, and hardships.`,
+  },
+  {
+    question: 'Can I convert my Traditional IRA to a Roth IRA?',
+    answer: `Yes, anyone can convert a Traditional IRA to a Roth IRA regardless of income. You'll owe income tax on the converted amount in the year of conversion. This strategy can make sense if you expect higher taxes in retirement, are in a temporarily low tax bracket, or want to avoid future RMDs.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Roth IRA Calculator', href: '/roth-ira-calculator', desc: 'Tax-free retirement growth' },
+  { title: '401(k) Calculator', href: '/401k-calculator', desc: 'Employer retirement plan' },
+  { title: 'Tax Refund Calculator', href: '/tax-refund-calculator', desc: 'IRA deduction impact' },
+  { title: 'Compound Interest', href: '/compound-interest-calculator', desc: 'Investment growth projections' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Traditional IRA Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/traditional-ira-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Traditional IRA Calculator ${TAX_YEAR}`}
+  intro={`Project your Traditional IRA tax-deferred growth for ${TAX_YEAR}. See how tax-deductible contributions and compound returns build your retirement savings, and estimate your account value at retirement.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Publication 590-A (IRA contributions), IRS Publication 590-B (IRA distributions), IRS Rev. Proc. 2025-11 (${TAX_YEAR} deduction phase-outs), SECURE 2.0 Act. Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

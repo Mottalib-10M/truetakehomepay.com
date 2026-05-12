@@ -1,0 +1,110 @@
+---
+import Layout from './Layout.astro';
+import FAQAccordion from '../components/ui/FAQAccordion.astro';
+import { TAX_YEAR, DISCLAIMER } from '../lib/constants';
+
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
+interface RelatedCalculator {
+  title: string;
+  href: string;
+  desc: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  intro: string;
+  faqs?: FAQ[];
+  relatedCalculators?: RelatedCalculator[];
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  sources?: string;
+  canonical?: string;
+}
+
+const {
+  title,
+  description,
+  h1,
+  intro,
+  faqs = [],
+  relatedCalculators = [],
+  schema,
+  sources,
+  canonical,
+} = Astro.props;
+---
+
+<Layout title={title} description={description} schema={schema} canonical={canonical}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-8 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl text-center">
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+        {h1}
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+        {intro}
+      </p>
+      <p class="mt-2 text-sm text-slate-500">
+        Updated for tax year {TAX_YEAR}
+      </p>
+    </div>
+  </section>
+
+  <!-- Calculator slot -->
+  <section class="px-4 pb-16 sm:px-6 lg:px-8" id="calculator">
+    <div class="mx-auto max-w-7xl">
+      <slot />
+    </div>
+  </section>
+
+  <!-- Content slot (how it's calculated, extra info) -->
+  <slot name="content" />
+
+  <!-- FAQs -->
+  {faqs.length > 0 && (
+    <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
+      <FAQAccordion faqs={faqs} />
+    </section>
+  )}
+
+  <!-- Related Calculators -->
+  {relatedCalculators.length > 0 && (
+    <section class="border-t border-slate-200 bg-slate-50 px-4 py-16 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <h2 class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
+          Related Calculators
+        </h2>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {relatedCalculators.map((calc) => (
+            <a
+              href={calc.href}
+              class="rounded-xl border border-slate-200 bg-white p-5 transition-all hover:border-navy-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
+            >
+              <h3 class="font-semibold text-navy-700 dark:text-navy-400">{calc.title}</h3>
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{calc.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Sources -->
+  <section class="border-t border-slate-200 px-4 py-8 dark:border-slate-800 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      {sources && (
+        <p class="text-xs text-slate-400 dark:text-slate-500">
+          <strong>Sources:</strong> <Fragment set:html={sources} />
+        </p>
+      )}
+      <p class="mt-2 text-xs text-slate-400 dark:text-slate-500">
+        {DISCLAIMER}
+      </p>
+    </div>
+  </section>
+</Layout>

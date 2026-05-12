@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE_NAME, DISCLAIMER } from '../lib/constants';
+
+const title = 'Disclaimer — Calculator Accuracy and Limitations';
+const description = `${SITE_NAME} disclaimer. Important information about calculator accuracy, limitations, and the difference between estimates and professional tax advice.`;
+---
+
+<Layout title={title} description={description} noIndex={true}>
+  <section class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+      <h1>Disclaimer</h1>
+      <p><strong>Last updated:</strong> January 1, 2026</p>
+
+      <div class="rounded-lg border border-amber-200 bg-amber-50 p-6 dark:border-amber-800/50 dark:bg-amber-900/20">
+        <p class="text-amber-800 dark:text-amber-200">
+          <strong>{DISCLAIMER}</strong>
+        </p>
+      </div>
+
+      <h2>Calculator Estimates</h2>
+      <p>
+        The calculators on {SITE_NAME} provide <strong>estimates only</strong>. Actual tax withholding and take-home pay may differ from our estimates due to:
+      </p>
+      <ul>
+        <li>Employer-specific payroll processing methods</li>
+        <li>Additional pre-tax or post-tax deductions not captured in our inputs</li>
+        <li>Year-to-date cumulative effects on Social Security cap</li>
+        <li>State-specific credits, deductions, or exemptions we may not model</li>
+        <li>Local tax variations beyond our covered jurisdictions</li>
+        <li>Changes in tax law after our last data update</li>
+        <li>Your specific tax situation (itemized deductions, AMT, etc.)</li>
+      </ul>
+
+      <h2>Tax Year Data</h2>
+      <p>
+        Our calculators use projected tax data for the current tax year based on published IRS revenue procedures and state revenue department announcements. When official numbers are released, we update our data. Between announcement and update, slight discrepancies may exist.
+      </p>
+
+      <h2>Not a Substitute for Professional Advice</h2>
+      <p>
+        {SITE_NAME} is an educational and informational tool. It is <strong>not</strong> a substitute for:
+      </p>
+      <ul>
+        <li>A Certified Public Accountant (CPA)</li>
+        <li>An Enrolled Agent (EA)</li>
+        <li>A certified financial planner (CFP)</li>
+        <li>A tax attorney</li>
+        <li>Your employer's HR or payroll department</li>
+      </ul>
+
+      <h2>Affiliate Links</h2>
+      <p>
+        Some links on our site may be affiliate links, meaning we earn a commission if you click through and make a purchase or sign up. This does not affect the price you pay. All affiliate links are disclosed with <code>rel="sponsored nofollow"</code> and visible disclosure per FTC guidelines.
+      </p>
+
+      <h2>No Warranty</h2>
+      <p>
+        All calculators and content are provided "as is" without warranty of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement.
+      </p>
+    </div>
+  </section>
+</Layout>

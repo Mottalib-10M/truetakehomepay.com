@@ -1,0 +1,205 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import FAQAccordion from '../components/ui/FAQAccordion.astro';
+import { TAX_YEAR, DISCLAIMER } from '../lib/constants';
+import { getStatesArray, NO_INCOME_TAX_STATES } from '../data/state-meta';
+
+const title = `Paycheck Calculator ${TAX_YEAR}: Federal + State Take-Home Pay`;
+const description = `Free ${TAX_YEAR} paycheck calculator. Calculate your take-home pay after federal and state taxes, FICA, 401(k), and more. All 50 states supported.`;
+
+const states = getStatesArray();
+
+const faqs = [
+  {
+    question: 'How is my paycheck calculated?',
+    answer: `Your paycheck is calculated by starting with your gross (pre-tax) salary, then subtracting federal income tax, state income tax (if applicable), Social Security tax (6.2%), Medicare tax (1.45%), and any pre-tax deductions like 401(k) contributions or health insurance premiums. The remaining amount is your net (take-home) pay.`,
+  },
+  {
+    question: 'What is FICA and why is it on my paycheck?',
+    answer: `FICA stands for the Federal Insurance Contributions Act. It funds Social Security (6.2% of wages up to $${(176100).toLocaleString()}) and Medicare (1.45% of all wages). If you earn over $200,000 (single), you also pay an Additional Medicare Tax of 0.9%. FICA is mandatory — you can't opt out, and your employer pays a matching amount.`,
+  },
+  {
+    question: 'Which states have no income tax?',
+    answer: `Nine states have no state income tax on wages: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming. If you live in one of these states, your paycheck won't have a state income tax deduction, meaning more take-home pay.`,
+  },
+  {
+    question: 'How does my filing status affect my paycheck?',
+    answer: `Your filing status (Single, Married Filing Jointly, Married Filing Separately, or Head of Household) determines your tax brackets and standard deduction. Married Filing Jointly typically results in the lowest tax rate because the brackets are roughly double those of Single filers, and the standard deduction is larger ($31,400 vs $15,700 for ${TAX_YEAR}).`,
+  },
+  {
+    question: 'Does a 401(k) contribution reduce my taxes?',
+    answer: `Traditional 401(k) contributions reduce your federal and state income tax because they lower your taxable income. However, they do <strong>not</strong> reduce your FICA taxes (Social Security and Medicare). Roth 401(k) contributions are made after tax, so they don't reduce any taxes now — but withdrawals in retirement are tax-free.`,
+  },
+  {
+    question: `What are the ${TAX_YEAR} federal tax brackets?`,
+    answer: `For ${TAX_YEAR}, the federal tax brackets for Single filers are: 10% on income up to $11,925; 12% up to $48,475; 22% up to $103,350; 24% up to $197,300; 32% up to $250,525; 35% up to $626,350; and 37% on income above $626,350. These brackets apply to <em>taxable</em> income (after the standard deduction of $15,700).`,
+  },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Paycheck Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  inLanguage: 'en-US',
+};
+---
+
+<Layout title={title} description={description} schema={schema}>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-12 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <div class="text-center">
+        <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
+          Paycheck Calculator {TAX_YEAR}
+        </h1>
+        <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+          Calculate your take-home pay after federal and state taxes. Free, accurate, and updated for {TAX_YEAR} tax brackets. All 50 states + DC supported.
+        </p>
+        <p class="mt-2 text-sm text-slate-500 dark:text-slate-500">
+          Updated for tax year {TAX_YEAR} &middot; Bi-weekly pay default &middot; Includes FICA, state tax, 401(k), and more
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator Section -->
+  <section class="px-4 pb-16 sm:px-6 lg:px-8" id="calculator">
+    <div class="mx-auto max-w-7xl">
+      <PaycheckCalculator client:load />
+    </div>
+  </section>
+
+  <!-- State Links Grid -->
+  <section class="border-t border-slate-200 bg-slate-50 px-4 py-16 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <h2 class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
+        Paycheck Calculator by State
+      </h2>
+      <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+        {states.map((state) => (
+          <a
+            href={`/paycheck-calculator/${state.slug}`}
+            class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-sm text-slate-700 transition-colors hover:border-navy-300 hover:bg-navy-50 hover:text-navy-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-navy-600 dark:hover:bg-navy-900/30 dark:hover:text-navy-300"
+          >
+            <span class="font-medium">{state.name}</span>
+            {NO_INCOME_TAX_STATES.includes(state.code) && (
+              <span class="ml-1 text-xs text-success-600 dark:text-success-500">No tax</span>
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Salary Amounts -->
+  <section class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <h2 class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
+        Popular Salary After Taxes
+      </h2>
+      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
+        {[30000, 40000, 50000, 60000, 70000, 75000, 80000, 90000, 100000, 120000, 150000, 200000, 250000, 500000].map((amount) => (
+          <a
+            href={`/${amount}-after-taxes`}
+            class="rounded-xl border border-slate-200 bg-white p-4 text-center transition-all hover:border-navy-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
+          >
+            <span class="tabular-nums text-lg font-bold text-navy-700 dark:text-navy-400">
+              ${amount.toLocaleString()}
+            </span>
+            <span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">after taxes</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How It's Calculated -->
+  <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
+        How Your Paycheck Is Calculated
+      </h2>
+      <div class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-400">
+        <p>
+          Your paycheck starts with your gross salary — the total amount your employer pays you before any deductions. From there, several mandatory and optional deductions are subtracted to arrive at your net (take-home) pay.
+        </p>
+
+        <h3>Federal Income Tax</h3>
+        <p>
+          The US uses a progressive federal income tax system with seven brackets ranging from 10% to 37%. Your filing status (Single, Married Filing Jointly, etc.) determines which brackets apply. Only the income within each bracket is taxed at that rate — not your entire salary. After accounting for the standard deduction ($15,700 for single filers in {TAX_YEAR}), your remaining taxable income flows through each bracket.
+        </p>
+
+        <h3>FICA Taxes (Social Security + Medicare)</h3>
+        <p>
+          FICA taxes are flat-rate payroll taxes. Social Security tax is 6.2% of your wages up to ${(176100).toLocaleString()} (the {TAX_YEAR} wage base). Medicare tax is 1.45% on all wages, with an additional 0.9% on wages above $200,000 for single filers. Your employer pays a matching amount for both.
+        </p>
+
+        <h3>State Income Tax</h3>
+        <p>
+          {NO_INCOME_TAX_STATES.length} states (Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming) have no state income tax on wages. The remaining states have either flat rates (like Illinois at 4.95% or Pennsylvania at 3.07%) or progressive bracket systems (like California's 1%-13.3% range). State tax is the biggest variable in your take-home pay depending on where you live.
+        </p>
+
+        <h3>Pre-Tax Deductions</h3>
+        <p>
+          Traditional 401(k) contributions, HSA contributions, and employer-sponsored health insurance premiums are subtracted <em>before</em> taxes are calculated, reducing your taxable income. HSA and FSA contributions also reduce your FICA taxes, while 401(k) contributions only reduce income taxes.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
+    <FAQAccordion faqs={faqs} />
+  </section>
+
+  <!-- Related Calculators -->
+  <section class="border-t border-slate-200 bg-slate-50 px-4 py-16 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <h2 class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
+        Related Calculators
+      </h2>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { title: 'Salary Calculator', href: '/salary-calculator', desc: 'Annual salary breakdown' },
+          { title: 'Hourly Pay Calculator', href: '/hourly-paycheck-calculator', desc: 'Convert hourly rate to annual' },
+          { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax estimate' },
+          { title: '401(k) Calculator', href: '/401k-calculator', desc: 'Retirement savings projection' },
+          { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator', desc: '1099 / freelancer tax' },
+          { title: 'Bonus Tax Calculator', href: '/bonus-tax-calculator', desc: 'Bonus withholding estimate' },
+          { title: 'Take-Home Comparison', href: '/take-home-comparison', desc: 'Compare states side-by-side' },
+          { title: 'Mortgage Calculator', href: '/mortgage-calculator', desc: 'Monthly payment estimator' },
+        ].map((calc) => (
+          <a
+            href={calc.href}
+            class="rounded-xl border border-slate-200 bg-white p-5 transition-all hover:border-navy-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
+          >
+            <h3 class="font-semibold text-navy-700 dark:text-navy-400">{calc.title}</h3>
+            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{calc.desc}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Sources -->
+  <section class="border-t border-slate-200 px-4 py-8 dark:border-slate-800 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <p class="text-xs text-slate-400 dark:text-slate-500">
+        <strong>Sources:</strong> IRS Rev. Proc. 2025-11 (federal brackets), SSA.gov (Social Security wage base), individual state revenue departments (state tax rates). Last updated for tax year {TAX_YEAR}.
+      </p>
+      <p class="mt-2 text-xs text-slate-400 dark:text-slate-500">
+        {DISCLAIMER}
+      </p>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://uspaycheck.com/sitemap-index.xml

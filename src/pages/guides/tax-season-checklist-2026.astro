@@ -1,0 +1,270 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TAX_YEAR, SITE_NAME } from '../../lib/constants';
+
+const title = `${TAX_YEAR} Tax Season Checklist: File Your Taxes Right`;
+const description = `Complete ${TAX_YEAR} tax filing checklist: documents to gather, key deadlines, deductions and credits to claim, e-filing options, and extension rules.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  author: { '@type': 'Organization', name: SITE_NAME },
+  publisher: { '@type': 'Organization', name: SITE_NAME },
+  datePublished: '2026-01-01',
+  dateModified: '2026-01-15',
+};
+---
+
+<Layout title={title} description={description} schema={schema}>
+  <article class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+      <h1>{TAX_YEAR} Tax Season Checklist: Everything You Need to File</h1>
+
+      <p>
+        Filing your taxes does not have to be stressful. The key is preparation: gathering the right
+        documents, knowing the deadlines, and understanding which deductions and credits apply to your
+        situation. This comprehensive checklist covers everything you need to file your {TAX_YEAR} federal
+        (and state) tax return accurately and on time.
+      </p>
+
+      <p>
+        Estimate your tax liability before filing with our
+        <a href="/income-tax-calculator">income tax calculator</a> or check your expected refund with our
+        <a href="/tax-refund-calculator">tax refund calculator</a>.
+      </p>
+
+      <h2>Key Deadlines for {TAX_YEAR} Tax Year</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>What</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>January 15, {TAX_YEAR + 1}</td><td>Q4 estimated tax payment due (for {TAX_YEAR} income)</td></tr>
+          <tr><td>January 31, {TAX_YEAR + 1}</td><td>Employers must send W-2 forms; 1099-NEC forms due</td></tr>
+          <tr><td>February 15, {TAX_YEAR + 1}</td><td>Most 1099 forms due (1099-INT, 1099-DIV, 1099-B, 1099-R)</td></tr>
+          <tr><td>March 15, {TAX_YEAR + 1}</td><td>S-Corp and Partnership returns due (Form 1120-S, 1065)</td></tr>
+          <tr><td>April 15, {TAX_YEAR + 1}</td><td>Individual tax returns due (Form 1040). IRA contribution deadline.</td></tr>
+          <tr><td>April 15, {TAX_YEAR + 1}</td><td>Extension request deadline (Form 4868). Q1 {TAX_YEAR + 1} estimated payment due.</td></tr>
+          <tr><td>October 15, {TAX_YEAR + 1}</td><td>Extended individual returns due</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        If April 15 falls on a weekend or holiday, the deadline shifts to the next business day. Residents
+        of Maine and Massachusetts get until April 17 in years when Patriots' Day falls on April 15.
+      </p>
+
+      <h2>Documents to Gather</h2>
+
+      <h3>Income Documents</h3>
+      <ul>
+        <li><strong>W-2:</strong> Wages, salary, and tax withheld from each employer</li>
+        <li><strong>1099-NEC:</strong> Freelance or independent contractor income ($600+)</li>
+        <li><strong>1099-MISC:</strong> Miscellaneous income (rent, royalties, prizes)</li>
+        <li><strong>1099-INT:</strong> Interest income from banks and investments</li>
+        <li><strong>1099-DIV:</strong> Dividend income, including qualified dividends and capital gain distributions</li>
+        <li><strong>1099-B:</strong> Stock, cryptocurrency, and other investment sales</li>
+        <li><strong>1099-R:</strong> Distributions from retirement accounts (IRA, 401(k), pension)</li>
+        <li><strong>1099-G:</strong> State tax refunds and unemployment compensation</li>
+        <li><strong>1099-SA:</strong> HSA or MSA distributions</li>
+        <li><strong>1099-K:</strong> Payment platform income (PayPal, Venmo, etc.) over $600</li>
+        <li><strong>SSA-1099:</strong> Social Security benefits received</li>
+        <li><strong>Schedule K-1:</strong> Income from partnerships, S-Corps, estates, or trusts</li>
+      </ul>
+
+      <h3>Deduction and Credit Documents</h3>
+      <ul>
+        <li><strong>1098:</strong> Mortgage interest paid</li>
+        <li><strong>1098-T:</strong> College tuition paid (for education credits)</li>
+        <li><strong>1098-E:</strong> Student loan interest paid</li>
+        <li><strong>Property tax bills or statements</strong></li>
+        <li><strong>Charitable donation receipts:</strong> Cash and non-cash contributions</li>
+        <li><strong>Medical expense receipts:</strong> If total exceeds 7.5% of AGI</li>
+        <li><strong>Childcare provider information:</strong> Name, address, tax ID, and amount paid</li>
+        <li><strong>5498:</strong> IRA and HSA contribution confirmation</li>
+        <li><strong>1095-A:</strong> Health Insurance Marketplace statement (for Premium Tax Credit)</li>
+      </ul>
+
+      <h3>Personal Information</h3>
+      <ul>
+        <li>Social Security numbers for you, your spouse, and all dependents</li>
+        <li>Bank account and routing numbers (for direct deposit of refund)</li>
+        <li>Prior year's tax return (for AGI verification and comparison)</li>
+        <li>Identity Protection PIN (if issued by the IRS)</li>
+      </ul>
+
+      <h2>Standard Deduction vs. Itemizing: How to Decide</h2>
+
+      <p>
+        The standard deduction for {TAX_YEAR} is $15,000 (single), $30,000 (married filing jointly), or
+        $22,500 (head of household). You should itemize only if your total itemized deductions exceed your
+        standard deduction. Add up your:
+      </p>
+
+      <ol>
+        <li>State and local taxes paid (income + property, max $10,000)</li>
+        <li>Mortgage interest</li>
+        <li>Charitable contributions</li>
+        <li>Medical expenses exceeding 7.5% of AGI</li>
+      </ol>
+
+      <p>
+        If the total exceeds your standard deduction, itemize. If not, take the standard deduction. It is
+        that simple. For most people, the standard deduction wins. See our detailed
+        <a href="/guides/tax-deductions-vs-credits">deductions vs. credits guide</a> for more.
+      </p>
+
+      <h2>Deductions Checklist</h2>
+
+      <p>
+        Review each of these to see if they apply to your situation:
+      </p>
+
+      <h3>Above-the-Line (Available Regardless of Itemizing)</h3>
+      <ul>
+        <li>Traditional IRA contributions (up to $7,000 / $8,000 if 50+)</li>
+        <li>HSA contributions (up to $4,300 self / $8,550 family)</li>
+        <li>Student loan interest (up to $2,500)</li>
+        <li>Self-employed health insurance premiums</li>
+        <li>Half of self-employment tax</li>
+        <li>Educator expenses (up to $300)</li>
+        <li>SEP IRA, SIMPLE IRA, or Solo 401(k) contributions</li>
+      </ul>
+
+      <h3>Itemized Deductions (If You Exceed the Standard Deduction)</h3>
+      <ul>
+        <li>State and local income or sales tax (SALT, up to $10,000)</li>
+        <li>Real estate property taxes (included in $10,000 SALT cap)</li>
+        <li>Mortgage interest on primary and secondary residence</li>
+        <li>Charitable cash and non-cash contributions</li>
+        <li>Medical and dental expenses above 7.5% of AGI</li>
+        <li>Casualty losses in federally declared disaster areas</li>
+      </ul>
+
+      <h2>Credits Checklist</h2>
+
+      <p>
+        Credits reduce your tax dollar-for-dollar. Do not overlook these:
+      </p>
+
+      <h3>Family Credits</h3>
+      <ul>
+        <li>Child Tax Credit: $2,000 per child under 17 (up to $1,700 refundable)</li>
+        <li>Child and Dependent Care Credit: 20-35% of care expenses up to $3,000/$6,000</li>
+        <li>Adoption Credit: Up to $17,280 per eligible child</li>
+      </ul>
+
+      <h3>Education Credits</h3>
+      <ul>
+        <li>American Opportunity Credit: Up to $2,500/student for first 4 years of college (40% refundable)</li>
+        <li>Lifetime Learning Credit: Up to $2,000/return for any post-secondary education</li>
+      </ul>
+
+      <h3>Income-Based Credits</h3>
+      <ul>
+        <li>Earned Income Tax Credit: Up to $7,830 (fully refundable; amount varies by children and income)</li>
+        <li>Saver's Credit: Up to $1,000/$2,000 for retirement contributions (low-to-moderate income)</li>
+      </ul>
+
+      <h3>Energy and Vehicle Credits</h3>
+      <ul>
+        <li>Residential Clean Energy Credit: 30% of solar, wind, geothermal, and battery storage costs</li>
+        <li>Energy Efficient Home Improvement Credit: Up to $3,200/year for insulation, windows, heat pumps, etc.</li>
+        <li>Clean Vehicle Credit: Up to $7,500 for qualifying new electric vehicles</li>
+        <li>Used Clean Vehicle Credit: Up to $4,000 for qualifying used EVs</li>
+      </ul>
+
+      <h3>Healthcare Credits</h3>
+      <ul>
+        <li>Premium Tax Credit: Subsidizes marketplace health insurance (refundable)</li>
+      </ul>
+
+      <h2>E-Filing Options</h2>
+
+      <p>
+        The IRS strongly encourages electronic filing, which is faster and results in quicker refunds. Your
+        options include:
+      </p>
+
+      <ul>
+        <li>
+          <strong>IRS Free File:</strong> Free federal tax preparation and e-filing if your AGI is below
+          $84,000. Available through IRS partner companies.
+        </li>
+        <li>
+          <strong>IRS Direct File:</strong> The IRS's own free filing system, available in a growing number
+          of states for straightforward returns.
+        </li>
+        <li>
+          <strong>Tax preparation software:</strong> TurboTax, H&R Block, TaxAct, FreeTaxUSA, and others
+          offer guided preparation for various price points.
+        </li>
+        <li>
+          <strong>Tax professionals:</strong> CPAs, enrolled agents, and tax attorneys for complex
+          situations. Average cost for a 1040 with itemized deductions: $250-$500.
+        </li>
+        <li>
+          <strong>VITA/TCE programs:</strong> Free in-person tax preparation for low-income, elderly, and
+          disabled taxpayers.
+        </li>
+      </ul>
+
+      <h2>Filing an Extension</h2>
+
+      <p>
+        If you cannot file by April 15, you can request an automatic six-month extension by filing Form 4868.
+        Important points about extensions:
+      </p>
+
+      <ul>
+        <li>An extension to file is <strong>not</strong> an extension to pay. You must estimate and pay any tax owed by April 15 to avoid interest and penalties.</li>
+        <li>The extension gives you until October 15 to submit your return.</li>
+        <li>There is no penalty for filing an extension as long as you pay on time.</li>
+        <li>If you owe and do not pay by April 15, you will be charged a failure-to-pay penalty (0.5% per month) and interest on the unpaid amount.</li>
+        <li>The failure-to-file penalty (5% per month) is much steeper, so if you cannot pay, file anyway or file an extension.</li>
+      </ul>
+
+      <h2>After You File: What to Expect</h2>
+
+      <ul>
+        <li><strong>E-filed returns:</strong> IRS typically processes within 21 days. Direct deposit refunds arrive faster.</li>
+        <li><strong>Paper returns:</strong> Processing can take 6-8 weeks or longer.</li>
+        <li><strong>Where's My Refund:</strong> Track your refund status at irs.gov/refunds starting 24 hours after e-filing.</li>
+        <li><strong>Record retention:</strong> Keep tax records for at least 3 years (6 years if you underreported income by more than 25%).</li>
+      </ul>
+
+      <h2>Common Mistakes to Avoid</h2>
+
+      <ol>
+        <li><strong>Wrong filing status:</strong> Make sure you choose the most advantageous filing status you qualify for</li>
+        <li><strong>Math errors:</strong> E-filing virtually eliminates this, but double-check manual entries</li>
+        <li><strong>Missing income:</strong> The IRS receives copies of all your 1099s and W-2s; report everything</li>
+        <li><strong>Wrong Social Security numbers:</strong> Triple-check all SSNs for yourself, spouse, and dependents</li>
+        <li><strong>Forgetting to sign:</strong> An unsigned return is treated as not filed</li>
+        <li><strong>Missing state return:</strong> Federal filing does not satisfy state filing requirements</li>
+        <li><strong>Not claiming eligible credits:</strong> The EITC alone is missed by millions of eligible workers each year</li>
+      </ol>
+
+      <h2>Bottom Line</h2>
+
+      <p>
+        The secret to a smooth tax season is starting early, gathering all your documents, and methodically
+        checking for every deduction and credit you qualify for. Whether you use software, a professional,
+        or a free filing option, this checklist ensures you do not leave money on the table.
+      </p>
+
+      <p>
+        Estimate your tax liability in advance with our <a href="/income-tax-calculator">income tax
+        calculator</a>, check your paycheck withholding with our
+        <a href="/take-home-pay-calculator">take-home pay calculator</a>, and review your
+        <a href="/guides/w-4-explained">W-4 settings</a> to make sure next year's withholding is dialed in.
+      </p>
+    </div>
+  </article>
+</Layout>

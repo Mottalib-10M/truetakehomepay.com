@@ -1,0 +1,259 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR, SITE_URL } from '../lib/constants';
+import { SALARY_AMOUNTS, TOP_10_STATES, STATES } from '../data/state-meta';
+import { formatCurrencyRound } from '../lib/format-us';
+
+export function getStaticPaths() {
+  return SALARY_AMOUNTS.map((amount) => ({
+    params: { amount: amount.toString() },
+    props: { amount },
+  }));
+}
+
+const { amount } = Astro.props;
+const formatted = formatCurrencyRound(amount);
+
+// ─── Title & Meta (50-60 chars title, 150-160 chars description) ────
+const title = `${formatted} After Taxes: ${TAX_YEAR} Take-Home Pay`;
+const description = `Calculate your take-home pay on a ${formatted} salary in ${TAX_YEAR}. See after-tax income for all 50 states with federal and state tax breakdown.`;
+
+// ─── Income-range contextual content ─────────────────────────────────
+type IncomeRange = 'low' | 'mid' | 'upper' | 'high';
+function getIncomeRange(amt: number): IncomeRange {
+  if (amt <= 50000) return 'low';
+  if (amt <= 100000) return 'mid';
+  if (amt <= 200000) return 'upper';
+  return 'high';
+}
+
+const range = getIncomeRange(amount);
+
+const rangeContent: Record<IncomeRange, { heading: string; body: string }> = {
+  low: {
+    heading: `Living on a ${formatted} Salary`,
+    body: `A ${formatted} salary places you below the US median household income. At this income level, federal taxes are relatively modest — you'll fall primarily in the 10% and 12% brackets. Choosing a state with no income tax (like Texas or Florida) can make a meaningful difference in your monthly budget. Maximizing your standard deduction and any available credits (like the Earned Income Tax Credit) is especially important at this income level.`,
+  },
+  mid: {
+    heading: `What ${formatted} Looks Like After Taxes`,
+    body: `A ${formatted} salary is near or above the US median household income. At this level, you'll primarily fall in the 12% and 22% federal tax brackets. State taxes become a significant factor — the difference between a no-tax state like Florida and a high-tax state like California can be several thousand dollars per year. Contributing to a traditional 401(k) is one of the most effective ways to reduce your tax burden and increase take-home pay.`,
+  },
+  upper: {
+    heading: `Tax Planning on a ${formatted} Salary`,
+    body: `Earning ${formatted} places you in the 24% or 32% federal tax bracket for most of your income. At this level, state income tax can cost you $5,000-$15,000+ annually depending on where you live. Tax-advantaged accounts like 401(k), HSA, and FSA become powerful tools — maxing out your 401(k) at $23,500 can save you $5,000+ in federal taxes alone. Consider working with a tax professional to optimize deductions.`,
+  },
+  high: {
+    heading: `Tax Impact on a ${formatted} Salary`,
+    body: `At ${formatted}, you're in the top federal tax brackets (35%-37%). Your effective federal tax rate is significantly higher than median earners, and state taxes can add 5%-13% more in high-tax states. The Additional Medicare Tax (0.9%) kicks in above $200,000 for single filers. Strategies like maximizing retirement contributions, utilizing HSAs, and considering the timing of income recognition become critical at this income level. The difference in take-home pay between states can exceed $20,000 annually.`,
+  },
+};
+
+const content = rangeContent[range];
+
+// ─── Related salary amounts ──────────────────────────────────────────
+function getRelatedAmounts(amt: number): number[] {
+  const step = amt <= 100000 ? 10000 : 25000;
+  const related: number[] = [];
+  const lower = amt - step;
+  const higher = amt + step;
+  if (SALARY_AMOUNTS.includes(lower)) related.push(lower);
+  if (SALARY_AMOUNTS.includes(higher)) related.push(higher);
+  // Add a few more from the full list
+  for (const s of SALARY_AMOUNTS) {
+    if (s !== amt && !related.includes(s) && related.length < 4) {
+      if (Math.abs(s - amt) <= step * 3) related.push(s);
+    }
+  }
+  return related.slice(0, 4);
+}
+
+const relatedAmounts = getRelatedAmounts(amount);
+
+// ─── Popular state versions ──────────────────────────────────────────
+const popularStates = ['CA', 'TX', 'FL', 'NY'].map((code) => ({
+  code,
+  name: STATES[code].name,
+  slug: STATES[code].slug,
+}));
+
+// ─── FAQs ────────────────────────────────────────────────────────────
+const faqs = [
+  {
+    question: `How much is ${formatted} a year after taxes?`,
+    answer: `On a ${formatted} salary, a single filer with no state income tax takes home approximately ${formatCurrencyRound(amount * (range === 'low' ? 0.82 : range === 'mid' ? 0.77 : range === 'upper' ? 0.73 : 0.68))} to ${formatCurrencyRound(amount * (range === 'low' ? 0.85 : range === 'mid' ? 0.80 : range === 'upper' ? 0.76 : 0.71))} after federal taxes and FICA. In states with income tax, take-home pay is lower — typically ${formatCurrencyRound(amount * (range === 'low' ? 0.78 : range === 'mid' ? 0.72 : range === 'upper' ? 0.66 : 0.60))} to ${formatCurrencyRound(amount * (range === 'low' ? 0.82 : range === 'mid' ? 0.77 : range === 'upper' ? 0.73 : 0.68))} depending on the state. Use our calculator above for your exact take-home pay.`,
+  },
+  {
+    question: `How much is ${formatted} a year per paycheck?`,
+    answer: `Before taxes, a ${formatted} salary equals ${formatCurrencyRound(amount / 26)} per bi-weekly paycheck (26 paychecks per year), ${formatCurrencyRound(amount / 24)} semi-monthly (24 paychecks), ${formatCurrencyRound(amount / 12)} monthly, or ${formatCurrencyRound(amount / 52)} weekly. After taxes, each paycheck will be reduced by federal income tax, FICA (7.65%), and any state/local taxes.`,
+  },
+  {
+    question: `What is the federal tax on a ${formatted} salary?`,
+    answer: `Federal income tax on ${formatted} for a single filer in ${TAX_YEAR} uses progressive brackets: 10% on the first $11,925, 12% on income up to $48,475, 22% up to $103,350, and higher rates above that — all after the $15,700 standard deduction. Your effective federal income tax rate on ${formatted} is approximately ${range === 'low' ? '8%-10%' : range === 'mid' ? '10%-14%' : range === 'upper' ? '14%-19%' : '20%-27%'}, depending on filing status and deductions.`,
+  },
+  {
+    question: `Which state has the lowest taxes on a ${formatted} salary?`,
+    answer: `The nine states with no income tax — Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming — offer the highest take-home pay on a ${formatted} salary. Among states with income tax, states with low flat rates like Pennsylvania (3.07%) and Indiana (3.05%) are also favorable. California and New York tend to have the highest state tax burden${amount >= 100000 ? ', especially at this income level where top marginal rates apply' : ''}.`,
+  },
+];
+
+// ─── Related Calculators ─────────────────────────────────────────────
+const relatedCalculators = [
+  ...relatedAmounts.slice(0, 2).map((amt) => ({
+    title: `${formatCurrencyRound(amt)} After Taxes`,
+    href: `/${amt}-after-taxes`,
+    desc: `${TAX_YEAR} take-home pay`,
+  })),
+  ...popularStates.slice(0, 2).map((s) => ({
+    title: `${formatted} in ${s.name}`,
+    href: `/${s.slug}/${amount}-after-taxes`,
+    desc: `${s.name} take-home pay`,
+  })),
+];
+
+// ─── Schema.org ──────────────────────────────────────────────────────
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+
+const webAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `${formatted} After Taxes Calculator ${TAX_YEAR}`,
+  description,
+  url: `${SITE_URL}/${amount}-after-taxes`,
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+
+const schema = [faqSchema, webAppSchema];
+
+// ─── Intro text ──────────────────────────────────────────────────────
+const intro = `How much is ${formatted} after taxes in ${TAX_YEAR}? Use our free calculator to find your exact take-home pay after federal income tax, state tax, FICA, and deductions — for any US state.`;
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`${formatted} a Year After Taxes in ${TAX_YEAR}`}
+  intro={intro}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Rev. Proc. 2025-11 (federal brackets), SSA.gov (Social Security wage base ${TAX_YEAR}), individual state revenue departments. Last updated for tax year ${TAX_YEAR}.`}
+  canonical={`${SITE_URL}/${amount}-after-taxes`}
+>
+  <PaycheckCalculator
+    client:load
+    defaultGross={amount}
+  />
+
+  <Fragment slot="content">
+    <!-- Income-range contextual content -->
+    <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">
+          {content.heading}
+        </h2>
+        <div class="prose prose-slate dark:prose-invert max-w-none">
+          <p>{content.body}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paycheck breakdown table -->
+    <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+          {formatted} Salary: Per-Paycheck Breakdown (Before Tax)
+        </h2>
+        <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
+          <table class="tabular-nums w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
+                <th class="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">Pay Period</th>
+                <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Gross Pay</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Annual</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatted}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Monthly</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(amount / 12)}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Semi-Monthly</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(amount / 24)}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Bi-Weekly</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(amount / 26)}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Weekly</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(amount / 52)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- State-specific links for this amount -->
+    <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+          {formatted} After Taxes by State
+        </h2>
+        <p class="mb-6 text-sm text-slate-600 dark:text-slate-400">
+          See how much {formatted} takes home in the most populated states:
+        </p>
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
+          {TOP_10_STATES.map((code) => (
+            <a
+              href={`/${STATES[code].slug}/${amount}-after-taxes`}
+              class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-sm transition-colors hover:border-navy-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
+            >
+              <span class="font-semibold text-navy-700 dark:text-navy-400">{STATES[code].name}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Related salary amounts -->
+    <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+          Other Salary Amounts
+        </h2>
+        <div class="grid grid-cols-3 gap-2 sm:grid-cols-5">
+          {SALARY_AMOUNTS.filter((s) => s !== amount).map((s) => (
+            <a
+              href={`/${s}-after-taxes`}
+              class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-sm transition-colors hover:border-navy-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
+            >
+              <span class="tabular-nums font-semibold text-navy-700 dark:text-navy-400">
+                {formatCurrencyRound(s)}
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </Fragment>
+</CalculatorLayout>

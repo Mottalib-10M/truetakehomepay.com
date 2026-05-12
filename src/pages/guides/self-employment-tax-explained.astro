@@ -1,0 +1,251 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TAX_YEAR, SITE_NAME } from '../../lib/constants';
+
+const title = 'Self-Employment Tax Explained: 1099 & Freelancer Guide';
+const description = `How self-employment tax works for freelancers and 1099 workers. Learn the 15.3% SE tax rate, quarterly payments, deductions, and QBI rules.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  author: { '@type': 'Organization', name: SITE_NAME },
+  publisher: { '@type': 'Organization', name: SITE_NAME },
+  datePublished: '2026-01-01',
+  dateModified: '2026-01-15',
+};
+---
+
+<Layout title={title} description={description} schema={schema}>
+  <article class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+      <h1>Self-Employment Tax Explained: The Complete 1099 Guide</h1>
+
+      <p>
+        If you are a freelancer, independent contractor, gig worker, or run your own business, you face a
+        tax reality that employees never deal with: <strong>self-employment tax</strong>. On top of regular
+        federal and state income tax, the self-employed must pay both the employee and employer portions of
+        Social Security and Medicare taxes. This guide covers everything you need to know about SE tax,
+        quarterly estimated payments, and the deductions that can reduce your bill.
+      </p>
+
+      <p>
+        Calculate your exact self-employment tax liability with our
+        <a href="/self-employment-tax-calculator">self-employment tax calculator</a>.
+      </p>
+
+      <h2>What Is Self-Employment Tax?</h2>
+
+      <p>
+        Self-employment (SE) tax is the equivalent of FICA taxes that employees and employers split.
+        When you are employed by a company, you pay 7.65% of your wages for Social Security (6.2%) and
+        Medicare (1.45%), and your employer pays a matching 7.65%. When you are self-employed, you are
+        both the employer and the employee, so you pay the full <strong>15.3%</strong>.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Employee Rate</th>
+            <th>Employer Rate</th>
+            <th>SE Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Social Security</td><td>6.2%</td><td>6.2%</td><td>12.4%</td></tr>
+          <tr><td>Medicare</td><td>1.45%</td><td>1.45%</td><td>2.9%</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>7.65%</strong></td><td><strong>7.65%</strong></td><td><strong>15.3%</strong></td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        This is a significant additional tax burden. On $100,000 of self-employment income, the SE tax
+        alone is approximately $14,130 (before the adjustments described below), on top of whatever federal
+        and state income tax you owe.
+      </p>
+
+      <h2>How SE Tax Is Calculated</h2>
+
+      <p>
+        The calculation involves several steps that reduce the effective rate slightly below 15.3%:
+      </p>
+
+      <h3>Step 1: Calculate Net Self-Employment Income</h3>
+      <p>
+        Start with your gross self-employment revenue and subtract all ordinary and necessary business
+        expenses. This is your net profit, reported on Schedule C (or Schedule K-1 for partnerships).
+      </p>
+
+      <h3>Step 2: Multiply by 92.35%</h3>
+      <p>
+        You only pay SE tax on 92.35% of your net self-employment income. This adjustment mirrors the fact
+        that employees do not pay FICA on the employer's share of FICA. If your net income is $100,000,
+        your SE tax base is $100,000 x 0.9235 = $92,350.
+      </p>
+
+      <h3>Step 3: Apply the Rates</h3>
+      <ul>
+        <li>Social Security (12.4%) on the first $176,100 of the SE tax base in {TAX_YEAR}</li>
+        <li>Medicare (2.9%) on the entire SE tax base, with no cap</li>
+        <li>Additional Medicare Tax (0.9%) on SE earnings above $200,000 (single) or $250,000 (married filing jointly)</li>
+      </ul>
+
+      <h3>Example: $100,000 in Self-Employment Income</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Step</th>
+            <th>Calculation</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Net SE Income</td><td>-</td><td>$100,000</td></tr>
+          <tr><td>SE Tax Base (92.35%)</td><td>$100,000 x 0.9235</td><td>$92,350</td></tr>
+          <tr><td>Social Security Tax</td><td>$92,350 x 12.4%</td><td>$11,451.40</td></tr>
+          <tr><td>Medicare Tax</td><td>$92,350 x 2.9%</td><td>$2,678.15</td></tr>
+          <tr><td><strong>Total SE Tax</strong></td><td>-</td><td><strong>$14,129.55</strong></td></tr>
+        </tbody>
+      </table>
+
+      <h2>The Deductible Half of SE Tax</h2>
+
+      <p>
+        Here is some good news: you can deduct <strong>half</strong> of your self-employment tax as an
+        above-the-line deduction on your Form 1040. This reduces your adjusted gross income (AGI), which
+        in turn reduces your income tax. In the example above, you would deduct $7,064.78 ($14,129.55 / 2)
+        from your AGI. At a 22% marginal income tax rate, that saves an additional $1,554 in income tax.
+      </p>
+
+      <p>
+        This deduction is available whether you take the standard deduction or itemize. It only reduces
+        income tax, not the SE tax itself.
+      </p>
+
+      <h2>Quarterly Estimated Tax Payments</h2>
+
+      <p>
+        Unlike employees who have taxes withheld from each paycheck, the self-employed must make quarterly
+        estimated tax payments to avoid underpayment penalties. These payments cover both income tax and
+        self-employment tax. The quarterly due dates for {TAX_YEAR} are:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Quarter</th>
+            <th>Income Period</th>
+            <th>Due Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Q1</td><td>January 1 - March 31</td><td>April 15, {TAX_YEAR}</td></tr>
+          <tr><td>Q2</td><td>April 1 - May 31</td><td>June 16, {TAX_YEAR}</td></tr>
+          <tr><td>Q3</td><td>June 1 - August 31</td><td>September 15, {TAX_YEAR}</td></tr>
+          <tr><td>Q4</td><td>September 1 - December 31</td><td>January 15, {TAX_YEAR + 1}</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        You can avoid the underpayment penalty by paying at least the lesser of: (1) 90% of your current
+        year tax liability, or (2) 100% of your prior year tax liability (110% if your AGI was over
+        $150,000). Most self-employed people use the prior-year safe harbor method because it is easier to
+        calculate.
+      </p>
+
+      <h2>Schedule SE: Where SE Tax Is Reported</h2>
+
+      <p>
+        Self-employment tax is calculated on <strong>Schedule SE</strong>, which is attached to your Form
+        1040. If your net self-employment income is $400 or more, you must file Schedule SE. The form walks
+        through the 92.35% calculation, applies the Social Security wage base cap, and computes your total
+        SE tax. The result flows to Schedule 2, line 4, and then to your Form 1040.
+      </p>
+
+      <h2>The Qualified Business Income (QBI) Deduction</h2>
+
+      <p>
+        Section 199A of the tax code allows eligible self-employed individuals and pass-through business
+        owners to deduct up to <strong>20%</strong> of their qualified business income. This is a significant
+        tax break that can substantially reduce your effective income tax rate.
+      </p>
+
+      <ul>
+        <li>Available to sole proprietors, partnerships, S-corps, and certain trusts/estates</li>
+        <li>The deduction is limited for specified service businesses (law, medicine, consulting, etc.) when taxable income exceeds $191,950 (single) or $383,900 (married filing jointly)</li>
+        <li>The deduction reduces income tax but not self-employment tax</li>
+        <li>W-2 wages and qualified property limitations may apply at higher income levels</li>
+      </ul>
+
+      <p>
+        For our $100,000 self-employment example, the QBI deduction could be as much as $20,000, saving
+        $4,400 at the 22% marginal rate.
+      </p>
+
+      <h2>Key Business Deductions for the Self-Employed</h2>
+
+      <p>
+        Reducing your net self-employment income through legitimate business deductions lowers both your
+        income tax and your SE tax. Common deductions include:
+      </p>
+
+      <ul>
+        <li><strong>Home office deduction:</strong> Simplified method ($5/sq ft, max 300 sq ft = $1,500) or actual expenses</li>
+        <li><strong>Vehicle expenses:</strong> Standard mileage rate (67 cents/mile for {TAX_YEAR}) or actual expenses</li>
+        <li><strong>Health insurance premiums:</strong> 100% deductible for the self-employed (above-the-line deduction)</li>
+        <li><strong>Retirement contributions:</strong> SEP IRA (up to 25% of net SE income, max $70,000), Solo 401(k), or SIMPLE IRA</li>
+        <li><strong>Business equipment and software:</strong> Section 179 expensing or depreciation</li>
+        <li><strong>Professional services:</strong> Accountant, attorney, business insurance</li>
+        <li><strong>Education and training:</strong> Courses, conferences, and subscriptions related to your business</li>
+        <li><strong>Internet and phone:</strong> Business-use percentage of these expenses</li>
+      </ul>
+
+      <h2>S-Corp Election: Reducing SE Tax</h2>
+
+      <p>
+        One advanced strategy to reduce self-employment tax is electing S-corporation status. As an S-corp,
+        you pay yourself a "reasonable salary" (subject to FICA) and take remaining profits as distributions
+        (not subject to SE tax). For example, if your business earns $150,000 and you pay yourself an
+        $80,000 salary, only $80,000 is subject to FICA, potentially saving thousands in SE tax.
+      </p>
+
+      <p>
+        However, S-corp status has additional costs (payroll processing, additional tax returns, state fees)
+        and the IRS closely scrutinizes "reasonable salary" determinations. This strategy typically makes
+        sense when net SE income consistently exceeds $60,000-$80,000.
+      </p>
+
+      <h2>SE Tax When You Have Both W-2 and 1099 Income</h2>
+
+      <p>
+        If you have a day job (W-2) and freelance on the side (1099), your W-2 wages count toward the Social
+        Security wage base. If your W-2 wages are already at or above $176,100, you will not owe the 12.4%
+        Social Security portion of SE tax on your freelance income. You will still owe the 2.9% Medicare
+        portion on all SE income.
+      </p>
+
+      <p>
+        Additionally, if you are already having income tax withheld from your W-2 job, you can increase your
+        W-4 withholding to cover the tax on your self-employment income instead of making quarterly
+        estimated payments. See our <a href="/guides/w-4-explained">W-4 guide</a> for details.
+      </p>
+
+      <h2>Bottom Line</h2>
+
+      <p>
+        Self-employment tax is a significant cost, but understanding how it works allows you to plan
+        effectively and take advantage of available deductions. The keys are: track and deduct all legitimate
+        business expenses, make timely quarterly payments, claim the deductible half of SE tax, and consider
+        the QBI deduction.
+      </p>
+
+      <p>
+        Run the numbers with our <a href="/self-employment-tax-calculator">self-employment tax calculator</a>,
+        and see how your total tax compares to employee scenarios with our
+        <a href="/income-tax-calculator">income tax calculator</a>.
+      </p>
+    </div>
+  </article>
+</Layout>

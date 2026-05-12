@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Inflation Calculator ${TAX_YEAR}: Purchasing Power Over Time`;
+const description = `Calculate how inflation erodes your purchasing power over time. See what today's dollars will be worth in the future and what past dollars are worth in ${TAX_YEAR}.`;
+
+const faqs = [
+  {
+    question: 'What is inflation and how is it measured?',
+    answer: `Inflation is the rate at which prices for goods and services rise over time, reducing purchasing power. It's primarily measured by the Consumer Price Index (CPI), published monthly by the Bureau of Labor Statistics. The CPI tracks price changes for a basket of common goods including food, housing, transportation, and healthcare.`,
+  },
+  {
+    question: 'What is the historical average inflation rate?',
+    answer: `The long-term average US inflation rate since 1913 is approximately 3.2% per year. However, it varies significantly by period: the 1970s-80s saw rates above 10%, the 2010s averaged about 1.8%, and 2021-2023 saw elevated rates of 4.7-8.0%. For planning purposes, many financial advisors use a 2.5-3% assumption.`,
+  },
+  {
+    question: 'How does inflation affect my savings?',
+    answer: `If your savings earn less than the inflation rate, you're losing purchasing power. For example, $100,000 in a 1% savings account with 3% inflation loses about $2,000 in real purchasing power per year. To maintain real value, your investments must outpace inflation — which is why stocks (historically ~7% real return) are important for long-term savings.`,
+  },
+  {
+    question: 'How does inflation affect salary and retirement planning?',
+    answer: `If your salary doesn't keep pace with inflation, your standard of living declines. A $75,000 salary with 3% annual inflation needs to become $101,000 after 10 years just to maintain the same purchasing power. For retirement planning, a $50,000/year budget today will require roughly $90,000/year in 20 years at 3% inflation.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Compound Interest', href: '/compound-interest-calculator', desc: 'Real vs nominal growth' },
+  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Inflation-adjusted goals' },
+  { title: 'Cost of Living', href: '/cost-of-living-calculator', desc: 'Compare city costs' },
+  { title: '401(k) Calculator', href: '/401k-calculator', desc: 'Inflation-adjusted retirement' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Inflation Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/inflation-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Inflation Calculator ${TAX_YEAR}`}
+  intro={`See how inflation changes the value of money over time. Calculate what today's dollars will be worth in the future, convert past prices to current values, and plan your savings to stay ahead of rising costs.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`Bureau of Labor Statistics (BLS) Consumer Price Index (CPI), Federal Reserve Economic Data (FRED), BLS CPI Inflation Calculator. Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

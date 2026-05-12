@@ -1,0 +1,76 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Salary Calculator ${TAX_YEAR}: Annual Take-Home Pay Breakdown`;
+const description = `Free ${TAX_YEAR} salary calculator. Enter your annual salary and see your take-home pay after federal and state taxes, FICA, 401(k), and deductions.`;
+
+const faqs = [
+  {
+    question: 'How do I calculate my annual take-home pay?',
+    answer: `Start with your gross annual salary, then subtract federal income tax, state income tax (if applicable), Social Security tax (6.2% up to $176,100), Medicare tax (1.45%), and any pre-tax deductions like 401(k) or health insurance premiums. The remainder is your net annual take-home pay.`,
+  },
+  {
+    question: 'What is the difference between gross salary and net salary?',
+    answer: `Gross salary is your total annual compensation before any deductions. Net salary (take-home pay) is what you actually receive after federal taxes, state taxes, FICA (Social Security + Medicare), and pre-tax deductions are subtracted. Depending on your state and tax bracket, net pay is typically 60%-80% of gross.`,
+  },
+  {
+    question: 'How much of my salary goes to taxes?',
+    answer: `For ${TAX_YEAR}, the average American pays about 22%-35% of their salary in total taxes, depending on income level, filing status, and state. This includes federal income tax (10%-37%), FICA taxes (7.65%), and state income tax (0%-13.3%). Higher earners face higher effective tax rates due to progressive brackets.`,
+  },
+  {
+    question: 'Does my salary calculator include state taxes?',
+    answer: `Yes. Our salary calculator includes all 50 states plus DC. Select your state from the dropdown to see the correct state income tax applied. Nine states (Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming) have no state income tax on wages.`,
+  },
+  {
+    question: 'How does a 401(k) contribution affect my salary?',
+    answer: `Traditional 401(k) contributions are deducted from your gross salary before federal and state income taxes are calculated, reducing your taxable income and your tax bill. However, 401(k) contributions do not reduce FICA taxes. For example, a $10,000 401(k) contribution on a $75,000 salary means you're only taxed on $65,000 for income tax purposes.`,
+  },
+  {
+    question: `What are the ${TAX_YEAR} federal tax brackets for salary income?`,
+    answer: `For ${TAX_YEAR}, Single filers pay: 10% on income up to $11,925; 12% up to $48,475; 22% up to $103,350; 24% up to $197,300; 32% up to $250,525; 35% up to $626,350; and 37% above that. These rates apply to taxable income after the standard deduction ($15,700 for Single, $31,400 for Married Filing Jointly).`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Paycheck Calculator', href: '/', desc: 'Calculate per-paycheck take-home' },
+  { title: 'Hourly Pay Calculator', href: '/hourly-paycheck-calculator', desc: 'Convert hourly rate to annual' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax breakdown' },
+  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator', desc: '1099 and freelancer taxes' },
+  { title: 'Bonus Tax Calculator', href: '/bonus-tax-calculator', desc: 'How much tax on your bonus' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Salary Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/salary-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Salary Calculator ${TAX_YEAR}`}
+  intro={`Enter your annual salary to see a complete breakdown of your take-home pay after federal and state taxes, FICA, and deductions. Updated for ${TAX_YEAR} tax brackets.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Rev. Proc. 2025-11 (${TAX_YEAR} federal tax brackets and standard deductions), SSA.gov (Social Security wage base $176,100), state revenue department publications. Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator
+    client:load
+    defaultPayFrequency="annual"
+    defaultGross={75000}
+  />
+</CalculatorLayout>

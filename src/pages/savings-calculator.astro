@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Savings Calculator ${TAX_YEAR}: Reach Your Financial Goals`;
+const description = `Calculate how much you need to save monthly to reach your financial goals. See growth projections with compound interest, target dates, and savings milestones.`;
+
+const faqs = [
+  {
+    question: 'How much should I have in savings?',
+    answer: `Financial guidelines suggest: emergency fund of 3-6 months of expenses ($15,000-$30,000 for most households), retirement savings of 1x salary by 30, 3x by 40, 6x by 50, and 10x by 67. Beyond that, savings goals depend on your lifestyle, planned major purchases (home, car), and risk tolerance. Automate savings to make it consistent.`,
+  },
+  {
+    question: 'Where should I keep my savings?',
+    answer: `For emergency funds and short-term goals (1-3 years): high-yield savings accounts (currently 4-5% APY) or money market accounts for safety and liquidity. For medium-term goals (3-5 years): CDs or short-term bond funds. For long-term goals (5+ years): index funds or target-date funds in tax-advantaged accounts (IRA, 401k) for higher growth potential.`,
+  },
+  {
+    question: 'How much do I need to save monthly to reach my goal?',
+    answer: `Use the formula: divide your goal by the number of months, then adjust down for expected interest. For example, to save $50,000 in 5 years (60 months) at 5% APY: you'd need about $737/month (vs $833/month with no interest). Our calculator shows exact amounts based on your specific goal, timeline, and expected return rate.`,
+  },
+  {
+    question: 'What is the 50/30/20 budgeting rule?',
+    answer: `The 50/30/20 rule suggests allocating your after-tax income as: 50% for needs (rent, food, insurance, minimum debt payments), 30% for wants (dining, entertainment, subscriptions), and 20% for savings and extra debt payments. On $5,000 take-home pay, that's $1,000/month toward savings — a solid starting point you can adjust.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Compound Interest', href: '/compound-interest-calculator', desc: 'See growth over time' },
+  { title: 'Inflation Calculator', href: '/inflation-calculator', desc: 'Account for inflation' },
+  { title: 'Paycheck Calculator', href: '/', desc: 'Know your take-home pay' },
+  { title: '401(k) Calculator', href: '/401k-calculator', desc: 'Retirement savings plan' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Savings Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/savings-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Savings Calculator ${TAX_YEAR}`}
+  intro={`Plan your path to financial goals. Enter your savings target, timeline, initial deposit, and expected return rate to see exactly how much you need to save each month and watch your balance grow.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`Federal Reserve Economic Data (FRED) for savings rates, FDIC national deposit rates, BLS Consumer Expenditure Survey. Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

@@ -1,0 +1,60 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Emergency Fund Calculator ${TAX_YEAR}: How Much Do You Need?`;
+const description = `Calculate how much emergency fund you need in ${TAX_YEAR}. Based on your monthly expenses, job stability, and dependents, see your target savings and timeline.`;
+
+const faqs = [
+  {
+    question: 'How much should I have in an emergency fund?',
+    answer: `The standard recommendation is 3-6 months of essential expenses. For a household spending $5,000/month on necessities, that's $15,000-$30,000. Single-income households, freelancers, and those with variable income should aim for 6-12 months. Dual-income households with stable jobs can target 3-4 months.`,
+  },
+  {
+    question: 'What counts as an essential monthly expense?',
+    answer: `Essential expenses include: housing (rent/mortgage + insurance + property tax), utilities (electric, gas, water, internet, phone), groceries, transportation (car payment, insurance, gas or transit pass), minimum debt payments, health insurance premiums, and childcare. Exclude discretionary spending like dining out, entertainment, and subscriptions.`,
+  },
+  {
+    question: 'Where should I keep my emergency fund?',
+    answer: `Keep your emergency fund in a high-yield savings account (HYSA) — currently offering 4-5% APY. The money needs to be liquid (accessible within 1-2 business days) and FDIC-insured. Avoid investing emergency funds in stocks or bonds, which can lose value when you need the money most. Some people keep 1 month of expenses in checking and the rest in HYSA.`,
+  },
+  {
+    question: 'How do I build an emergency fund from scratch?',
+    answer: `Start with a mini goal of $1,000 for immediate emergencies. Then build to 1 month of expenses, then 3 months, then your full target. Automate transfers from each paycheck (even $50-$100 helps). Use tax refunds, bonuses, and windfalls to accelerate. Cut one subscription or expense and redirect that amount. Most people can build a 3-month fund within 12-18 months.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Reach savings milestones' },
+  { title: 'Paycheck Calculator', href: '/', desc: 'Know your take-home pay' },
+  { title: 'Net Worth Calculator', href: '/net-worth-calculator', desc: 'Track total wealth' },
+  { title: 'Debt Payoff', href: '/credit-card-payoff-calculator', desc: 'Balance savings vs debt' },
+  { title: 'Compound Interest', href: '/compound-interest-calculator', desc: 'Grow your savings faster' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Emergency Fund Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/emergency-fund-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Emergency Fund Calculator ${TAX_YEAR}`}
+  intro={`How much emergency savings do you really need? Calculate your target based on monthly expenses, income stability, dependents, and risk factors. See a savings timeline to reach your goal.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`Federal Reserve Report on the Economic Well-Being of U.S. Households, Consumer Financial Protection Bureau (CFPB) savings guidelines. Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

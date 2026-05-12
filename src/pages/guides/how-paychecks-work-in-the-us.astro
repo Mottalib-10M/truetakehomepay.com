@@ -1,0 +1,361 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TAX_YEAR, SITE_NAME } from '../../lib/constants';
+
+const title = `How Paychecks Work in the US: Every Deduction Explained`;
+const description = `Understand every line on your pay stub. Learn how federal tax, FICA, state tax, 401(k), and other deductions reduce your gross pay to take-home pay.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  author: { '@type': 'Organization', name: SITE_NAME },
+  publisher: { '@type': 'Organization', name: SITE_NAME },
+  datePublished: '2026-01-01',
+  dateModified: '2026-01-15',
+};
+---
+
+<Layout title={title} description={description} schema={schema}>
+  <article class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+      <h1>How Paychecks Work in the US: Every Deduction Explained</h1>
+
+      <p>
+        If you have ever looked at your pay stub and wondered where all your money went, you are not alone.
+        The gap between your gross salary and the amount deposited into your bank account can feel enormous.
+        This guide walks through every single deduction that appears on a typical US paycheck, using a
+        <strong>$75,000 annual salary</strong> as a concrete example throughout.
+      </p>
+
+      <p>
+        Use our <a href="/take-home-pay-calculator">take-home pay calculator</a> to see exactly what your
+        paycheck looks like after all deductions.
+      </p>
+
+      <h2>Gross Pay vs. Net Pay</h2>
+
+      <p>
+        <strong>Gross pay</strong> is the total amount your employer pays you before any deductions. If you
+        earn $75,000 per year and are paid biweekly (26 pay periods), your gross pay per paycheck is
+        $2,884.62. <strong>Net pay</strong> (also called take-home pay) is what actually lands in your bank
+        account after federal, state, and other deductions are subtracted.
+      </p>
+
+      <p>
+        For a single filer earning $75,000 in {TAX_YEAR} with no special deductions, net pay is typically
+        between $55,000 and $60,000 per year, depending on your state. That means roughly 20-27% of your
+        gross pay goes to various deductions.
+      </p>
+
+      <h2>Federal Income Tax Withholding</h2>
+
+      <p>
+        The largest deduction for most workers is federal income tax. Your employer uses the information on
+        your <a href="/guides/w-4-explained">W-4 form</a> along with IRS Publication 15-T to calculate how
+        much to withhold from each paycheck. The amount depends on:
+      </p>
+
+      <ul>
+        <li>Your filing status (single, married filing jointly, head of household)</li>
+        <li>The number of dependents you claimed on your W-4</li>
+        <li>Any additional withholding you requested</li>
+        <li>Pre-tax deductions that reduce your taxable income (like 401(k) contributions)</li>
+      </ul>
+
+      <p>
+        For our $75,000 single filer taking the standard deduction of $15,000, the taxable income is $60,000.
+        Using the {TAX_YEAR} <a href="/guides/federal-tax-brackets-2026">federal tax brackets</a>, the
+        annual federal income tax is approximately $8,600, or about $331 per biweekly paycheck.
+      </p>
+
+      <h2>Social Security Tax (OASDI)</h2>
+
+      <p>
+        Social Security tax is part of FICA (Federal Insurance Contributions Act) and funds retirement,
+        disability, and survivor benefits. In {TAX_YEAR}, the rate is <strong>6.2%</strong> of your gross
+        wages, up to the wage base limit of $176,100. Your employer pays a matching 6.2%.
+      </p>
+
+      <p>
+        For our $75,000 earner, the annual Social Security tax is $75,000 x 6.2% = <strong>$4,650</strong>,
+        or about $178.85 per biweekly paycheck. Since this salary is below the wage base, every paycheck has
+        the same deduction. If you earn above $176,100, Social Security tax stops being withheld once you hit
+        the cap.
+      </p>
+
+      <h2>Medicare Tax</h2>
+
+      <p>
+        The other half of FICA is Medicare tax, which funds the Medicare health insurance program. The rate
+        is <strong>1.45%</strong> on all wages with no cap. Your employer matches this amount as well.
+      </p>
+
+      <p>
+        For our $75,000 earner: $75,000 x 1.45% = <strong>$1,087.50</strong> per year, or $41.83 per
+        biweekly paycheck.
+      </p>
+
+      <p>
+        High earners face an Additional Medicare Tax of 0.9% on wages above $200,000 (single) or $250,000
+        (married filing jointly). The employer does not match this additional amount. Learn more with our
+        <a href="/medicare-surtax-calculator">Medicare surtax calculator</a>.
+      </p>
+
+      <h2>Total FICA: The Combined Picture</h2>
+
+      <p>
+        Together, Social Security (6.2%) and Medicare (1.45%) total <strong>7.65%</strong> of your gross
+        wages. For a $75,000 salary, that is $5,737.50 per year or $220.67 per biweekly paycheck. This is a
+        flat tax with no deductions or exemptions (except the Social Security wage base cap), so every worker
+        pays it from their first dollar of earnings.
+      </p>
+
+      <h2>State Income Tax</h2>
+
+      <p>
+        State income tax varies dramatically. Nine states have no income tax at all (Alaska, Florida, Nevada,
+        New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming), while California's top
+        marginal rate reaches 13.3%. For a detailed comparison, see our
+        <a href="/guides/state-tax-comparison">state tax comparison guide</a>.
+      </p>
+
+      <p>
+        If our $75,000 earner lives in New York, they can expect roughly $3,500-$4,000 in state income tax.
+        In Texas, this would be $0. This single factor can swing take-home pay by several thousand dollars a
+        year.
+      </p>
+
+      <h2>Local Income Tax</h2>
+
+      <p>
+        Some cities and counties impose their own income taxes on top of state tax. Notable examples include
+        New York City (3.078%-3.876%), Philadelphia (3.75%), and various cities in Ohio, Michigan, and
+        Maryland. If our $75,000 earner works in New York City, they would owe an additional $2,200-$2,500
+        in city income tax.
+      </p>
+
+      <h2>Pre-Tax Deductions</h2>
+
+      <p>
+        Pre-tax deductions reduce your taxable income, meaning they lower both your income tax and (in some
+        cases) your FICA taxes. Common pre-tax deductions include:
+      </p>
+
+      <h3>401(k) / 403(b) Contributions</h3>
+
+      <p>
+        If you contribute to a traditional 401(k) or 403(b), those contributions come out of your paycheck
+        before federal and state income taxes are calculated. In {TAX_YEAR}, the employee contribution limit
+        is $24,000 ($31,500 if you are 50 or older). For details, see our
+        <a href="/guides/maximum-401k-contribution-2026">401(k) contribution limits guide</a>.
+      </p>
+
+      <p>
+        If our $75,000 earner contributes 10% ($7,500/year), their taxable income drops to $67,500, saving
+        roughly $1,650 in federal income tax at the 22% marginal rate. That $288.46 per biweekly paycheck
+        only costs about $225 in reduced take-home pay because of the tax savings. Use our
+        <a href="/401k-calculator">401(k) calculator</a> to model your own scenario.
+      </p>
+
+      <h3>Health Insurance Premiums</h3>
+
+      <p>
+        Most employer-sponsored health insurance premiums are deducted pre-tax under a Section 125 cafeteria
+        plan. The average employee contribution for single coverage is about $1,400 per year ($116/month),
+        while family coverage averages around $6,100 per year ($508/month). These amounts reduce both income
+        tax and FICA.
+      </p>
+
+      <h3>Health Savings Account (HSA)</h3>
+
+      <p>
+        If you have a high-deductible health plan, HSA contributions are deducted pre-tax. In {TAX_YEAR},
+        you can contribute up to $4,300 for self-only coverage or $8,550 for family coverage. HSAs offer a
+        triple tax advantage: contributions are pre-tax, growth is tax-free, and withdrawals for qualified
+        medical expenses are tax-free. Our <a href="/hsa-calculator">HSA calculator</a> can help you
+        maximize this benefit.
+      </p>
+
+      <h3>Flexible Spending Account (FSA)</h3>
+
+      <p>
+        A healthcare FSA allows you to set aside up to $3,300 in {TAX_YEAR} for medical expenses. Dependent
+        care FSAs allow up to $5,000 for childcare expenses. Both are pre-tax but must generally be used
+        within the plan year.
+      </p>
+
+      <h2>Post-Tax Deductions</h2>
+
+      <p>
+        Post-tax deductions are subtracted after taxes have been calculated. They do not reduce your taxable
+        income.
+      </p>
+
+      <h3>Roth 401(k) Contributions</h3>
+
+      <p>
+        Unlike traditional 401(k) contributions, Roth 401(k) contributions are made with after-tax dollars.
+        You pay taxes now but withdrawals in retirement are tax-free. See our
+        <a href="/guides/401k-vs-roth-ira">401(k) vs Roth IRA comparison</a> to decide which is right for
+        you.
+      </p>
+
+      <h3>Disability and Life Insurance</h3>
+
+      <p>
+        Employer-sponsored short-term disability, long-term disability, and supplemental life insurance
+        premiums are typically deducted post-tax. Paying these premiums with after-tax dollars means that if
+        you ever receive disability benefits, those benefits are tax-free.
+      </p>
+
+      <h3>Garnishments</h3>
+
+      <p>
+        Court-ordered deductions such as child support, alimony, tax levies, and student loan garnishments
+        are taken after taxes. Federal law limits garnishment to 25% of disposable earnings for most debts
+        (50-65% for child support).
+      </p>
+
+      <h2>Complete Example: $75,000 Salary Breakdown</h2>
+
+      <p>
+        Here is what a biweekly paycheck looks like for a single filer earning $75,000 in a state with 5%
+        flat income tax, contributing 6% to a traditional 401(k) and paying $100/month for health insurance:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Per Paycheck</th>
+            <th>Annual</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Gross Pay</td>
+            <td>$2,884.62</td>
+            <td>$75,000.00</td>
+          </tr>
+          <tr>
+            <td>401(k) (6%)</td>
+            <td>-$173.08</td>
+            <td>-$4,500.00</td>
+          </tr>
+          <tr>
+            <td>Health Insurance</td>
+            <td>-$50.00</td>
+            <td>-$1,300.00</td>
+          </tr>
+          <tr>
+            <td>Federal Income Tax</td>
+            <td>-$295.00</td>
+            <td>-$7,670.00</td>
+          </tr>
+          <tr>
+            <td>Social Security (6.2%)</td>
+            <td>-$178.85</td>
+            <td>-$4,650.00</td>
+          </tr>
+          <tr>
+            <td>Medicare (1.45%)</td>
+            <td>-$41.83</td>
+            <td>-$1,087.50</td>
+          </tr>
+          <tr>
+            <td>State Income Tax (5%)</td>
+            <td>-$133.08</td>
+            <td>-$3,460.00</td>
+          </tr>
+          <tr>
+            <td><strong>Net Pay (Take-Home)</strong></td>
+            <td><strong>$2,012.78</strong></td>
+            <td><strong>$52,332.50</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        In this example, only about 69.8% of gross pay ends up as take-home pay. The biggest contributors
+        to the gap are federal income tax (10.2%), FICA (7.65%), and state income tax (4.6%).
+      </p>
+
+      <h2>How to Increase Your Take-Home Pay</h2>
+
+      <p>
+        While you cannot avoid mandatory deductions like FICA, there are legitimate strategies to increase
+        your net pay:
+      </p>
+
+      <ol>
+        <li>
+          <strong>Adjust your W-4.</strong> If you consistently receive large tax refunds, you are
+          over-withholding. Adjusting your W-4 will put more money in each paycheck instead of giving the
+          government an interest-free loan.
+        </li>
+        <li>
+          <strong>Maximize pre-tax deductions.</strong> Contributing to a traditional 401(k), HSA, or FSA
+          reduces taxable income and lowers your tax bill.
+        </li>
+        <li>
+          <strong>Claim all eligible tax credits.</strong> Credits like the Child Tax Credit, Earned Income
+          Tax Credit, and education credits directly reduce your tax. Learn the difference between
+          <a href="/guides/tax-deductions-vs-credits">deductions and credits</a>.
+        </li>
+        <li>
+          <strong>Consider your state.</strong> If you have flexibility in where you live, state income tax
+          differences can significantly impact take-home pay. See our guide on
+          <a href="/guides/moving-to-a-no-income-tax-state">moving to a no-income-tax state</a>.
+        </li>
+      </ol>
+
+      <h2>Understanding Your Pay Stub</h2>
+
+      <p>
+        Your pay stub (or earnings statement) typically includes four sections:
+      </p>
+
+      <ul>
+        <li><strong>Earnings:</strong> Gross pay, including regular hours, overtime, bonuses, and commissions</li>
+        <li><strong>Pre-Tax Deductions:</strong> 401(k), health insurance, HSA, FSA, and commuter benefits</li>
+        <li><strong>Taxes:</strong> Federal income tax, Social Security, Medicare, state tax, and local tax</li>
+        <li><strong>Post-Tax Deductions:</strong> Roth 401(k), life insurance, garnishments, union dues</li>
+      </ul>
+
+      <p>
+        Most pay stubs also show year-to-date (YTD) totals for each category, which are essential for
+        tracking whether you are on pace to owe additional tax or receive a refund at filing time.
+      </p>
+
+      <h2>Paycheck Frequency Matters</h2>
+
+      <p>
+        The same $75,000 salary looks different depending on how often you are paid:
+      </p>
+
+      <ul>
+        <li><strong>Weekly (52 pay periods):</strong> $1,442.31 gross per paycheck</li>
+        <li><strong>Biweekly (26 pay periods):</strong> $2,884.62 gross per paycheck</li>
+        <li><strong>Semi-monthly (24 pay periods):</strong> $3,125.00 gross per paycheck</li>
+        <li><strong>Monthly (12 pay periods):</strong> $6,250.00 gross per paycheck</li>
+      </ul>
+
+      <p>
+        While annual totals are the same, the per-paycheck deduction amounts differ. Biweekly is the most
+        common pay frequency in the US, used by about 43% of employers.
+      </p>
+
+      <h2>Bottom Line</h2>
+
+      <p>
+        Understanding your paycheck deductions is the foundation of personal finance. Once you know where
+        every dollar goes, you can make informed decisions about retirement contributions, tax withholding,
+        and benefit elections. Use our <a href="/take-home-pay-calculator">take-home pay calculator</a> or
+        <a href="/salary-calculator">salary calculator</a> to model your exact situation and see how
+        different choices affect your net pay.
+      </p>
+    </div>
+  </article>
+</Layout>

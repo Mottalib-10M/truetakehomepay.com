@@ -1,0 +1,287 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../../components/calculators/PaycheckCalculator';
+import { TAX_YEAR, SITE_URL } from '../../lib/constants';
+import { TOP_10_STATES, STATE_SALARY_AMOUNTS, STATES, NO_INCOME_TAX_STATES } from '../../data/state-meta';
+import { formatCurrencyRound } from '../../lib/format-us';
+import { getStateTaxConfig } from '../../data/income-tax-2026/index';
+import { formatPercent } from '../../lib/format-us';
+
+export function getStaticPaths() {
+  const paths: {
+    params: { state: string; amount: string };
+    props: { stateCode: string; stateName: string; stateSlug: string; amount: number };
+  }[] = [];
+  for (const stateCode of TOP_10_STATES) {
+    const state = STATES[stateCode];
+    for (const amount of STATE_SALARY_AMOUNTS) {
+      paths.push({
+        params: { state: state.slug, amount: amount.toString() },
+        props: { stateCode, stateName: state.name, stateSlug: state.slug, amount },
+      });
+    }
+  }
+  return paths;
+}
+
+const { stateCode, stateName, stateSlug, amount } = Astro.props;
+const formatted = formatCurrencyRound(amount);
+const isNoTax = NO_INCOME_TAX_STATES.includes(stateCode);
+const stateConfig = getStateTaxConfig(stateCode);
+
+// ─── Title & Meta ────────────────────────────────────────────────────
+const title = `${formatted} After Taxes in ${stateName} (${TAX_YEAR})`;
+const description = `Calculate ${formatted} after taxes in ${stateName} for ${TAX_YEAR}. See your take-home pay with federal, ${stateName} state tax, and FICA breakdown.`;
+
+// ─── State tax summary ──────────────────────────────────────────────
+let stateTaxNote: string;
+if (isNoTax) {
+  stateTaxNote = `${stateName} has no state income tax, so you keep more of your ${formatted} salary. Your only deductions are federal income tax and FICA.`;
+} else if (stateConfig?.flatRate) {
+  stateTaxNote = `${stateName} has a flat state income tax rate of ${formatPercent(stateConfig.flatRate * 100)}. On a ${formatted} salary, that's approximately ${formatCurrencyRound(amount * stateConfig.flatRate)} in state tax before deductions.`;
+} else {
+  const topRate = stateConfig?.brackets?.single?.at(-1)?.rate;
+  stateTaxNote = `${stateName} has a progressive state income tax with rates up to ${topRate ? formatPercent(topRate * 100) : 'the top bracket'}. Your effective state tax rate on ${formatted} depends on your filing status and deductions.`;
+}
+
+// ─── Intro ───────────────────────────────────────────────────────────
+const intro = `How much is ${formatted} after taxes in ${stateName}? Use this free ${TAX_YEAR} calculator to find your exact take-home pay after federal income tax, ${isNoTax ? 'FICA' : stateName + ' state tax, FICA'}, and deductions.`;
+
+// ─── Neighboring state comparisons ──────────────────────────────────
+const neighbors = STATES[stateCode].neighbors
+  .map((n) => ({ code: n, ...STATES[n] }))
+  .filter(Boolean)
+  .slice(0, 4);
+
+// ─── Related salary amounts for this state ──────────────────────────
+const otherAmounts = STATE_SALARY_AMOUNTS.filter((a) => a !== amount);
+
+// ─── Other states for this amount ───────────────────────────────────
+const otherStates = TOP_10_STATES.filter((c) => c !== stateCode).map((c) => ({
+  code: c,
+  name: STATES[c].name,
+  slug: STATES[c].slug,
+}));
+
+// ─── FAQs ────────────────────────────────────────────────────────────
+const faqs = [
+  {
+    question: `How much is ${formatted} after taxes in ${stateName}?`,
+    answer: isNoTax
+      ? `In ${stateName}, which has no state income tax, a single filer earning ${formatted} takes home approximately ${formatCurrencyRound(amount * 0.80)} to ${formatCurrencyRound(amount * 0.85)} after federal income tax and FICA. Your exact take-home depends on filing status, deductions, and pre-tax contributions like 401(k).`
+      : `In ${stateName}, a single filer earning ${formatted} takes home approximately ${formatCurrencyRound(amount * 0.70)} to ${formatCurrencyRound(amount * 0.78)} after federal income tax, ${stateName} state tax, and FICA. Your exact amount depends on filing status and deductions. Use the calculator above for a precise estimate.`,
+  },
+  {
+    question: `What is the ${stateName} tax rate on ${formatted}?`,
+    answer: isNoTax
+      ? `${stateName} has no state income tax on wages, so the state tax rate on your ${formatted} salary is 0%. You'll still pay federal income tax (10%-37% based on bracket) and FICA taxes (7.65%).`
+      : stateConfig?.flatRate
+        ? `${stateName} has a flat state income tax rate of ${formatPercent(stateConfig.flatRate * 100)}. This rate applies to all taxable income regardless of amount. On ${formatted}, your approximate state tax is ${formatCurrencyRound(amount * stateConfig.flatRate)} before the state standard deduction.`
+        : `${stateName} uses progressive tax brackets. On a ${formatted} salary, your effective state tax rate is typically between ${formatPercent((stateConfig?.brackets?.single?.[0]?.rate ?? 0.02) * 100)} and ${formatPercent((stateConfig?.brackets?.single?.at(-1)?.rate ?? 0.10) * 100)}, depending on your deductions and filing status.`,
+  },
+  {
+    question: `How much is ${formatted} per paycheck in ${stateName}?`,
+    answer: `Before taxes, ${formatted} equals ${formatCurrencyRound(amount / 26)} per bi-weekly paycheck. After federal tax, ${isNoTax ? '' : stateName + ' state tax, '}and FICA deductions, your bi-weekly take-home pay will be approximately ${formatCurrencyRound((amount * (isNoTax ? 0.82 : 0.74)) / 26)} to ${formatCurrencyRound((amount * (isNoTax ? 0.85 : 0.78)) / 26)} for a single filer.`,
+  },
+  {
+    question: `Is ${formatted} a good salary in ${stateName}?`,
+    answer: amount <= 50000
+      ? `A ${formatted} salary is below the median household income in ${stateName}. ${isNoTax ? 'The lack of state income tax helps stretch your dollar further.' : 'After state and federal taxes, budgeting carefully for housing and essentials is important.'} Cost of living varies significantly within ${stateName} — rural areas are typically much more affordable than major metro areas.`
+      : amount <= 100000
+        ? `A ${formatted} salary is at or above the national median in ${stateName}. ${isNoTax ? 'With no state income tax, your take-home pay is higher than in most states.' : 'After taxes, you can comfortably afford housing and living expenses in most parts of ' + stateName + '.'} In high-cost metro areas, it provides a middle-class lifestyle.`
+        : `A ${formatted} salary is well above the median household income in ${stateName}. ${isNoTax ? 'Combined with no state income tax, your purchasing power is excellent.' : 'Even after state and federal taxes, this provides a comfortable lifestyle in most areas of ' + stateName + '.'} At this income level, maximizing tax-advantaged retirement accounts can significantly boost your long-term wealth.`,
+  },
+];
+
+// ─── Related Calculators ─────────────────────────────────────────────
+const relatedCalculators = [
+  {
+    title: `${stateName} Paycheck Calc`,
+    href: `/paycheck-calculator/${stateSlug}`,
+    desc: `Full ${stateName} calculator`,
+  },
+  {
+    title: `${formatted} (National)`,
+    href: `/${amount}-after-taxes`,
+    desc: 'All 50 states comparison',
+  },
+  ...otherAmounts.slice(0, 1).map((a) => ({
+    title: `${formatCurrencyRound(a)} in ${stateName}`,
+    href: `/${stateSlug}/${a}-after-taxes`,
+    desc: `${stateName} take-home pay`,
+  })),
+  {
+    title: 'Take-Home Comparison',
+    href: '/take-home-comparison',
+    desc: 'Compare states side-by-side',
+  },
+];
+
+// ─── Schema.org ──────────────────────────────────────────────────────
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+
+const webAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `${formatted} After Taxes in ${stateName} ${TAX_YEAR}`,
+  description,
+  url: `${SITE_URL}/${stateSlug}/${amount}-after-taxes`,
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+
+const schema = [faqSchema, webAppSchema];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`${formatted} After Taxes in ${stateName} (${TAX_YEAR})`}
+  intro={intro}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Rev. Proc. 2025-11 (federal brackets), ${stateName} Department of Revenue (state tax rates), SSA.gov (Social Security wage base). Last updated for tax year ${TAX_YEAR}.`}
+  canonical={`${SITE_URL}/${stateSlug}/${amount}-after-taxes`}
+>
+  <PaycheckCalculator
+    client:load
+    defaultState={stateCode}
+    defaultGross={amount}
+  />
+
+  <Fragment slot="content">
+    <!-- State tax note -->
+    <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">
+          {stateName} Taxes on a {formatted} Salary
+        </h2>
+        <div class="prose prose-slate dark:prose-invert max-w-none">
+          <p>{stateTaxNote}</p>
+          <p>
+            In addition to {isNoTax ? 'federal income tax' : 'federal and state income tax'}, you'll pay FICA taxes:
+            Social Security at 6.2% (up to $176,100 in {TAX_YEAR}) and Medicare at 1.45% on all wages.
+            {amount > 200000 ? ' The Additional Medicare Tax of 0.9% applies to wages over $200,000 for single filers.' : ''}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paycheck breakdown table -->
+    <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+          {formatted} Gross Pay by Period
+        </h2>
+        <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
+          <table class="tabular-nums w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
+                <th class="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">Pay Period</th>
+                <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Gross Pay</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Annual</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatted}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Monthly</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(amount / 12)}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Bi-Weekly</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(amount / 26)}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Weekly</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(amount / 52)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Compare with neighboring states -->
+    {neighbors.length > 0 && (
+      <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl">
+          <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+            Compare {formatted} in Neighboring States
+          </h2>
+          <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {neighbors.map((n) => (
+              <a
+                href={TOP_10_STATES.includes(n.code)
+                  ? `/${n.slug}/${amount}-after-taxes`
+                  : `/paycheck-calculator/${n.slug}`}
+                class="rounded-lg border border-slate-200 bg-white p-4 text-center transition-all hover:border-navy-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
+              >
+                <span class="block font-semibold text-navy-700 dark:text-navy-400">{n.name}</span>
+                <span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">
+                  {NO_INCOME_TAX_STATES.includes(n.code) ? 'No income tax' : 'View calculator'}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Other salary amounts in this state -->
+    <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+          Other Salaries in {stateName}
+        </h2>
+        <div class="grid grid-cols-3 gap-2 sm:grid-cols-4">
+          {otherAmounts.map((a) => (
+            <a
+              href={`/${stateSlug}/${a}-after-taxes`}
+              class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-sm transition-colors hover:border-navy-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
+            >
+              <span class="tabular-nums font-semibold text-navy-700 dark:text-navy-400">
+                {formatCurrencyRound(a)}
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Same amount in other top states -->
+    <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+          {formatted} After Taxes in Other States
+        </h2>
+        <div class="grid grid-cols-3 gap-2 sm:grid-cols-3 md:grid-cols-5">
+          {otherStates.map((s) => (
+            <a
+              href={`/${s.slug}/${amount}-after-taxes`}
+              class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-sm transition-colors hover:border-navy-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
+            >
+              <span class="font-semibold text-navy-700 dark:text-navy-400">{s.name}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </Fragment>
+</CalculatorLayout>

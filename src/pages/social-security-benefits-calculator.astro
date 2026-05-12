@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Social Security Benefits Calculator ${TAX_YEAR}: Estimate`;
+const description = `Estimate your Social Security retirement benefits for ${TAX_YEAR}. Calculate your monthly benefit based on earnings history, claiming age, and spousal benefits.`;
+
+const faqs = [
+  {
+    question: 'How are Social Security benefits calculated?',
+    answer: `Your benefit is based on your 35 highest-earning years (adjusted for inflation). The SSA calculates your Average Indexed Monthly Earnings (AIME), then applies a formula with "bend points" to determine your Primary Insurance Amount (PIA) — the monthly benefit at your full retirement age. Years with zero earnings lower your average.`,
+  },
+  {
+    question: 'What is the full retirement age for Social Security?',
+    answer: `Full retirement age (FRA) depends on your birth year. For those born 1960 or later, FRA is 67. You can claim as early as age 62 (with a permanent ~30% reduction) or delay until age 70 (earning an 8% increase per year past FRA). Each year you delay after FRA adds roughly 8% to your monthly benefit.`,
+  },
+  {
+    question: `What is the maximum Social Security benefit in ${TAX_YEAR}?`,
+    answer: `The maximum monthly Social Security benefit in ${TAX_YEAR} depends on claiming age. At full retirement age (67), the maximum is approximately $4,018/month. At age 70, it's approximately $4,982/month. To receive the maximum, you must have earned at or above the taxable maximum for at least 35 years.`,
+  },
+  {
+    question: 'Are Social Security benefits taxable?',
+    answer: `Up to 85% of your Social Security benefits may be taxable depending on your combined income (AGI + nontaxable interest + half of SS benefits). Single filers with combined income over $25,000 may owe tax on up to 50% of benefits; over $34,000, up to 85%. Married filing jointly thresholds are $32,000 and $44,000.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Social Security Tax', href: '/social-security-tax-calculator', desc: 'FICA tax breakdown' },
+  { title: '401(k) Calculator', href: '/401k-calculator', desc: 'Retirement savings plan' },
+  { title: 'Roth IRA Calculator', href: '/roth-ira-calculator', desc: 'Tax-free retirement growth' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Tax on SS benefits' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Social Security Benefits Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/social-security-benefits-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Social Security Benefits Calculator ${TAX_YEAR}`}
+  intro={`Estimate your monthly Social Security retirement benefit for ${TAX_YEAR}. See how your earnings history, claiming age, and filing strategy affect your benefit amount and lifetime payout.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`SSA.gov (benefit calculation formula and bend points), SSA Retirement Estimator, IRS Publication 915 (taxation of Social Security benefits). Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

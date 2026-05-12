@@ -1,0 +1,257 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TAX_YEAR, SITE_NAME } from '../../lib/constants';
+
+const title = 'Sales Tax Explained: State Rates, Exemptions & Rules';
+const description = `Understand US sales tax: state and local rates, exemptions for groceries and clothing, use tax, sales tax holidays, and sourcing rules explained.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  author: { '@type': 'Organization', name: SITE_NAME },
+  publisher: { '@type': 'Organization', name: SITE_NAME },
+  datePublished: '2026-01-01',
+  dateModified: '2026-01-15',
+};
+---
+
+<Layout title={title} description={description} schema={schema}>
+  <article class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+      <h1>Sales Tax Explained: Everything You Need to Know</h1>
+
+      <p>
+        Unlike income tax, which most people encounter only during filing season, sales tax affects you
+        every time you make a purchase. The US does not have a national sales tax. Instead, sales tax is
+        levied by states, counties, and cities, creating a patchwork of rates and rules that vary by location
+        and even by the type of item you are buying. This guide covers how sales tax works, what is exempt,
+        and how to minimize its impact.
+      </p>
+
+      <p>
+        Calculate the sales tax on any purchase with our
+        <a href="/sales-tax-calculator">sales tax calculator</a>.
+      </p>
+
+      <h2>How Sales Tax Works</h2>
+
+      <p>
+        Sales tax is a consumption tax added to the price of goods (and sometimes services) at the point of
+        sale. Unlike a value-added tax (VAT) used in most other countries, US sales tax is only collected
+        once, at the final retail transaction. It is not included in the listed price; it is added at
+        checkout.
+      </p>
+
+      <p>
+        Your total sales tax rate is the sum of:
+      </p>
+      <ul>
+        <li><strong>State sales tax:</strong> Set by the state legislature (0% to 7.25%)</li>
+        <li><strong>County sales tax:</strong> Set by the county (0% to ~2%)</li>
+        <li><strong>City/municipal sales tax:</strong> Set by the city (0% to ~3%)</li>
+        <li><strong>Special district taxes:</strong> Transit, stadium, or improvement districts (0% to ~1%)</li>
+      </ul>
+
+      <h2>States with No Sales Tax</h2>
+
+      <p>
+        Five states have no statewide sales tax at all:
+      </p>
+      <ol>
+        <li><strong>Delaware</strong> - No state or local sales tax</li>
+        <li><strong>Montana</strong> - No statewide tax, though some resort communities levy a small local tax</li>
+        <li><strong>New Hampshire</strong> - No general sales tax (meals and rooms tax of 8.5% exists)</li>
+        <li><strong>Oregon</strong> - No state or local sales tax</li>
+        <li><strong>Alaska</strong> - No state sales tax, but local jurisdictions can levy up to ~7.5%</li>
+      </ol>
+
+      <h2>Highest Combined State and Local Rates</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>State Rate</th>
+            <th>Avg. Local Rate</th>
+            <th>Avg. Combined</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Tennessee</td><td>7.00%</td><td>2.55%</td><td>9.55%</td></tr>
+          <tr><td>Louisiana</td><td>4.45%</td><td>5.07%</td><td>9.52%</td></tr>
+          <tr><td>Arkansas</td><td>6.50%</td><td>2.97%</td><td>9.47%</td></tr>
+          <tr><td>Washington</td><td>6.50%</td><td>2.79%</td><td>9.29%</td></tr>
+          <tr><td>Alabama</td><td>4.00%</td><td>5.24%</td><td>9.24%</td></tr>
+          <tr><td>Oklahoma</td><td>4.50%</td><td>4.47%</td><td>8.97%</td></tr>
+          <tr><td>Texas</td><td>6.25%</td><td>1.95%</td><td>8.20%</td></tr>
+          <tr><td>California</td><td>7.25%</td><td>1.57%</td><td>8.82%</td></tr>
+          <tr><td>New York</td><td>4.00%</td><td>4.52%</td><td>8.52%</td></tr>
+          <tr><td>Illinois</td><td>6.25%</td><td>2.58%</td><td>8.83%</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Common Exemptions</h2>
+
+      <p>
+        Most states exempt certain categories of goods from sales tax, though the specifics vary widely:
+      </p>
+
+      <h3>Groceries</h3>
+      <p>
+        Most states exempt unprepared food from sales tax. However, some states tax groceries at the full
+        rate or at a reduced rate:
+      </p>
+      <ul>
+        <li><strong>Fully exempt:</strong> California, New York, Texas, Florida, Pennsylvania, and most other states</li>
+        <li><strong>Taxed at reduced rate:</strong> Illinois (1%), Virginia (1%), Utah (3%), Arkansas (0.125%)</li>
+        <li><strong>Taxed at full rate:</strong> Alabama, Mississippi, South Dakota, Kansas (though Kansas is phasing this out)</li>
+      </ul>
+      <p>
+        The distinction between "groceries" and "prepared food" matters. A rotisserie chicken from the deli
+        is usually taxable, while raw chicken from the meat counter is usually exempt. Candy and soft drinks
+        are taxed in many states that otherwise exempt food.
+      </p>
+
+      <h3>Clothing</h3>
+      <p>
+        Only a handful of states exempt clothing from sales tax:
+      </p>
+      <ul>
+        <li><strong>Fully exempt:</strong> Pennsylvania, New Jersey, Minnesota</li>
+        <li><strong>Exempt under a threshold:</strong> New York (items under $110), Massachusetts (items under $175)</li>
+        <li><strong>Taxed at full rate:</strong> Most states</li>
+      </ul>
+
+      <h3>Prescription Medications</h3>
+      <p>
+        All states except Illinois exempt prescription drugs from sales tax. Most states also exempt
+        over-the-counter medications, medical devices, and related healthcare items, though the specific
+        items vary.
+      </p>
+
+      <h3>Other Common Exemptions</h3>
+      <ul>
+        <li><strong>Motor vehicles:</strong> Usually subject to sales tax or a separate motor vehicle tax at purchase</li>
+        <li><strong>Real estate:</strong> Not subject to sales tax (separate transfer taxes may apply)</li>
+        <li><strong>Services:</strong> Most states do not tax services, though this is changing. Hawaii, New Mexico, South Dakota, and West Virginia tax most services.</li>
+        <li><strong>Digital goods:</strong> Treatment varies widely; some states tax streaming services, downloads, and SaaS; others do not</li>
+      </ul>
+
+      <h2>Use Tax: The Sales Tax You Owe But Probably Don't Pay</h2>
+
+      <p>
+        <strong>Use tax</strong> applies when you purchase a taxable item without paying sales tax, typically
+        when buying from an out-of-state seller who does not collect your state's tax. Legally, you owe use
+        tax on these purchases at the same rate as your local sales tax.
+      </p>
+
+      <p>
+        Since the 2018 Supreme Court decision in <em>South Dakota v. Wayfair</em>, most online retailers now
+        collect sales tax for all states where they have "economic nexus" (typically $100,000 in sales or 200
+        transactions). This has greatly reduced the use tax gap, but it still applies to purchases from
+        small sellers, private party transactions, and items bought while traveling.
+      </p>
+
+      <p>
+        Many states include a use tax line on their income tax return, making it easier (and more visible) to
+        report. Some states allow you to pay a flat amount based on your AGI instead of tracking individual
+        purchases.
+      </p>
+
+      <h2>Sales Tax Holidays</h2>
+
+      <p>
+        Many states offer temporary sales tax holidays during which certain categories of purchases are
+        exempt from sales tax. These typically occur in late summer before the school year and may include:
+      </p>
+
+      <ul>
+        <li><strong>Back-to-school:</strong> Clothing, footwear, school supplies, computers (usually with per-item caps)</li>
+        <li><strong>Severe weather preparedness:</strong> Generators, batteries, flashlights, weather radios (common in hurricane-prone states)</li>
+        <li><strong>Energy Star appliances:</strong> Some states offer exemptions on qualifying energy-efficient appliances</li>
+      </ul>
+
+      <p>
+        States with notable sales tax holidays include Texas, Florida, Ohio, Virginia, and South Carolina.
+        The dates, eligible items, and price thresholds change annually, so check your state's department
+        of revenue website for current details.
+      </p>
+
+      <h2>Origin vs. Destination Sourcing</h2>
+
+      <p>
+        When you buy something online or by phone, which location's sales tax rate applies? The answer
+        depends on whether your state uses origin-based or destination-based sourcing:
+      </p>
+
+      <ul>
+        <li>
+          <strong>Origin-based sourcing:</strong> Tax is based on the seller's location. States include
+          Texas, Ohio, Pennsylvania, Virginia, and Arizona for in-state sellers.
+        </li>
+        <li>
+          <strong>Destination-based sourcing:</strong> Tax is based on the buyer's location. This is the
+          more common method and applies to most interstate transactions.
+        </li>
+      </ul>
+
+      <p>
+        For most online purchases from out-of-state sellers, destination-based sourcing applies, meaning you
+        pay the sales tax rate for your shipping address.
+      </p>
+
+      <h2>Sales Tax Impact on Your Budget</h2>
+
+      <p>
+        Sales tax is often overlooked in budgeting because it is paid incrementally. But it adds up
+        significantly over a year:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Annual Taxable Spending</th>
+            <th>5% Rate</th>
+            <th>7% Rate</th>
+            <th>9.5% Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>$20,000</td><td>$1,000</td><td>$1,400</td><td>$1,900</td></tr>
+          <tr><td>$30,000</td><td>$1,500</td><td>$2,100</td><td>$2,850</td></tr>
+          <tr><td>$40,000</td><td>$2,000</td><td>$2,800</td><td>$3,800</td></tr>
+          <tr><td>$50,000</td><td>$2,500</td><td>$3,500</td><td>$4,750</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        Sales tax is regressive, meaning it takes a larger percentage of income from lower-income households
+        because they spend a higher share of their income on taxable goods. This is partly why most states
+        exempt groceries and medications.
+      </p>
+
+      <h2>Sales Tax Deduction on Federal Returns</h2>
+
+      <p>
+        If you itemize deductions on your federal return, you can deduct either state income tax or state
+        sales tax (but not both) as part of the SALT deduction (capped at $10,000). This is particularly
+        beneficial for residents of no-income-tax states who can deduct their sales tax instead. The IRS
+        provides optional sales tax tables based on income and state, or you can track actual receipts.
+        For more on deductions, see our
+        <a href="/guides/tax-deductions-vs-credits">deductions vs. credits guide</a>.
+      </p>
+
+      <h2>Bottom Line</h2>
+
+      <p>
+        Sales tax varies dramatically by where you live and what you buy. While you cannot avoid it entirely,
+        understanding exemptions, taking advantage of sales tax holidays, and factoring sales tax into your
+        state tax comparison can help you make informed financial decisions. Use our
+        <a href="/sales-tax-calculator">sales tax calculator</a> for quick rate lookups, and see the bigger
+        picture in our <a href="/guides/state-tax-comparison">state tax comparison guide</a>.
+      </p>
+    </div>
+  </article>
+</Layout>

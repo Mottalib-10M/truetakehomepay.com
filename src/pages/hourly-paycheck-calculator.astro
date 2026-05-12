@@ -1,0 +1,76 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `$X/Hour to Annual Salary: ${TAX_YEAR} Hourly Pay Calculator`;
+const description = `Convert your hourly wage to annual salary and see take-home pay after taxes. Free ${TAX_YEAR} hourly paycheck calculator with federal, state, and FICA breakdowns.`;
+
+const faqs = [
+  {
+    question: 'How do I convert my hourly rate to an annual salary?',
+    answer: `Multiply your hourly rate by the number of hours you work per week, then multiply by 52 weeks. For example, $25/hour × 40 hours × 52 weeks = $52,000 per year. This is your gross annual salary before taxes. Your actual take-home pay will be lower after federal, state, and FICA taxes.`,
+  },
+  {
+    question: 'How much is $15 an hour annually after taxes?',
+    answer: `At $15/hour working 40 hours per week, your gross annual salary is $31,200. After federal income tax, FICA (7.65%), and state taxes, a Single filer in a no-income-tax state would take home approximately $27,200-$27,800 per year, or about $1,045-$1,070 per bi-weekly paycheck. State income tax can reduce this further.`,
+  },
+  {
+    question: 'Does this calculator account for overtime pay?',
+    answer: `This calculator estimates take-home pay based on your regular hourly rate and standard work hours. For overtime calculations (time and a half for hours over 40/week), use our <a href="/overtime-pay-calculator" class="text-navy-600 underline dark:text-navy-400">Overtime Pay Calculator</a>. Federal law requires 1.5× pay for non-exempt employees working over 40 hours per week.`,
+  },
+  {
+    question: 'How many hours per year is full-time?',
+    answer: `Full-time is typically 2,080 hours per year (40 hours/week × 52 weeks). However, actual work hours vary: some jobs are 37.5 hours/week (1,950/year), and when you account for paid holidays (typically 10 days) and vacation (average 10-15 days), actual hours worked may be 1,800-1,960.`,
+  },
+  {
+    question: 'What is the difference between hourly and salaried pay?',
+    answer: `Hourly workers are paid for each hour worked and are usually eligible for overtime (1.5× pay after 40 hours/week). Salaried workers receive a fixed amount per pay period regardless of hours. Under FLSA rules, salaried employees earning under $58,656/year in ${TAX_YEAR} may still qualify for overtime. Tax withholding works the same for both.`,
+  },
+  {
+    question: 'How much is $20 an hour bi-weekly after taxes?',
+    answer: `At $20/hour (40 hrs/week), your gross bi-weekly paycheck is $1,600 ($41,600/year). After federal income tax, FICA, and state tax, a Single filer in a no-tax state takes home roughly $1,330-$1,370 bi-weekly. In a state with income tax, expect $1,260-$1,340 depending on the rate.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Paycheck Calculator', href: '/', desc: 'General paycheck calculator' },
+  { title: 'Salary Calculator', href: '/salary-calculator', desc: 'Annual salary breakdown' },
+  { title: 'Overtime Pay Calculator', href: '/overtime-pay-calculator', desc: 'Calculate OT after taxes' },
+  { title: 'Tip Tax Calculator', href: '/tip-tax-calculator', desc: 'Tipped employee take-home' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax estimate' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Hourly Paycheck Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/hourly-paycheck-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Hourly Paycheck Calculator ${TAX_YEAR}`}
+  intro={`Convert your hourly wage to annual, monthly, or bi-weekly take-home pay. Enter your hourly rate and hours worked to see your net pay after federal and state taxes, FICA, and deductions.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Rev. Proc. 2025-11 (${TAX_YEAR} federal tax brackets), U.S. Department of Labor (FLSA overtime rules), SSA.gov (Social Security wage base). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator
+    client:load
+    defaultPayFrequency="biweekly"
+    defaultGross={41600}
+  />
+</CalculatorLayout>

@@ -1,0 +1,261 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TAX_YEAR, SITE_NAME } from '../../lib/constants';
+
+const title = 'Tax Deductions vs Credits: The Key Difference Explained';
+const description = `Understand why a $1,000 credit saves more than a $1,000 deduction. Learn above-the-line, itemized deductions, and refundable vs non-refundable credits.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  author: { '@type': 'Organization', name: SITE_NAME },
+  publisher: { '@type': 'Organization', name: SITE_NAME },
+  datePublished: '2026-01-01',
+  dateModified: '2026-01-15',
+};
+---
+
+<Layout title={title} description={description} schema={schema}>
+  <article class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+      <h1>Tax Deductions vs Credits: What Is the Difference?</h1>
+
+      <p>
+        Tax deductions and tax credits both reduce your tax bill, but they work in fundamentally different
+        ways. Confusing the two can lead to poor financial decisions and missed savings. This guide explains
+        exactly how each works, uses dollar-for-dollar examples, and lists the major deductions and credits
+        available to US taxpayers in {TAX_YEAR}.
+      </p>
+
+      <p>
+        See how deductions and credits affect your bottom line with our
+        <a href="/income-tax-calculator">income tax calculator</a>.
+      </p>
+
+      <h2>The Fundamental Difference</h2>
+
+      <p>
+        A <strong>tax deduction</strong> reduces your <em>taxable income</em>. It lowers the income that
+        is subject to tax. A <strong>tax credit</strong> reduces your <em>actual tax bill</em> dollar for
+        dollar. Credits are more valuable than deductions of the same amount.
+      </p>
+
+      <h3>Example: $1,000 Deduction vs $1,000 Credit</h3>
+
+      <p>
+        Assume you are a single filer in the 22% federal tax bracket with a $13,000 tax liability:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Effect on Taxable Income</th>
+            <th>Effect on Tax Bill</th>
+            <th>Actual Tax Savings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>$1,000 Deduction</td>
+            <td>Reduces by $1,000</td>
+            <td>$13,000 - $220</td>
+            <td><strong>$220</strong></td>
+          </tr>
+          <tr>
+            <td>$1,000 Credit</td>
+            <td>No change</td>
+            <td>$13,000 - $1,000</td>
+            <td><strong>$1,000</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        The deduction saves $220 (the deduction amount multiplied by your marginal tax rate: $1,000 x 22%).
+        The credit saves the full $1,000. The credit is more than four times more valuable in this case.
+        At the 37% bracket, the deduction saves $370, but the credit still saves $1,000.
+      </p>
+
+      <h2>Types of Tax Deductions</h2>
+
+      <h3>Above-the-Line Deductions (Adjustments to Income)</h3>
+      <p>
+        These deductions are subtracted from gross income to arrive at your Adjusted Gross Income (AGI).
+        They are available whether you take the standard deduction or itemize, making them particularly
+        valuable. Common above-the-line deductions include:
+      </p>
+
+      <ul>
+        <li><strong>Traditional IRA contributions:</strong> Up to $7,000 ($8,000 if 50+), subject to income limits if covered by employer plan</li>
+        <li><strong>HSA contributions:</strong> Up to $4,300 individual / $8,550 family</li>
+        <li><strong>Student loan interest:</strong> Up to $2,500</li>
+        <li><strong>Self-employment tax (half):</strong> Deduct 50% of SE tax from AGI</li>
+        <li><strong>Self-employed health insurance premiums:</strong> 100% deductible</li>
+        <li><strong>Educator expenses:</strong> Up to $300 for K-12 teachers</li>
+        <li><strong>Alimony:</strong> For divorce agreements finalized before 2019</li>
+      </ul>
+
+      <p>
+        Reducing your AGI matters beyond income tax: it can make you eligible for other tax benefits that
+        phase out at higher AGI levels, including education credits, the Child Tax Credit, and Roth IRA
+        contributions.
+      </p>
+
+      <h3>Standard Deduction</h3>
+      <p>
+        The standard deduction is a fixed amount you can subtract from AGI without tracking individual
+        expenses. For {TAX_YEAR}:
+      </p>
+      <ul>
+        <li>Single: $15,000</li>
+        <li>Married Filing Jointly: $30,000</li>
+        <li>Head of Household: $22,500</li>
+      </ul>
+      <p>
+        Roughly 90% of taxpayers use the standard deduction because it exceeds their total itemized
+        deductions. See our <a href="/guides/federal-tax-brackets-2026">federal tax brackets guide</a>
+        for more details.
+      </p>
+
+      <h3>Itemized Deductions</h3>
+      <p>
+        If your total itemized deductions exceed the standard deduction, you can list them individually on
+        Schedule A. You cannot take both the standard deduction and itemized deductions. Major itemized
+        deductions include:
+      </p>
+
+      <ul>
+        <li><strong>State and local taxes (SALT):</strong> Income tax (or sales tax) plus property tax, capped at $10,000 total</li>
+        <li><strong>Mortgage interest:</strong> On up to $750,000 of mortgage debt ($375,000 if married filing separately)</li>
+        <li><strong>Charitable contributions:</strong> Cash donations up to 60% of AGI; appreciated property up to 30% of AGI</li>
+        <li><strong>Medical expenses:</strong> Only the amount exceeding 7.5% of AGI</li>
+        <li><strong>Casualty and theft losses:</strong> Only in federally declared disaster areas</li>
+      </ul>
+
+      <p>
+        With the $10,000 SALT cap and the high standard deduction amounts, itemizing typically only makes
+        sense if you have a large mortgage, make substantial charitable contributions, or have significant
+        medical expenses.
+      </p>
+
+      <h2>Types of Tax Credits</h2>
+
+      <h3>Non-Refundable Credits</h3>
+      <p>
+        Non-refundable credits can reduce your tax bill to zero but no further. If the credit exceeds your
+        tax liability, you lose the excess. For example, if you owe $800 in tax and have a $1,000
+        non-refundable credit, your tax is reduced to $0 but you do not receive the remaining $200.
+      </p>
+
+      <p>Common non-refundable credits:</p>
+      <ul>
+        <li><strong>Child and Dependent Care Credit:</strong> 20-35% of up to $3,000 ($6,000 for 2+ dependents) in care expenses</li>
+        <li><strong>Lifetime Learning Credit:</strong> 20% of up to $10,000 in education expenses ($2,000 max)</li>
+        <li><strong>Adoption Credit:</strong> Up to $17,280 per child in {TAX_YEAR}</li>
+        <li><strong>Saver's Credit:</strong> Up to $1,000 ($2,000 married) for low-income retirement contributions</li>
+        <li><strong>Foreign Tax Credit:</strong> Offsets US tax on income taxed by another country</li>
+        <li><strong>Residential Energy Credit:</strong> 30% of qualifying clean energy installations</li>
+      </ul>
+
+      <h3>Refundable Credits</h3>
+      <p>
+        Refundable credits are even more valuable because they can reduce your tax below zero, generating a
+        refund. Even if you owe no tax, you receive the full credit amount as a payment.
+      </p>
+
+      <p>Major refundable credits:</p>
+      <ul>
+        <li>
+          <strong>Earned Income Tax Credit (EITC):</strong> Up to $7,830 for families with 3+ children in
+          {TAX_YEAR}. This is the largest anti-poverty tax provision and is fully refundable. Income limits
+          apply.
+        </li>
+        <li>
+          <strong>Child Tax Credit (partially refundable):</strong> $2,000 per qualifying child under 17.
+          Up to $1,700 is refundable as the Additional Child Tax Credit for {TAX_YEAR}.
+        </li>
+        <li>
+          <strong>American Opportunity Tax Credit (partially refundable):</strong> Up to $2,500 per student
+          for the first 4 years of college. 40% ($1,000) is refundable.
+        </li>
+        <li>
+          <strong>Premium Tax Credit:</strong> Subsidizes health insurance purchased through the ACA
+          marketplace. Fully refundable.
+        </li>
+      </ul>
+
+      <h2>Strategic Tax Planning with Deductions and Credits</h2>
+
+      <h3>Bunching Deductions</h3>
+      <p>
+        If your itemized deductions are close to the standard deduction, consider "bunching" deductions into
+        alternate years. For example, make two years' worth of charitable contributions in one year to exceed
+        the standard deduction threshold, then take the standard deduction the next year. Donor-advised funds
+        make this strategy especially easy for charitable giving.
+      </p>
+
+      <h3>Maximizing Above-the-Line Deductions</h3>
+      <p>
+        Since above-the-line deductions reduce AGI regardless of whether you itemize, they are always worth
+        taking. Contributing to an HSA or traditional IRA reduces your AGI, which can increase eligibility
+        for income-phased credits.
+      </p>
+
+      <h3>Timing Income and Deductions</h3>
+      <p>
+        If you expect to be in a higher bracket next year, defer income and accelerate deductions into this
+        year. If you expect a lower bracket next year, do the opposite. This is particularly relevant for
+        self-employed individuals who have more control over income timing.
+      </p>
+
+      <h3>Credits You Might Be Missing</h3>
+      <p>
+        Many eligible taxpayers fail to claim credits they qualify for. Common overlooked credits include:
+      </p>
+      <ul>
+        <li>EITC (particularly for workers without children, who can still receive a smaller credit)</li>
+        <li>Saver's Credit for low-and-moderate income retirement savers</li>
+        <li>Residential energy credits for solar panels, heat pumps, insulation, and efficient windows</li>
+        <li>Electric vehicle credit (up to $7,500 for qualifying new EVs)</li>
+        <li>Child and dependent care credit (especially if both parents work)</li>
+      </ul>
+
+      <h2>Quick Reference: Deductions vs Credits</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Deductions</th>
+            <th>Credits</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>What it reduces</td><td>Taxable income</td><td>Tax owed (dollar for dollar)</td></tr>
+          <tr><td>Value depends on</td><td>Your marginal tax bracket</td><td>The credit amount itself</td></tr>
+          <tr><td>$1,000 at 22% bracket</td><td>Saves $220</td><td>Saves $1,000</td></tr>
+          <tr><td>Can exceed tax owed?</td><td>N/A (reduces income, not tax)</td><td>Only if refundable</td></tr>
+          <tr><td>Most valuable for</td><td>Higher-bracket taxpayers</td><td>All taxpayers (especially refundable)</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Bottom Line</h2>
+
+      <p>
+        Understanding the difference between deductions and credits is essential for making smart tax
+        decisions. Credits are almost always more valuable dollar-for-dollar. Deductions are most valuable
+        to taxpayers in higher brackets. The best strategy is to claim every deduction and credit you are
+        eligible for while structuring your finances to maximize both.
+      </p>
+
+      <p>
+        Use our <a href="/income-tax-calculator">income tax calculator</a> to see how deductions and credits
+        affect your tax bill, and review our <a href="/guides/tax-season-checklist-2026">tax season
+        checklist</a> to make sure you do not miss anything when filing.
+      </p>
+    </div>
+  </article>
+</Layout>

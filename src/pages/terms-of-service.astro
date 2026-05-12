@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE_NAME, SITE_URL } from '../lib/constants';
+
+const title = 'Terms of Service — Usage Terms and Conditions';
+const description = `${SITE_NAME} terms of service. Understand the terms governing your use of our free calculators and tools.`;
+---
+
+<Layout title={title} description={description} noIndex={true}>
+  <section class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+      <h1>Terms of Service</h1>
+      <p><strong>Last updated:</strong> January 1, 2026</p>
+
+      <h2>Acceptance of Terms</h2>
+      <p>
+        By accessing and using {SITE_NAME} ({SITE_URL}), you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, please do not use our website.
+      </p>
+
+      <h2>Description of Service</h2>
+      <p>
+        {SITE_NAME} provides free online calculators and informational content related to paycheck calculations, tax estimates, retirement planning, mortgage calculations, and other personal finance topics. All tools are provided "as is" for informational and educational purposes only.
+      </p>
+
+      <h2>Not Professional Advice</h2>
+      <p>
+        <strong>The calculations, results, and content provided by {SITE_NAME} do not constitute tax advice, financial advice, legal advice, or any other professional advice.</strong> Our calculators provide estimates based on general tax rules and may not account for your specific situation. Always consult a qualified CPA, tax professional, financial advisor, or attorney for advice specific to your circumstances.
+      </p>
+
+      <h2>Accuracy</h2>
+      <p>
+        While we strive for accuracy and regularly update our tax data and formulas, we cannot guarantee that calculations will be error-free or reflect the most current tax laws. Tax laws change frequently, and individual circumstances vary. You are responsible for verifying any calculations before making financial decisions.
+      </p>
+
+      <h2>Use of Service</h2>
+      <p>You agree to:</p>
+      <ul>
+        <li>Use the service only for lawful purposes</li>
+        <li>Not attempt to reverse-engineer, scrape, or systematically access the service</li>
+        <li>Not misrepresent calculator results as professional advice</li>
+        <li>Not use the service in any way that could damage or impair it</li>
+      </ul>
+
+      <h2>Intellectual Property</h2>
+      <p>
+        All content, design, code, and calculators on {SITE_NAME} are protected by copyright and other intellectual property laws. You may use the calculators for personal use but may not reproduce, distribute, or create derivative works without our permission.
+      </p>
+
+      <h2>Limitation of Liability</h2>
+      <p>
+        {SITE_NAME} shall not be liable for any damages arising from the use or inability to use our service, including but not limited to direct, indirect, incidental, punitive, or consequential damages. This includes any losses resulting from reliance on calculator results.
+      </p>
+
+      <h2>Changes to Terms</h2>
+      <p>
+        We reserve the right to modify these terms at any time. Continued use of the service after changes constitutes acceptance of the revised terms.
+      </p>
+
+      <h2>Governing Law</h2>
+      <p>
+        These terms are governed by and construed in accordance with the laws of the United States.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        For questions about these terms, contact us at legal@uspaycheck.com.
+      </p>
+    </div>
+  </section>
+</Layout>

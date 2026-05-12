@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Take-Home Pay Comparison: Compare Salary Across States`;
+const description = `Compare your take-home pay across all 50 US states for ${TAX_YEAR}. See how state income taxes, FICA, and deductions affect your net pay in different locations.`;
+
+const faqs = [
+  {
+    question: 'Which states have the highest take-home pay?',
+    answer: `States with no income tax offer the highest take-home pay for the same gross salary: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming. However, these states may have higher sales taxes or property taxes. Washington state, for example, has no income tax but a 6.5% state sales tax (10%+ with local taxes).`,
+  },
+  {
+    question: 'Which states have the lowest take-home pay?',
+    answer: `States with the highest income tax rates generally yield the lowest take-home pay: California (up to 13.3%), Hawaii (up to 11%), New Jersey (up to 10.75%), Oregon (up to 9.9%), and Minnesota (up to 9.85%). New York City residents face an additional city income tax (up to 3.876%) on top of state tax (up to 10.9%).`,
+  },
+  {
+    question: 'Should I move to a no-income-tax state to save money?',
+    answer: `Not necessarily. Consider the full picture: no-income-tax states may have higher property taxes (Texas), higher sales taxes (Tennessee, Washington), higher cost of living, or fewer public services. A $100,000 salary in Texas might save $5,000 in state income tax compared to California, but housing costs, insurance, and other expenses could offset or exceed those savings.`,
+  },
+  {
+    question: 'How much does state tax impact a $100,000 salary?',
+    answer: `The impact varies dramatically. On $100,000 for a single filer in ${TAX_YEAR}: California state tax is roughly $5,500; New York is about $5,100; Illinois (flat rate) is $4,950; Texas/Florida is $0. That's a potential $5,500/year difference — or about $460/month — between the highest and lowest tax states. Our calculator shows the exact difference for your salary.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Paycheck Calculator', href: '/', desc: 'Single-state paycheck calc' },
+  { title: 'Cost of Living', href: '/cost-of-living-calculator', desc: 'Compare city expenses' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Detailed tax breakdown' },
+  { title: 'Mortgage Calculator', href: '/mortgage-calculator', desc: 'Compare housing costs' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Take-Home Pay Comparison ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/take-home-comparison',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Take-Home Pay Comparison ${TAX_YEAR}`}
+  intro={`Compare your net take-home pay across all 50 US states and DC. Enter your salary once and see exactly how much more (or less) you'd earn in each state after federal taxes, state taxes, and FICA deductions.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Rev. Proc. 2025-11 (federal brackets), individual state revenue departments (state tax rates and brackets), Tax Foundation state tax comparisons. Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

@@ -1,0 +1,60 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `401(k) Calculator ${TAX_YEAR}: Retirement Savings Projection`;
+const description = `Project your 401(k) growth for ${TAX_YEAR} with employer match, contribution limits, and compound returns. See how much your retirement savings could be worth.`;
+
+const faqs = [
+  {
+    question: `What is the 401(k) contribution limit for ${TAX_YEAR}?`,
+    answer: `The ${TAX_YEAR} 401(k) employee contribution limit is $23,500. If you're age 50 or older, you can contribute an additional $7,500 catch-up for a total of $31,000. The total combined employer + employee limit is $70,000 ($77,500 with catch-up contributions).`,
+  },
+  {
+    question: 'How does employer matching work?',
+    answer: `Employer match is free money added to your 401(k) based on your contributions. A common formula is 50% match on the first 6% of salary. For example, if you earn $100,000 and contribute 6% ($6,000), your employer adds $3,000. Always contribute at least enough to get the full match — it's an immediate 50-100% return on your money.`,
+  },
+  {
+    question: 'Traditional 401(k) vs Roth 401(k) — which is better?',
+    answer: `Traditional 401(k) contributions reduce your taxable income now but are taxed in retirement. Roth 401(k) contributions are made after tax but grow and are withdrawn tax-free in retirement. Choose Roth if you expect a higher tax rate in retirement; choose Traditional if you're in a high tax bracket now and expect lower income later.`,
+  },
+  {
+    question: 'How much should I contribute to my 401(k)?',
+    answer: `Financial advisors generally recommend saving 10-15% of your gross salary for retirement (including employer match). At minimum, contribute enough to get your full employer match. If you can afford it, aim to max out the $23,500 annual limit. Starting early matters most — even small contributions benefit enormously from compound growth over decades.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Roth IRA Calculator', href: '/roth-ira-calculator', desc: 'Tax-free retirement growth' },
+  { title: 'Traditional IRA', href: '/traditional-ira-calculator', desc: 'Tax-deferred IRA growth' },
+  { title: 'Paycheck Calculator', href: '/', desc: 'See 401(k) impact on pay' },
+  { title: 'Compound Interest', href: '/compound-interest-calculator', desc: 'Investment growth projections' },
+  { title: 'HSA Calculator', href: '/hsa-calculator', desc: 'Health savings tax benefits' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `401(k) Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/401k-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`401(k) Calculator ${TAX_YEAR}`}
+  intro={`Project your 401(k) retirement savings growth for ${TAX_YEAR}. Factor in your contributions, employer match, expected returns, and see how compound growth can build your nest egg over time.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Notice 2024-80 (${TAX_YEAR} 401(k) contribution limits), IRS Publication 560, DOL Employee Benefits Security Administration. Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

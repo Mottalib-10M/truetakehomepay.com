@@ -1,0 +1,249 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../../lib/constants';
+import { STATES, getStateBySlug, getAllStateSlugs, NO_INCOME_TAX_STATES } from '../../data/state-meta';
+import { getStateTaxConfig } from '../../data/income-tax-2026/index';
+import { formatPercent } from '../../lib/format-us';
+
+export function getStaticPaths() {
+  return getAllStateSlugs().map((slug) => ({ params: { state: slug } }));
+}
+
+const { state: stateSlug } = Astro.params;
+const stateData = getStateBySlug(stateSlug!);
+
+if (!stateData) {
+  return Astro.redirect('/paycheck-calculator');
+}
+
+const { name, abbr, code, neighbors } = stateData;
+const isNoTax = NO_INCOME_TAX_STATES.includes(code);
+const stateConfig = getStateTaxConfig(code);
+
+// Get neighbor state info
+const neighborStates = neighbors
+  .map((n) => STATES[n])
+  .filter(Boolean)
+  .slice(0, 4);
+
+// Build state-specific intro
+let intro: string;
+if (isNoTax) {
+  intro = `${name} has no state income tax, so your take-home pay is higher than in most states. Use this calculator to see exactly how much you'll keep after federal taxes and FICA.`;
+} else if (stateConfig?.flatRate) {
+  intro = `${name} has a flat state income tax rate of ${formatPercent(stateConfig.flatRate * 100)}. Calculate your ${name} take-home pay after federal and state taxes, FICA, and deductions.`;
+} else {
+  const topRate = stateConfig?.brackets?.single?.at(-1)?.rate;
+  intro = `${name} has a progressive state income tax with rates up to ${topRate ? formatPercent(topRate * 100) : 'the top bracket'}. Calculate your exact take-home pay after all taxes.`;
+}
+
+const title = `${name} Paycheck Calculator ${TAX_YEAR}: After Tax Pay`;
+const description = `Free ${TAX_YEAR} ${name} paycheck calculator. Calculate your take-home pay after federal and ${name} state taxes, FICA, 401(k), and more.`;
+
+// State-specific FAQs
+const faqs = [
+  {
+    question: `How much tax do I pay in ${name}?`,
+    answer: isNoTax
+      ? `${name} has no state income tax on wages. You'll still pay federal income tax (10%-37% based on bracket) and FICA taxes (Social Security 6.2% + Medicare 1.45%). Your total tax burden in ${name} is lower than most other states.`
+      : `In ${name}, you pay federal income tax (10%-37%), state income tax (${stateConfig?.flatRate ? formatPercent(stateConfig.flatRate * 100) + ' flat' : 'progressive rates'}), Social Security (6.2% up to $176,100), and Medicare (1.45%). Your exact rate depends on your income, filing status, and deductions.`,
+  },
+  {
+    question: `What is the ${name} state income tax rate for ${TAX_YEAR}?`,
+    answer: isNoTax
+      ? `${name} does not levy a state income tax on wages for ${TAX_YEAR}. This is established in the state constitution${code === 'TX' || code === 'FL' ? ' and cannot be changed without a constitutional amendment' : ''}.`
+      : stateConfig?.flatRate
+        ? `${name} has a flat state income tax rate of ${formatPercent(stateConfig.flatRate * 100)} for ${TAX_YEAR}. This rate applies to all taxable income regardless of how much you earn.`
+        : `${name} uses a progressive income tax system for ${TAX_YEAR} with multiple brackets. The rate increases as your income rises, with the top marginal rate of ${stateConfig?.brackets?.single?.at(-1)?.rate ? formatPercent(stateConfig.brackets.single.at(-1)!.rate * 100) : 'varies'}.`,
+  },
+  {
+    question: `How does ${name} compare to neighboring states for taxes?`,
+    answer: `${name}'s tax burden ${isNoTax ? 'is among the lowest in the country since there is no state income tax' : 'varies based on your income level'}. Nearby states include ${neighborStates.map((n) => n.name + (NO_INCOME_TAX_STATES.includes(n.abbr) ? ' (no income tax)' : '')).join(', ')}. Use our <a href="/take-home-comparison" class="text-navy-600 underline dark:text-navy-400">Take-Home Comparison</a> tool to compare your salary across states.`,
+  },
+  {
+    question: `Does ${name} have local income taxes?`,
+    answer: code === 'NY'
+      ? `Yes. New York City residents pay an additional city income tax of 3.078%-3.876%. Yonkers residents pay a 16.75% surcharge on their NY state tax. Use the local tax dropdown in our calculator to include these.`
+      : code === 'PA'
+        ? `Yes. Philadelphia levies a city wage tax of 3.75% for residents and 3.44% for non-residents. Many other PA municipalities also have local earned income taxes.`
+        : code === 'MD'
+          ? `Yes. All Maryland counties impose a local income tax ranging from 2.25% to 3.20%. This is in addition to the state tax. Our calculator supports the major Maryland county rates.`
+          : code === 'OH'
+            ? `Yes. Many Ohio cities and municipalities levy their own income tax, typically 1%-3%. Major cities like Columbus, Cleveland, and Cincinnati all have local income taxes.`
+            : `${isNoTax ? 'No — ' + name + ' has no state or local income tax on wages.' : 'Most ' + name + ' residents do not pay local income taxes, though some municipalities may have local levies.'}`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'National Paycheck Calculator', href: '/', desc: 'Calculate for any state' },
+  { title: 'Salary Calculator', href: '/salary-calculator', desc: 'Annual salary breakdown' },
+  { title: 'Take-Home Comparison', href: '/take-home-comparison', desc: 'Compare states side-by-side' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state combined' },
+];
+
+// Add neighbor state calculators
+neighborStates.slice(0, 2).forEach((n) => {
+  relatedCalculators.push({
+    title: `${n.name} Calculator`,
+    href: `/paycheck-calculator/${n.slug}`,
+    desc: NO_INCOME_TAX_STATES.includes(n.abbr) ? 'No state income tax' : `${n.name} paycheck`,
+  });
+});
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `${name} Paycheck Calculator ${TAX_YEAR}`,
+  description,
+  url: `https://uspaycheck.com/paycheck-calculator/${stateSlug}`,
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`${name} Paycheck Calculator ${TAX_YEAR}`}
+  intro={intro}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Rev. Proc. 2025-11 (federal brackets), ${name} Department of Revenue (state tax rates), SSA.gov (Social Security wage base). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator
+    client:load
+    defaultState={code}
+    defaultGross={60000}
+  />
+
+  <!-- State-specific content -->
+  <Fragment slot="content">
+    {isNoTax ? (
+      <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl">
+          <h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">
+            {name} Has No State Income Tax
+          </h2>
+          <div class="prose prose-slate dark:prose-invert max-w-none">
+            <p>
+              {name} is one of nine US states that does not levy a state income tax on wages. This means your paycheck deductions come only from federal income tax and FICA (Social Security + Medicare).
+            </p>
+            <p>
+              While {name} residents enjoy the benefit of no state income tax, the state funds its operations through other taxes, including {code === 'TX' ? 'one of the nation\'s highest property tax rates (averaging 1.60% of home value) and sales tax' : code === 'FL' ? 'sales tax (6% state rate plus local additions) and property taxes' : code === 'WA' ? 'one of the highest sales tax rates in the country and a new capital gains tax on gains over $250,000' : code === 'TN' ? 'the highest combined sales tax rate in the country (9.548% average) and property taxes' : code === 'NV' ? 'sales tax and gaming revenue' : 'other forms of taxation such as property and sales tax'}.
+            </p>
+            <p>
+              For a $60,000 salary, a single filer in {name} takes home approximately 22-25% more per paycheck compared to a high-tax state like California or New York, depending on filing status and deductions.
+            </p>
+          </div>
+        </div>
+      </section>
+    ) : (
+      <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl">
+          <h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">
+            {name} Income Tax Overview
+          </h2>
+          <div class="prose prose-slate dark:prose-invert max-w-none">
+            <p>
+              {stateConfig?.flatRate
+                ? `${name} uses a flat income tax rate of ${formatPercent(stateConfig.flatRate * 100)}, which means all taxable income is taxed at the same rate regardless of how much you earn.`
+                : `${name} uses a progressive income tax system with multiple brackets. Your effective tax rate depends on your total taxable income and filing status.`}
+            </p>
+            {stateConfig?.specialRules?.sdi && (
+              <p>
+                {name} also deducts State Disability Insurance (SDI) at a rate of {formatPercent(stateConfig.specialRules.sdi.rate * 100)} from your wages{stateConfig.specialRules.sdi.wageBase ? `, up to wages of $${stateConfig.specialRules.sdi.wageBase.toLocaleString()}` : ' with no cap'}. This is a mandatory employee-paid payroll tax.
+              </p>
+            )}
+            {stateConfig?.specialRules?.pfl && (
+              <p>
+                {name} has a Paid Family Leave program funded by employee payroll deductions at {formatPercent(stateConfig.specialRules.pfl.rate * 100)} of wages{stateConfig.specialRules.pfl.wageBase ? ` up to $${stateConfig.specialRules.pfl.wageBase.toLocaleString()}` : ''}.
+              </p>
+            )}
+          </div>
+
+          {/* State tax brackets table */}
+          {stateConfig?.brackets?.single && !stateConfig.flatRate && (
+            <div class="mt-8">
+              <h3 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
+                {name} Tax Brackets {TAX_YEAR} (Single Filer)
+              </h3>
+              <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
+                <table class="tabular-nums w-full text-sm">
+                  <thead>
+                    <tr class="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
+                      <th class="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">Income Range</th>
+                      <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Tax Rate</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    {stateConfig.brackets.single.map((bracket) => (
+                      <tr>
+                        <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">
+                          ${bracket.min.toLocaleString()} – {bracket.max === Infinity ? 'and above' : `$${bracket.max.toLocaleString()}`}
+                        </td>
+                        <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">
+                          {formatPercent(bracket.rate * 100)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    )}
+
+    <!-- Compare with neighboring states -->
+    {neighborStates.length > 0 && (
+      <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl">
+          <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+            Compare {name} With Neighboring States
+          </h2>
+          <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {neighborStates.map((n) => (
+              <a
+                href={`/paycheck-calculator/${n.slug}`}
+                class="rounded-lg border border-slate-200 bg-white p-4 text-center transition-all hover:border-navy-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
+              >
+                <span class="block font-semibold text-navy-700 dark:text-navy-400">{n.name}</span>
+                <span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">
+                  {NO_INCOME_TAX_STATES.includes(n.abbr) ? 'No income tax' : 'View calculator'}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Salary amounts for this state (if top 10) -->
+    {['CA', 'TX', 'FL', 'NY', 'PA', 'IL', 'OH', 'GA', 'NC', 'MI'].includes(code) && (
+      <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl">
+          <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+            Popular Salaries in {name}
+          </h2>
+          <div class="grid grid-cols-3 gap-2 sm:grid-cols-4">
+            {[30000, 40000, 50000, 60000, 70000, 75000, 80000, 90000, 100000, 120000, 150000, 200000].map((amount) => (
+              <a
+                href={`/${stateSlug}/${amount}-after-taxes`}
+                class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-sm transition-colors hover:border-navy-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
+              >
+                <span class="tabular-nums font-semibold text-navy-700 dark:text-navy-400">
+                  ${amount.toLocaleString()}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </Fragment>
+</CalculatorLayout>

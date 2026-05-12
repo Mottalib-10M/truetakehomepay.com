@@ -1,0 +1,60 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Net Worth Calculator ${TAX_YEAR}: Track Your Total Wealth`;
+const description = `Calculate your net worth for ${TAX_YEAR} by adding up all assets and subtracting liabilities. See how you compare to others in your age group and track progress.`;
+
+const faqs = [
+  {
+    question: 'How do I calculate my net worth?',
+    answer: `Net worth = Total Assets − Total Liabilities. Assets include: cash and savings, investment accounts (401k, IRA, brokerage), real estate equity, vehicle value, and other property. Liabilities include: mortgage balance, student loans, auto loans, credit card debt, and any other debts. A positive net worth means you own more than you owe.`,
+  },
+  {
+    question: 'What is the average net worth by age in the US?',
+    answer: `According to the Federal Reserve's Survey of Consumer Finances, median net worth by age group is approximately: Under 35: $39,000; 35-44: $135,600; 45-54: $247,200; 55-64: $364,500; 65-74: $409,900; 75+: $335,600. Mean (average) net worth is much higher due to wealthy outliers — the median is a better benchmark for most people.`,
+  },
+  {
+    question: 'Should I include my home in my net worth?',
+    answer: `Yes, your home equity (market value minus mortgage balance) should be included in your net worth calculation. However, it's useful to track both total net worth and "investable net worth" (excluding home equity) since your home isn't a liquid asset. If your home represents more than 50% of your net worth, you may want to diversify.`,
+  },
+  {
+    question: 'How can I increase my net worth?',
+    answer: `The three ways to grow net worth: (1) Increase the gap between income and spending — save more by cutting expenses or earning more; (2) Pay down high-interest debt (credit cards first, then other debts); (3) Invest consistently — maximize 401(k) match, contribute to IRA, and invest in low-cost index funds. Time and compound growth do the heavy lifting.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Reach your savings goals' },
+  { title: '401(k) Calculator', href: '/401k-calculator', desc: 'Retirement savings growth' },
+  { title: 'Compound Interest', href: '/compound-interest-calculator', desc: 'Investment growth over time' },
+  { title: 'Debt Payoff', href: '/credit-card-payoff-calculator', desc: 'Eliminate debt faster' },
+  { title: 'Paycheck Calculator', href: '/', desc: 'Maximize take-home pay' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Net Worth Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/net-worth-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Net Worth Calculator ${TAX_YEAR}`}
+  intro={`Calculate your total net worth by listing all your assets and liabilities. See how you compare to others in your age group and track your financial progress over time.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`Federal Reserve Survey of Consumer Finances (SCF), Bureau of Labor Statistics, Federal Reserve Economic Data (FRED). Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

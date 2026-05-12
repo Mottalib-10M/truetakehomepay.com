@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Debt Consolidation Calculator ${TAX_YEAR}: Save on Interest`;
+const description = `Compare your current debts vs a consolidation loan in ${TAX_YEAR}. See how combining multiple debts into one lower-rate loan can reduce payments and save interest.`;
+
+const faqs = [
+  {
+    question: 'What is debt consolidation?',
+    answer: `Debt consolidation combines multiple debts (credit cards, personal loans, medical bills) into a single loan with one monthly payment, ideally at a lower interest rate. Options include personal consolidation loans, balance transfer credit cards, home equity loans, and debt management plans through nonprofit credit counseling agencies.`,
+  },
+  {
+    question: 'When does debt consolidation make sense?',
+    answer: `Consolidation makes sense when you can get a lower interest rate than your current weighted average rate, you have a plan to avoid accumulating new debt, and the consolidation loan term doesn't extend your payoff so long that you pay more in total interest. It works best for those with good-to-fair credit and steady income.`,
+  },
+  {
+    question: 'Does debt consolidation hurt my credit score?',
+    answer: `Initially, applying for a consolidation loan causes a small, temporary dip from the hard inquiry. However, consolidation often helps credit scores over time by: reducing credit utilization (if paying off cards), simplifying payments (fewer chances to miss one), and showing a mix of credit types. Closing old cards after consolidation may temporarily lower your score.`,
+  },
+  {
+    question: 'What is the difference between debt consolidation and debt settlement?',
+    answer: `Debt consolidation pays off your full balances with a new loan — your credit stays intact. Debt settlement negotiates with creditors to accept less than you owe — it severely damages your credit, may trigger tax liability on forgiven amounts, and often involves fees. Consolidation is the better option for most people who can qualify for a reasonable loan rate.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Credit Card Payoff', href: '/credit-card-payoff-calculator', desc: 'Pay off card debt' },
+  { title: 'Loan Calculator', href: '/loan-calculator', desc: 'Consolidation loan payments' },
+  { title: 'Student Loan Calculator', href: '/student-loan-calculator', desc: 'Student loan repayment' },
+  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Build savings post-debt' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Debt Consolidation Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/debt-consolidation-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Debt Consolidation Calculator ${TAX_YEAR}`}
+  intro={`See how much you could save by consolidating your debts into one lower-rate loan. Compare your current monthly payments and total interest against a single consolidation loan to find the best path to becoming debt-free.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`CFPB (Consumer Financial Protection Bureau) debt consolidation guides, Federal Trade Commission (FTC) consumer debt resources, National Foundation for Credit Counseling. Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

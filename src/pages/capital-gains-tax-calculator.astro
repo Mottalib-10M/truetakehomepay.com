@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Capital Gains Tax Calculator ${TAX_YEAR}: Short & Long-Term`;
+const description = `Calculate ${TAX_YEAR} capital gains tax on stocks, real estate, and investments. Compare short-term vs long-term rates and estimate your tax on investment profits.`;
+
+const faqs = [
+  {
+    question: 'What is the difference between short-term and long-term capital gains?',
+    answer: `Short-term capital gains apply to assets held for one year or less and are taxed at your ordinary income tax rate (10%-37%). Long-term capital gains apply to assets held for more than one year and benefit from lower tax rates of 0%, 15%, or 20% depending on your taxable income.`,
+  },
+  {
+    question: `What are the ${TAX_YEAR} long-term capital gains tax brackets?`,
+    answer: `For ${TAX_YEAR} single filers: 0% on taxable income up to $48,350; 15% from $48,351 to $533,400; and 20% on income above $533,400. Married Filing Jointly: 0% up to $96,700; 15% up to $600,050; and 20% above that. An additional 3.8% Net Investment Income Tax may apply.`,
+  },
+  {
+    question: 'Can capital losses offset my gains?',
+    answer: `Yes. Capital losses first offset gains of the same type (short-term losses offset short-term gains first). Any remaining net losses can offset up to $3,000 of ordinary income per year. Unused losses carry forward to future tax years indefinitely.`,
+  },
+  {
+    question: 'Do I pay capital gains tax on my primary home?',
+    answer: `You can exclude up to $250,000 in gains ($500,000 for married couples filing jointly) from the sale of your primary home if you've owned and lived in it for at least 2 of the last 5 years. Gains above these thresholds are taxed at capital gains rates.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax estimate' },
+  { title: 'Crypto Tax Calculator', href: '/cryptocurrency-tax-calculator', desc: 'Bitcoin & crypto taxes' },
+  { title: 'RSU Tax Calculator', href: '/rsu-tax-calculator', desc: 'Stock compensation taxes' },
+  { title: 'Tax Refund Calculator', href: '/tax-refund-calculator', desc: 'Estimate your IRS refund' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Capital Gains Tax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/capital-gains-tax-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Capital Gains Tax Calculator ${TAX_YEAR}`}
+  intro={`Calculate your ${TAX_YEAR} capital gains tax on stocks, bonds, real estate, and other investments. See the difference between short-term and long-term rates and plan your investment tax strategy.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Rev. Proc. 2025-11 (${TAX_YEAR} capital gains brackets), IRS Publication 550 (Investment Income and Expenses), IRS Topic 409. Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

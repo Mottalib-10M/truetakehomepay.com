@@ -1,0 +1,76 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Tip Tax Calculator ${TAX_YEAR}: Tipped Employee Take-Home Pay`;
+const description = `Calculate your take-home pay as a tipped employee in ${TAX_YEAR}. See how tips, base wages, and taxes combine to determine your actual earnings after taxes.`;
+
+const faqs = [
+  {
+    question: 'Are tips taxable income?',
+    answer: `Yes. All tips — cash, credit card, and allocated — are considered taxable income by the IRS. You must report all tips to your employer if they total $20 or more in a calendar month. Tips are subject to federal income tax, state income tax (if applicable), Social Security tax (6.2%), and Medicare tax (1.45%). Failure to report tips can result in penalties.`,
+  },
+  {
+    question: 'What is the tipped minimum wage?',
+    answer: `The federal tipped minimum wage is $2.13/hour, provided that tips bring total compensation to at least $7.25/hour (the federal minimum wage). If tips + base wage fall short, the employer must make up the difference. Many states have higher tipped minimum wages — California, Washington, Oregon, and others require the full state minimum wage before tips.`,
+  },
+  {
+    question: 'How do I report my tips for taxes?',
+    answer: `Report tips to your employer monthly using Form 4070 if your tips exceed $20 in a month. Your employer will withhold federal income tax, Social Security, and Medicare from your paycheck to cover the tax on reported tips. If your paycheck isn't large enough to cover the withholding, you'll need to pay the remaining tax when you file using Form 4137.`,
+  },
+  {
+    question: 'What is tip pooling and how does it affect my taxes?',
+    answer: `Tip pooling is when employees share tips among a group (servers, bussers, bartenders). Your taxable tip income is the amount you actually receive after the pool distribution, not your original tips. You report and pay tax only on your share. Employers cannot keep any portion of pooled tips under federal law (as of the Consolidated Appropriations Act, 2018).`,
+  },
+  {
+    question: 'Can I deduct tip-related expenses?',
+    answer: `Under the Tax Cuts and Jobs Act (in effect through 2025 and expected to continue into ${TAX_YEAR}), employees cannot deduct unreimbursed work expenses like tip-outs to support staff. However, if you are self-employed (e.g., food delivery driver), you can deduct business expenses on Schedule C. Always keep records of tips received and any tip-outs paid.`,
+  },
+  {
+    question: 'What is the FICA tip credit for employers?',
+    answer: `Employers of tipped workers can claim the FICA Tip Credit (Section 45B) for the employer's share of FICA taxes paid on tips that exceed the federal minimum wage. This credit encourages employers to properly report tip income. It does not directly affect the employee's take-home pay, but it incentivizes compliance with tip reporting.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Paycheck Calculator', href: '/', desc: 'General paycheck breakdown' },
+  { title: 'Hourly Pay Calculator', href: '/hourly-paycheck-calculator', desc: 'Hourly wage to annual' },
+  { title: 'Overtime Pay Calculator', href: '/overtime-pay-calculator', desc: 'OT pay after taxes' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax estimate' },
+  { title: 'Take-Home Pay Calculator', href: '/take-home-pay-calculator', desc: 'Net pay after all taxes' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Tip Tax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/tip-tax-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Tip Tax Calculator ${TAX_YEAR}`}
+  intro={`Calculate your take-home pay as a tipped worker. Enter your base wage and estimated tips to see your total earnings after federal and state taxes, Social Security, and Medicare.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Publication 531 (Reporting Tip Income), U.S. Department of Labor (tipped minimum wage rules), IRS Rev. Proc. 2025-11 (${TAX_YEAR} tax brackets), SSA.gov (Social Security wage base). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator
+    client:load
+    defaultPayFrequency="biweekly"
+    defaultGross={30000}
+  />
+</CalculatorLayout>

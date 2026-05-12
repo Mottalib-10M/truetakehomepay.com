@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Crypto Tax Calculator ${TAX_YEAR}: Bitcoin & Crypto Taxes`;
+const description = `Calculate ${TAX_YEAR} taxes on Bitcoin, Ethereum, and other cryptocurrency gains. See short-term vs long-term rates and understand IRS crypto reporting rules.`;
+
+const faqs = [
+  {
+    question: 'How is cryptocurrency taxed?',
+    answer: `The IRS treats cryptocurrency as property, not currency. Selling, trading, or spending crypto triggers a taxable event. Gains are taxed as capital gains — short-term (ordinary income rates, 10%-37%) if held one year or less, or long-term (0%, 15%, or 20%) if held over a year. Receiving crypto as payment is taxed as ordinary income.`,
+  },
+  {
+    question: 'What crypto transactions are taxable?',
+    answer: `Taxable events include: selling crypto for USD, trading one crypto for another, spending crypto on goods/services, receiving crypto as payment for work, mining income, staking rewards, and airdrops. Simply buying crypto with USD and holding it is NOT a taxable event.`,
+  },
+  {
+    question: 'How do I report crypto on my tax return?',
+    answer: `Report crypto dispositions on Form 8949 and Schedule D. Starting in ${TAX_YEAR}, crypto exchanges must issue Form 1099-DA to users. The IRS now asks a digital asset question on the front page of Form 1040 — you must answer yes if you had any crypto transactions during the year.`,
+  },
+  {
+    question: 'Can I offset crypto losses against gains?',
+    answer: `Yes. Crypto losses can offset crypto gains, other capital gains, and up to $3,000 of ordinary income per year. Unlike stocks, crypto was historically exempt from wash-sale rules, but recent legislation may apply wash-sale rules to digital assets. Excess losses carry forward to future years indefinitely.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator', desc: 'Investment gains calculator' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state estimate' },
+  { title: 'RSU Tax Calculator', href: '/rsu-tax-calculator', desc: 'Stock compensation taxes' },
+  { title: 'Tax Refund Calculator', href: '/tax-refund-calculator', desc: 'Estimate your IRS refund' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Crypto Tax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/cryptocurrency-tax-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Crypto Tax Calculator ${TAX_YEAR}`}
+  intro={`Estimate your ${TAX_YEAR} cryptocurrency tax liability. Calculate capital gains on Bitcoin, Ethereum, and other digital assets. Understand short-term vs long-term rates and IRS reporting requirements.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Notice 2014-21 (cryptocurrency as property), IRS Rev. Rul. 2019-24, IRS Form 8949 and Schedule D instructions, IRC Section 1001. Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

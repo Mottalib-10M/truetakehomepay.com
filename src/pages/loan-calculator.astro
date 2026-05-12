@@ -1,0 +1,60 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Loan Calculator ${TAX_YEAR}: Personal Loan Payment Estimator`;
+const description = `Calculate monthly payments on personal loans for ${TAX_YEAR}. Enter loan amount, interest rate, and term to see your payment schedule, total interest, and payoff date.`;
+
+const faqs = [
+  {
+    question: 'How is a loan payment calculated?',
+    answer: `Monthly loan payments are calculated using an amortization formula that factors in the loan amount (principal), annual interest rate, and loan term. Each payment is split between interest and principal repayment. Early payments are mostly interest; later payments are mostly principal. The formula ensures equal monthly payments throughout the loan term.`,
+  },
+  {
+    question: 'What interest rate can I expect on a personal loan?',
+    answer: `Personal loan interest rates typically range from 6% to 36% depending on your credit score, income, and lender. Excellent credit (750+) may qualify for 6-10%; good credit (700-749) for 10-15%; fair credit (650-699) for 15-22%; and poor credit (below 650) for 22-36%. Always compare offers from multiple lenders.`,
+  },
+  {
+    question: 'Should I choose a shorter or longer loan term?',
+    answer: `Shorter terms mean higher monthly payments but less total interest paid. Longer terms lower your monthly payment but increase total cost. For example, a $20,000 loan at 10%: a 3-year term costs $645/month ($3,225 total interest) while a 5-year term costs $425/month ($5,496 total interest) — $2,271 more in interest.`,
+  },
+  {
+    question: 'Does paying extra on my loan save money?',
+    answer: `Yes. Extra payments go directly to principal, reducing the balance faster and saving on interest. Even small extra payments make a difference. On a $20,000 loan at 10% for 5 years, paying just $50 extra per month saves $870 in interest and pays off the loan 8 months early. Check that your lender has no prepayment penalty first.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Auto Loan Calculator', href: '/auto-loan-calculator', desc: 'Car payment estimator' },
+  { title: 'Student Loan Calculator', href: '/student-loan-calculator', desc: 'Student loan repayment' },
+  { title: 'Mortgage Calculator', href: '/mortgage-calculator', desc: 'Home loan payments' },
+  { title: 'Credit Card Payoff', href: '/credit-card-payoff-calculator', desc: 'Pay off credit cards' },
+  { title: 'Debt Consolidation', href: '/debt-consolidation-calculator', desc: 'Combine your debts' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Loan Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/loan-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Loan Calculator ${TAX_YEAR}`}
+  intro={`Calculate your monthly personal loan payment and total interest cost. Enter your loan amount, interest rate, and repayment term to see a detailed amortization schedule and payoff timeline.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`Federal Reserve Board (consumer credit data), CFPB (Consumer Financial Protection Bureau) lending guides, Truth in Lending Act (TILA) disclosures. Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

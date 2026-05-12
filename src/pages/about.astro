@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE_NAME, TAX_YEAR } from '../lib/constants';
+
+const title = 'About Us — Free US Paycheck and Tax Calculators';
+const description = `Learn about ${SITE_NAME}, our mission to provide the most accurate free paycheck calculators for all 50 US states, and how our tools work.`;
+---
+
+<Layout title={title} description={description}>
+  <section class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+      <h1>About {SITE_NAME}</h1>
+
+      <p>
+        {SITE_NAME} provides free, accurate paycheck and tax calculators for every US state. We built this site because we believe everyone deserves to understand their take-home pay — without paying for it or wading through confusing interfaces.
+      </p>
+
+      <h2>What We Offer</h2>
+      <ul>
+        <li><strong>Paycheck calculators</strong> for all 50 states plus DC, with federal and state tax breakdowns</li>
+        <li><strong>Specialized tax calculators</strong> for self-employment, bonuses, capital gains, lottery winnings, RSUs, and cryptocurrency</li>
+        <li><strong>Retirement planning tools</strong> including 401(k), Roth IRA, Traditional IRA, and HSA calculators</li>
+        <li><strong>Mortgage and loan calculators</strong> for home buying, auto loans, student loans, and debt payoff</li>
+        <li><strong>Property tax and sales tax calculators</strong> for every state</li>
+        <li><strong>Educational guides</strong> explaining how US taxes work</li>
+      </ul>
+
+      <h2>Our Approach</h2>
+      <p>
+        Every calculator is built from primary sources: IRS publications, state revenue department rules, and SSA announcements. We don't guess — we cite. Our tax engine is validated against reference calculators to ensure accuracy within $10/year for income tax and exact-match precision for sales tax calculations.
+      </p>
+
+      <h2>How We're Different</h2>
+      <ul>
+        <li><strong>Modern design:</strong> Mobile-first, dark mode, instant results as you type</li>
+        <li><strong>No accounts needed:</strong> No sign-up, no email collection, no paywalls</li>
+        <li><strong>Privacy-first:</strong> All calculations run in your browser. We never see your salary.</li>
+        <li><strong>Comprehensive:</strong> Every state, every filing status, pre-tax deductions, local taxes, SDI/PFL</li>
+        <li><strong>Updated:</strong> Tax data refreshed for {TAX_YEAR} brackets, rates, and thresholds</li>
+      </ul>
+
+      <h2>Contact</h2>
+      <p>
+        Questions, corrections, or feedback? Reach us at contact@uspaycheck.com.
+      </p>
+    </div>
+  </section>
+</Layout>

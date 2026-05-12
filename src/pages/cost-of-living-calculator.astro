@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Cost of Living Calculator ${TAX_YEAR}: Compare US Cities`;
+const description = `Compare the cost of living between US cities in ${TAX_YEAR}. See differences in housing, food, transportation, healthcare, and the salary needed to maintain lifestyle.`;
+
+const faqs = [
+  {
+    question: 'What does cost of living include?',
+    answer: `Cost of living encompasses all expenses needed to maintain a certain standard of living, including: housing (rent or mortgage, typically 30-40% of the total), food and groceries, transportation, healthcare, utilities, taxes, childcare, and entertainment. Housing is by far the largest variable between cities — a 2-bedroom apartment ranges from $900/month in mid-sized cities to $3,500+ in San Francisco or NYC.`,
+  },
+  {
+    question: 'What are the most expensive US cities to live in?',
+    answer: `The most expensive US cities in ${TAX_YEAR} include: San Francisco, New York City, Honolulu, San Jose, and Washington DC. A $100,000 salary in San Francisco has equivalent purchasing power to about $55,000-$60,000 in the national average city. Housing, taxes, and transportation are the primary cost drivers in these metros.`,
+  },
+  {
+    question: 'What are the most affordable US cities?',
+    answer: `Among metro areas, some of the most affordable include: Memphis TN, Oklahoma City OK, Wichita KS, Tulsa OK, and Little Rock AR. In these cities, a $60,000 salary can provide a comfortable lifestyle that would require $100,000+ in coastal cities. Lower housing costs are the primary advantage — median home prices can be 3-5x less than expensive metros.`,
+  },
+  {
+    question: 'How do I calculate the salary I need in a new city?',
+    answer: `Multiply your current salary by the cost of living index ratio. If your current city has an index of 100 and the new city is 130, you'd need $130,000 to match a $100,000 lifestyle. But also factor in: state/local income tax differences (use our Take-Home Comparison tool), specific housing costs, and whether your employer adjusts pay for location.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Take-Home Comparison', href: '/take-home-comparison', desc: 'Compare pay across states' },
+  { title: 'Paycheck Calculator', href: '/', desc: 'Calculate your take-home pay' },
+  { title: 'Rent vs Buy', href: '/rent-vs-buy-calculator', desc: 'Renting vs buying analysis' },
+  { title: 'Mortgage Affordability', href: '/mortgage-affordability-calculator', desc: 'What can you afford?' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Cost of Living Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/cost-of-living-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Cost of Living Calculator ${TAX_YEAR}`}
+  intro={`Compare the cost of living between US cities and find out the salary you need to maintain your lifestyle. See side-by-side differences in housing, groceries, transportation, healthcare, and overall expenses.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`Bureau of Labor Statistics (BLS) Consumer Price Index, U.S. Census Bureau American Community Survey, Council for Community and Economic Research (C2ER) Cost of Living Index. Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

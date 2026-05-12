@@ -1,0 +1,273 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TAX_YEAR, SITE_NAME } from '../../lib/constants';
+
+const title = '401(k) vs Roth IRA: Which Retirement Account Is Best?';
+const description = `Compare traditional 401(k) and Roth IRA for ${TAX_YEAR}. Contribution limits, tax treatment, employer match, income limits, and when to choose each.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  author: { '@type': 'Organization', name: SITE_NAME },
+  publisher: { '@type': 'Organization', name: SITE_NAME },
+  datePublished: '2026-01-01',
+  dateModified: '2026-01-15',
+};
+---
+
+<Layout title={title} description={description} schema={schema}>
+  <article class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+      <h1>401(k) vs Roth IRA: A Complete Comparison</h1>
+
+      <p>
+        Choosing between a traditional 401(k) and a Roth IRA is one of the most consequential retirement
+        planning decisions you will make. Both accounts offer significant tax advantages, but they work in
+        fundamentally different ways. The right choice depends on your current income, expected future tax
+        rate, employer match, and personal financial goals. This guide breaks down every difference and
+        provides a decision framework to help you choose.
+      </p>
+
+      <p>
+        Model your own retirement scenarios with our <a href="/401k-calculator">401(k) calculator</a> and
+        <a href="/roth-ira-calculator">Roth IRA calculator</a>.
+      </p>
+
+      <h2>Side-by-Side Comparison for {TAX_YEAR}</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Traditional 401(k)</th>
+            <th>Roth IRA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Employee Contribution Limit</td>
+            <td>$24,000</td>
+            <td>$7,000</td>
+          </tr>
+          <tr>
+            <td>Catch-Up (Age 50+)</td>
+            <td>$7,500 ($11,250 for 60-63)</td>
+            <td>$1,000</td>
+          </tr>
+          <tr>
+            <td>Tax on Contributions</td>
+            <td>Pre-tax (reduces current taxable income)</td>
+            <td>After-tax (no current deduction)</td>
+          </tr>
+          <tr>
+            <td>Tax on Growth</td>
+            <td>Tax-deferred</td>
+            <td>Tax-free</td>
+          </tr>
+          <tr>
+            <td>Tax on Withdrawals</td>
+            <td>Taxed as ordinary income</td>
+            <td>Tax-free (if qualified)</td>
+          </tr>
+          <tr>
+            <td>Income Limits</td>
+            <td>None</td>
+            <td>$161,000 single / $240,000 married (phase-out)</td>
+          </tr>
+          <tr>
+            <td>Employer Match</td>
+            <td>Yes (if offered)</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td>Required Minimum Distributions</td>
+            <td>Yes, starting at age 73</td>
+            <td>No (eliminated by SECURE 2.0)</td>
+          </tr>
+          <tr>
+            <td>Early Withdrawal Penalty</td>
+            <td>10% + income tax before age 59 1/2</td>
+            <td>Contributions anytime; earnings penalty before 59 1/2</td>
+          </tr>
+          <tr>
+            <td>Available Through</td>
+            <td>Employer plan only</td>
+            <td>Any brokerage (self-directed)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>How the Tax Treatment Differs</h2>
+
+      <h3>Traditional 401(k): Tax Now, Pay Later</h3>
+      <p>
+        Contributions to a traditional 401(k) are made with pre-tax dollars. If you earn $75,000 and
+        contribute $10,000, your taxable income drops to $65,000. You save on taxes today. However, when you
+        withdraw money in retirement, every dollar is taxed as ordinary income at your then-current rate.
+        Both the original contributions and all investment growth are taxed upon withdrawal.
+      </p>
+
+      <h3>Roth IRA: Pay Now, Tax-Free Later</h3>
+      <p>
+        Roth IRA contributions are made with after-tax dollars, meaning there is no upfront deduction. If
+        you earn $75,000 and contribute $7,000, your taxable income remains $75,000. The benefit comes in
+        retirement: qualified withdrawals, including all investment growth, are completely tax-free. You never
+        pay taxes on the gains.
+      </p>
+
+      <h3>Dollar-for-Dollar Example</h3>
+      <p>
+        Suppose you have $10,000 to invest and are in the 22% federal tax bracket:
+      </p>
+      <ul>
+        <li>
+          <strong>Traditional 401(k):</strong> You contribute the full $10,000 pre-tax. After 30 years at
+          7% annual growth, it becomes $76,123. When you withdraw, you owe 22% tax (assuming the same
+          bracket), leaving you $59,376.
+        </li>
+        <li>
+          <strong>Roth IRA:</strong> You first pay 22% tax on $10,000, leaving $7,800 to contribute. After
+          30 years at 7% growth, it becomes $59,376. You withdraw it all tax-free: $59,376.
+        </li>
+      </ul>
+      <p>
+        At the same tax rate, the result is identical. The Roth wins when your future tax rate is higher.
+        The traditional 401(k) wins when your future rate is lower.
+      </p>
+
+      <h2>The Employer Match Advantage</h2>
+
+      <p>
+        The 401(k) has one enormous advantage that the Roth IRA cannot match: employer contributions. If
+        your employer matches 50% of contributions up to 6% of salary, that is free money. On a $75,000
+        salary, contributing 6% ($4,500) earns a $2,250 match. That is an instant 50% return before any
+        investment growth.
+      </p>
+
+      <p>
+        <strong>Rule of thumb:</strong> Always contribute enough to your 401(k) to capture the full employer
+        match before directing money to a Roth IRA. Leaving match money on the table is the single costliest
+        retirement planning mistake.
+      </p>
+
+      <h2>Income Limits: Roth IRA Phase-Outs</h2>
+
+      <p>
+        The Roth IRA has income limits that restrict or eliminate direct contributions for high earners. For
+        {TAX_YEAR}:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Filing Status</th>
+            <th>Full Contribution</th>
+            <th>Phase-Out Range</th>
+            <th>No Direct Contribution</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Single / Head of Household</td><td>Under $150,000</td><td>$150,000 - $165,000</td><td>Over $165,000</td></tr>
+          <tr><td>Married Filing Jointly</td><td>Under $236,000</td><td>$236,000 - $246,000</td><td>Over $246,000</td></tr>
+          <tr><td>Married Filing Separately</td><td>N/A</td><td>$0 - $10,000</td><td>Over $10,000</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        If your income exceeds these limits, you may still be able to use a <strong>backdoor Roth IRA</strong>
+        strategy: contribute to a traditional (non-deductible) IRA and then convert it to a Roth. The 401(k)
+        has no income limits for contributions.
+      </p>
+
+      <h2>Required Minimum Distributions (RMDs)</h2>
+
+      <p>
+        Starting at age 73, you must begin taking required minimum distributions from a traditional 401(k).
+        These withdrawals are mandatory and taxable, even if you do not need the money. This can push you
+        into a higher tax bracket in retirement.
+      </p>
+
+      <p>
+        The Roth IRA has no RMDs during the owner's lifetime, thanks to the SECURE 2.0 Act (which also
+        eliminated RMDs from Roth 401(k) accounts starting in 2024). This makes the Roth IRA a powerful
+        estate planning tool, as the money can continue growing tax-free for decades.
+      </p>
+
+      <h2>Withdrawal Rules</h2>
+
+      <h3>Traditional 401(k)</h3>
+      <ul>
+        <li>Withdrawals before age 59 1/2 incur a 10% early withdrawal penalty plus income tax</li>
+        <li>Exceptions: disability, separation from service after age 55, substantially equal payments</li>
+        <li>Loans may be available (up to $50,000 or 50% of vested balance)</li>
+      </ul>
+
+      <h3>Roth IRA</h3>
+      <ul>
+        <li>Contributions (not earnings) can be withdrawn anytime, tax-free and penalty-free</li>
+        <li>Earnings withdrawn before 59 1/2 may be subject to tax and a 10% penalty</li>
+        <li>The account must be open for at least 5 years for qualified distributions</li>
+        <li>First-time home purchase exception: up to $10,000 of earnings</li>
+      </ul>
+
+      <p>
+        This flexibility makes the Roth IRA a useful emergency backup fund, though you should avoid
+        withdrawing retirement savings if possible.
+      </p>
+
+      <h2>Decision Framework: Which Should You Choose?</h2>
+
+      <h3>Choose the Traditional 401(k) When:</h3>
+      <ul>
+        <li>Your employer offers a match (at least up to the match amount)</li>
+        <li>You are in a high tax bracket now (32% or above) and expect a lower bracket in retirement</li>
+        <li>You need the current tax deduction to reduce your AGI</li>
+        <li>Your income exceeds Roth IRA limits and you do not want to use backdoor strategies</li>
+        <li>You plan to retire in a no-income-tax state</li>
+      </ul>
+
+      <h3>Choose the Roth IRA When:</h3>
+      <ul>
+        <li>You are in a lower tax bracket now (10%, 12%, or 22%) and expect higher income later</li>
+        <li>You are early in your career with decades of tax-free growth ahead</li>
+        <li>You want no RMDs in retirement for maximum flexibility</li>
+        <li>You value the ability to withdraw contributions penalty-free</li>
+        <li>You want to diversify your tax exposure in retirement (some pre-tax, some Roth)</li>
+      </ul>
+
+      <h3>The Best Strategy for Many People: Both</h3>
+      <p>
+        The optimal approach for many workers is to do both:
+      </p>
+      <ol>
+        <li>Contribute to your 401(k) up to the employer match</li>
+        <li>Max out your Roth IRA ($7,000 in {TAX_YEAR})</li>
+        <li>Return to the 401(k) and contribute more if you can afford it</li>
+      </ol>
+
+      <p>
+        This gives you tax-diversification in retirement: you can withdraw from the traditional 401(k) up to
+        a certain tax bracket and supplement with tax-free Roth IRA withdrawals.
+      </p>
+
+      <h2>Do Not Forget the Roth 401(k)</h2>
+
+      <p>
+        Many employers now offer a Roth 401(k) option that combines the higher contribution limits of a
+        401(k) ($24,000 in {TAX_YEAR}) with the tax-free withdrawal benefit of a Roth. There are no income
+        limits. This can be an excellent option if you want Roth treatment but have already maxed out your
+        Roth IRA or earn too much to contribute directly.
+      </p>
+
+      <p>
+        Use our <a href="/401k-calculator">401(k) calculator</a> to see how different contribution levels
+        affect your take-home pay, or model Roth IRA growth with our
+        <a href="/roth-ira-calculator">Roth IRA calculator</a>. For a complete view of how retirement
+        contributions affect your paycheck, try our
+        <a href="/take-home-pay-calculator">take-home pay calculator</a>.
+      </p>
+    </div>
+  </article>
+</Layout>

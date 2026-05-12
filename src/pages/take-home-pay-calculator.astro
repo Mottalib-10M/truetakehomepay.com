@@ -1,0 +1,77 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Take-Home Pay Calculator ${TAX_YEAR}: Net Pay After Taxes`;
+const description = `Free ${TAX_YEAR} take-home pay calculator. See your net pay after federal and state income taxes, Social Security, Medicare, and deductions. All 50 states supported.`;
+
+const faqs = [
+  {
+    question: 'What is take-home pay?',
+    answer: `Take-home pay (also called net pay) is the amount you actually receive in your bank account after all deductions. This includes federal income tax, state income tax, Social Security (6.2%), Medicare (1.45%), and any voluntary deductions like 401(k), health insurance, or HSA contributions. It's always less than your gross (pre-tax) pay.`,
+  },
+  {
+    question: 'How do I calculate my take-home pay?',
+    answer: `Start with your gross pay, then subtract: (1) federal income tax based on your bracket and filing status, (2) state income tax if applicable, (3) Social Security tax (6.2% up to $176,100), (4) Medicare tax (1.45%, plus 0.9% surtax above $200,000 for Single filers), and (5) any pre-tax deductions. The result is your take-home pay.`,
+  },
+  {
+    question: 'Why is my take-home pay so low?',
+    answer: `Take-home pay can feel low because of the cumulative effect of multiple taxes. Federal income tax alone can be 12%-37% of taxable income. Add 7.65% for FICA, 0%-13.3% for state tax, and deductions for insurance or retirement — and it's common to take home only 60%-78% of your gross pay. Pre-tax 401(k) and HSA contributions lower your paycheck but reduce your tax bill.`,
+  },
+  {
+    question: 'How can I increase my take-home pay?',
+    answer: `To increase take-home pay: (1) Claim all eligible tax credits (Child Tax Credit, Earned Income Credit), (2) Adjust your W-4 withholding if you're getting large refunds, (3) Contribute to a traditional 401(k) or HSA to reduce taxable income, (4) Move to a state with no income tax if possible, and (5) Maximize pre-tax benefits like commuter benefits or dependent care FSA.`,
+  },
+  {
+    question: 'What percentage of my paycheck goes to taxes?',
+    answer: `For most Americans, 22%-35% of gross pay goes to taxes. FICA (Social Security + Medicare) takes 7.65% from every worker. Federal income tax varies from 10% to 37% based on your bracket. State income tax ranges from 0% to 13.3%. Your effective tax rate depends on your income, filing status, deductions, and state of residence.`,
+  },
+  {
+    question: 'Is take-home pay the same as net income?',
+    answer: `Take-home pay and net income are often used interchangeably, but technically take-home pay refers specifically to the amount deposited in your account after <em>all</em> payroll deductions (taxes + voluntary deductions). Net income usually refers to income after taxes only. If you have 401(k) or health insurance deductions, your take-home pay is lower than your net income.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Paycheck Calculator', href: '/', desc: 'Detailed paycheck breakdown' },
+  { title: 'Salary Calculator', href: '/salary-calculator', desc: 'Annual salary take-home' },
+  { title: 'Hourly Pay Calculator', href: '/hourly-paycheck-calculator', desc: 'Hourly rate to annual' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax estimate' },
+  { title: 'Bonus Tax Calculator', href: '/bonus-tax-calculator', desc: 'How much tax on a bonus' },
+  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator', desc: '1099 freelancer taxes' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Take-Home Pay Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/take-home-pay-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Take-Home Pay Calculator ${TAX_YEAR}`}
+  intro={`Find out exactly how much money lands in your bank account. Enter your salary or hourly wage to calculate your net pay after federal and state taxes, FICA, and all deductions.`}
+  canonical="/"
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Rev. Proc. 2025-11 (${TAX_YEAR} federal tax brackets and standard deductions), SSA.gov (Social Security wage base $176,100), state department of revenue publications. Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator
+    client:load
+    defaultGross={60000}
+  />
+</CalculatorLayout>

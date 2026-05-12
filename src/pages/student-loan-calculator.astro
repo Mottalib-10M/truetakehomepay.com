@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Student Loan Calculator ${TAX_YEAR}: Repayment Estimator`;
+const description = `Calculate your student loan monthly payments for ${TAX_YEAR}. Compare standard, graduated, and income-driven repayment plans. See total interest and payoff timeline.`;
+
+const faqs = [
+  {
+    question: 'What are the different student loan repayment plans?',
+    answer: `Federal student loan repayment plans include: Standard (fixed payments over 10 years), Graduated (payments start low and increase every 2 years), Extended (up to 25 years for large balances), and income-driven plans like SAVE, IBR, PAYE, and ICR (payments based on 10-20% of discretionary income with forgiveness after 20-25 years).`,
+  },
+  {
+    question: 'What are current federal student loan interest rates?',
+    answer: `Federal student loan rates are set annually. For ${TAX_YEAR}, Direct Subsidized and Unsubsidized loans for undergraduates are approximately 6.53%, Graduate/Professional loans are approximately 8.08%, and PLUS loans (parent and graduate) are approximately 9.08%. Private loan rates vary widely based on credit score and lender — from about 4% to 16%.`,
+  },
+  {
+    question: 'Is student loan interest tax-deductible?',
+    answer: `You can deduct up to $2,500 in student loan interest paid per year on your federal tax return. The deduction phases out at MAGI of $80,000-$95,000 (single) or $165,000-$195,000 (married filing jointly). You don't need to itemize — it's an "above the line" deduction that reduces your adjusted gross income.`,
+  },
+  {
+    question: 'Should I pay off student loans early or invest?',
+    answer: `Compare your loan interest rate to expected investment returns (after tax). If your loan rate exceeds 6-7%, paying it off faster likely beats investing. If your rate is below 4-5%, investing the extra money may yield higher returns. Always make minimum payments and consider employer 401(k) match first — that's an instant 50-100% return.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Loan Calculator', href: '/loan-calculator', desc: 'General loan payments' },
+  { title: 'Debt Consolidation', href: '/debt-consolidation-calculator', desc: 'Combine your debts' },
+  { title: 'Paycheck Calculator', href: '/', desc: 'Budget your take-home pay' },
+  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Build your savings' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Student Loan Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/student-loan-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Student Loan Calculator ${TAX_YEAR}`}
+  intro={`Estimate your monthly student loan payment and total repayment cost. Compare standard, graduated, and income-driven repayment plans to find the best strategy for paying off your student debt.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`Federal Student Aid (studentaid.gov), Department of Education loan repayment estimator, IRS Publication 970 (student loan interest deduction). Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

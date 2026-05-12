@@ -1,0 +1,76 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Self-Employment Tax Calculator ${TAX_YEAR}: 1099 Tax Estimate`;
+const description = `Calculate your ${TAX_YEAR} self-employment tax as a freelancer or 1099 contractor. See your SE tax, federal income tax, and estimated quarterly payments.`;
+
+const faqs = [
+  {
+    question: 'What is the self-employment tax rate?',
+    answer: `The ${TAX_YEAR} self-employment (SE) tax rate is 15.3% on the first $176,100 of net self-employment income. This breaks down as 12.4% for Social Security and 2.9% for Medicare. Above $176,100, you only pay the 2.9% Medicare portion. An additional 0.9% Medicare surtax applies to SE income above $200,000 (Single) or $250,000 (MFJ).`,
+  },
+  {
+    question: 'Why do self-employed people pay more in FICA taxes?',
+    answer: `Employees and employers each pay half of FICA (7.65% each). When you're self-employed, you're both the employee and the employer, so you pay both halves — the full 15.3%. However, you can deduct the employer-equivalent portion (7.65%) from your adjusted gross income on your tax return, which reduces your income tax.`,
+  },
+  {
+    question: 'How do I calculate my net self-employment income?',
+    answer: `Start with your gross 1099 income, then subtract all ordinary and necessary business expenses (supplies, equipment, home office, mileage, software, etc.). The result is your net self-employment income. SE tax is calculated on 92.35% of this net amount (the 92.35% factor accounts for the employer-equivalent FICA deduction).`,
+  },
+  {
+    question: 'Do I need to make quarterly estimated tax payments?',
+    answer: `Yes, if you expect to owe $1,000 or more in tax for the year. Quarterly estimated payments are due April 15, June 15, September 15, and January 15. You can use IRS Form 1040-ES to calculate and pay. Missing payments can result in underpayment penalties. Many freelancers set aside 25%-30% of each payment for taxes.`,
+  },
+  {
+    question: 'What deductions can self-employed people take?',
+    answer: `Key deductions include: the employer-equivalent SE tax deduction (half of SE tax), home office deduction, health insurance premiums (100% deductible), retirement contributions (SEP-IRA up to $70,000 or Solo 401(k)), business expenses, mileage (70 cents/mile in ${TAX_YEAR}), and the 20% Qualified Business Income (QBI) deduction under Section 199A for eligible filers.`,
+  },
+  {
+    question: 'What is the QBI deduction for self-employed?',
+    answer: `The Qualified Business Income (QBI) deduction under Section 199A allows eligible self-employed individuals to deduct up to 20% of their qualified business income. For ${TAX_YEAR}, the deduction phases out for specified service businesses (law, consulting, etc.) when taxable income exceeds $197,300 (Single) or $394,600 (MFJ). The deduction does not reduce SE tax — only income tax.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Paycheck Calculator', href: '/', desc: 'W-2 employee take-home pay' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax estimate' },
+  { title: 'Salary Calculator', href: '/salary-calculator', desc: 'Annual salary breakdown' },
+  { title: 'Bonus Tax Calculator', href: '/bonus-tax-calculator', desc: 'Tax on bonus payments' },
+  { title: 'Take-Home Pay Calculator', href: '/take-home-pay-calculator', desc: 'Net pay after all taxes' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Self-Employment Tax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/self-employment-tax-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Self-Employment Tax Calculator ${TAX_YEAR}`}
+  intro={`Estimate your self-employment tax, federal income tax, and quarterly payments as a freelancer or 1099 contractor. Includes the 15.3% SE tax, QBI deduction, and state taxes.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Publication 334 (Tax Guide for Small Business), IRS Schedule SE instructions, IRS Rev. Proc. 2025-11 (${TAX_YEAR} brackets and thresholds), SSA.gov (Social Security wage base $176,100). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator
+    client:load
+    defaultPayFrequency="annual"
+    defaultGross={85000}
+  />
+</CalculatorLayout>

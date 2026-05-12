@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy-50: #eff6ff;
+  --color-navy-100: #dbeafe;
+  --color-navy-200: #bfdbfe;
+  --color-navy-300: #93c5fd;
+  --color-navy-400: #60a5fa;
+  --color-navy-500: #3b82f6;
+  --color-navy-600: #2563eb;
+  --color-navy-700: #1d4ed8;
+  --color-navy-800: #1e40af;
+  --color-navy-900: #1e3a8a;
+  --color-navy-950: #172554;
+
+  --color-patriot-50: #fef2f2;
+  --color-patriot-100: #fee2e2;
+  --color-patriot-200: #fecaca;
+  --color-patriot-300: #fca5a5;
+  --color-patriot-400: #f87171;
+  --color-patriot-500: #ef4444;
+  --color-patriot-600: #dc2626;
+  --color-patriot-700: #b91c1c;
+  --color-patriot-800: #991b1b;
+  --color-patriot-900: #7f1d1d;
+
+  --color-success-500: #10b981;
+  --color-success-600: #059669;
+  --color-success-700: #047857;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --breakpoint-xs: 475px;
+}
+
+/* Tabular numerals for all money displays */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Dark mode transitions */
+* {
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus visible for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--color-navy-600);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

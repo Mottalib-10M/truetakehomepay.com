@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `New York Tax Calculator ${TAX_YEAR}: State + NYC Taxes`;
+const description = `Calculate your New York state income tax for ${TAX_YEAR}. See all NY tax brackets (4%-10.9%), plus NYC city tax for residents, and your total state tax liability.`;
+
+const faqs = [
+  {
+    question: `What are New York's ${TAX_YEAR} income tax brackets?`,
+    answer: `New York has 9 progressive tax brackets for ${TAX_YEAR}. For single filers: 4% on income up to $8,500; 4.5% up to $11,700; 5.25% up to $13,900; 5.5% up to $80,650; 6% up to $215,400; 6.85% up to $1,077,550; 9.65% up to $5,000,000; 10.3% up to $25,000,000; and 10.9% on income over $25,000,000.`,
+  },
+  {
+    question: 'Do New York City residents pay additional taxes?',
+    answer: `Yes. NYC residents pay city income tax on top of New York state tax. NYC rates in ${TAX_YEAR} range from 3.078% to 3.876% depending on income. Additionally, NYC residents pay the Metropolitan Commuter Transportation Mobility Tax (MCTMT) at 0.34%. This makes NYC one of the highest-taxed cities in the US — total state + city rates can approach 15%.`,
+  },
+  {
+    question: 'Does New York tax remote workers?',
+    answer: `New York applies the "convenience of the employer" rule — if you work remotely from another state for a NY-based employer and it's for your convenience (not the employer's requirement), NY may still tax that income. This creates potential double-taxation issues. Several states have challenged this rule, and the law continues to evolve.`,
+  },
+  {
+    question: 'What is the New York standard deduction?',
+    answer: `New York's standard deduction for ${TAX_YEAR} is $8,000 for single filers and $16,050 for married filing jointly. While lower than the federal standard deduction, NY allows itemized deductions that roughly conform to federal rules. NY does not allow a deduction for state and local taxes (SALT) paid, which is already a deduction against federal taxes.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'NYC Tax Calculator', href: '/nyc-tax-calculator', desc: 'NYC city + state combined' },
+  { title: 'California Tax', href: '/california-state-tax-calculator', desc: 'Compare with CA taxes' },
+  { title: 'Take-Home Comparison', href: '/take-home-comparison', desc: 'Compare all 50 states' },
+  { title: 'Paycheck Calculator', href: '/paycheck-calculator/new-york', desc: 'NY paycheck breakdown' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `New York Tax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/new-york-state-tax-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`New York Tax Calculator ${TAX_YEAR}`}
+  intro={`Calculate your New York state income tax for ${TAX_YEAR}. See how NY's 9 progressive brackets (4%-10.9%) and the additional NYC city income tax affect your take-home pay. Compare living in NYC vs upstate and other states.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`New York State Department of Taxation and Finance (tax.ny.gov) ${TAX_YEAR} rates, NYC Department of Finance (city tax rates), IRS Rev. Proc. 2025-11 (federal brackets). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

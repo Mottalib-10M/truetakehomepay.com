@@ -1,0 +1,311 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR, SITE_URL } from '../lib/constants';
+import { HOURLY_RATES, SALARY_AMOUNTS } from '../data/state-meta';
+import { formatCurrencyRound, formatCurrency } from '../lib/format-us';
+
+export function getStaticPaths() {
+  return HOURLY_RATES.map((rate) => ({
+    params: { rate: rate.toString() },
+    props: { rate },
+  }));
+}
+
+const { rate } = Astro.props;
+const annualGross = rate * 40 * 52; // 40 hours x 52 weeks
+const weeklyGross = rate * 40;
+const biweeklyGross = weeklyGross * 2;
+const monthlyGross = annualGross / 12;
+
+const formattedRate = `$${rate}`;
+const formattedAnnual = formatCurrencyRound(annualGross);
+const federalMinimum = 7.25;
+const ratioToMinimum = (rate / federalMinimum).toFixed(1);
+
+// ─── Title & Meta ────────────────────────────────────────────────────
+const title = `${formattedRate}/Hour After Taxes: ${TAX_YEAR} Take-Home`;
+const description = `How much is ${formattedRate} an hour after taxes in ${TAX_YEAR}? That's ${formattedAnnual} a year. See your weekly, bi-weekly, and monthly take-home pay breakdown.`;
+
+// ─── Wage quality context ────────────────────────────────────────────
+type WageLevel = 'entry' | 'moderate' | 'good' | 'strong';
+function getWageLevel(r: number): WageLevel {
+  if (r <= 17) return 'entry';
+  if (r <= 22) return 'moderate';
+  if (r <= 30) return 'good';
+  return 'strong';
+}
+
+const wageLevel = getWageLevel(rate);
+
+const wageLevelContent: Record<WageLevel, { heading: string; body: string }> = {
+  entry: {
+    heading: `Is ${formattedRate} an Hour a Good Wage?`,
+    body: `At ${formattedRate}/hour, you earn ${formattedAnnual} per year before taxes (based on a standard 40-hour work week). This is ${ratioToMinimum}x the federal minimum wage of $${federalMinimum.toFixed(2)}/hour. While this wage exceeds the federal minimum, it falls below the national median hourly wage of approximately $23/hour. In lower cost-of-living areas, ${formattedRate}/hour can cover basic expenses, but in major metro areas, it may be challenging. Living in a no-income-tax state like Texas or Florida helps maximize your take-home pay at this wage level.`,
+  },
+  moderate: {
+    heading: `Is ${formattedRate} an Hour a Good Wage?`,
+    body: `At ${formattedRate}/hour, you earn ${formattedAnnual} annually before taxes. This is ${ratioToMinimum}x the federal minimum wage and close to the national median hourly wage. This wage provides a comfortable living in most mid-cost areas of the US. After federal taxes and FICA, you'll keep roughly 78%-85% of your gross depending on your state. Contributing to a 401(k) or HSA can further reduce your tax bill while building long-term savings.`,
+  },
+  good: {
+    heading: `Is ${formattedRate} an Hour a Good Wage?`,
+    body: `At ${formattedRate}/hour, you earn ${formattedAnnual} per year — well above the national median. This is ${ratioToMinimum}x the federal minimum wage. At this income level, you'll comfortably cover living expenses in most US cities. You'll fall primarily in the 12%-22% federal tax bracket, and state taxes become an important factor. Overtime, bonuses, or side income can push your total compensation even higher. This is a solid wage that supports saving for retirement while maintaining a good quality of life.`,
+  },
+  strong: {
+    heading: `Is ${formattedRate} an Hour a Good Wage?`,
+    body: `At ${formattedRate}/hour, you earn ${formattedAnnual} per year — significantly above the national median. This is ${ratioToMinimum}x the federal minimum wage. You'll land in the 22% federal tax bracket for most of your income, making tax-advantaged strategies like 401(k) contributions especially valuable. In most US metro areas, this wage supports a comfortable middle-class lifestyle. Maximize your pre-tax deductions and consider whether your state's income tax is taking a large bite out of your paycheck.`,
+  },
+};
+
+const wageContent = wageLevelContent[wageLevel];
+
+// ─── Intro ───────────────────────────────────────────────────────────
+const intro = `How much does ${formattedRate} an hour equal after taxes? At 40 hours per week, that's ${formattedAnnual} a year. See your exact take-home pay after federal, state, and FICA taxes.`;
+
+// ─── Related hourly rates ────────────────────────────────────────────
+const otherRates = HOURLY_RATES.filter((r) => r !== rate);
+
+// ─── Closest salary amount link ─────────────────────────────────────
+const closestSalary = SALARY_AMOUNTS.reduce((prev, curr) =>
+  Math.abs(curr - annualGross) < Math.abs(prev - annualGross) ? curr : prev
+);
+
+// ─── FAQs ────────────────────────────────────────────────────────────
+const faqs = [
+  {
+    question: `How much is ${formattedRate} an hour after taxes?`,
+    answer: `At ${formattedRate}/hour (40 hours/week, 52 weeks/year), your gross annual salary is ${formattedAnnual}. After federal income tax, FICA (7.65%), and state taxes, a single filer takes home approximately ${formatCurrencyRound(annualGross * 0.78)} to ${formatCurrencyRound(annualGross * 0.85)} per year, or ${formatCurrencyRound((annualGross * 0.78) / 26)} to ${formatCurrencyRound((annualGross * 0.85) / 26)} per bi-weekly paycheck. The exact amount depends on your state and filing status.`,
+  },
+  {
+    question: `How much is ${formattedRate} an hour weekly and monthly?`,
+    answer: `At ${formattedRate}/hour working 40 hours per week: your gross weekly pay is ${formatCurrencyRound(weeklyGross)}, bi-weekly is ${formatCurrencyRound(biweeklyGross)}, and monthly is approximately ${formatCurrencyRound(monthlyGross)}. After taxes, your take-home pay will be reduced by approximately 15%-25% depending on state taxes, filing status, and deductions.`,
+  },
+  {
+    question: `What is ${formattedRate} an hour compared to minimum wage?`,
+    answer: `${formattedRate}/hour is ${ratioToMinimum}x the federal minimum wage of $${federalMinimum.toFixed(2)}/hour. The federal minimum wage equals $15,080 per year for full-time work, while ${formattedRate}/hour equals ${formattedAnnual}. Note that many states and cities have higher minimum wages — for example, Washington state's minimum is $16.66/hour, and California's is $16.50/hour for ${TAX_YEAR}.`,
+  },
+  {
+    question: `How can I reduce taxes on ${formattedRate} an hour?`,
+    answer: `The most effective ways to reduce taxes on your ${formattedRate}/hour income: (1) Contribute to a traditional 401(k) — every dollar you contribute reduces your federal and state taxable income. (2) Use an HSA if you have a high-deductible health plan — HSA contributions reduce both income tax and FICA tax. (3) Claim all eligible tax credits, especially if you have dependents. (4) If you can choose where to live, no-income-tax states save you 3%-13% in state taxes.`,
+  },
+];
+
+// ─── Related Calculators ─────────────────────────────────────────────
+const relatedCalculators = [
+  ...otherRates.slice(0, 2).map((r) => ({
+    title: `$${r}/Hour After Taxes`,
+    href: `/${r}-dollars-an-hour-after-taxes`,
+    desc: `$${r}/hr take-home pay`,
+  })),
+  {
+    title: `${formatCurrencyRound(closestSalary)} After Taxes`,
+    href: `/${closestSalary}-after-taxes`,
+    desc: 'Closest annual salary page',
+  },
+  {
+    title: 'Hourly Paycheck Calc',
+    href: '/hourly-paycheck-calculator',
+    desc: 'Full hourly calculator',
+  },
+];
+
+// ─── Schema.org ──────────────────────────────────────────────────────
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+
+const webAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `${formattedRate}/Hour After Taxes Calculator ${TAX_YEAR}`,
+  description,
+  url: `${SITE_URL}/${rate}-dollars-an-hour-after-taxes`,
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+
+const schema = [faqSchema, webAppSchema];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`${formattedRate} an Hour After Taxes (${TAX_YEAR})`}
+  intro={intro}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Rev. Proc. 2025-11 (federal brackets), SSA.gov (Social Security wage base ${TAX_YEAR}), US Department of Labor (federal minimum wage). Last updated for tax year ${TAX_YEAR}.`}
+  canonical={`${SITE_URL}/${rate}-dollars-an-hour-after-taxes`}
+>
+  <PaycheckCalculator
+    client:load
+    defaultGross={annualGross}
+  />
+
+  <Fragment slot="content">
+    <!-- Hourly-to-salary conversion table -->
+    <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
+          {formattedRate}/Hour: Full Income Breakdown
+        </h2>
+        <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
+          <table class="tabular-nums w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
+                <th class="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">Period</th>
+                <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Hours</th>
+                <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Gross Pay</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Hourly</td>
+                <td class="px-4 py-2.5 text-right text-slate-600 dark:text-slate-400">1</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrency(rate, 2)}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Daily (8 hrs)</td>
+                <td class="px-4 py-2.5 text-right text-slate-600 dark:text-slate-400">8</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(rate * 8)}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Weekly</td>
+                <td class="px-4 py-2.5 text-right text-slate-600 dark:text-slate-400">40</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(weeklyGross)}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Bi-Weekly</td>
+                <td class="px-4 py-2.5 text-right text-slate-600 dark:text-slate-400">80</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(biweeklyGross)}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Monthly</td>
+                <td class="px-4 py-2.5 text-right text-slate-600 dark:text-slate-400">~173</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(monthlyGross)}</td>
+              </tr>
+              <tr class="bg-navy-50/50 dark:bg-navy-900/20">
+                <td class="px-4 py-2.5 font-medium text-slate-900 dark:text-white">Annual</td>
+                <td class="px-4 py-2.5 text-right text-slate-600 dark:text-slate-400">2,080</td>
+                <td class="px-4 py-2.5 text-right font-bold text-navy-700 dark:text-navy-400">{formattedAnnual}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">
+          Based on a standard 40-hour work week, 52 weeks per year (2,080 hours total). Does not include overtime.
+        </p>
+      </div>
+    </section>
+
+    <!-- "Is $X/hour a good wage?" contextual section -->
+    <section class="border-t border-slate-200 bg-slate-50 px-4 py-16 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">
+          {wageContent.heading}
+        </h2>
+        <div class="prose prose-slate dark:prose-invert max-w-none">
+          <p>{wageContent.body}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison to federal minimum wage -->
+    <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+          {formattedRate}/Hour vs. Federal Minimum Wage
+        </h2>
+        <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
+          <table class="tabular-nums w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
+                <th class="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">Metric</th>
+                <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">{formattedRate}/hr</th>
+                <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">${federalMinimum.toFixed(2)}/hr</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Annual (40hr/wk)</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formattedAnnual}</td>
+                <td class="px-4 py-2.5 text-right text-slate-600 dark:text-slate-400">{formatCurrencyRound(federalMinimum * 40 * 52)}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Monthly Gross</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(monthlyGross)}</td>
+                <td class="px-4 py-2.5 text-right text-slate-600 dark:text-slate-400">{formatCurrencyRound((federalMinimum * 40 * 52) / 12)}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Weekly Gross</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(weeklyGross)}</td>
+                <td class="px-4 py-2.5 text-right text-slate-600 dark:text-slate-400">{formatCurrencyRound(federalMinimum * 40)}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Difference</td>
+                <td class="px-4 py-2.5 text-right font-bold text-success-600 dark:text-success-500" colspan="2">
+                  +{formatCurrencyRound(annualGross - (federalMinimum * 40 * 52))}/year ({ratioToMinimum}x minimum)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Other hourly rates -->
+    <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+          Other Hourly Rates After Taxes
+        </h2>
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {otherRates.map((r) => (
+            <a
+              href={`/${r}-dollars-an-hour-after-taxes`}
+              class="rounded-xl border border-slate-200 bg-white p-4 text-center transition-all hover:border-navy-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
+            >
+              <span class="text-lg font-bold text-navy-700 dark:text-navy-400">${r}/hr</span>
+              <span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">
+                {formatCurrencyRound(r * 40 * 52)}/yr
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Link to salary pages -->
+    <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+          Popular Salary Amounts
+        </h2>
+        <div class="grid grid-cols-3 gap-2 sm:grid-cols-5">
+          {SALARY_AMOUNTS.slice(0, 10).map((s) => (
+            <a
+              href={`/${s}-after-taxes`}
+              class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-sm transition-colors hover:border-navy-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
+            >
+              <span class="tabular-nums font-semibold text-navy-700 dark:text-navy-400">
+                {formatCurrencyRound(s)}
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </Fragment>
+</CalculatorLayout>

@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Auto Loan Calculator ${TAX_YEAR}: Car Payment Estimator`;
+const description = `Calculate your monthly car payment for ${TAX_YEAR}. Enter vehicle price, down payment, trade-in value, interest rate, and loan term to estimate your auto loan costs.`;
+
+const faqs = [
+  {
+    question: 'How much car can I afford?',
+    answer: `Financial experts recommend the 20/4/10 rule: put at least 20% down, finance for no more than 4 years, and keep total vehicle costs (payment + insurance + fuel) under 10% of gross monthly income. On a $75,000 salary, that's $625/month total, supporting a car price around $25,000-$30,000 with a reasonable down payment.`,
+  },
+  {
+    question: 'What is a good interest rate for a car loan?',
+    answer: `Auto loan rates vary by credit score, loan term, and whether the car is new or used. For new cars: excellent credit (750+) may get 4-6%; good credit (700-749) may get 6-8%; fair credit (650-699) may get 8-12%. Used car rates are typically 1-2% higher. Rates also increase significantly with longer loan terms.`,
+  },
+  {
+    question: 'Should I choose a longer loan term for lower payments?',
+    answer: `While 72- and 84-month loans offer lower monthly payments, they cost significantly more in total interest and carry a higher risk of being "upside down" (owing more than the car is worth). A $35,000 car at 7%: 48-month payment is $838 ($5,223 total interest); 72-month is $598 ($8,090 total interest) — $2,867 more.`,
+  },
+  {
+    question: 'How does a trade-in or down payment affect my loan?',
+    answer: `A trade-in or down payment reduces the loan amount, lowering both your monthly payment and total interest paid. A $5,000 down payment on a $30,000 car at 7% for 60 months saves about $99/month and $1,188 in total interest. It also reduces the chance of negative equity if the car depreciates faster than you pay off the loan.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Loan Calculator', href: '/loan-calculator', desc: 'General loan payments' },
+  { title: 'Paycheck Calculator', href: '/', desc: 'Verify your take-home pay' },
+  { title: 'Debt Consolidation', href: '/debt-consolidation-calculator', desc: 'Combine your debts' },
+  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Save for your car' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Auto Loan Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/auto-loan-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Auto Loan Calculator ${TAX_YEAR}`}
+  intro={`Estimate your monthly car payment and total loan cost. Enter the vehicle price, down payment, trade-in value, interest rate, and loan term to see a detailed breakdown of your auto financing.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`Federal Reserve Board (consumer auto loan data), Experian State of the Automotive Finance Market, CFPB auto loan guides. Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

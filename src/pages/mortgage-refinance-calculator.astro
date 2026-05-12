@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Mortgage Refinance Calculator ${TAX_YEAR}: Break-Even Analysis`;
+const description = `Calculate if refinancing your mortgage makes sense in ${TAX_YEAR}. Compare current vs new payments, see your break-even point, and total interest savings.`;
+
+const faqs = [
+  {
+    question: 'When does it make sense to refinance my mortgage?',
+    answer: `Refinancing typically makes sense when you can lower your rate by at least 0.5-1%, plan to stay in the home past the break-even point, or need to switch from an adjustable to fixed rate. Also consider refinancing to remove PMI, shorten your loan term, or do a cash-out refinance for home improvements or debt consolidation.`,
+  },
+  {
+    question: 'What is the break-even point on a refinance?',
+    answer: `The break-even point is when your monthly savings from the lower payment equal the total closing costs of refinancing. For example, if closing costs are $6,000 and you save $200/month, your break-even point is 30 months. If you plan to stay in the home longer than that, refinancing makes financial sense.`,
+  },
+  {
+    question: 'What are typical refinancing closing costs?',
+    answer: `Refinance closing costs typically range from 2-5% of the loan amount, or $4,000-$10,000 on a $300,000 loan. Costs include appraisal ($300-$500), title insurance, origination fees, and recording fees. Some lenders offer "no-closing-cost" refinances, but they typically charge a higher interest rate to compensate.`,
+  },
+  {
+    question: 'Should I refinance to a 15-year or stay at 30 years?',
+    answer: `Refinancing from a 30-year to a 15-year mortgage usually offers a lower interest rate (often 0.5-0.75% less) and saves enormously on total interest, but monthly payments increase significantly. Consider the 15-year if you can comfortably afford the higher payment without sacrificing retirement savings or emergency funds.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Mortgage Calculator', href: '/mortgage-calculator', desc: 'Monthly payment estimator' },
+  { title: 'Affordability Calculator', href: '/mortgage-affordability-calculator', desc: 'How much can you afford?' },
+  { title: 'Loan Calculator', href: '/loan-calculator', desc: 'General loan payments' },
+  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Invest your savings' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Mortgage Refinance Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/mortgage-refinance-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Mortgage Refinance Calculator ${TAX_YEAR}`}
+  intro={`Should you refinance your mortgage? Compare your current loan with new rates, calculate monthly savings, break-even timeline, and total interest saved over the life of the loan.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`Freddie Mac Primary Mortgage Market Survey, CFPB refinancing guides, Federal Reserve Board mortgage data. Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

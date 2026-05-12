@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE_NAME } from '../lib/constants';
+
+const title = 'Contact Us — Questions, Feedback, and Corrections';
+const description = `Get in touch with the ${SITE_NAME} team. Report calculation errors, suggest features, or ask questions about US tax calculations.`;
+---
+
+<Layout title={title} description={description}>
+  <section class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Contact Us</h1>
+      <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">
+        We'd love to hear from you. Whether you've found a calculation error, have a feature suggestion, or just have a question about how US taxes work, reach out.
+      </p>
+
+      <div class="mt-10 grid gap-8 sm:grid-cols-2">
+        <div class="rounded-xl border border-slate-200 p-6 dark:border-slate-700">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white">General Inquiries</h2>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            Questions about calculators, tax explanations, or how to use the site.
+          </p>
+          <a href="mailto:contact@uspaycheck.com" class="mt-4 inline-block text-navy-600 hover:underline dark:text-navy-400">
+            contact@uspaycheck.com
+          </a>
+        </div>
+
+        <div class="rounded-xl border border-slate-200 p-6 dark:border-slate-700">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Report an Error</h2>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            Found a calculation mistake or outdated tax data? Let us know so we can fix it.
+          </p>
+          <a href="mailto:corrections@uspaycheck.com" class="mt-4 inline-block text-navy-600 hover:underline dark:text-navy-400">
+            corrections@uspaycheck.com
+          </a>
+        </div>
+
+        <div class="rounded-xl border border-slate-200 p-6 dark:border-slate-700">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Business & Partnerships</h2>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            Advertising, partnerships, or business development inquiries.
+          </p>
+          <a href="mailto:business@uspaycheck.com" class="mt-4 inline-block text-navy-600 hover:underline dark:text-navy-400">
+            business@uspaycheck.com
+          </a>
+        </div>
+
+        <div class="rounded-xl border border-slate-200 p-6 dark:border-slate-700">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Privacy</h2>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            Privacy-related requests and data protection inquiries.
+          </p>
+          <a href="mailto:privacy@uspaycheck.com" class="mt-4 inline-block text-navy-600 hover:underline dark:text-navy-400">
+            privacy@uspaycheck.com
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

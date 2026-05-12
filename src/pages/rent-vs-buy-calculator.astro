@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `Rent vs Buy Calculator ${TAX_YEAR}: Which Is Better for You?`;
+const description = `Compare renting vs buying a home in ${TAX_YEAR}. Factor in mortgage costs, rent increases, investment returns, tax benefits, and see which option builds more wealth.`;
+
+const faqs = [
+  {
+    question: 'Is it better to rent or buy a home?',
+    answer: `It depends on your timeline, local market, and financial situation. Buying generally makes sense if you plan to stay 5+ years, have stable income, and can afford the down payment and maintenance costs. Renting can be better in expensive markets, for short-term stays, or if you can invest the down payment savings for higher returns.`,
+  },
+  {
+    question: 'What is the 5-year rule for buying vs renting?',
+    answer: `The 5-year rule suggests that buying a home typically becomes cheaper than renting after about 5 years. This is because closing costs (2-5% of purchase price) and moving costs need time to be recouped through equity building and potential appreciation. In hot markets with high price-to-rent ratios, the break-even may take 7-10+ years.`,
+  },
+  {
+    question: 'What hidden costs does homeownership have?',
+    answer: `Beyond the mortgage, homeowners face: property taxes (0.5-2.5% annually), homeowners insurance, maintenance and repairs (budget 1-2% of home value/year), HOA fees, lawn care, appliance replacements, and opportunity cost of the down payment. These costs can add 30-50% on top of your mortgage payment.`,
+  },
+  {
+    question: 'How does the price-to-rent ratio help me decide?',
+    answer: `The price-to-rent ratio divides the home price by annual rent for a comparable property. A ratio under 15 generally favors buying; 15-20 is a gray area; over 20 tends to favor renting. For example, a $500,000 home that would rent for $2,500/month has a ratio of 16.7 ($500,000 / $30,000) — a borderline case.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Mortgage Calculator', href: '/mortgage-calculator', desc: 'Monthly payment estimator' },
+  { title: 'Affordability Calculator', href: '/mortgage-affordability-calculator', desc: 'How much can you afford?' },
+  { title: 'Cost of Living', href: '/cost-of-living-calculator', desc: 'Compare city costs' },
+  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Invest your savings' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Rent vs Buy Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/rent-vs-buy-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Rent vs Buy Calculator ${TAX_YEAR}`}
+  intro={`Should you rent or buy? Compare the total cost of renting versus buying a home over time. Account for mortgage payments, rent increases, tax benefits, maintenance, and investment opportunity costs.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`U.S. Census Bureau (housing data), BLS Consumer Price Index (rent inflation), Federal Reserve Economic Data (FRED), National Association of Realtors. Last updated for ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>

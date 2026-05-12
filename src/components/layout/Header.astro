@@ -1,0 +1,176 @@
+---
+const navItems = [
+  { label: 'Paycheck Calculator', href: '/' },
+  {
+    label: 'Tax Calculators',
+    children: [
+      { label: 'Income Tax Calculator', href: '/income-tax-calculator' },
+      { label: 'Self-Employment Tax', href: '/self-employment-tax-calculator' },
+      { label: 'Bonus Tax Calculator', href: '/bonus-tax-calculator' },
+      { label: 'Capital Gains Tax', href: '/capital-gains-tax-calculator' },
+      { label: 'Lottery Tax Calculator', href: '/lottery-tax-calculator' },
+      { label: 'Tax Refund Calculator', href: '/tax-refund-calculator' },
+    ],
+  },
+  {
+    label: 'By State',
+    children: [
+      { label: 'California', href: '/paycheck-calculator/california' },
+      { label: 'Texas', href: '/paycheck-calculator/texas' },
+      { label: 'Florida', href: '/paycheck-calculator/florida' },
+      { label: 'New York', href: '/paycheck-calculator/new-york' },
+      { label: 'All 50 States →', href: '/paycheck-calculator' },
+    ],
+  },
+  {
+    label: 'Financial Tools',
+    children: [
+      { label: '401(k) Calculator', href: '/401k-calculator' },
+      { label: 'Mortgage Calculator', href: '/mortgage-calculator' },
+      { label: 'Loan Calculator', href: '/loan-calculator' },
+      { label: 'Savings Calculator', href: '/savings-calculator' },
+      { label: 'Property Tax', href: '/property-tax-calculator' },
+      { label: 'Sales Tax', href: '/sales-tax-calculator' },
+    ],
+  },
+  { label: 'Guides', href: '/guides' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/95">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8" aria-label="Main navigation">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2" aria-label="Home">
+      <img src="/favicon.svg" alt="" width="32" height="32" class="h-8 w-8" />
+      <span class="text-lg font-bold text-navy-800 dark:text-white">
+        US<span class="text-patriot-600">paycheck</span>
+      </span>
+    </a>
+
+    <!-- Desktop nav -->
+    <div class="hidden items-center gap-1 lg:flex">
+      {navItems.map((item) => (
+        item.children ? (
+          <div class="group relative">
+            <button
+              class="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+              aria-haspopup="true"
+            >
+              {item.label}
+              <svg class="h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="invisible absolute left-0 top-full z-50 mt-1 min-w-[200px] rounded-xl border border-slate-200 bg-white p-2 opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100 dark:border-slate-700 dark:bg-slate-800">
+              {item.children.map((child) => (
+                <a
+                  href={child.href}
+                  class:list={[
+                    'block rounded-lg px-3 py-2 text-sm transition-colors',
+                    currentPath === child.href
+                      ? 'bg-navy-50 font-medium text-navy-700 dark:bg-navy-900/30 dark:text-navy-300'
+                      : 'text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-700/50',
+                  ]}
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <a
+            href={item.href}
+            class:list={[
+              'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+              currentPath === item.href
+                ? 'bg-navy-50 text-navy-700 dark:bg-navy-900/30 dark:text-navy-300'
+                : 'text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800',
+            ]}
+          >
+            {item.label}
+          </a>
+        )
+      ))}
+    </div>
+
+    <!-- Dark mode toggle + mobile menu button -->
+    <div class="flex items-center gap-2">
+      <button
+        id="theme-toggle"
+        class="rounded-lg p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
+        aria-label="Toggle dark mode"
+      >
+        <svg class="h-5 w-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg class="hidden h-5 w-5 dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      </button>
+
+      <button
+        id="mobile-menu-btn"
+        class="rounded-lg p-2 text-slate-500 hover:bg-slate-100 lg:hidden dark:text-slate-400 dark:hover:bg-slate-800"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden border-t border-slate-200 bg-white px-4 pb-4 lg:hidden dark:border-slate-700 dark:bg-slate-900">
+    {navItems.map((item) => (
+      item.children ? (
+        <div class="border-b border-slate-100 py-2 dark:border-slate-800">
+          <span class="block px-2 py-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
+            {item.label}
+          </span>
+          {item.children.map((child) => (
+            <a
+              href={child.href}
+              class="block rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+            >
+              {child.label}
+            </a>
+          ))}
+        </div>
+      ) : (
+        <a
+          href={item.href}
+          class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+        >
+          {item.label}
+        </a>
+      )
+    ))}
+  </div>
+</header>
+
+<script>
+  // Dark mode toggle
+  const toggle = document.getElementById('theme-toggle');
+  toggle?.addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark');
+    const isDark = document.documentElement.classList.contains('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+
+  // Apply saved theme on load
+  if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark');
+  }
+
+  // Mobile menu toggle
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuBtn?.addEventListener('click', () => {
+    const isOpen = mobileMenu?.classList.toggle('hidden') === false;
+    menuBtn.setAttribute('aria-expanded', String(isOpen));
+  });
+</script>

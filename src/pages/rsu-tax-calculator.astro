@@ -1,0 +1,59 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import { TAX_YEAR } from '../lib/constants';
+
+const title = `RSU Tax Calculator ${TAX_YEAR}: Stock Compensation Taxes`;
+const description = `Calculate taxes on restricted stock units (RSUs) for ${TAX_YEAR}. See federal, state, and FICA withholding on vested shares and plan your stock comp strategy.`;
+
+const faqs = [
+  {
+    question: 'When are RSUs taxed?',
+    answer: `RSUs are taxed as ordinary income on the vesting date — the day shares are delivered to you. The taxable amount is the fair market value (FMV) of the shares on that date. Your employer typically withholds federal income tax, state tax, Social Security, and Medicare taxes from the vested shares.`,
+  },
+  {
+    question: 'How are RSUs withheld for taxes?',
+    answer: `Most employers use "sell-to-cover," where they sell a portion of your vested shares to pay taxes. The default federal supplemental withholding rate is 22% (37% on amounts over $1 million). Combined with state tax and FICA, you may see 35-50% of shares sold for tax coverage.`,
+  },
+  {
+    question: 'Do I owe more taxes when I sell RSU shares?',
+    answer: `When you sell RSU shares, you may owe capital gains tax on any appreciation above the price at vesting. If you sell immediately at vesting, there's typically no additional gain. If you hold and the price rises, the profit is taxed as short-term (held ≤1 year) or long-term (held >1 year) capital gains.`,
+  },
+  {
+    question: 'Are RSUs subject to FICA taxes?',
+    answer: `Yes. RSU income at vesting is subject to Social Security tax (6.2% up to the $176,100 wage base in ${TAX_YEAR}) and Medicare tax (1.45%, plus 0.9% Additional Medicare Tax on combined wages over $200,000). This makes RSUs more tax-costly than some other equity comp forms for high earners.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Paycheck Calculator', href: '/', desc: 'Take-home pay breakdown' },
+  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator', desc: 'Tax on stock sales' },
+  { title: 'Bonus Tax Calculator', href: '/bonus-tax-calculator', desc: 'Supplemental income tax' },
+  { title: 'Medicare Surtax', href: '/medicare-surtax-calculator', desc: '0.9% + 3.8% NIIT' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `RSU Tax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://uspaycheck.com/rsu-tax-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`RSU Tax Calculator ${TAX_YEAR}`}
+  intro={`Estimate the tax impact of your restricted stock unit (RSU) vesting for ${TAX_YEAR}. Calculate federal, state, and FICA withholding on your stock compensation and see your net after-tax value.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Publication 525 (Taxable and Nontaxable Income), IRS Rev. Proc. 2025-11 (supplemental withholding rates), IRC Section 83. Last updated for tax year ${TAX_YEAR}.`}
+>
+  <PaycheckCalculator client:load />
+</CalculatorLayout>
