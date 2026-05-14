@@ -35,7 +35,7 @@ const schema = {
         to verify that your withholding aligns with your expected tax liability.
       </p>
 
-      <h2>When Do You Need to Submit a W-4?</h2>
+      <h2 id="when-to-submit">When Do You Need to Submit a W-4?</h2>
 
       <ul>
         <li><strong>Starting a new job:</strong> Your employer needs a W-4 before your first paycheck</li>
@@ -50,7 +50,7 @@ const schema = {
         it, and changes typically take effect within one to two pay periods.
       </p>
 
-      <h2>Step 1: Personal Information (Required)</h2>
+      <h2 id="step-1-personal-info">Step 1: Personal Information (Required)</h2>
 
       <p>
         Every employee must complete Step 1. You provide your name, address, Social Security number, and
@@ -69,7 +69,7 @@ const schema = {
         are wider. If both spouses work, this can lead to underwithholding unless you also complete Step 2.
       </p>
 
-      <h2>Step 2: Multiple Jobs or Spouse Works</h2>
+      <h2 id="step-2-multiple-jobs">Step 2: Multiple Jobs or Spouse Works</h2>
 
       <p>
         Step 2 is critical if you have more than one job simultaneously or if you are married filing jointly
@@ -79,20 +79,20 @@ const schema = {
 
       <p>You have three options for handling this:</p>
 
-      <h3>Option A: IRS Tax Withholding Estimator</h3>
+      <h3 id="option-a-irs-estimator">Option A: IRS Tax Withholding Estimator</h3>
       <p>
         The most accurate method. Go to irs.gov/W4App, enter all income sources, and the estimator tells
         you exactly what to put on each W-4. This is the best option if jobs have very different salaries.
       </p>
 
-      <h3>Option B: Multiple Jobs Worksheet</h3>
+      <h3 id="option-b-worksheet">Option B: Multiple Jobs Worksheet</h3>
       <p>
         The W-4 includes a worksheet on page 3 that helps you calculate additional withholding. You look up
         your two highest salaries in the IRS table, find the intersection, and divide by the number of pay
         periods. This amount goes on line 4(c) as additional withholding.
       </p>
 
-      <h3>Option C: Check the Box</h3>
+      <h3 id="option-c-check-box">Option C: Check the Box</h3>
       <p>
         The simplest option. If both jobs have similar pay (within roughly 50% of each other), both
         employees check the box in Step 2(c). This effectively applies Single rates to each job's
@@ -100,7 +100,7 @@ const schema = {
         overwithholding if incomes are not closely matched.
       </p>
 
-      <h2>Step 3: Claim Dependents</h2>
+      <h2 id="step-3-dependents">Step 3: Claim Dependents</h2>
 
       <p>
         If your total income will be $200,000 or less ($400,000 or less if married filing jointly), you can
@@ -124,9 +124,9 @@ const schema = {
         should not claim the full amounts on Step 3. Use the IRS estimator for guidance.
       </p>
 
-      <h2>Step 4: Other Adjustments (Optional)</h2>
+      <h2 id="step-4-adjustments">Step 4: Other Adjustments (Optional)</h2>
 
-      <h3>Step 4(a): Other Income</h3>
+      <h3 id="step-4a-other-income">Step 4(a): Other Income</h3>
       <p>
         Enter income you expect to receive that is not from jobs, such as interest, dividends, capital gains,
         or retirement distributions. This amount will be included in the withholding calculation so you do
@@ -134,7 +134,7 @@ const schema = {
         <a href="/guides/self-employment-tax-explained/">quarterly estimated tax payments</a>.
       </p>
 
-      <h3>Step 4(b): Deductions</h3>
+      <h3 id="step-4b-deductions">Step 4(b): Deductions</h3>
       <p>
         If you plan to itemize deductions or claim above-the-line deductions beyond the standard deduction,
         enter the excess here. For example, if you expect $20,000 in itemized deductions and the standard
@@ -143,7 +143,7 @@ const schema = {
         with this calculation.
       </p>
 
-      <h3>Step 4(c): Extra Withholding</h3>
+      <h3 id="step-4c-extra-withholding">Step 4(c): Extra Withholding</h3>
       <p>
         Enter any additional amount you want withheld from each paycheck. This is useful if:
       </p>
@@ -154,9 +154,9 @@ const schema = {
         <li>You simply prefer a larger refund (though this is not financially optimal)</li>
       </ul>
 
-      <h2>Common Mistakes and How to Avoid Them</h2>
+      <h2 id="common-mistakes">Common Mistakes and How to Avoid Them</h2>
 
-      <h3>Mistake 1: Two-earner couples not completing Step 2</h3>
+      <h3 id="mistake-two-earner">Mistake 1: Two-earner couples not completing Step 2</h3>
       <p>
         This is the most common source of unexpected tax bills. If both spouses work and select "Married
         Filing Jointly" without completing Step 2, each employer withholds as if that job is the only
@@ -164,28 +164,28 @@ const schema = {
         <strong>Fix:</strong> Both spouses should check the box in Step 2(c) or use the IRS estimator.
       </p>
 
-      <h3>Mistake 2: Not updating after life changes</h3>
+      <h3 id="mistake-life-changes">Mistake 2: Not updating after life changes</h3>
       <p>
         Getting married, having a baby, or your spouse starting or leaving a job all change your tax
         situation significantly. <strong>Fix:</strong> Submit a new W-4 within 10 days of any major life
         event.
       </p>
 
-      <h3>Mistake 3: Claiming too many dependents</h3>
+      <h3 id="mistake-too-many-dependents">Mistake 3: Claiming too many dependents</h3>
       <p>
         Only claim dependents on one spouse's W-4 if married, not both. Claiming on both W-4s doubles the
         reduction and leads to underwithholding. <strong>Fix:</strong> Generally, the higher earner should
         claim all dependents.
       </p>
 
-      <h3>Mistake 4: Confusing old allowances with the new form</h3>
+      <h3 id="mistake-old-allowances">Mistake 4: Confusing old allowances with the new form</h3>
       <p>
         The old W-4 used "allowances" (0, 1, 2, etc.) to adjust withholding. The new form does not use
         allowances at all. If someone tells you to "claim 0 on your W-4," they are referencing the outdated
         system. <strong>Fix:</strong> Follow the new steps as written above.
       </p>
 
-      <h2>Adjusting Your W-4 Mid-Year</h2>
+      <h2 id="mid-year-adjustment">Adjusting Your W-4 Mid-Year</h2>
 
       <p>
         If you change your W-4 mid-year, your employer will adjust withholding for remaining paychecks.
@@ -199,28 +199,28 @@ const schema = {
         need an additional $2,000 withheld, enter $200 on line 4(c).
       </p>
 
-      <h2>W-4 for Special Situations</h2>
+      <h2 id="special-situations">W-4 for Special Situations</h2>
 
-      <h3>Nonresident Aliens</h3>
+      <h3 id="nonresident-aliens">Nonresident Aliens</h3>
       <p>
         Nonresident aliens must write "Nonresident Alien" above the dotted line on Step 1. They cannot claim
         "Married Filing Jointly" status and are subject to different withholding rules.
       </p>
 
-      <h3>Pension and Annuity Recipients</h3>
+      <h3 id="pension-annuity">Pension and Annuity Recipients</h3>
       <p>
         If you receive pension income, use Form W-4P (for periodic payments) or W-4R (for nonperiodic
         payments and eligible rollover distributions) instead of the standard W-4.
       </p>
 
-      <h3>Very High Income</h3>
+      <h3 id="very-high-income">Very High Income</h3>
       <p>
         If you earn well above $200,000 and have substantial investment income, the W-4 alone may not
         produce sufficient withholding to cover the 3.8% Net Investment Income Tax. You may need to add
         extra withholding on Step 4(c) or make estimated tax payments.
       </p>
 
-      <h2>Withholding vs. Estimated Payments</h2>
+      <h2 id="withholding-vs-estimated">Withholding vs. Estimated Payments</h2>
 
       <p>
         The W-4 only affects income withheld from paychecks. If you have significant non-wage income
@@ -229,7 +229,7 @@ const schema = {
         <a href="/guides/self-employment-tax-explained/">self-employment tax</a>.
       </p>
 
-      <h2>Bottom Line: Get Your W-4 Right</h2>
+      <h2 id="bottom-line">Bottom Line: Get Your W-4 Right</h2>
 
       <p>
         The goal of the W-4 is to match your withholding to your actual tax liability as closely as

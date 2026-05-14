@@ -35,7 +35,7 @@ const schema = {
         <a href="/tax-refund-calculator/">tax refund calculator</a>.
       </p>
 
-      <h2>Key Deadlines for {TAX_YEAR} Tax Year</h2>
+      <h2 id="key-deadlines">Key Deadlines for {TAX_YEAR} Tax Year</h2>
 
       <table>
         <thead>
@@ -60,9 +60,9 @@ const schema = {
         of Maine and Massachusetts get until April 17 in years when Patriots' Day falls on April 15.
       </p>
 
-      <h2>Documents to Gather</h2>
+      <h2 id="documents-to-gather">Documents to Gather</h2>
 
-      <h3>Income Documents</h3>
+      <h3 id="income-documents">Income Documents</h3>
       <ul>
         <li><strong>W-2:</strong> Wages, salary, and tax withheld from each employer</li>
         <li><strong>1099-NEC:</strong> Freelance or independent contractor income ($600+)</li>
@@ -78,7 +78,7 @@ const schema = {
         <li><strong>Schedule K-1:</strong> Income from partnerships, S-Corps, estates, or trusts</li>
       </ul>
 
-      <h3>Deduction and Credit Documents</h3>
+      <h3 id="deduction-credit-documents">Deduction and Credit Documents</h3>
       <ul>
         <li><strong>1098:</strong> Mortgage interest paid</li>
         <li><strong>1098-T:</strong> College tuition paid (for education credits)</li>
@@ -91,7 +91,7 @@ const schema = {
         <li><strong>1095-A:</strong> Health Insurance Marketplace statement (for Premium Tax Credit)</li>
       </ul>
 
-      <h3>Personal Information</h3>
+      <h3 id="personal-information">Personal Information</h3>
       <ul>
         <li>Social Security numbers for you, your spouse, and all dependents</li>
         <li>Bank account and routing numbers (for direct deposit of refund)</li>
@@ -99,7 +99,7 @@ const schema = {
         <li>Identity Protection PIN (if issued by the IRS)</li>
       </ul>
 
-      <h2>Standard Deduction vs. Itemizing: How to Decide</h2>
+      <h2 id="standard-vs-itemizing">Standard Deduction vs. Itemizing: How to Decide</h2>
 
       <p>
         The standard deduction for {TAX_YEAR} is $15,000 (single), $30,000 (married filing jointly), or
@@ -120,13 +120,13 @@ const schema = {
         <a href="/guides/tax-deductions-vs-credits/">deductions vs. credits guide</a> for more.
       </p>
 
-      <h2>Deductions Checklist</h2>
+      <h2 id="deductions-checklist">Deductions Checklist</h2>
 
       <p>
         Review each of these to see if they apply to your situation:
       </p>
 
-      <h3>Above-the-Line (Available Regardless of Itemizing)</h3>
+      <h3 id="above-the-line-deductions">Above-the-Line (Available Regardless of Itemizing)</h3>
       <ul>
         <li>Traditional IRA contributions (up to $7,000 / $8,000 if 50+)</li>
         <li>HSA contributions (up to $4,300 self / $8,550 family)</li>
@@ -137,7 +137,7 @@ const schema = {
         <li>SEP IRA, SIMPLE IRA, or Solo 401(k) contributions</li>
       </ul>
 
-      <h3>Itemized Deductions (If You Exceed the Standard Deduction)</h3>
+      <h3 id="itemized-deductions">Itemized Deductions (If You Exceed the Standard Deduction)</h3>
       <ul>
         <li>State and local income or sales tax (SALT, up to $10,000)</li>
         <li>Real estate property taxes (included in $10,000 SALT cap)</li>
@@ -147,32 +147,32 @@ const schema = {
         <li>Casualty losses in federally declared disaster areas</li>
       </ul>
 
-      <h2>Credits Checklist</h2>
+      <h2 id="credits-checklist">Credits Checklist</h2>
 
       <p>
         Credits reduce your tax dollar-for-dollar. Do not overlook these:
       </p>
 
-      <h3>Family Credits</h3>
+      <h3 id="family-credits">Family Credits</h3>
       <ul>
         <li>Child Tax Credit: $2,000 per child under 17 (up to $1,700 refundable)</li>
         <li>Child and Dependent Care Credit: 20-35% of care expenses up to $3,000/$6,000</li>
         <li>Adoption Credit: Up to $17,280 per eligible child</li>
       </ul>
 
-      <h3>Education Credits</h3>
+      <h3 id="education-credits">Education Credits</h3>
       <ul>
         <li>American Opportunity Credit: Up to $2,500/student for first 4 years of college (40% refundable)</li>
         <li>Lifetime Learning Credit: Up to $2,000/return for any post-secondary education</li>
       </ul>
 
-      <h3>Income-Based Credits</h3>
+      <h3 id="income-based-credits">Income-Based Credits</h3>
       <ul>
         <li>Earned Income Tax Credit: Up to $7,830 (fully refundable; amount varies by children and income)</li>
         <li>Saver's Credit: Up to $1,000/$2,000 for retirement contributions (low-to-moderate income)</li>
       </ul>
 
-      <h3>Energy and Vehicle Credits</h3>
+      <h3 id="energy-vehicle-credits">Energy and Vehicle Credits</h3>
       <ul>
         <li>Residential Clean Energy Credit: 30% of solar, wind, geothermal, and battery storage costs</li>
         <li>Energy Efficient Home Improvement Credit: Up to $3,200/year for insulation, windows, heat pumps, etc.</li>
@@ -180,12 +180,12 @@ const schema = {
         <li>Used Clean Vehicle Credit: Up to $4,000 for qualifying used EVs</li>
       </ul>
 
-      <h3>Healthcare Credits</h3>
+      <h3 id="healthcare-credits">Healthcare Credits</h3>
       <ul>
         <li>Premium Tax Credit: Subsidizes marketplace health insurance (refundable)</li>
       </ul>
 
-      <h2>E-Filing Options</h2>
+      <h2 id="e-filing-options">E-Filing Options</h2>
 
       <p>
         The IRS strongly encourages electronic filing, which is faster and results in quicker refunds. Your
@@ -215,7 +215,7 @@ const schema = {
         </li>
       </ul>
 
-      <h2>Filing an Extension</h2>
+      <h2 id="filing-extension">Filing an Extension</h2>
 
       <p>
         If you cannot file by April 15, you can request an automatic six-month extension by filing Form 4868.
@@ -230,7 +230,7 @@ const schema = {
         <li>The failure-to-file penalty (5% per month) is much steeper, so if you cannot pay, file anyway or file an extension.</li>
       </ul>
 
-      <h2>After You File: What to Expect</h2>
+      <h2 id="after-you-file">After You File: What to Expect</h2>
 
       <ul>
         <li><strong>E-filed returns:</strong> IRS typically processes within 21 days. Direct deposit refunds arrive faster.</li>
@@ -239,7 +239,7 @@ const schema = {
         <li><strong>Record retention:</strong> Keep tax records for at least 3 years (6 years if you underreported income by more than 25%).</li>
       </ul>
 
-      <h2>Common Mistakes to Avoid</h2>
+      <h2 id="common-mistakes">Common Mistakes to Avoid</h2>
 
       <ol>
         <li><strong>Wrong filing status:</strong> Make sure you choose the most advantageous filing status you qualify for</li>
@@ -251,7 +251,7 @@ const schema = {
         <li><strong>Not claiming eligible credits:</strong> The EITC alone is missed by millions of eligible workers each year</li>
       </ol>
 
-      <h2>Bottom Line</h2>
+      <h2 id="bottom-line">Bottom Line</h2>
 
       <p>
         The secret to a smooth tax season is starting early, gathering all your documents, and methodically

@@ -96,7 +96,7 @@ const deductions = [
   <!-- Standard Deduction -->
   <section class="px-4 py-12 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-4xl">
-      <h2 class="mb-3 text-2xl font-bold text-slate-900 dark:text-white">
+      <h2 id="standard-deduction" class="mb-3 text-2xl font-bold text-slate-900 dark:text-white">
         {TAX_YEAR} Standard Deduction Amounts
       </h2>
       <p class="mb-6 text-slate-600 dark:text-slate-400">
@@ -161,7 +161,7 @@ const deductions = [
   <!-- Marginal vs Effective -->
   <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-4xl">
-      <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
+      <h2 id="marginal-vs-effective" class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
         Marginal vs. Effective Tax Rate
       </h2>
       <div class="grid gap-4 sm:grid-cols-2">
@@ -189,13 +189,13 @@ const deductions = [
   <!-- Step-by-Step Example -->
   <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-4xl">
-      <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
+      <h2 id="tax-calculation-example" class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
         Step-by-Step Example: $100,000 Single Filer
       </h2>
 
       <!-- Step 1 -->
       <div class="mb-6 rounded-xl border border-slate-200 p-6 dark:border-slate-700">
-        <h3 class="mb-2 text-lg font-semibold text-slate-900 dark:text-white">Step 1: Apply the Standard Deduction</h3>
+        <h3 id="example-step-1" class="mb-2 text-lg font-semibold text-slate-900 dark:text-white">Step 1: Apply the Standard Deduction</h3>
         <p class="text-slate-600 dark:text-slate-400">
           $100,000 − $15,000 = <span class="font-semibold text-slate-900 dark:text-white">$85,000 taxable income</span>
         </p>
@@ -203,7 +203,7 @@ const deductions = [
 
       <!-- Step 2 -->
       <div class="mb-6 rounded-xl border border-slate-200 p-6 dark:border-slate-700">
-        <h3 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Step 2: Apply Each Bracket</h3>
+        <h3 id="example-step-2" class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Step 2: Apply Each Bracket</h3>
         <div class="overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
           <table class="w-full text-sm">
             <thead>
@@ -233,7 +233,7 @@ const deductions = [
 
       <!-- Step 3 -->
       <div class="rounded-xl border border-slate-200 p-6 dark:border-slate-700">
-        <h3 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Step 3: Calculate Rates</h3>
+        <h3 id="example-step-3" class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Step 3: Calculate Rates</h3>
         <div class="grid gap-3 sm:grid-cols-3">
           <div class="rounded-lg bg-slate-50 p-4 text-center dark:bg-slate-800">
             <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Marginal Rate</p>
@@ -263,7 +263,7 @@ const deductions = [
   <!-- Why Marginal Rates Matter -->
   <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-4xl">
-      <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
+      <h2 id="why-marginal-rates-matter" class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
         Why Marginal Rates Matter for Decisions
       </h2>
       <div class="grid gap-4 sm:grid-cols-2">
@@ -301,7 +301,7 @@ const deductions = [
   <!-- Common Misconceptions -->
   <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-4xl">
-      <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
+      <h2 id="common-misconceptions" class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
         Common Misconceptions
       </h2>
 
@@ -337,7 +337,7 @@ const deductions = [
     <div class="mx-auto max-w-4xl">
       <div class="grid gap-8 sm:grid-cols-2">
         <div>
-          <h2 class="mb-3 text-xl font-bold text-slate-900 dark:text-white">
+          <h2 id="brackets-and-state-tax" class="mb-3 text-xl font-bold text-slate-900 dark:text-white">
             How Brackets Interact with State Tax
           </h2>
           <p class="text-sm text-slate-600 dark:text-slate-400">
@@ -348,7 +348,7 @@ const deductions = [
           </p>
         </div>
         <div>
-          <h2 class="mb-3 text-xl font-bold text-slate-900 dark:text-white">
+          <h2 id="planning-around-brackets" class="mb-3 text-xl font-bold text-slate-900 dark:text-white">
             Planning Around Bracket Boundaries
           </h2>
           <p class="mb-3 text-sm text-slate-600 dark:text-slate-400">

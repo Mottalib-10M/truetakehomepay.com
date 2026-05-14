@@ -76,7 +76,7 @@ const {
   {relatedCalculators.length > 0 && (
     <section class="border-t border-slate-200 bg-slate-50 px-4 py-16 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <h2 class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
+        <h2 id="related-calculators" class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
           Related Calculators
         </h2>
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -98,11 +98,11 @@ const {
   <section class="border-t border-slate-200 px-4 py-8 dark:border-slate-800 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
       {sources && (
-        <p class="text-xs text-slate-400 dark:text-slate-500">
+        <p class="text-xs text-slate-500 dark:text-slate-400">
           <strong>Sources:</strong> <Fragment set:html={sources} />
         </p>
       )}
-      <p class="mt-2 text-xs text-slate-400 dark:text-slate-500">
+      <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
         {DISCLAIMER}
       </p>
     </div>
