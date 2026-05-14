@@ -82,7 +82,7 @@ const schema = {
   <!-- State Links Grid -->
   <section class="border-t border-slate-200 bg-slate-50 px-4 py-16 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-7xl">
-      <h2 class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
+      <h2 id="calculator-by-state" class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
         Paycheck Calculator by State
       </h2>
       <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
@@ -104,7 +104,7 @@ const schema = {
   <!-- Popular Salary Amounts -->
   <section class="px-4 py-16 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-7xl">
-      <h2 class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
+      <h2 id="popular-salaries" class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
         Popular Salary After Taxes
       </h2>
       <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
@@ -126,7 +126,7 @@ const schema = {
   <!-- How It's Calculated -->
   <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
-      <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
+      <h2 id="how-paycheck-is-calculated" class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
         How Your Paycheck Is Calculated
       </h2>
       <div class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-400">
@@ -134,22 +134,22 @@ const schema = {
           Your paycheck starts with your gross salary — the total amount your employer pays you before any deductions. From there, several mandatory and optional deductions are subtracted to arrive at your net (take-home) pay.
         </p>
 
-        <h3>Federal Income Tax</h3>
+        <h3 id="federal-income-tax">Federal Income Tax</h3>
         <p>
           The US uses a progressive federal income tax system with seven brackets ranging from 10% to 37%. Your filing status (Single, Married Filing Jointly, etc.) determines which brackets apply. Only the income within each bracket is taxed at that rate — not your entire salary. After accounting for the standard deduction ($15,700 for single filers in {TAX_YEAR}), your remaining taxable income flows through each bracket.
         </p>
 
-        <h3>FICA Taxes (Social Security + Medicare)</h3>
+        <h3 id="fica-taxes">FICA Taxes (Social Security + Medicare)</h3>
         <p>
           FICA taxes are flat-rate payroll taxes. Social Security tax is 6.2% of your wages up to ${(176100).toLocaleString()} (the {TAX_YEAR} wage base). Medicare tax is 1.45% on all wages, with an additional 0.9% on wages above $200,000 for single filers. Your employer pays a matching amount for both.
         </p>
 
-        <h3>State Income Tax</h3>
+        <h3 id="state-income-tax">State Income Tax</h3>
         <p>
           {NO_INCOME_TAX_STATES.length} states (Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming) have no state income tax on wages. The remaining states have either flat rates (like Illinois at 4.95% or Pennsylvania at 3.07%) or progressive bracket systems (like California's 1%-13.3% range). State tax is the biggest variable in your take-home pay depending on where you live.
         </p>
 
-        <h3>Pre-Tax Deductions</h3>
+        <h3 id="pre-tax-deductions">Pre-Tax Deductions</h3>
         <p>
           Traditional 401(k) contributions, HSA contributions, and employer-sponsored health insurance premiums are subtracted <em>before</em> taxes are calculated, reducing your taxable income. HSA and FSA contributions also reduce your FICA taxes, while 401(k) contributions only reduce income taxes.
         </p>
@@ -165,7 +165,7 @@ const schema = {
   <!-- Related Calculators -->
   <section class="border-t border-slate-200 bg-slate-50 px-4 py-16 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-7xl">
-      <h2 class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
+      <h2 id="related-calculators" class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
         Related Calculators
       </h2>
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
