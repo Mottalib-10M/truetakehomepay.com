@@ -16,8 +16,8 @@ const { amount } = Astro.props;
 const formatted = formatCurrencyRound(amount);
 
 // ─── Title & Meta (50-60 chars title, 150-160 chars description) ────
-const title = `${formatted} After Taxes: ${TAX_YEAR} Take-Home Pay`;
-const description = `Calculate your take-home pay on a ${formatted} salary in ${TAX_YEAR}. See after-tax income for all 50 states with federal and state tax breakdown.`;
+const title = `${formatted} Salary After Taxes: ${TAX_YEAR} Take-Home Pay Calculator`;
+const description = `How much is ${formatted} after taxes in ${TAX_YEAR}? Calculate your take-home pay on a ${formatted} salary with federal and state income tax breakdown for all 50 US states.`;
 
 // ─── Income-range contextual content ─────────────────────────────────
 type IncomeRange = 'low' | 'mid' | 'upper' | 'high';
@@ -101,12 +101,12 @@ const faqs = [
 const relatedCalculators = [
   ...relatedAmounts.slice(0, 2).map((amt) => ({
     title: `${formatCurrencyRound(amt)} After Taxes`,
-    href: `/${amt}-after-taxes`,
+    href: `/${amt}-after-taxes/`,
     desc: `${TAX_YEAR} take-home pay`,
   })),
   ...popularStates.slice(0, 2).map((s) => ({
     title: `${formatted} in ${s.name}`,
-    href: `/${s.slug}/${amount}-after-taxes`,
+    href: `/${s.slug}/${amount}-after-taxes/`,
     desc: `${s.name} take-home pay`,
   })),
 ];
@@ -225,7 +225,7 @@ const intro = `How much is ${formatted} after taxes in ${TAX_YEAR}? Use our free
         <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
           {TOP_10_STATES.map((code) => (
             <a
-              href={`/${STATES[code].slug}/${amount}-after-taxes`}
+              href={`/${STATES[code].slug}/${amount}-after-taxes/`}
               class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-sm transition-colors hover:border-navy-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
             >
               <span class="font-semibold text-navy-700 dark:text-navy-400">{STATES[code].name}</span>
@@ -244,7 +244,7 @@ const intro = `How much is ${formatted} after taxes in ${TAX_YEAR}? Use our free
         <div class="grid grid-cols-3 gap-2 sm:grid-cols-5">
           {SALARY_AMOUNTS.filter((s) => s !== amount).map((s) => (
             <a
-              href={`/${s}-after-taxes`}
+              href={`/${s}-after-taxes/`}
               class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-sm transition-colors hover:border-navy-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
             >
               <span class="tabular-nums font-semibold text-navy-700 dark:text-navy-400">

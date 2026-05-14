@@ -1,10 +1,10 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import MortgageAffordabilityCalculator from '../components/calculators/MortgageAffordabilityCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `How Much House Can I Afford? ${TAX_YEAR} Mortgage Calculator`;
-const description = `Find out how much house you can afford in ${TAX_YEAR}. Enter your income, debts, and down payment to calculate your maximum home price and monthly payment.`;
+const description = `Find out how much house you can afford in ${TAX_YEAR}. Enter your income, debts, and down payment to calculate your maximum home price, monthly payment, and budget.`;
 
 const faqs = [
   {
@@ -26,10 +26,10 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Mortgage Calculator', href: '/mortgage-calculator', desc: 'Monthly payment estimator' },
-  { title: 'Rent vs Buy', href: '/rent-vs-buy-calculator', desc: 'Should you rent or buy?' },
+  { title: 'Mortgage Calculator', href: '/mortgage-calculator/', desc: 'Monthly payment estimator' },
+  { title: 'Rent vs Buy', href: '/rent-vs-buy-calculator/', desc: 'Should you rent or buy?' },
   { title: 'Paycheck Calculator', href: '/', desc: 'Verify your take-home pay' },
-  { title: 'Debt Consolidation', href: '/debt-consolidation-calculator', desc: 'Lower your DTI ratio' },
+  { title: 'Debt Consolidation', href: '/debt-consolidation-calculator/', desc: 'Lower your DTI ratio' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Mortgage Affordability Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/mortgage-affordability-calculator',
+  url: 'https://truetakehomepay.com/mortgage-affordability-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`CFPB (Consumer Financial Protection Bureau) homebuyer guides, Fannie Mae and Freddie Mac lending guidelines, HUD FHA loan requirements. Last updated for ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <MortgageAffordabilityCalculator client:load />
 </CalculatorLayout>

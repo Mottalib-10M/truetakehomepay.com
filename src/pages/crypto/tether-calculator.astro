@@ -1,0 +1,64 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import CryptoInvestmentSimulator from '../../components/calculators/CryptoInvestmentSimulator';
+import { TAX_YEAR } from '../../lib/constants';
+
+const title = `Tether (USDT) Tax Calculator ${TAX_YEAR}: Investment Gains`;
+const description = `Yes, Tether trades trigger taxes. Calculate ${TAX_YEAR} capital gains on USDT transactions including stablecoin swaps. See IRS rates, NIIT thresholds, and net profit.`;
+
+const faqs = [
+  {
+    question: 'Do I owe taxes on Tether (USDT) trades?',
+    answer: `Yes. Even though USDT is a stablecoin pegged to $1, any trade involving Tether is a taxable event. If you buy crypto with USDT, sell crypto for USDT, or trade USDT for another stablecoin, you may realize small gains or losses due to price fluctuations. The IRS requires reporting all crypto transactions.`,
+  },
+  {
+    question: 'Can USDT have capital gains if it is always $1?',
+    answer: `USDT occasionally trades slightly above or below $1.00 due to market conditions. If you bought USDT at $0.998 and later used it when it was worth $1.002, you technically have a small capital gain. In practice, these amounts are minimal, but they should still be reported on your tax return.`,
+  },
+  {
+    question: 'How is USDT lending income taxed?',
+    answer: `Interest earned from lending Tether on DeFi platforms or centralized exchanges is taxed as ordinary income at your marginal tax rate (10%-37%). This income is reported when received, based on the fair market value at that time. It is not treated as a capital gain.`,
+  },
+  {
+    question: 'Is converting USDT to USD taxable?',
+    answer: `Yes, converting USDT to USD is technically a taxable event. Your gain or loss is the difference between the USD you receive and your cost basis in the USDT. Since USDT closely tracks $1, the gain or loss is typically negligible but must still be reported to the IRS.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'USD Coin Calculator', href: '/crypto/usd-coin-calculator/', desc: 'USDC investment simulator' },
+  { title: 'Bitcoin Calculator', href: '/crypto/bitcoin-calculator/', desc: 'BTC investment simulator' },
+  { title: 'Crypto Tax Calculator', href: '/cryptocurrency-tax-calculator/', desc: 'Capital gains tax on crypto' },
+  { title: 'All Crypto Calculators', href: '/crypto/', desc: 'Top 10 crypto simulators' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Tether Tax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://truetakehomepay.com/crypto/tether-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Tether (USDT) Tax Calculator ${TAX_YEAR}`}
+  intro={`Calculate taxes on your Tether trades and investments for ${TAX_YEAR}. Even stablecoin transactions can trigger capital gains. See your USDT tax liability and net profit.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Notice 2014-21 (cryptocurrency as property), IRC Section 1(h) (capital gains rates), IRC Section 1411 (NIIT). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <CryptoInvestmentSimulator
+    client:load
+    cryptoName="Tether"
+    cryptoSymbol="USDT"
+    defaultBuyPrice={1}
+  />
+</CalculatorLayout>

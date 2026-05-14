@@ -1,0 +1,64 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import CryptoInvestmentSimulator from '../../components/calculators/CryptoInvestmentSimulator';
+import { TAX_YEAR } from '../../lib/constants';
+
+const title = `Cardano ADA Tax Calculator ${TAX_YEAR}: Capital Gains Guide`;
+const description = `Calculate ${TAX_YEAR} taxes on your Cardano gains from trading or staking ADA. See short-term vs long-term capital gains rates, NIIT rules, and your total net profit.`;
+
+const faqs = [
+  {
+    question: 'How is Cardano (ADA) taxed?',
+    answer: `Cardano is taxed as property by the IRS. Selling ADA for a profit triggers capital gains tax. Short-term gains (held one year or less) are taxed at ordinary income rates (10%-37%). Long-term gains (held over one year) qualify for preferential rates of 0%, 15%, or 20%.`,
+  },
+  {
+    question: 'Are Cardano staking rewards taxable?',
+    answer: `Yes. ADA staking rewards are taxed as ordinary income when received, based on the fair market value at the time of receipt. Each epoch's rewards is a separate taxable event. When you later sell staked ADA, any appreciation above the received value is a capital gain.`,
+  },
+  {
+    question: 'How do I track ADA staking rewards for taxes?',
+    answer: `You should record the date, amount of ADA received, and fair market value in USD for each staking reward. Many wallets and tax software can export this data automatically. Each reward starts a new holding period for capital gains purposes when you eventually sell.`,
+  },
+  {
+    question: 'Is delegating ADA to a stake pool taxable?',
+    answer: `No. Simply delegating your ADA to a stake pool is not a taxable event because you retain ownership of your tokens. Tax is only triggered when you receive staking rewards (ordinary income) or when you sell, trade, or dispose of your ADA (capital gains).`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'XRP Calculator', href: '/crypto/xrp-calculator/', desc: 'XRP investment simulator' },
+  { title: 'Ethereum Calculator', href: '/crypto/ethereum-calculator/', desc: 'ETH investment simulator' },
+  { title: 'Crypto Tax Calculator', href: '/cryptocurrency-tax-calculator/', desc: 'Capital gains tax on crypto' },
+  { title: 'All Crypto Calculators', href: '/crypto/', desc: 'Top 10 crypto simulators' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Cardano Investment Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://truetakehomepay.com/crypto/cardano-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Cardano (ADA) Investment Calculator ${TAX_YEAR}`}
+  intro={`Simulate a Cardano investment and calculate your ${TAX_YEAR} capital gains tax. Enter your buy and sell prices to see your ADA profit after federal tax and NIIT.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Notice 2014-21 (cryptocurrency as property), IRC Section 1(h) (capital gains rates), IRC Section 1411 (NIIT). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <CryptoInvestmentSimulator
+    client:load
+    cryptoName="Cardano"
+    cryptoSymbol="ADA"
+    defaultBuyPrice={0.8}
+  />
+</CalculatorLayout>

@@ -1,10 +1,10 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import SelfEmploymentTaxCalculator from '../components/calculators/SelfEmploymentTaxCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `Self-Employment Tax Calculator ${TAX_YEAR}: 1099 Tax Estimate`;
-const description = `Calculate your ${TAX_YEAR} self-employment tax as a freelancer or 1099 contractor. See your SE tax, federal income tax, and estimated quarterly payments.`;
+const description = `Calculate your ${TAX_YEAR} self-employment tax as a freelancer or 1099 contractor. See SE tax, federal income tax, QBI deduction, and estimated quarterly payments.`;
 
 const faqs = [
   {
@@ -35,10 +35,10 @@ const faqs = [
 
 const relatedCalculators = [
   { title: 'Paycheck Calculator', href: '/', desc: 'W-2 employee take-home pay' },
-  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax estimate' },
-  { title: 'Salary Calculator', href: '/salary-calculator', desc: 'Annual salary breakdown' },
-  { title: 'Bonus Tax Calculator', href: '/bonus-tax-calculator', desc: 'Tax on bonus payments' },
-  { title: 'Take-Home Pay Calculator', href: '/take-home-pay-calculator', desc: 'Net pay after all taxes' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator/', desc: 'Federal + state tax estimate' },
+  { title: 'Salary Calculator', href: '/salary-calculator/', desc: 'Annual salary breakdown' },
+  { title: 'Bonus Tax Calculator', href: '/bonus-tax-calculator/', desc: 'Tax on bonus payments' },
+  { title: 'Take-Home Pay Calculator', href: '/take-home-pay-calculator/', desc: 'Net pay after all taxes' },
 ];
 
 const schema = {
@@ -46,7 +46,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Self-Employment Tax Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/self-employment-tax-calculator',
+  url: 'https://truetakehomepay.com/self-employment-tax-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: {
@@ -68,9 +68,8 @@ const schema = {
   schema={schema}
   sources={`IRS Publication 334 (Tax Guide for Small Business), IRS Schedule SE instructions, IRS Rev. Proc. 2025-11 (${TAX_YEAR} brackets and thresholds), SSA.gov (Social Security wage base $176,100). Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator
+  <SelfEmploymentTaxCalculator
     client:load
-    defaultPayFrequency="annual"
-    defaultGross={85000}
+    defaultIncome={85000}
   />
 </CalculatorLayout>

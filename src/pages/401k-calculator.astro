@@ -1,6 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import RetirementCalculator from '../components/calculators/RetirementCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `401(k) Calculator ${TAX_YEAR}: Retirement Savings Projection`;
@@ -26,11 +26,11 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Roth IRA Calculator', href: '/roth-ira-calculator', desc: 'Tax-free retirement growth' },
-  { title: 'Traditional IRA', href: '/traditional-ira-calculator', desc: 'Tax-deferred IRA growth' },
+  { title: 'Roth IRA Calculator', href: '/roth-ira-calculator/', desc: 'Tax-free retirement growth' },
+  { title: 'Traditional IRA', href: '/traditional-ira-calculator/', desc: 'Tax-deferred IRA growth' },
   { title: 'Paycheck Calculator', href: '/', desc: 'See 401(k) impact on pay' },
-  { title: 'Compound Interest', href: '/compound-interest-calculator', desc: 'Investment growth projections' },
-  { title: 'HSA Calculator', href: '/hsa-calculator', desc: 'Health savings tax benefits' },
+  { title: 'Compound Interest', href: '/compound-interest-calculator/', desc: 'Investment growth projections' },
+  { title: 'HSA Calculator', href: '/hsa-calculator/', desc: 'Health savings tax benefits' },
 ];
 
 const schema = {
@@ -38,7 +38,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `401(k) Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/401k-calculator',
+  url: 'https://truetakehomepay.com/401k-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -56,5 +56,5 @@ const schema = {
   schema={schema}
   sources={`IRS Notice 2024-80 (${TAX_YEAR} 401(k) contribution limits), IRS Publication 560, DOL Employee Benefits Security Administration. Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <RetirementCalculator client:load />
 </CalculatorLayout>

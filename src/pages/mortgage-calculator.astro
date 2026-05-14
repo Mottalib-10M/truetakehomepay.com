@@ -1,6 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import MortgageCalculator from '../components/calculators/MortgageCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `Mortgage Calculator ${TAX_YEAR}: Monthly Payment Estimator`;
@@ -26,11 +26,11 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Affordability Calculator', href: '/mortgage-affordability-calculator', desc: 'How much house can I afford?' },
-  { title: 'Refinance Calculator', href: '/mortgage-refinance-calculator', desc: 'Refinance break-even analysis' },
-  { title: 'Rent vs Buy', href: '/rent-vs-buy-calculator', desc: 'Compare renting vs buying' },
+  { title: 'Affordability Calculator', href: '/mortgage-affordability-calculator/', desc: 'How much house can I afford?' },
+  { title: 'Refinance Calculator', href: '/mortgage-refinance-calculator/', desc: 'Refinance break-even analysis' },
+  { title: 'Rent vs Buy', href: '/rent-vs-buy-calculator/', desc: 'Compare renting vs buying' },
   { title: 'Paycheck Calculator', href: '/', desc: 'Verify your take-home pay' },
-  { title: 'Loan Calculator', href: '/loan-calculator', desc: 'General loan payments' },
+  { title: 'Loan Calculator', href: '/loan-calculator/', desc: 'General loan payments' },
 ];
 
 const schema = {
@@ -38,7 +38,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Mortgage Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/mortgage-calculator',
+  url: 'https://truetakehomepay.com/mortgage-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -56,5 +56,5 @@ const schema = {
   schema={schema}
   sources={`Freddie Mac Primary Mortgage Market Survey (current rates), CFPB (Consumer Financial Protection Bureau) mortgage guides, IRS Publication 936 (home mortgage interest deduction). Last updated for ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <MortgageCalculator client:load />
 </CalculatorLayout>

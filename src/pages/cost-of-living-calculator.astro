@@ -1,9 +1,9 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import CostOfLivingCalculator from '../components/calculators/CostOfLivingCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
-const title = `Cost of Living Calculator ${TAX_YEAR}: Compare US Cities`;
+const title = `Cost of Living Calculator ${TAX_YEAR}: Compare Any US City`;
 const description = `Compare the cost of living between US cities in ${TAX_YEAR}. See differences in housing, food, transportation, healthcare, and the salary needed to maintain lifestyle.`;
 
 const faqs = [
@@ -26,10 +26,10 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Take-Home Comparison', href: '/take-home-comparison', desc: 'Compare pay across states' },
+  { title: 'Take-Home Comparison', href: '/take-home-comparison/', desc: 'Compare pay across states' },
   { title: 'Paycheck Calculator', href: '/', desc: 'Calculate your take-home pay' },
-  { title: 'Rent vs Buy', href: '/rent-vs-buy-calculator', desc: 'Renting vs buying analysis' },
-  { title: 'Mortgage Affordability', href: '/mortgage-affordability-calculator', desc: 'What can you afford?' },
+  { title: 'Rent vs Buy', href: '/rent-vs-buy-calculator/', desc: 'Renting vs buying analysis' },
+  { title: 'Mortgage Affordability', href: '/mortgage-affordability-calculator/', desc: 'What can you afford?' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Cost of Living Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/cost-of-living-calculator',
+  url: 'https://truetakehomepay.com/cost-of-living-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`Bureau of Labor Statistics (BLS) Consumer Price Index, U.S. Census Bureau American Community Survey, Council for Community and Economic Research (C2ER) Cost of Living Index. Last updated for ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <CostOfLivingCalculator client:load />
 </CalculatorLayout>

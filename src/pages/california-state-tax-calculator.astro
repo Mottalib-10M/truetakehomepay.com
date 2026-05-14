@@ -3,7 +3,7 @@ import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
-const title = `California Tax Calculator ${TAX_YEAR}: 10 Brackets + SDI`;
+const title = `California State Tax Calculator ${TAX_YEAR}: All 10 Brackets`;
 const description = `Calculate your California state income tax for ${TAX_YEAR}. See all 10 tax brackets (1%-13.3%), SDI withholding, and your total CA tax liability with deductions.`;
 
 const faqs = [
@@ -26,11 +26,11 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Paycheck Calculator', href: '/paycheck-calculator/california', desc: 'CA paycheck breakdown' },
-  { title: 'New York Tax Calculator', href: '/new-york-state-tax-calculator', desc: 'Compare with NY taxes' },
-  { title: 'Take-Home Comparison', href: '/take-home-comparison', desc: 'Compare all 50 states' },
-  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state taxes' },
-  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator', desc: 'CA taxes gains as income' },
+  { title: 'Paycheck Calculator', href: '/paycheck-calculator/california/', desc: 'CA paycheck breakdown' },
+  { title: 'New York Tax Calculator', href: '/new-york-state-tax-calculator/', desc: 'Compare with NY taxes' },
+  { title: 'Take-Home Comparison', href: '/take-home-comparison/', desc: 'Compare all 50 states' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator/', desc: 'Federal + state taxes' },
+  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator/', desc: 'CA taxes gains as income' },
 ];
 
 const schema = {
@@ -38,7 +38,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `California Tax Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/california-state-tax-calculator',
+  url: 'https://truetakehomepay.com/california-state-tax-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -56,5 +56,5 @@ const schema = {
   schema={schema}
   sources={`California Franchise Tax Board (ftb.ca.gov) ${TAX_YEAR} tax rates and brackets, California EDD (SDI rates), IRS Rev. Proc. 2025-11 (federal brackets). Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <PaycheckCalculator client:load defaultState="CA" />
 </CalculatorLayout>

@@ -4,7 +4,7 @@ import { TAX_YEAR } from '../lib/constants';
 import { STATES, getAllStateSlugs, getStateBySlug } from '../data/state-meta';
 
 const title = `Sales Tax Calculator ${TAX_YEAR}: State & Local Rates by State`;
-const description = `Calculate sales tax for any US state and city. See state, local, and combined rates. Free ${TAX_YEAR} sales tax calculator.`;
+const description = `Calculate ${TAX_YEAR} sales tax for any US state and city. See combined state and local tax rates, exemptions, and total purchase cost. Free sales tax estimator.`;
 
 const faqs = [
   {
@@ -64,7 +64,7 @@ const stateEntries = Object.entries(STATES)
       <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {stateEntries.map((s) => (
           <a
-            href={`/sales-tax-calculator/${s.slug}`}
+            href={`/sales-tax-calculator/${s.slug}/`}
             class="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:border-navy-300 hover:bg-navy-50 hover:text-navy-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-navy-600 dark:hover:bg-slate-700 dark:hover:text-navy-400"
           >
             {s.name}

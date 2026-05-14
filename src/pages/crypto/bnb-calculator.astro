@@ -1,0 +1,64 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import CryptoInvestmentSimulator from '../../components/calculators/CryptoInvestmentSimulator';
+import { TAX_YEAR } from '../../lib/constants';
+
+const title = `BNB Tax Calculator ${TAX_YEAR}: Binance Coin Capital Gains`;
+const description = `Traded BNB on Binance in ${TAX_YEAR}? Calculate capital gains tax on your profits. See how holding period and income level affect your tax rate, NIIT, and net gains.`;
+
+const faqs = [
+  {
+    question: 'How is BNB (Binance Coin) taxed?',
+    answer: `BNB is taxed as property by the IRS, like all cryptocurrencies. Selling BNB for a profit triggers capital gains tax. Short-term gains (held one year or less) are taxed at your ordinary income rate (10%-37%). Long-term gains (held over one year) are taxed at 0%, 15%, or 20%.`,
+  },
+  {
+    question: 'Are BNB fee discounts taxable?',
+    answer: `Using BNB to pay for trading fees on Binance at a discount is a taxable event because you are disposing of BNB. Your gain or loss is the difference between the fair market value of BNB when used and your cost basis. The fee discount itself is not separately taxed.`,
+  },
+  {
+    question: 'How are BNB Launchpool rewards taxed?',
+    answer: `BNB staking rewards from Binance Launchpool or other programs are taxed as ordinary income when received, based on the fair market value at receipt. When you later sell the rewarded tokens, any additional appreciation is taxed as a capital gain with the holding period starting from the date of receipt.`,
+  },
+  {
+    question: 'What is the tax on BNB auto-burn?',
+    answer: `BNB auto-burn (token buyback and burn) reduces total supply but does not directly trigger a tax event for holders. You do not owe tax simply because the supply decreased. Tax is only owed when you sell, trade, or dispose of your BNB at a gain.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Bitcoin Calculator', href: '/crypto/bitcoin-calculator/', desc: 'BTC investment simulator' },
+  { title: 'Ethereum Calculator', href: '/crypto/ethereum-calculator/', desc: 'ETH investment simulator' },
+  { title: 'Crypto Tax Calculator', href: '/cryptocurrency-tax-calculator/', desc: 'Capital gains tax on crypto' },
+  { title: 'All Crypto Calculators', href: '/crypto/', desc: 'Top 10 crypto simulators' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `BNB Investment Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://truetakehomepay.com/crypto/bnb-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`BNB (Binance Coin) Investment Calculator ${TAX_YEAR}`}
+  intro={`Simulate a BNB investment and calculate your ${TAX_YEAR} capital gains tax. Enter your buy and sell prices to see your Binance Coin profit after federal tax and NIIT.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Notice 2014-21 (cryptocurrency as property), IRC Section 1(h) (capital gains rates), IRC Section 1411 (NIIT). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <CryptoInvestmentSimulator
+    client:load
+    cryptoName="BNB"
+    cryptoSymbol="BNB"
+    defaultBuyPrice={600}
+  />
+</CalculatorLayout>

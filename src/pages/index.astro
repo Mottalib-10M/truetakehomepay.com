@@ -6,7 +6,7 @@ import { TAX_YEAR, DISCLAIMER } from '../lib/constants';
 import { getStatesArray, NO_INCOME_TAX_STATES } from '../data/state-meta';
 
 const title = `Paycheck Calculator ${TAX_YEAR}: Federal + State Take-Home Pay`;
-const description = `Free ${TAX_YEAR} paycheck calculator. Calculate your take-home pay after federal and state taxes, FICA, 401(k), and more. All 50 states supported.`;
+const description = `Free ${TAX_YEAR} paycheck calculator. Calculate your net take-home pay after federal and state taxes, FICA, 401(k), and deductions. All 50 US states supported.`;
 
 const states = getStatesArray();
 
@@ -42,7 +42,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Paycheck Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/',
+  url: 'https://truetakehomepay.com/',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: {
@@ -88,7 +88,7 @@ const schema = {
       <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
         {states.map((state) => (
           <a
-            href={`/paycheck-calculator/${state.slug}`}
+            href={`/paycheck-calculator/${state.slug}/`}
             class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-sm text-slate-700 transition-colors hover:border-navy-300 hover:bg-navy-50 hover:text-navy-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-navy-600 dark:hover:bg-navy-900/30 dark:hover:text-navy-300"
           >
             <span class="font-medium">{state.name}</span>
@@ -110,7 +110,7 @@ const schema = {
       <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
         {[30000, 40000, 50000, 60000, 70000, 75000, 80000, 90000, 100000, 120000, 150000, 200000, 250000, 500000].map((amount) => (
           <a
-            href={`/${amount}-after-taxes`}
+            href={`/${amount}-after-taxes/`}
             class="rounded-xl border border-slate-200 bg-white p-4 text-center transition-all hover:border-navy-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
           >
             <span class="tabular-nums text-lg font-bold text-navy-700 dark:text-navy-400">
@@ -170,14 +170,14 @@ const schema = {
       </h2>
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { title: 'Salary Calculator', href: '/salary-calculator', desc: 'Annual salary breakdown' },
-          { title: 'Hourly Pay Calculator', href: '/hourly-paycheck-calculator', desc: 'Convert hourly rate to annual' },
-          { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax estimate' },
-          { title: '401(k) Calculator', href: '/401k-calculator', desc: 'Retirement savings projection' },
-          { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator', desc: '1099 / freelancer tax' },
-          { title: 'Bonus Tax Calculator', href: '/bonus-tax-calculator', desc: 'Bonus withholding estimate' },
-          { title: 'Take-Home Comparison', href: '/take-home-comparison', desc: 'Compare states side-by-side' },
-          { title: 'Mortgage Calculator', href: '/mortgage-calculator', desc: 'Monthly payment estimator' },
+          { title: 'Salary Calculator', href: '/salary-calculator/', desc: 'Annual salary breakdown' },
+          { title: 'Hourly Pay Calculator', href: '/hourly-paycheck-calculator/', desc: 'Convert hourly rate to annual' },
+          { title: 'Income Tax Calculator', href: '/income-tax-calculator/', desc: 'Federal + state tax estimate' },
+          { title: '401(k) Calculator', href: '/401k-calculator/', desc: 'Retirement savings projection' },
+          { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator/', desc: '1099 / freelancer tax' },
+          { title: 'Bonus Tax Calculator', href: '/bonus-tax-calculator/', desc: 'Bonus withholding estimate' },
+          { title: 'Take-Home Comparison', href: '/take-home-comparison/', desc: 'Compare states side-by-side' },
+          { title: 'Mortgage Calculator', href: '/mortgage-calculator/', desc: 'Monthly payment estimator' },
         ].map((calc) => (
           <a
             href={calc.href}

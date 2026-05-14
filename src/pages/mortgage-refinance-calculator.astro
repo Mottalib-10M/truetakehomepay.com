@@ -1,10 +1,10 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import MortgageRefinanceCalculator from '../components/calculators/MortgageRefinanceCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `Mortgage Refinance Calculator ${TAX_YEAR}: Break-Even Analysis`;
-const description = `Calculate if refinancing your mortgage makes sense in ${TAX_YEAR}. Compare current vs new payments, see your break-even point, and total interest savings.`;
+const description = `Calculate if refinancing your mortgage is worth it in ${TAX_YEAR}. Compare current vs new loan payments, see your break-even point, and total interest savings.`;
 
 const faqs = [
   {
@@ -26,10 +26,10 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Mortgage Calculator', href: '/mortgage-calculator', desc: 'Monthly payment estimator' },
-  { title: 'Affordability Calculator', href: '/mortgage-affordability-calculator', desc: 'How much can you afford?' },
-  { title: 'Loan Calculator', href: '/loan-calculator', desc: 'General loan payments' },
-  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Invest your savings' },
+  { title: 'Mortgage Calculator', href: '/mortgage-calculator/', desc: 'Monthly payment estimator' },
+  { title: 'Affordability Calculator', href: '/mortgage-affordability-calculator/', desc: 'How much can you afford?' },
+  { title: 'Loan Calculator', href: '/loan-calculator/', desc: 'General loan payments' },
+  { title: 'Savings Calculator', href: '/savings-calculator/', desc: 'Invest your savings' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Mortgage Refinance Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/mortgage-refinance-calculator',
+  url: 'https://truetakehomepay.com/mortgage-refinance-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`Freddie Mac Primary Mortgage Market Survey, CFPB refinancing guides, Federal Reserve Board mortgage data. Last updated for ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <MortgageRefinanceCalculator client:load />
 </CalculatorLayout>

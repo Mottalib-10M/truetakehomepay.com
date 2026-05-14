@@ -1,6 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import OvertimePayCalculator from '../components/calculators/OvertimePayCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `Overtime Pay Calculator ${TAX_YEAR}: Calculate OT After Taxes`;
@@ -35,10 +35,10 @@ const faqs = [
 
 const relatedCalculators = [
   { title: 'Paycheck Calculator', href: '/', desc: 'Regular paycheck breakdown' },
-  { title: 'Hourly Pay Calculator', href: '/hourly-paycheck-calculator', desc: 'Hourly rate to annual' },
-  { title: 'Salary Calculator', href: '/salary-calculator', desc: 'Annual salary take-home' },
-  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax estimate' },
-  { title: 'Tip Tax Calculator', href: '/tip-tax-calculator', desc: 'Tipped employee take-home' },
+  { title: 'Hourly Pay Calculator', href: '/hourly-paycheck-calculator/', desc: 'Hourly rate to annual' },
+  { title: 'Salary Calculator', href: '/salary-calculator/', desc: 'Annual salary take-home' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator/', desc: 'Federal + state tax estimate' },
+  { title: 'Tip Tax Calculator', href: '/tip-tax-calculator/', desc: 'Tipped employee take-home' },
 ];
 
 const schema = {
@@ -46,7 +46,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Overtime Pay Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/overtime-pay-calculator',
+  url: 'https://truetakehomepay.com/overtime-pay-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: {
@@ -68,9 +68,5 @@ const schema = {
   schema={schema}
   sources={`U.S. Department of Labor (FLSA overtime rules and salary threshold), IRS Rev. Proc. 2025-11 (${TAX_YEAR} federal tax brackets), SSA.gov (Social Security wage base $176,100). Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator
-    client:load
-    defaultPayFrequency="biweekly"
-    defaultGross={52000}
-  />
+  <OvertimePayCalculator client:load />
 </CalculatorLayout>

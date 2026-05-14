@@ -1,6 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import NetWorthCalculator from '../components/calculators/NetWorthCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `Net Worth Calculator ${TAX_YEAR}: Track Your Total Wealth`;
@@ -26,10 +26,10 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Reach your savings goals' },
-  { title: '401(k) Calculator', href: '/401k-calculator', desc: 'Retirement savings growth' },
-  { title: 'Compound Interest', href: '/compound-interest-calculator', desc: 'Investment growth over time' },
-  { title: 'Debt Payoff', href: '/credit-card-payoff-calculator', desc: 'Eliminate debt faster' },
+  { title: 'Savings Calculator', href: '/savings-calculator/', desc: 'Reach your savings goals' },
+  { title: '401(k) Calculator', href: '/401k-calculator/', desc: 'Retirement savings growth' },
+  { title: 'Compound Interest', href: '/compound-interest-calculator/', desc: 'Investment growth over time' },
+  { title: 'Debt Payoff', href: '/credit-card-payoff-calculator/', desc: 'Eliminate debt faster' },
   { title: 'Paycheck Calculator', href: '/', desc: 'Maximize take-home pay' },
 ];
 
@@ -38,7 +38,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Net Worth Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/net-worth-calculator',
+  url: 'https://truetakehomepay.com/net-worth-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -56,5 +56,5 @@ const schema = {
   schema={schema}
   sources={`Federal Reserve Survey of Consumer Finances (SCF), Bureau of Labor Statistics, Federal Reserve Economic Data (FRED). Last updated for ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <NetWorthCalculator client:load />
 </CalculatorLayout>

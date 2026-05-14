@@ -1,10 +1,10 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import RothIRACalculator from '../components/calculators/RothIRACalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `Roth IRA Calculator ${TAX_YEAR}: Tax-Free Retirement Growth`;
-const description = `Calculate your Roth IRA growth potential for ${TAX_YEAR}. See contribution limits, income phase-outs, tax-free compounding, and projected retirement value.`;
+const description = `Calculate your Roth IRA growth potential for ${TAX_YEAR}. See contribution limits, income phase-outs, tax-free compounding, and how much you could save by retirement.`;
 
 const faqs = [
   {
@@ -26,10 +26,10 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Traditional IRA', href: '/traditional-ira-calculator', desc: 'Tax-deferred IRA growth' },
-  { title: '401(k) Calculator', href: '/401k-calculator', desc: 'Employer retirement plan' },
-  { title: 'Compound Interest', href: '/compound-interest-calculator', desc: 'Investment growth projections' },
-  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Check Roth income limits' },
+  { title: 'Traditional IRA', href: '/traditional-ira-calculator/', desc: 'Tax-deferred IRA growth' },
+  { title: '401(k) Calculator', href: '/401k-calculator/', desc: 'Employer retirement plan' },
+  { title: 'Compound Interest', href: '/compound-interest-calculator/', desc: 'Investment growth projections' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator/', desc: 'Check Roth income limits' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Roth IRA Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/roth-ira-calculator',
+  url: 'https://truetakehomepay.com/roth-ira-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`IRS Publication 590-A and 590-B (IRA contributions and distributions), IRS Rev. Proc. 2025-11 (${TAX_YEAR} contribution limits and phase-outs). Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <RothIRACalculator client:load />
 </CalculatorLayout>

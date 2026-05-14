@@ -1,0 +1,64 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import CryptoInvestmentSimulator from '../../components/calculators/CryptoInvestmentSimulator';
+import { TAX_YEAR } from '../../lib/constants';
+
+const title = `Bitcoin Investment & Tax Calculator ${TAX_YEAR}: BTC Gains`;
+const description = `Bought or sold Bitcoin in ${TAX_YEAR}? Estimate your capital gains tax on BTC profits. See your rate based on holding period, NIIT impact, net gain, and break-even.`;
+
+const faqs = [
+  {
+    question: 'How is Bitcoin taxed when I sell?',
+    answer: `Bitcoin is taxed as property by the IRS. When you sell BTC for a profit, you owe capital gains tax. If you held for one year or less, gains are taxed at ordinary income rates (10%-37%). If held over one year, long-term rates of 0%, 15%, or 20% apply. Use our simulator above to calculate your exact tax.`,
+  },
+  {
+    question: 'What is the capital gains tax on $100,000 of Bitcoin profit?',
+    answer: `The tax on $100,000 of Bitcoin profit depends on your holding period and income. For long-term gains, most filers pay 15% ($15,000). High earners may pay 20% ($20,000) plus 3.8% NIIT ($3,800). Short-term gains are taxed at your ordinary rate — up to 37% ($37,000) for top earners.`,
+  },
+  {
+    question: 'Do I owe taxes if I convert Bitcoin to another crypto?',
+    answer: `Yes. Trading Bitcoin for Ethereum or any other cryptocurrency is a taxable event. The IRS treats it as selling BTC and buying the other asset. You owe capital gains tax on any profit at the time of the trade, calculated as the fair market value of the received crypto minus your BTC cost basis.`,
+  },
+  {
+    question: 'How do I reduce taxes on Bitcoin gains?',
+    answer: `The most effective strategy is holding BTC for over one year to qualify for lower long-term capital gains rates. You can also harvest losses from other investments to offset gains, contribute to tax-advantaged accounts, or time sales in years with lower income. Donating appreciated BTC to charity avoids capital gains entirely.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Ethereum Calculator', href: '/crypto/ethereum-calculator/', desc: 'ETH investment simulator' },
+  { title: 'Solana Calculator', href: '/crypto/solana-calculator/', desc: 'SOL investment simulator' },
+  { title: 'Crypto Tax Calculator', href: '/cryptocurrency-tax-calculator/', desc: 'Capital gains tax on crypto' },
+  { title: 'All Crypto Calculators', href: '/crypto/', desc: 'Top 10 crypto simulators' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Bitcoin Investment Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://truetakehomepay.com/crypto/bitcoin-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Bitcoin (BTC) Investment Calculator ${TAX_YEAR}`}
+  intro={`Simulate a Bitcoin investment and calculate your ${TAX_YEAR} capital gains tax. Enter your buy price, sell price, and quantity to see your profit after federal tax and NIIT.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Notice 2014-21 (cryptocurrency as property), IRC Section 1(h) (capital gains rates), IRC Section 1411 (NIIT). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <CryptoInvestmentSimulator
+    client:load
+    cryptoName="Bitcoin"
+    cryptoSymbol="BTC"
+    defaultBuyPrice={100000}
+  />
+</CalculatorLayout>

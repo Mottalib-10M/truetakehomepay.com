@@ -30,8 +30,15 @@ const isNoTax = NO_INCOME_TAX_STATES.includes(stateCode);
 const stateConfig = getStateTaxConfig(stateCode);
 
 // ─── Title & Meta ────────────────────────────────────────────────────
-const title = `${formatted} After Taxes in ${stateName} (${TAX_YEAR})`;
-const description = `Calculate ${formatted} after taxes in ${stateName} for ${TAX_YEAR}. See your take-home pay with federal, ${stateName} state tax, and FICA breakdown.`;
+// Title: 50-60 chars — adapted to state name + amount length
+const _tFull = `${formatted} After Taxes in ${stateName} — ${TAX_YEAR} Take-Home Pay`;
+const _tShort = `${formatted} After Taxes in ${stateName} ${TAX_YEAR}`;
+const title = _tFull.length <= 60 ? _tFull : _tShort.length <= 60 ? _tShort : `${formatted} After Tax in ${stateName} ${TAX_YEAR}`;
+
+// Description: 150-160 chars — use state name once for long names
+const description = stateName.length <= 8
+  ? `How much is ${formatted} after taxes in ${stateName}? Calculate your ${TAX_YEAR} take-home pay with federal income tax, ${stateName} state tax, FICA, and deductions.`
+  : `How much is ${formatted} after taxes in ${stateName}? Calculate your ${TAX_YEAR} take-home pay with federal, state income tax, FICA, and deductions breakdown.`;
 
 // ─── State tax summary ──────────────────────────────────────────────
 let stateTaxNote: string;
@@ -97,22 +104,22 @@ const faqs = [
 const relatedCalculators = [
   {
     title: `${stateName} Paycheck Calc`,
-    href: `/paycheck-calculator/${stateSlug}`,
+    href: `/paycheck-calculator/${stateSlug}/`,
     desc: `Full ${stateName} calculator`,
   },
   {
     title: `${formatted} (National)`,
-    href: `/${amount}-after-taxes`,
+    href: `/${amount}-after-taxes/`,
     desc: 'All 50 states comparison',
   },
   ...otherAmounts.slice(0, 1).map((a) => ({
     title: `${formatCurrencyRound(a)} in ${stateName}`,
-    href: `/${stateSlug}/${a}-after-taxes`,
+    href: `/${stateSlug}/${a}-after-taxes/`,
     desc: `${stateName} take-home pay`,
   })),
   {
     title: 'Take-Home Comparison',
-    href: '/take-home-comparison',
+    href: '/take-home-comparison/',
     desc: 'Compare states side-by-side',
   },
 ];
@@ -229,8 +236,8 @@ const schema = [faqSchema, webAppSchema];
             {neighbors.map((n) => (
               <a
                 href={TOP_10_STATES.includes(n.code)
-                  ? `/${n.slug}/${amount}-after-taxes`
-                  : `/paycheck-calculator/${n.slug}`}
+                  ? `/${n.slug}/${amount}-after-taxes/`
+                  : `/paycheck-calculator/${n.slug}/`}
                 class="rounded-lg border border-slate-200 bg-white p-4 text-center transition-all hover:border-navy-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
               >
                 <span class="block font-semibold text-navy-700 dark:text-navy-400">{n.name}</span>
@@ -253,7 +260,7 @@ const schema = [faqSchema, webAppSchema];
         <div class="grid grid-cols-3 gap-2 sm:grid-cols-4">
           {otherAmounts.map((a) => (
             <a
-              href={`/${stateSlug}/${a}-after-taxes`}
+              href={`/${stateSlug}/${a}-after-taxes/`}
               class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-sm transition-colors hover:border-navy-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
             >
               <span class="tabular-nums font-semibold text-navy-700 dark:text-navy-400">
@@ -274,7 +281,7 @@ const schema = [faqSchema, webAppSchema];
         <div class="grid grid-cols-3 gap-2 sm:grid-cols-3 md:grid-cols-5">
           {otherStates.map((s) => (
             <a
-              href={`/${s.slug}/${amount}-after-taxes`}
+              href={`/${s.slug}/${amount}-after-taxes/`}
               class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-sm transition-colors hover:border-navy-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
             >
               <span class="font-semibold text-navy-700 dark:text-navy-400">{s.name}</span>

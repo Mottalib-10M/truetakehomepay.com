@@ -1,6 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import SavingsCalculator from '../components/calculators/SavingsCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `Savings Calculator ${TAX_YEAR}: Reach Your Financial Goals`;
@@ -26,10 +26,10 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Compound Interest', href: '/compound-interest-calculator', desc: 'See growth over time' },
-  { title: 'Inflation Calculator', href: '/inflation-calculator', desc: 'Account for inflation' },
+  { title: 'Compound Interest', href: '/compound-interest-calculator/', desc: 'See growth over time' },
+  { title: 'Inflation Calculator', href: '/inflation-calculator/', desc: 'Account for inflation' },
   { title: 'Paycheck Calculator', href: '/', desc: 'Know your take-home pay' },
-  { title: '401(k) Calculator', href: '/401k-calculator', desc: 'Retirement savings plan' },
+  { title: '401(k) Calculator', href: '/401k-calculator/', desc: 'Retirement savings plan' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Savings Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/savings-calculator',
+  url: 'https://truetakehomepay.com/savings-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`Federal Reserve Economic Data (FRED) for savings rates, FDIC national deposit rates, BLS Consumer Expenditure Survey. Last updated for ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <SavingsCalculator client:load />
 </CalculatorLayout>

@@ -1,9 +1,9 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import StudentLoanCalculator from '../components/calculators/StudentLoanCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
-const title = `Student Loan Calculator ${TAX_YEAR}: Repayment Estimator`;
+const title = `Student Loan Repayment Calculator ${TAX_YEAR}: Pay-Off Plan`;
 const description = `Calculate your student loan monthly payments for ${TAX_YEAR}. Compare standard, graduated, and income-driven repayment plans. See total interest and payoff timeline.`;
 
 const faqs = [
@@ -26,10 +26,10 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Loan Calculator', href: '/loan-calculator', desc: 'General loan payments' },
-  { title: 'Debt Consolidation', href: '/debt-consolidation-calculator', desc: 'Combine your debts' },
+  { title: 'Loan Calculator', href: '/loan-calculator/', desc: 'General loan payments' },
+  { title: 'Debt Consolidation', href: '/debt-consolidation-calculator/', desc: 'Combine your debts' },
   { title: 'Paycheck Calculator', href: '/', desc: 'Budget your take-home pay' },
-  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Build your savings' },
+  { title: 'Savings Calculator', href: '/savings-calculator/', desc: 'Build your savings' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Student Loan Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/student-loan-calculator',
+  url: 'https://truetakehomepay.com/student-loan-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`Federal Student Aid (studentaid.gov), Department of Education loan repayment estimator, IRS Publication 970 (student loan interest deduction). Last updated for ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <StudentLoanCalculator client:load />
 </CalculatorLayout>

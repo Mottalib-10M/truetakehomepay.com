@@ -1,10 +1,10 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import PayrollTaxCalculator from '../components/calculators/PayrollTaxCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
-const title = `Payroll Tax Calculator ${TAX_YEAR}: FICA, Social Security & Medicare`;
-const description = `Calculate your ${TAX_YEAR} payroll taxes: Social Security (6.2%), Medicare (1.45%), and Additional Medicare Tax (0.9%). See both employee and employer FICA contributions.`;
+const title = `Payroll Tax Calculator ${TAX_YEAR}: FICA & SS Medicare Tax`;
+const description = `Calculate your ${TAX_YEAR} payroll taxes: Social Security (6.2%), Medicare (1.45%), and Additional Medicare Tax (0.9%). See employee and employer FICA contributions.`;
 
 const faqs = [
   {
@@ -27,10 +27,10 @@ const faqs = [
 
 const relatedCalculators = [
   { title: 'Paycheck Calculator', href: '/', desc: 'Full paycheck breakdown' },
-  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator', desc: 'SE tax at 15.3%' },
-  { title: 'Social Security Tax', href: '/social-security-tax-calculator', desc: 'SS wage base analysis' },
-  { title: 'Medicare Surtax', href: '/medicare-surtax-calculator', desc: 'Additional Medicare Tax' },
-  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state taxes' },
+  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator/', desc: 'SE tax at 15.3%' },
+  { title: 'Social Security Tax', href: '/social-security-tax-calculator/', desc: 'SS wage base analysis' },
+  { title: 'Medicare Surtax', href: '/medicare-surtax-calculator/', desc: 'Additional Medicare Tax' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator/', desc: 'Federal + state taxes' },
 ];
 
 const schema = {
@@ -38,7 +38,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Payroll Tax Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/payroll-tax-calculator',
+  url: 'https://truetakehomepay.com/payroll-tax-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -56,5 +56,5 @@ const schema = {
   schema={schema}
   sources={`SSA.gov (${TAX_YEAR} wage base and FICA rates), IRS Publication 15 (Employer's Tax Guide), IRS Publication 15-T (Federal Income Tax Withholding Methods), IRC Section 3101-3128. Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <PayrollTaxCalculator client:load />
 </CalculatorLayout>

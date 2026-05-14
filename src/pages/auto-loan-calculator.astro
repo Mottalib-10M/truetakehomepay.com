@@ -1,9 +1,9 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import AutoLoanCalculator from '../components/calculators/AutoLoanCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
-const title = `Auto Loan Calculator ${TAX_YEAR}: Car Payment Estimator`;
+const title = `Auto Loan Calculator ${TAX_YEAR}: Monthly Car Payment Estimator`;
 const description = `Calculate your monthly car payment for ${TAX_YEAR}. Enter vehicle price, down payment, trade-in value, interest rate, and loan term to estimate your auto loan costs.`;
 
 const faqs = [
@@ -26,10 +26,10 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Loan Calculator', href: '/loan-calculator', desc: 'General loan payments' },
+  { title: 'Loan Calculator', href: '/loan-calculator/', desc: 'General loan payments' },
   { title: 'Paycheck Calculator', href: '/', desc: 'Verify your take-home pay' },
-  { title: 'Debt Consolidation', href: '/debt-consolidation-calculator', desc: 'Combine your debts' },
-  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Save for your car' },
+  { title: 'Debt Consolidation', href: '/debt-consolidation-calculator/', desc: 'Combine your debts' },
+  { title: 'Savings Calculator', href: '/savings-calculator/', desc: 'Save for your car' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Auto Loan Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/auto-loan-calculator',
+  url: 'https://truetakehomepay.com/auto-loan-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`Federal Reserve Board (consumer auto loan data), Experian State of the Automotive Finance Market, CFPB auto loan guides. Last updated for ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <AutoLoanCalculator client:load />
 </CalculatorLayout>

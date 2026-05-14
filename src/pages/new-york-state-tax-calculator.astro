@@ -3,7 +3,7 @@ import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
-const title = `New York Tax Calculator ${TAX_YEAR}: State + NYC Taxes`;
+const title = `New York Tax Calculator ${TAX_YEAR}: State + NYC Income Taxes`;
 const description = `Calculate your New York state income tax for ${TAX_YEAR}. See all NY tax brackets (4%-10.9%), plus NYC city tax for residents, and your total state tax liability.`;
 
 const faqs = [
@@ -26,10 +26,10 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'NYC Tax Calculator', href: '/nyc-tax-calculator', desc: 'NYC city + state combined' },
-  { title: 'California Tax', href: '/california-state-tax-calculator', desc: 'Compare with CA taxes' },
-  { title: 'Take-Home Comparison', href: '/take-home-comparison', desc: 'Compare all 50 states' },
-  { title: 'Paycheck Calculator', href: '/paycheck-calculator/new-york', desc: 'NY paycheck breakdown' },
+  { title: 'NYC Tax Calculator', href: '/nyc-tax-calculator/', desc: 'NYC city + state combined' },
+  { title: 'California Tax', href: '/california-state-tax-calculator/', desc: 'Compare with CA taxes' },
+  { title: 'Take-Home Comparison', href: '/take-home-comparison/', desc: 'Compare all 50 states' },
+  { title: 'Paycheck Calculator', href: '/paycheck-calculator/new-york/', desc: 'NY paycheck breakdown' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `New York Tax Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/new-york-state-tax-calculator',
+  url: 'https://truetakehomepay.com/new-york-state-tax-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`New York State Department of Taxation and Finance (tax.ny.gov) ${TAX_YEAR} rates, NYC Department of Finance (city tax rates), IRS Rev. Proc. 2025-11 (federal brackets). Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <PaycheckCalculator client:load defaultState="NY" />
 </CalculatorLayout>

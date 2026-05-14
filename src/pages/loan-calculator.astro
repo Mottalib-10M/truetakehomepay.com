@@ -1,6 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import LoanCalculator from '../components/calculators/LoanCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `Loan Calculator ${TAX_YEAR}: Personal Loan Payment Estimator`;
@@ -26,11 +26,11 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Auto Loan Calculator', href: '/auto-loan-calculator', desc: 'Car payment estimator' },
-  { title: 'Student Loan Calculator', href: '/student-loan-calculator', desc: 'Student loan repayment' },
-  { title: 'Mortgage Calculator', href: '/mortgage-calculator', desc: 'Home loan payments' },
-  { title: 'Credit Card Payoff', href: '/credit-card-payoff-calculator', desc: 'Pay off credit cards' },
-  { title: 'Debt Consolidation', href: '/debt-consolidation-calculator', desc: 'Combine your debts' },
+  { title: 'Auto Loan Calculator', href: '/auto-loan-calculator/', desc: 'Car payment estimator' },
+  { title: 'Student Loan Calculator', href: '/student-loan-calculator/', desc: 'Student loan repayment' },
+  { title: 'Mortgage Calculator', href: '/mortgage-calculator/', desc: 'Home loan payments' },
+  { title: 'Credit Card Payoff', href: '/credit-card-payoff-calculator/', desc: 'Pay off credit cards' },
+  { title: 'Debt Consolidation', href: '/debt-consolidation-calculator/', desc: 'Combine your debts' },
 ];
 
 const schema = {
@@ -38,7 +38,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Loan Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/loan-calculator',
+  url: 'https://truetakehomepay.com/loan-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -56,5 +56,5 @@ const schema = {
   schema={schema}
   sources={`Federal Reserve Board (consumer credit data), CFPB (Consumer Financial Protection Bureau) lending guides, Truth in Lending Act (TILA) disclosures. Last updated for ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <LoanCalculator client:load />
 </CalculatorLayout>

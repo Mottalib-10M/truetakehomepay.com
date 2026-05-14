@@ -1,10 +1,10 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import SocialSecurityTaxCalculator from '../components/calculators/SocialSecurityTaxCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `Social Security Tax Calculator ${TAX_YEAR}: FICA Breakdown`;
-const description = `Calculate your ${TAX_YEAR} Social Security and Medicare (FICA) taxes. See the 6.2% SS tax, 1.45% Medicare tax, and Additional Medicare Tax on your wages.`;
+const description = `See exactly how much FICA comes out of every paycheck in ${TAX_YEAR}. Breakdown of the 6.2% Social Security tax, 1.45% Medicare, wage base cap, and 0.9% surtax.`;
 
 const faqs = [
   {
@@ -27,9 +27,9 @@ const faqs = [
 
 const relatedCalculators = [
   { title: 'Paycheck Calculator', href: '/', desc: 'Full take-home pay breakdown' },
-  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator', desc: '1099 / freelancer FICA' },
-  { title: 'Medicare Surtax', href: '/medicare-surtax-calculator', desc: '0.9% + 3.8% NIIT calculator' },
-  { title: 'SS Benefits Calculator', href: '/social-security-benefits-calculator', desc: 'Estimate retirement benefits' },
+  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator/', desc: '1099 / freelancer FICA' },
+  { title: 'Medicare Surtax', href: '/medicare-surtax-calculator/', desc: '0.9% + 3.8% NIIT calculator' },
+  { title: 'SS Benefits Calculator', href: '/social-security-benefits-calculator/', desc: 'Estimate retirement benefits' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Social Security Tax Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/social-security-tax-calculator',
+  url: 'https://truetakehomepay.com/social-security-tax-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`SSA.gov (${TAX_YEAR} wage base and FICA rates), IRS Publication 15 (Employer's Tax Guide), IRS Topic 751 (Social Security and Medicare Withholding). Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <SocialSecurityTaxCalculator client:load />
 </CalculatorLayout>

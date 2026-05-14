@@ -1,0 +1,64 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import CryptoInvestmentSimulator from '../../components/calculators/CryptoInvestmentSimulator';
+import { TAX_YEAR } from '../../lib/constants';
+
+const title = `Solana (SOL) Tax & Investment Calculator ${TAX_YEAR} Guide`;
+const description = `Traded Solana in ${TAX_YEAR}? Calculate capital gains tax on your SOL profits. Enter buy and sell prices, choose your holding period, and see your total tax bill.`;
+
+const faqs = [
+  {
+    question: 'How is Solana (SOL) taxed when sold?',
+    answer: `Solana is taxed as property by the IRS. Selling SOL for a profit triggers capital gains tax. Short-term gains (held ≤1 year) are taxed at ordinary income rates (10%-37%). Long-term gains (held >1 year) qualify for lower rates of 0%, 15%, or 20% depending on your income.`,
+  },
+  {
+    question: 'Are Solana staking rewards taxable?',
+    answer: `Yes. SOL staking rewards are taxed as ordinary income when received, at the fair market value on the date of receipt. When you later sell the staked SOL, any gain above the value at receipt is taxed as a capital gain. The holding period starts from the date you received the staking reward.`,
+  },
+  {
+    question: 'How are Solana NFT sales taxed?',
+    answer: `Selling an NFT on Solana is a taxable event. If you bought an NFT with SOL, that is a disposal of SOL (taxable) and an acquisition of the NFT. When you later sell the NFT, your gain is the sale price minus your cost basis. Both transactions must be reported to the IRS.`,
+  },
+  {
+    question: 'What is the tax rate on Solana gains?',
+    answer: `The tax rate on SOL gains depends on your holding period and income. Long-term gains (held >1 year) are taxed at 0% (income up to ~$47,025 single), 15% (up to ~$518,900), or 20% (above). Short-term gains are taxed at your ordinary income bracket. High earners may also owe 3.8% NIIT.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Ethereum Calculator', href: '/crypto/ethereum-calculator/', desc: 'ETH investment simulator' },
+  { title: 'Avalanche Calculator', href: '/crypto/avalanche-calculator/', desc: 'AVAX investment simulator' },
+  { title: 'Crypto Tax Calculator', href: '/cryptocurrency-tax-calculator/', desc: 'Capital gains tax on crypto' },
+  { title: 'All Crypto Calculators', href: '/crypto/', desc: 'Top 10 crypto simulators' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Solana Investment Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://truetakehomepay.com/crypto/solana-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Solana (SOL) Investment Calculator ${TAX_YEAR}`}
+  intro={`Simulate a Solana investment and calculate your ${TAX_YEAR} capital gains tax. Enter your buy and sell prices to see your SOL profit after federal tax and NIIT.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Notice 2014-21 (cryptocurrency as property), IRC Section 1(h) (capital gains rates), IRC Section 1411 (NIIT). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <CryptoInvestmentSimulator
+    client:load
+    cryptoName="Solana"
+    cryptoSymbol="SOL"
+    defaultBuyPrice={180}
+  />
+</CalculatorLayout>

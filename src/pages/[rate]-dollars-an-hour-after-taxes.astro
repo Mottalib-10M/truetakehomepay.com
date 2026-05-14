@@ -24,8 +24,8 @@ const federalMinimum = 7.25;
 const ratioToMinimum = (rate / federalMinimum).toFixed(1);
 
 // ─── Title & Meta ────────────────────────────────────────────────────
-const title = `${formattedRate}/Hour After Taxes: ${TAX_YEAR} Take-Home`;
-const description = `How much is ${formattedRate} an hour after taxes in ${TAX_YEAR}? That's ${formattedAnnual} a year. See your weekly, bi-weekly, and monthly take-home pay breakdown.`;
+const title = `${formattedRate}/Hour After Taxes: ${TAX_YEAR} Annual Salary & Take-Home Pay`;
+const description = `How much is ${formattedRate} an hour after taxes in ${TAX_YEAR}? That's ${formattedAnnual}/year. See your weekly, bi-weekly, and monthly take-home pay after federal, state, and FICA taxes.`;
 
 // ─── Wage quality context ────────────────────────────────────────────
 type WageLevel = 'entry' | 'moderate' | 'good' | 'strong';
@@ -94,17 +94,17 @@ const faqs = [
 const relatedCalculators = [
   ...otherRates.slice(0, 2).map((r) => ({
     title: `$${r}/Hour After Taxes`,
-    href: `/${r}-dollars-an-hour-after-taxes`,
+    href: `/${r}-dollars-an-hour-after-taxes/`,
     desc: `$${r}/hr take-home pay`,
   })),
   {
     title: `${formatCurrencyRound(closestSalary)} After Taxes`,
-    href: `/${closestSalary}-after-taxes`,
+    href: `/${closestSalary}-after-taxes/`,
     desc: 'Closest annual salary page',
   },
   {
     title: 'Hourly Paycheck Calc',
-    href: '/hourly-paycheck-calculator',
+    href: '/hourly-paycheck-calculator/',
     desc: 'Full hourly calculator',
   },
 ];
@@ -274,7 +274,7 @@ const schema = [faqSchema, webAppSchema];
         <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {otherRates.map((r) => (
             <a
-              href={`/${r}-dollars-an-hour-after-taxes`}
+              href={`/${r}-dollars-an-hour-after-taxes/`}
               class="rounded-xl border border-slate-200 bg-white p-4 text-center transition-all hover:border-navy-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
             >
               <span class="text-lg font-bold text-navy-700 dark:text-navy-400">${r}/hr</span>
@@ -296,7 +296,7 @@ const schema = [faqSchema, webAppSchema];
         <div class="grid grid-cols-3 gap-2 sm:grid-cols-5">
           {SALARY_AMOUNTS.slice(0, 10).map((s) => (
             <a
-              href={`/${s}-after-taxes`}
+              href={`/${s}-after-taxes/`}
               class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-sm transition-colors hover:border-navy-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
             >
               <span class="tabular-nums font-semibold text-navy-700 dark:text-navy-400">

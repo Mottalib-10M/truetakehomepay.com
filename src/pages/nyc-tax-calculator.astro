@@ -4,7 +4,7 @@ import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `NYC Tax Calculator ${TAX_YEAR}: City + State Combined Taxes`;
-const description = `Calculate your combined NYC city + New York state income tax for ${TAX_YEAR}. See city tax brackets (3.078%-3.876%), state tax, and total NYC tax liability.`;
+const description = `Living or working in New York City? See the extra city income tax on top of NY state tax for ${TAX_YEAR}. Brackets from 3.078% to 3.876% plus your total tax burden.`;
 
 const faqs = [
   {
@@ -26,11 +26,11 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'New York Tax Calculator', href: '/new-york-state-tax-calculator', desc: 'NY state tax only' },
-  { title: 'California Tax', href: '/california-state-tax-calculator', desc: 'Compare NYC vs CA taxes' },
-  { title: 'Take-Home Comparison', href: '/take-home-comparison', desc: 'Compare all 50 states' },
-  { title: 'Cost of Living', href: '/cost-of-living-calculator', desc: 'NYC cost of living' },
-  { title: 'Rent vs Buy', href: '/rent-vs-buy-calculator', desc: 'NYC rent vs buy analysis' },
+  { title: 'New York Tax Calculator', href: '/new-york-state-tax-calculator/', desc: 'NY state tax only' },
+  { title: 'California Tax', href: '/california-state-tax-calculator/', desc: 'Compare NYC vs CA taxes' },
+  { title: 'Take-Home Comparison', href: '/take-home-comparison/', desc: 'Compare all 50 states' },
+  { title: 'Cost of Living', href: '/cost-of-living-calculator/', desc: 'NYC cost of living' },
+  { title: 'Rent vs Buy', href: '/rent-vs-buy-calculator/', desc: 'NYC rent vs buy analysis' },
 ];
 
 const schema = {
@@ -38,7 +38,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `NYC Tax Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/nyc-tax-calculator',
+  url: 'https://truetakehomepay.com/nyc-tax-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -56,5 +56,5 @@ const schema = {
   schema={schema}
   sources={`NYC Department of Finance (city tax rates), New York State Department of Taxation and Finance (tax.ny.gov), IRS Rev. Proc. 2025-11 (federal brackets). Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <PaycheckCalculator client:load defaultState="NY" />
 </CalculatorLayout>

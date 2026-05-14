@@ -1,0 +1,126 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import { TAX_YEAR } from '../../lib/constants';
+import { CRYPTO_LIST } from '../../data/crypto-meta';
+
+const title = `Crypto Tax & Investment Calculator ${TAX_YEAR}: All Coins`;
+const description = `Pick any top cryptocurrency and model your ${TAX_YEAR} investment tax scenario. Covers BTC, ETH, SOL, XRP, DOGE, BNB, and more with IRS capital gains tax rates.`;
+
+const faqs = [
+  {
+    question: 'How are cryptocurrency investments taxed?',
+    answer: `The IRS treats cryptocurrency as property. Selling or trading crypto triggers a capital gains tax event. If you held the asset for one year or less, gains are taxed at ordinary income rates (10%-37%). If held over one year, long-term capital gains rates of 0%, 15%, or 20% apply based on your taxable income.`,
+  },
+  {
+    question: 'What is the Net Investment Income Tax on crypto?',
+    answer: `High earners may owe an additional 3.8% Net Investment Income Tax (NIIT) on crypto gains. This applies when your modified adjusted gross income exceeds $200,000 (single) or $250,000 (married filing jointly). The NIIT is calculated on the lesser of your net investment income or the excess above the threshold.`,
+  },
+  {
+    question: 'How do I calculate crypto capital gains?',
+    answer: `Your capital gain (or loss) equals the sale price minus your cost basis (purchase price plus fees). For example, if you bought 1 BTC at $50,000 and sold at $100,000, your capital gain is $50,000. Use our calculators above to see the exact tax impact after federal capital gains tax and NIIT.`,
+  },
+  {
+    question: 'Should I hold crypto short-term or long-term for taxes?',
+    answer: `Holding crypto for over one year before selling qualifies for long-term capital gains rates (0%, 15%, or 20%), which are significantly lower than short-term rates (10%-37%). For most investors, the tax savings from holding longer than one year are substantial. Use our simulators to compare both scenarios.`,
+  },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Crypto Investment Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://truetakehomepay.com/crypto',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+
+const relatedCalculators = [
+  { title: 'Crypto Tax Calculator', href: '/cryptocurrency-tax-calculator/', desc: 'Capital gains tax on crypto' },
+  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator/', desc: 'Investment gains calculator' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator/', desc: 'Federal + state estimate' },
+  { title: 'RSU Tax Calculator', href: '/rsu-tax-calculator/', desc: 'Stock compensation taxes' },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Crypto Investment Calculators ${TAX_YEAR}`}
+  intro={`Simulate cryptocurrency investments and calculate your ${TAX_YEAR} capital gains tax. Choose a coin below to estimate your profit after federal tax, NIIT, and compare short-term vs long-term holding strategies.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Notice 2014-21, IRC Section 1(h) (capital gains rates), IRC Section 1411 (NIIT). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <!-- Crypto selector grid -->
+  <section class="px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
+        Choose a Cryptocurrency
+      </h2>
+      <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+        {CRYPTO_LIST.map((crypto) => (
+          <a
+            href={`/crypto/${crypto.slug}-calculator/`}
+            class="group rounded-xl border border-slate-200 bg-white p-5 text-center transition-all hover:border-navy-300 hover:shadow-lg dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
+          >
+            <span class="block text-2xl font-bold" style={`color: ${crypto.color}`}>
+              {crypto.symbol}
+            </span>
+            <span class="mt-2 block text-sm font-semibold text-slate-900 dark:text-white">
+              {crypto.name}
+            </span>
+            <span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">
+              Investment Simulator
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <Fragment slot="content">
+    <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-8 text-2xl font-bold text-slate-900 dark:text-white">
+          How the Crypto Investment Simulator Works
+        </h2>
+        <div class="prose prose-slate dark:prose-invert max-w-none">
+          <ol>
+            <li><strong>Enter your buy and sell prices</strong> — set the price you purchased (or plan to purchase) the cryptocurrency at, and your target sell price.</li>
+            <li><strong>Set your quantity</strong> — enter how many units of the cryptocurrency you own or plan to buy.</li>
+            <li><strong>Choose your holding period</strong> — short-term (under 1 year) or long-term (over 1 year) determines your tax rate.</li>
+            <li><strong>Add your income details</strong> — your annual income and filing status determine your capital gains tax bracket and NIIT liability.</li>
+            <li><strong>See your results</strong> — view total gain, tax liability, net profit after tax, break-even price, and price target scenarios.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+          {TAX_YEAR} Capital Gains Tax Rates
+        </h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div class="rounded-lg border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-800">
+            <h3 class="mb-3 font-semibold text-slate-900 dark:text-white">Short-Term (≤ 1 Year)</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+              Taxed at your ordinary income tax rate: 10%, 12%, 22%, 24%, 32%, 35%, or 37% depending on your taxable income and filing status.
+            </p>
+          </div>
+          <div class="rounded-lg border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-800">
+            <h3 class="mb-3 font-semibold text-slate-900 dark:text-white">Long-Term (> 1 Year)</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+              Preferential rates of 0%, 15%, or 20% based on your taxable income. Most taxpayers pay 15%. An additional 3.8% NIIT may apply for high earners.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+</CalculatorLayout>

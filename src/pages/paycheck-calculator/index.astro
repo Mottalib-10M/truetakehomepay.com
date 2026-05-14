@@ -1,0 +1,113 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TAX_YEAR } from '../../lib/constants';
+import { STATES, NO_INCOME_TAX_STATES } from '../../data/state-meta';
+
+const title = `Paycheck Calculator by State ${TAX_YEAR}: All 50 States + DC`;
+const description = `Choose your state and instantly calculate your ${TAX_YEAR} paycheck. See net pay after federal and state taxes, FICA, and 401(k) for all 50 states and Washington DC.`;
+
+const stateEntries = Object.entries(STATES)
+  .map(([code, s]) => ({ code, ...s }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const noTaxStates = stateEntries.filter((s) => NO_INCOME_TAX_STATES.includes(s.code));
+const taxStates = stateEntries.filter((s) => !NO_INCOME_TAX_STATES.includes(s.code));
+
+const faqs = [
+  {
+    question: 'Which states have no income tax?',
+    answer: `Nine states have no state income tax on wages: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming. Residents in these states keep more of their paycheck since only federal taxes and FICA apply.`,
+  },
+  {
+    question: 'How does state tax affect my paycheck?',
+    answer: `State income tax is deducted from your paycheck in addition to federal income tax and FICA. Rates vary widely — from 0% in no-tax states to over 13% in California's top bracket. Your filing status, income level, and state of residence all determine how much is withheld.`,
+  },
+  {
+    question: 'Can I use this calculator if I work in a different state than I live?',
+    answer: `This calculator estimates taxes based on your state of residence. If you work in a different state, you may owe taxes to both states, though most states offer credits for taxes paid to other states. Some states have reciprocity agreements that simplify this.`,
+  },
+  {
+    question: `What are the ${TAX_YEAR} federal tax brackets?`,
+    answer: `For ${TAX_YEAR}, the federal tax brackets for Single filers are: 10% up to $11,925; 12% up to $48,475; 22% up to $103,350; 24% up to $197,300; 32% up to $250,525; 35% up to $626,350; and 37% above $626,350. These apply to taxable income after the standard deduction.`,
+  },
+];
+---
+
+<Layout title={title} description={description}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-8 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl text-center">
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+        Paycheck Calculator by State {TAX_YEAR}
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+        Select your state to calculate your take-home pay after federal and state taxes, Social Security, Medicare, and deductions.
+      </p>
+    </div>
+  </section>
+
+  <!-- No income tax states -->
+  <section class="px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <h2 class="mb-4 text-xl font-bold text-slate-900 dark:text-white">
+        No Income Tax States
+      </h2>
+      <p class="mb-6 text-sm text-slate-600 dark:text-slate-400">
+        These states don't levy a state income tax on wages, meaning higher take-home pay.
+      </p>
+      <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {noTaxStates.map((s) => (
+          <a
+            href={`/paycheck-calculator/${s.slug}/`}
+            class="flex items-center justify-between rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800 transition hover:border-emerald-400 hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300 dark:hover:border-emerald-600 dark:hover:bg-emerald-900/40"
+          >
+            {s.name}
+            <span class="text-xs text-emerald-600 dark:text-emerald-400">0% state tax</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- All states grid -->
+  <section class="px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <h2 class="mb-4 text-xl font-bold text-slate-900 dark:text-white">
+        All States &amp; DC
+      </h2>
+      <p class="mb-6 text-sm text-slate-600 dark:text-slate-400">
+        Choose your state to see a detailed paycheck breakdown with federal and state tax withholdings.
+      </p>
+      <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {stateEntries.map((s) => (
+          <a
+            href={`/paycheck-calculator/${s.slug}/`}
+            class="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:border-navy-300 hover:bg-navy-50 hover:text-navy-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-navy-600 dark:hover:bg-slate-700 dark:hover:text-navy-400"
+          >
+            {s.name}
+            {NO_INCOME_TAX_STATES.includes(s.code) && (
+              <span class="ml-1 text-xs text-emerald-600 dark:text-emerald-400">(no state tax)</span>
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <h2 class="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
+        Frequently Asked Questions
+      </h2>
+      <dl class="space-y-6">
+        {faqs.map((faq) => (
+          <div class="rounded-lg border border-slate-200 p-6 dark:border-slate-700">
+            <dt class="text-lg font-semibold text-slate-900 dark:text-white">{faq.question}</dt>
+            <dd class="mt-2 text-slate-600 dark:text-slate-400">{faq.answer}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+</Layout>

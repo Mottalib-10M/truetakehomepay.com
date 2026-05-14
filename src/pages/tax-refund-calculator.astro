@@ -1,10 +1,10 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import TaxRefundCalculator from '../components/calculators/TaxRefundCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `Tax Refund Calculator ${TAX_YEAR}: Estimate Your IRS Refund`;
-const description = `Estimate your ${TAX_YEAR} federal tax refund or amount owed. Enter your income, withholdings, and deductions to see if you'll get money back from the IRS.`;
+const description = `Estimate your ${TAX_YEAR} federal tax refund or amount owed. Enter income, filing status, withholdings, and deductions to see if you'll get money back from the IRS.`;
 
 const faqs = [
   {
@@ -27,9 +27,9 @@ const faqs = [
 
 const relatedCalculators = [
   { title: 'Paycheck Calculator', href: '/', desc: 'Calculate take-home pay' },
-  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax estimate' },
-  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator', desc: 'Investment tax estimate' },
-  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator', desc: '1099 / freelancer tax' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator/', desc: 'Federal + state tax estimate' },
+  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator/', desc: 'Investment tax estimate' },
+  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator/', desc: '1099 / freelancer tax' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Tax Refund Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/tax-refund-calculator',
+  url: 'https://truetakehomepay.com/tax-refund-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`IRS Rev. Proc. 2025-11 (${TAX_YEAR} federal brackets and standard deductions), IRS Publication 17, IRS.gov/refunds. Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <TaxRefundCalculator client:load />
 </CalculatorLayout>

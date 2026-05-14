@@ -1,0 +1,64 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import CryptoInvestmentSimulator from '../../components/calculators/CryptoInvestmentSimulator';
+import { TAX_YEAR } from '../../lib/constants';
+
+const title = `Dogecoin (DOGE) Tax Calculator ${TAX_YEAR}: Capital Gains`;
+const description = `Cashed out Dogecoin? See how much you owe in ${TAX_YEAR} capital gains tax on DOGE profits. Short vs long-term rates, NIIT thresholds, and your actual net gains.`;
+
+const faqs = [
+  {
+    question: 'How is Dogecoin (DOGE) taxed?',
+    answer: `Dogecoin is taxed as property by the IRS, just like Bitcoin and other cryptocurrencies. Selling DOGE for a profit triggers capital gains tax. Short-term gains (held ≤1 year) are taxed at ordinary income rates (10%-37%). Long-term gains (held >1 year) are taxed at 0%, 15%, or 20%.`,
+  },
+  {
+    question: 'Do I owe taxes on Dogecoin tips received online?',
+    answer: `Yes. Dogecoin received as tips on social media or forums is taxed as ordinary income at the fair market value when received. This is true regardless of the amount. When you later sell the tipped DOGE, any gain above the received value is taxed as a capital gain.`,
+  },
+  {
+    question: 'How are Dogecoin mining rewards taxed?',
+    answer: `DOGE mining rewards are taxed as ordinary income when received, at the fair market value on the date of receipt. When you sell mined Dogecoin, any additional gain is taxed as a capital gain. The holding period starts from the date you received the mining reward.`,
+  },
+  {
+    question: 'Is spending Dogecoin at a merchant taxable?',
+    answer: `Yes. Spending DOGE to buy goods or services is a taxable event. Your gain or loss is the fair market value of the goods received minus your cost basis in the Dogecoin. For example, if you bought DOGE at $0.10 and spent it when worth $0.35, you owe capital gains tax on the $0.25 per DOGE gain.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Bitcoin Calculator', href: '/crypto/bitcoin-calculator/', desc: 'BTC investment simulator' },
+  { title: 'Solana Calculator', href: '/crypto/solana-calculator/', desc: 'SOL investment simulator' },
+  { title: 'Crypto Tax Calculator', href: '/cryptocurrency-tax-calculator/', desc: 'Capital gains tax on crypto' },
+  { title: 'All Crypto Calculators', href: '/crypto/', desc: 'Top 10 crypto simulators' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Dogecoin Investment Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://truetakehomepay.com/crypto/dogecoin-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Dogecoin (DOGE) Investment Calculator ${TAX_YEAR}`}
+  intro={`Simulate a Dogecoin investment and calculate your ${TAX_YEAR} capital gains tax. Enter your buy and sell prices to see your DOGE profit after federal tax and NIIT.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Notice 2014-21 (cryptocurrency as property), IRC Section 1(h) (capital gains rates), IRC Section 1411 (NIIT). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <CryptoInvestmentSimulator
+    client:load
+    cryptoName="Dogecoin"
+    cryptoSymbol="DOGE"
+    defaultBuyPrice={0.35}
+  />
+</CalculatorLayout>

@@ -2,8 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import { TAX_YEAR, SITE_NAME } from '../../lib/constants';
 
-const title = `${TAX_YEAR} Federal Tax Brackets: Rates for All Filers`;
-const description = `Complete ${TAX_YEAR} federal income tax brackets for all filing statuses. Learn marginal vs effective rates with step-by-step calculation examples.`;
+const title = `${TAX_YEAR} Federal Income Tax Brackets: Rates for All Filers`;
+const description = `Complete ${TAX_YEAR} federal income tax brackets and rates for all filing statuses. Learn marginal vs effective tax rates with step-by-step calculation examples.`;
 
 const schema = {
   '@context': 'https://schema.org',
@@ -15,265 +15,373 @@ const schema = {
   datePublished: '2026-01-01',
   dateModified: '2026-01-15',
 };
+
+const brackets = {
+  single: [
+    { rate: '10%', range: '$0 – $11,925', owed: '10% of taxable income' },
+    { rate: '12%', range: '$11,926 – $48,475', owed: '$1,192.50 + 12% of amount over $11,925' },
+    { rate: '22%', range: '$48,476 – $103,350', owed: '$5,578.50 + 22% of amount over $48,475' },
+    { rate: '24%', range: '$103,351 – $197,300', owed: '$17,651.00 + 24% of amount over $103,350' },
+    { rate: '32%', range: '$197,301 – $250,525', owed: '$40,199.00 + 32% of amount over $197,300' },
+    { rate: '35%', range: '$250,526 – $626,350', owed: '$57,231.00 + 35% of amount over $250,525' },
+    { rate: '37%', range: 'Over $626,350', owed: '$188,769.75 + 37% of amount over $626,350' },
+  ],
+  mfj: [
+    { rate: '10%', range: '$0 – $23,850', owed: '10% of taxable income' },
+    { rate: '12%', range: '$23,851 – $96,950', owed: '$2,385.00 + 12% of amount over $23,850' },
+    { rate: '22%', range: '$96,951 – $206,700', owed: '$11,157.00 + 22% of amount over $96,950' },
+    { rate: '24%', range: '$206,701 – $394,600', owed: '$35,302.00 + 24% of amount over $206,700' },
+    { rate: '32%', range: '$394,601 – $501,050', owed: '$80,398.00 + 32% of amount over $394,600' },
+    { rate: '35%', range: '$501,051 – $751,600', owed: '$114,462.00 + 35% of amount over $501,050' },
+    { rate: '37%', range: 'Over $751,600', owed: '$202,154.50 + 37% of amount over $751,600' },
+  ],
+  mfs: [
+    { rate: '10%', range: '$0 – $11,925', owed: '10% of taxable income' },
+    { rate: '12%', range: '$11,926 – $48,475', owed: '$1,192.50 + 12% of amount over $11,925' },
+    { rate: '22%', range: '$48,476 – $103,350', owed: '$5,578.50 + 22% of amount over $48,475' },
+    { rate: '24%', range: '$103,351 – $197,300', owed: '$17,651.00 + 24% of amount over $103,350' },
+    { rate: '32%', range: '$197,301 – $250,525', owed: '$40,199.00 + 32% of amount over $197,300' },
+    { rate: '35%', range: '$250,526 – $375,800', owed: '$57,231.00 + 35% of amount over $250,525' },
+    { rate: '37%', range: 'Over $375,800', owed: '$101,077.25 + 37% of amount over $375,800' },
+  ],
+  hoh: [
+    { rate: '10%', range: '$0 – $17,000', owed: '10% of taxable income' },
+    { rate: '12%', range: '$17,001 – $64,850', owed: '$1,700.00 + 12% of amount over $17,000' },
+    { rate: '22%', range: '$64,851 – $103,350', owed: '$7,442.00 + 22% of amount over $64,850' },
+    { rate: '24%', range: '$103,351 – $197,300', owed: '$15,912.00 + 24% of amount over $103,350' },
+    { rate: '32%', range: '$197,301 – $250,500', owed: '$38,460.00 + 32% of amount over $197,300' },
+    { rate: '35%', range: '$250,501 – $626,350', owed: '$55,484.00 + 35% of amount over $250,500' },
+    { rate: '37%', range: 'Over $626,350', owed: '$187,031.50 + 37% of amount over $626,350' },
+  ],
+};
+
+const bracketSections = [
+  { key: 'single', label: 'Single Filers' },
+  { key: 'mfj', label: 'Married Filing Jointly' },
+  { key: 'mfs', label: 'Married Filing Separately' },
+  { key: 'hoh', label: 'Head of Household' },
+] as const;
+
+const exampleRows = [
+  { bracket: '10% ($0 – $11,925)', income: '$11,925', tax: '$1,192.50' },
+  { bracket: '12% ($11,926 – $48,475)', income: '$36,550', tax: '$4,386.00' },
+  { bracket: '22% ($48,476 – $85,000)', income: '$36,525', tax: '$8,035.50' },
+];
+
+const deductions = [
+  { status: 'Single', amount: '$15,000' },
+  { status: 'Married Filing Jointly', amount: '$30,000' },
+  { status: 'Married Filing Separately', amount: '$15,000' },
+  { status: 'Head of Household', amount: '$22,500' },
+];
 ---
 
 <Layout title={title} description={description} schema={schema}>
-  <article class="px-4 py-16 sm:px-6 lg:px-8">
-    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
-      <h1>{TAX_YEAR} Federal Income Tax Brackets and Rates</h1>
-
-      <p>
+  <!-- Hero -->
+  <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-8 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl text-center">
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+        {TAX_YEAR} Federal Income Tax Brackets and Rates
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
         The US federal income tax system uses seven marginal tax brackets that determine how much you owe
-        based on your taxable income and filing status. For {TAX_YEAR}, the brackets have been adjusted for
-        inflation from the previous year. This guide covers every bracket for all four filing statuses,
-        explains the critical difference between marginal and effective tax rates, and walks through a
-        complete calculation example.
+        based on your taxable income and filing status. Updated for {TAX_YEAR} inflation adjustments.
       </p>
-
-      <p>
-        Use our <a href="/income-tax-calculator">income tax calculator</a> to instantly compute your federal
-        tax liability for any income level.
+      <p class="mt-3 text-sm text-slate-500 dark:text-slate-500">
+        Use our <a href="/income-tax-calculator/" class="text-navy-600 underline dark:text-navy-400">income tax calculator</a> to instantly compute your federal tax liability for any income level.
       </p>
+    </div>
+  </section>
 
-      <h2>{TAX_YEAR} Standard Deduction Amounts</h2>
-
-      <p>
-        Before applying the brackets, most taxpayers reduce their income by the standard deduction. For
-        {TAX_YEAR}, the standard deduction amounts are:
+  <!-- Standard Deduction -->
+  <section class="px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="mb-3 text-2xl font-bold text-slate-900 dark:text-white">
+        {TAX_YEAR} Standard Deduction Amounts
+      </h2>
+      <p class="mb-6 text-slate-600 dark:text-slate-400">
+        Before applying the brackets, most taxpayers reduce their income by the standard deduction.
       </p>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Filing Status</th>
-            <th>Standard Deduction</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Single</td><td>$15,000</td></tr>
-          <tr><td>Married Filing Jointly</td><td>$30,000</td></tr>
-          <tr><td>Married Filing Separately</td><td>$15,000</td></tr>
-          <tr><td>Head of Household</td><td>$22,500</td></tr>
-        </tbody>
-      </table>
-
-      <p>
+      <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
+              <th class="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">Filing Status</th>
+              <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Standard Deduction</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+            {deductions.map((d) => (
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">{d.status}</td>
+                <td class="tabular-nums px-4 py-2.5 text-right font-semibold text-slate-900 dark:text-white">{d.amount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-sm text-slate-500 dark:text-slate-500">
         Taxpayers aged 65 or older receive an additional standard deduction of $1,950 (single/head of
         household) or $1,550 per qualifying spouse (married filing jointly/separately).
       </p>
+    </div>
+  </section>
 
-      <h2>{TAX_YEAR} Tax Brackets: Single Filers</h2>
+  <!-- Tax Bracket Tables -->
+  {bracketSections.map((section) => (
+    <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-4xl">
+        <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
+          {TAX_YEAR} Tax Brackets: {section.label}
+        </h2>
+        <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
+                <th class="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">Tax Rate</th>
+                <th class="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">Taxable Income Range</th>
+                <th class="hidden px-4 py-3 text-left font-medium text-slate-600 sm:table-cell dark:text-slate-400">Tax Owed</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+              {brackets[section.key].map((row) => (
+                <tr>
+                  <td class="px-4 py-2.5 font-semibold text-navy-700 dark:text-navy-400">{row.rate}</td>
+                  <td class="tabular-nums px-4 py-2.5 text-slate-700 dark:text-slate-300">{row.range}</td>
+                  <td class="tabular-nums hidden px-4 py-2.5 text-slate-600 sm:table-cell dark:text-slate-400">{row.owed}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  ))}
 
-      <table>
-        <thead>
-          <tr>
-            <th>Tax Rate</th>
-            <th>Taxable Income Range</th>
-            <th>Tax Owed</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>10%</td><td>$0 - $11,925</td><td>10% of taxable income</td></tr>
-          <tr><td>12%</td><td>$11,926 - $48,475</td><td>$1,192.50 + 12% of amount over $11,925</td></tr>
-          <tr><td>22%</td><td>$48,476 - $103,350</td><td>$5,578.50 + 22% of amount over $48,475</td></tr>
-          <tr><td>24%</td><td>$103,351 - $197,300</td><td>$17,651.00 + 24% of amount over $103,350</td></tr>
-          <tr><td>32%</td><td>$197,301 - $250,525</td><td>$40,199.00 + 32% of amount over $197,300</td></tr>
-          <tr><td>35%</td><td>$250,526 - $626,350</td><td>$57,231.00 + 35% of amount over $250,525</td></tr>
-          <tr><td>37%</td><td>Over $626,350</td><td>$188,769.75 + 37% of amount over $626,350</td></tr>
-        </tbody>
-      </table>
-
-      <h2>{TAX_YEAR} Tax Brackets: Married Filing Jointly</h2>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Tax Rate</th>
-            <th>Taxable Income Range</th>
-            <th>Tax Owed</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>10%</td><td>$0 - $23,850</td><td>10% of taxable income</td></tr>
-          <tr><td>12%</td><td>$23,851 - $96,950</td><td>$2,385.00 + 12% of amount over $23,850</td></tr>
-          <tr><td>22%</td><td>$96,951 - $206,700</td><td>$11,157.00 + 22% of amount over $96,950</td></tr>
-          <tr><td>24%</td><td>$206,701 - $394,600</td><td>$35,302.00 + 24% of amount over $206,700</td></tr>
-          <tr><td>32%</td><td>$394,601 - $501,050</td><td>$80,398.00 + 32% of amount over $394,600</td></tr>
-          <tr><td>35%</td><td>$501,051 - $751,600</td><td>$114,462.00 + 35% of amount over $501,050</td></tr>
-          <tr><td>37%</td><td>Over $751,600</td><td>$202,154.50 + 37% of amount over $751,600</td></tr>
-        </tbody>
-      </table>
-
-      <h2>{TAX_YEAR} Tax Brackets: Married Filing Separately</h2>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Tax Rate</th>
-            <th>Taxable Income Range</th>
-            <th>Tax Owed</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>10%</td><td>$0 - $11,925</td><td>10% of taxable income</td></tr>
-          <tr><td>12%</td><td>$11,926 - $48,475</td><td>$1,192.50 + 12% of amount over $11,925</td></tr>
-          <tr><td>22%</td><td>$48,476 - $103,350</td><td>$5,578.50 + 22% of amount over $48,475</td></tr>
-          <tr><td>24%</td><td>$103,351 - $197,300</td><td>$17,651.00 + 24% of amount over $103,350</td></tr>
-          <tr><td>32%</td><td>$197,301 - $250,525</td><td>$40,199.00 + 32% of amount over $197,300</td></tr>
-          <tr><td>35%</td><td>$250,526 - $375,800</td><td>$57,231.00 + 35% of amount over $250,525</td></tr>
-          <tr><td>37%</td><td>Over $375,800</td><td>$101,077.25 + 37% of amount over $375,800</td></tr>
-        </tbody>
-      </table>
-
-      <h2>{TAX_YEAR} Tax Brackets: Head of Household</h2>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Tax Rate</th>
-            <th>Taxable Income Range</th>
-            <th>Tax Owed</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>10%</td><td>$0 - $17,000</td><td>10% of taxable income</td></tr>
-          <tr><td>12%</td><td>$17,001 - $64,850</td><td>$1,700.00 + 12% of amount over $17,000</td></tr>
-          <tr><td>22%</td><td>$64,851 - $103,350</td><td>$7,442.00 + 22% of amount over $64,850</td></tr>
-          <tr><td>24%</td><td>$103,351 - $197,300</td><td>$15,912.00 + 24% of amount over $103,350</td></tr>
-          <tr><td>32%</td><td>$197,301 - $250,500</td><td>$38,460.00 + 32% of amount over $197,300</td></tr>
-          <tr><td>35%</td><td>$250,501 - $626,350</td><td>$55,484.00 + 35% of amount over $250,500</td></tr>
-          <tr><td>37%</td><td>Over $626,350</td><td>$187,031.50 + 37% of amount over $626,350</td></tr>
-        </tbody>
-      </table>
-
-      <h2>Marginal vs. Effective Tax Rate</h2>
-
-      <p>
-        This is one of the most misunderstood concepts in personal finance. Many people believe that if they
-        are "in the 22% bracket," they pay 22% on all their income. That is not how it works.
-      </p>
-
-      <p>
-        <strong>Marginal tax rate</strong> is the rate you pay on your last (highest) dollar of income. It
-        determines the tax impact of earning one more dollar or claiming one more dollar of deductions.
-      </p>
-
-      <p>
-        <strong>Effective tax rate</strong> is the total tax you owe divided by your total taxable income. It
-        represents the blended, average rate across all brackets and is always lower than your marginal rate.
-      </p>
-
-      <h2>Step-by-Step Example: $100,000 Single Filer</h2>
-
-      <p>
-        Let us calculate the exact federal income tax for a single filer with $100,000 in gross income:
-      </p>
-
-      <h3>Step 1: Apply the Standard Deduction</h3>
-      <p>$100,000 - $15,000 = <strong>$85,000 taxable income</strong></p>
-
-      <h3>Step 2: Apply Each Bracket</h3>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Bracket</th>
-            <th>Income in Bracket</th>
-            <th>Tax</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>10% ($0 - $11,925)</td><td>$11,925</td><td>$1,192.50</td></tr>
-          <tr><td>12% ($11,926 - $48,475)</td><td>$36,550</td><td>$4,386.00</td></tr>
-          <tr><td>22% ($48,476 - $85,000)</td><td>$36,525</td><td>$8,035.50</td></tr>
-          <tr><td><strong>Total</strong></td><td><strong>$85,000</strong></td><td><strong>$13,614.00</strong></td></tr>
-        </tbody>
-      </table>
-
-      <h3>Step 3: Calculate Rates</h3>
-      <ul>
-        <li><strong>Marginal rate:</strong> 22% (the bracket containing the last dollar of income)</li>
-        <li><strong>Effective rate on taxable income:</strong> $13,614 / $85,000 = 16.0%</li>
-        <li><strong>Effective rate on gross income:</strong> $13,614 / $100,000 = 13.6%</li>
-      </ul>
-
-      <p>
-        Even though this filer is "in the 22% bracket," they only pay an effective rate of 13.6% on their
-        gross income. The first $15,000 is shielded by the standard deduction, the next $11,925 is taxed at
-        10%, the next $36,550 at 12%, and only the final $36,525 is taxed at 22%.
-      </p>
-
-      <h2>Why Marginal Rates Matter for Decisions</h2>
-
-      <p>
-        Your marginal rate is the relevant number when evaluating tax-impacting decisions:
-      </p>
-
-      <ul>
-        <li>
-          <strong>401(k) contributions:</strong> A $1,000 traditional 401(k) contribution saves $220 in
-          federal tax for someone in the 22% bracket. Use our
-          <a href="/401k-calculator">401(k) calculator</a> to see your savings.
-        </li>
-        <li>
-          <strong>Roth vs. traditional:</strong> If you expect your marginal rate to be higher in retirement,
-          Roth contributions are better. See our
-          <a href="/guides/401k-vs-roth-ira">401(k) vs. Roth IRA guide</a>.
-        </li>
-        <li>
-          <strong>Charitable giving:</strong> A $1,000 charitable deduction (if itemizing) saves $220 at the
-          22% marginal rate but $370 at the 37% rate.
-        </li>
-        <li>
-          <strong>Side income:</strong> Extra freelance income of $5,000 will be taxed at your marginal rate
-          plus <a href="/guides/self-employment-tax-explained">self-employment tax</a>.
-        </li>
-      </ul>
-
-      <h2>Common Misconceptions</h2>
-
-      <h3>"I don't want a raise because it will put me in a higher bracket"</h3>
-      <p>
-        Only the income within the new bracket is taxed at the higher rate. If you earn $48,475 (the top of
-        the 12% bracket as a single filer) and get a $5,000 raise, only that $5,000 is taxed at 22%. Your
-        total tax increases by $1,100, and you still take home an additional $3,900. You will never lose
-        money by earning more due to bracket progression.
-      </p>
-
-      <h3>"Married filing jointly brackets are exactly double single brackets"</h3>
-      <p>
-        This is mostly true for the lower brackets, which is intentional to reduce the "marriage penalty."
-        However, the 35% and 37% brackets for married filers are not exactly double the single filer
-        brackets, creating a marriage penalty for very high earners.
-      </p>
-
-      <h2>How Brackets Interact with State Tax</h2>
-
-      <p>
-        Federal brackets only determine your federal income tax. State income tax is calculated separately
-        using each state's own brackets and rules. Your total income tax is the sum of federal, state, and
-        any local income taxes. See our <a href="/guides/state-tax-comparison">state tax comparison</a>
-        for a complete overview.
-      </p>
-
-      <h2>Planning Around Bracket Boundaries</h2>
-
-      <p>
-        Smart tax planning involves keeping income below the next bracket when possible. Strategies include:
-      </p>
-
-      <ul>
-        <li>Maximizing traditional 401(k) or IRA contributions to reduce taxable income</li>
-        <li>Timing income recognition (bonus deferral, stock option exercise timing)</li>
-        <li>Accelerating or deferring deductions across tax years</li>
-        <li>Contributing to an HSA if you have a high-deductible health plan</li>
-      </ul>
-
-      <p>
-        Calculate your exact tax across all brackets using our
-        <a href="/income-tax-calculator">income tax calculator</a> or see how brackets affect your paycheck
-        with our <a href="/take-home-pay-calculator">take-home pay calculator</a>.
+  <!-- Marginal vs Effective -->
+  <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
+        Marginal vs. Effective Tax Rate
+      </h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div class="rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-800">
+          <h3 class="mb-2 text-lg font-semibold text-slate-900 dark:text-white">Marginal Tax Rate</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400">
+            The rate you pay on your <strong>last (highest) dollar</strong> of income. It determines the tax
+            impact of earning one more dollar or claiming one more dollar of deductions.
+          </p>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-800">
+          <h3 class="mb-2 text-lg font-semibold text-slate-900 dark:text-white">Effective Tax Rate</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400">
+            Your <strong>total tax divided by total income</strong>. It represents the blended, average rate
+            across all brackets and is always lower than your marginal rate.
+          </p>
+        </div>
+      </div>
+      <p class="mt-4 text-sm text-slate-500 dark:text-slate-500">
+        Many people believe that being "in the 22% bracket" means they pay 22% on all their income. That is not how progressive brackets work — only the income <em>within</em> each bracket is taxed at that rate.
       </p>
     </div>
-  </article>
+  </section>
+
+  <!-- Step-by-Step Example -->
+  <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
+        Step-by-Step Example: $100,000 Single Filer
+      </h2>
+
+      <!-- Step 1 -->
+      <div class="mb-6 rounded-xl border border-slate-200 p-6 dark:border-slate-700">
+        <h3 class="mb-2 text-lg font-semibold text-slate-900 dark:text-white">Step 1: Apply the Standard Deduction</h3>
+        <p class="text-slate-600 dark:text-slate-400">
+          $100,000 − $15,000 = <span class="font-semibold text-slate-900 dark:text-white">$85,000 taxable income</span>
+        </p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="mb-6 rounded-xl border border-slate-200 p-6 dark:border-slate-700">
+        <h3 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Step 2: Apply Each Bracket</h3>
+        <div class="overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
+                <th class="px-4 py-2.5 text-left font-medium text-slate-600 dark:text-slate-400">Bracket</th>
+                <th class="px-4 py-2.5 text-right font-medium text-slate-600 dark:text-slate-400">Income in Bracket</th>
+                <th class="px-4 py-2.5 text-right font-medium text-slate-600 dark:text-slate-400">Tax</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+              {exampleRows.map((row) => (
+                <tr>
+                  <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">{row.bracket}</td>
+                  <td class="tabular-nums px-4 py-2.5 text-right text-slate-700 dark:text-slate-300">{row.income}</td>
+                  <td class="tabular-nums px-4 py-2.5 text-right text-slate-700 dark:text-slate-300">{row.tax}</td>
+                </tr>
+              ))}
+              <tr class="bg-navy-50 dark:bg-navy-900/20">
+                <td class="px-4 py-2.5 font-semibold text-slate-900 dark:text-white">Total</td>
+                <td class="tabular-nums px-4 py-2.5 text-right font-semibold text-slate-900 dark:text-white">$85,000</td>
+                <td class="tabular-nums px-4 py-2.5 text-right font-semibold text-navy-700 dark:text-navy-400">$13,614.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="rounded-xl border border-slate-200 p-6 dark:border-slate-700">
+        <h3 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Step 3: Calculate Rates</h3>
+        <div class="grid gap-3 sm:grid-cols-3">
+          <div class="rounded-lg bg-slate-50 p-4 text-center dark:bg-slate-800">
+            <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Marginal Rate</p>
+            <p class="mt-1 text-2xl font-bold text-slate-900 dark:text-white">22%</p>
+            <p class="mt-1 text-xs text-slate-500 dark:text-slate-500">Bracket of last dollar</p>
+          </div>
+          <div class="rounded-lg bg-slate-50 p-4 text-center dark:bg-slate-800">
+            <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Effective (Taxable)</p>
+            <p class="mt-1 text-2xl font-bold text-slate-900 dark:text-white">16.0%</p>
+            <p class="mt-1 text-xs text-slate-500 dark:text-slate-500">$13,614 / $85,000</p>
+          </div>
+          <div class="rounded-lg bg-slate-50 p-4 text-center dark:bg-slate-800">
+            <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Effective (Gross)</p>
+            <p class="mt-1 text-2xl font-bold text-navy-700 dark:text-navy-400">13.6%</p>
+            <p class="mt-1 text-xs text-slate-500 dark:text-slate-500">$13,614 / $100,000</p>
+          </div>
+        </div>
+        <p class="mt-4 text-sm text-slate-600 dark:text-slate-400">
+          Even though this filer is "in the 22% bracket," they only pay an effective rate of 13.6% on their
+          gross income. The first $15,000 is shielded by the standard deduction, the next $11,925 is taxed at
+          10%, the next $36,550 at 12%, and only the final $36,525 is taxed at 22%.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Marginal Rates Matter -->
+  <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
+        Why Marginal Rates Matter for Decisions
+      </h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div class="rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-800">
+          <h3 class="mb-1 font-semibold text-slate-900 dark:text-white">401(k) Contributions</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400">
+            A $1,000 traditional 401(k) contribution saves $220 in federal tax at the 22% bracket.
+            <a href="/401k-calculator/" class="text-navy-600 underline dark:text-navy-400">Calculate your savings</a>.
+          </p>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-800">
+          <h3 class="mb-1 font-semibold text-slate-900 dark:text-white">Roth vs. Traditional</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400">
+            If you expect your marginal rate to be higher in retirement, Roth contributions are better.
+            <a href="/guides/401k-vs-roth-ira/" class="text-navy-600 underline dark:text-navy-400">See our guide</a>.
+          </p>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-800">
+          <h3 class="mb-1 font-semibold text-slate-900 dark:text-white">Charitable Giving</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400">
+            A $1,000 charitable deduction (if itemizing) saves $220 at the 22% rate but $370 at 37%.
+          </p>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-800">
+          <h3 class="mb-1 font-semibold text-slate-900 dark:text-white">Side Income</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400">
+            Extra freelance income is taxed at your marginal rate plus
+            <a href="/guides/self-employment-tax-explained/" class="text-navy-600 underline dark:text-navy-400">self-employment tax</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Common Misconceptions -->
+  <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
+        Common Misconceptions
+      </h2>
+
+      <div class="space-y-4">
+        <div class="rounded-xl border border-slate-200 p-6 dark:border-slate-700">
+          <h3 class="mb-2 text-lg font-semibold text-slate-900 dark:text-white">
+            "I don't want a raise because it will put me in a higher bracket"
+          </h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400">
+            Only the income within the new bracket is taxed at the higher rate. If you earn $48,475 (the top of
+            the 12% bracket as a single filer) and get a $5,000 raise, only that $5,000 is taxed at 22%. Your
+            total tax increases by $1,100, and you still take home an additional $3,900. You will never lose
+            money by earning more due to bracket progression.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-slate-200 p-6 dark:border-slate-700">
+          <h3 class="mb-2 text-lg font-semibold text-slate-900 dark:text-white">
+            "Married filing jointly brackets are exactly double single brackets"
+          </h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400">
+            This is mostly true for the lower brackets, which is intentional to reduce the "marriage penalty."
+            However, the 35% and 37% brackets for married filers are not exactly double the single filer
+            brackets, creating a marriage penalty for very high earners.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- State Tax + Planning -->
+  <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl">
+      <div class="grid gap-8 sm:grid-cols-2">
+        <div>
+          <h2 class="mb-3 text-xl font-bold text-slate-900 dark:text-white">
+            How Brackets Interact with State Tax
+          </h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400">
+            Federal brackets only determine your federal income tax. State income tax is calculated separately
+            using each state's own brackets and rules. Your total income tax is the sum of federal, state, and
+            any local income taxes. See our <a href="/guides/state-tax-comparison/" class="text-navy-600 underline dark:text-navy-400">state tax comparison</a>
+            for a complete overview.
+          </p>
+        </div>
+        <div>
+          <h2 class="mb-3 text-xl font-bold text-slate-900 dark:text-white">
+            Planning Around Bracket Boundaries
+          </h2>
+          <p class="mb-3 text-sm text-slate-600 dark:text-slate-400">
+            Smart tax planning involves keeping income below the next bracket when possible:
+          </p>
+          <ul class="space-y-1 text-sm text-slate-600 dark:text-slate-400">
+            <li class="flex items-start gap-2">
+              <span class="mt-1 text-navy-500">•</span>
+              Maximize traditional 401(k) or IRA contributions
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-1 text-navy-500">•</span>
+              Time income recognition (bonus deferral, stock option exercise)
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-1 text-navy-500">•</span>
+              Accelerate or defer deductions across tax years
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-1 text-navy-500">•</span>
+              Contribute to an HSA if you have a high-deductible plan
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/income-tax-calculator/" class="rounded-lg bg-navy-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-navy-700">
+          Calculate Your Tax
+        </a>
+        <a href="/take-home-pay-calculator/" class="rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:border-navy-300 hover:text-navy-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-navy-600">
+          Take-Home Pay Calculator
+        </a>
+      </div>
+    </div>
+  </section>
 </Layout>

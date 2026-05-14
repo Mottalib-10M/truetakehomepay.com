@@ -1,0 +1,64 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import CryptoInvestmentSimulator from '../../components/calculators/CryptoInvestmentSimulator';
+import { TAX_YEAR } from '../../lib/constants';
+
+const title = `XRP Ripple Tax Calculator ${TAX_YEAR}: Capital Gains Guide`;
+const description = `Holding or selling XRP in ${TAX_YEAR}? Estimate capital gains tax on your Ripple profits. Factor in holding period, income bracket, NIIT liability, and net gain.`;
+
+const faqs = [
+  {
+    question: 'How is XRP (Ripple) taxed?',
+    answer: `XRP is taxed as property by the IRS. Selling XRP for a profit triggers capital gains tax. Short-term gains (held one year or less) are taxed at ordinary income rates (10%-37%). Long-term gains (held over one year) are taxed at preferential rates of 0%, 15%, or 20%.`,
+  },
+  {
+    question: 'Did the SEC lawsuit affect XRP taxes?',
+    answer: `The SEC vs Ripple case does not change how XRP is taxed for individual holders. Regardless of XRP's regulatory classification as a security or non-security, the IRS still treats it as property for tax purposes. You owe capital gains tax on any profits when you sell.`,
+  },
+  {
+    question: 'Are XRP airdrops taxable?',
+    answer: `Yes. XRP received through airdrops (such as the Flare Network airdrop) is taxed as ordinary income at the fair market value on the date of receipt. When you later sell the airdropped tokens, any gain above that value is taxed as a capital gain.`,
+  },
+  {
+    question: 'How do I calculate my XRP cost basis?',
+    answer: `Your cost basis is the price you paid for XRP plus any transaction fees. If you bought XRP at different prices over time, you can use FIFO (first in, first out), LIFO (last in, first out), or specific identification to determine which coins you are selling. Choose a consistent method and keep detailed records.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Bitcoin Calculator', href: '/crypto/bitcoin-calculator/', desc: 'BTC investment simulator' },
+  { title: 'Cardano Calculator', href: '/crypto/cardano-calculator/', desc: 'ADA investment simulator' },
+  { title: 'Crypto Tax Calculator', href: '/cryptocurrency-tax-calculator/', desc: 'Capital gains tax on crypto' },
+  { title: 'All Crypto Calculators', href: '/crypto/', desc: 'Top 10 crypto simulators' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `XRP Investment Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://truetakehomepay.com/crypto/xrp-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`XRP (Ripple) Investment Calculator ${TAX_YEAR}`}
+  intro={`Simulate an XRP investment and calculate your ${TAX_YEAR} capital gains tax. Enter your buy and sell prices to see your Ripple profit after federal tax and NIIT.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Notice 2014-21 (cryptocurrency as property), IRC Section 1(h) (capital gains rates), IRC Section 1411 (NIIT). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <CryptoInvestmentSimulator
+    client:load
+    cryptoName="XRP"
+    cryptoSymbol="XRP"
+    defaultBuyPrice={2.5}
+  />
+</CalculatorLayout>

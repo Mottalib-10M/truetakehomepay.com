@@ -4,7 +4,7 @@ import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `Salary Calculator ${TAX_YEAR}: Annual Take-Home Pay Breakdown`;
-const description = `Free ${TAX_YEAR} salary calculator. Enter your annual salary and see your take-home pay after federal and state taxes, FICA, 401(k), and deductions.`;
+const description = `Enter your annual salary and see what you actually take home in ${TAX_YEAR}. Get a detailed breakdown by pay period — monthly, biweekly, and weekly — after all taxes.`;
 
 const faqs = [
   {
@@ -35,10 +35,10 @@ const faqs = [
 
 const relatedCalculators = [
   { title: 'Paycheck Calculator', href: '/', desc: 'Calculate per-paycheck take-home' },
-  { title: 'Hourly Pay Calculator', href: '/hourly-paycheck-calculator', desc: 'Convert hourly rate to annual' },
-  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax breakdown' },
-  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator', desc: '1099 and freelancer taxes' },
-  { title: 'Bonus Tax Calculator', href: '/bonus-tax-calculator', desc: 'How much tax on your bonus' },
+  { title: 'Hourly Pay Calculator', href: '/hourly-paycheck-calculator/', desc: 'Convert hourly rate to annual' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator/', desc: 'Federal + state tax breakdown' },
+  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator/', desc: '1099 and freelancer taxes' },
+  { title: 'Bonus Tax Calculator', href: '/bonus-tax-calculator/', desc: 'How much tax on your bonus' },
 ];
 
 const schema = {
@@ -46,7 +46,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Salary Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/salary-calculator',
+  url: 'https://truetakehomepay.com/salary-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: {

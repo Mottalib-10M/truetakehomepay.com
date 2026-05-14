@@ -1,5 +1,5 @@
-export const SITE_NAME = 'USpaycheck';
-export const SITE_URL = 'https://uspaycheck.com';
+export const SITE_NAME = 'TrueTakeHomePay';
+export const SITE_URL = 'https://truetakehomepay.com';
 export const SITE_DESCRIPTION = 'Free paycheck calculator for all 50 US states. Calculate your take-home pay, federal and state taxes, FICA, 401(k), and more.';
 export const TAX_YEAR = 2026;
 export const DEFAULT_PAY_FREQUENCY = 'biweekly' as const;

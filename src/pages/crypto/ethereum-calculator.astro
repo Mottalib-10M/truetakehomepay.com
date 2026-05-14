@@ -1,0 +1,64 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import CryptoInvestmentSimulator from '../../components/calculators/CryptoInvestmentSimulator';
+import { TAX_YEAR } from '../../lib/constants';
+
+const title = `Ethereum ETH Tax Calculator ${TAX_YEAR}: Capital Gains Guide`;
+const description = `Sold or staked Ethereum? Calculate your ${TAX_YEAR} tax on ETH capital gains and staking rewards. Compare short vs long-term rates, NIIT threshold, and net profit.`;
+
+const faqs = [
+  {
+    question: 'How is Ethereum taxed?',
+    answer: `Ethereum is taxed as property by the IRS, just like Bitcoin. Selling ETH for a profit triggers capital gains tax. Short-term gains (held ≤1 year) are taxed at ordinary income rates up to 37%. Long-term gains (held >1 year) are taxed at preferential rates of 0%, 15%, or 20%.`,
+  },
+  {
+    question: 'Are Ethereum staking rewards taxable?',
+    answer: `Yes. ETH staking rewards are taxed as ordinary income when received, based on the fair market value at the time of receipt. When you later sell staked ETH, any additional gain above that value is taxed as a capital gain. The holding period for the capital gain starts when you receive the staking reward.`,
+  },
+  {
+    question: 'Is converting ETH to a stablecoin a taxable event?',
+    answer: `Yes. Converting Ethereum to USDT, USDC, or any other cryptocurrency is a taxable event. The IRS treats this as a sale of ETH. You owe capital gains tax on the difference between the fair market value at conversion and your original cost basis in ETH.`,
+  },
+  {
+    question: 'What happens to ETH gas fees for taxes?',
+    answer: `Gas fees paid in ETH can be added to your cost basis when buying, which reduces your taxable gain when you sell. For sales, gas fees can be deducted from the sale proceeds. Keep records of all gas fees paid as they can meaningfully reduce your tax liability on Ethereum transactions.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Bitcoin Calculator', href: '/crypto/bitcoin-calculator/', desc: 'BTC investment simulator' },
+  { title: 'Solana Calculator', href: '/crypto/solana-calculator/', desc: 'SOL investment simulator' },
+  { title: 'Crypto Tax Calculator', href: '/cryptocurrency-tax-calculator/', desc: 'Capital gains tax on crypto' },
+  { title: 'All Crypto Calculators', href: '/crypto/', desc: 'Top 10 crypto simulators' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Ethereum Investment Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://truetakehomepay.com/crypto/ethereum-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Ethereum (ETH) Investment Calculator ${TAX_YEAR}`}
+  intro={`Simulate an Ethereum investment and calculate your ${TAX_YEAR} capital gains tax. Enter your buy and sell prices to see your ETH profit after federal tax and NIIT.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Notice 2014-21 (cryptocurrency as property), IRC Section 1(h) (capital gains rates), IRC Section 1411 (NIIT). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <CryptoInvestmentSimulator
+    client:load
+    cryptoName="Ethereum"
+    cryptoSymbol="ETH"
+    defaultBuyPrice={3500}
+  />
+</CalculatorLayout>

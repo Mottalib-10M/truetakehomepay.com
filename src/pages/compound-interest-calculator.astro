@@ -1,10 +1,10 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import CompoundInterestCalculator from '../components/calculators/CompoundInterestCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
-const title = `Compound Interest Calculator ${TAX_YEAR}: Savings Growth`;
-const description = `Calculate how compound interest grows your savings and investments over time. See the impact of contributions, interest rate, compounding frequency, and time horizon.`;
+const title = `Compound Interest Calculator ${TAX_YEAR}: How Money Grows`;
+const description = `Calculate how compound interest grows your savings and investments. See the impact of contributions, interest rate, compounding frequency, and time horizon.`;
 
 const faqs = [
   {
@@ -26,10 +26,10 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Savings Calculator', href: '/savings-calculator', desc: 'Reach your savings goals' },
-  { title: '401(k) Calculator', href: '/401k-calculator', desc: 'Retirement growth projections' },
-  { title: 'Roth IRA Calculator', href: '/roth-ira-calculator', desc: 'Tax-free growth projections' },
-  { title: 'Inflation Calculator', href: '/inflation-calculator', desc: 'Purchasing power over time' },
+  { title: 'Savings Calculator', href: '/savings-calculator/', desc: 'Reach your savings goals' },
+  { title: '401(k) Calculator', href: '/401k-calculator/', desc: 'Retirement growth projections' },
+  { title: 'Roth IRA Calculator', href: '/roth-ira-calculator/', desc: 'Tax-free growth projections' },
+  { title: 'Inflation Calculator', href: '/inflation-calculator/', desc: 'Purchasing power over time' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Compound Interest Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/compound-interest-calculator',
+  url: 'https://truetakehomepay.com/compound-interest-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`Federal Reserve Economic Data (FRED) for historical interest rates, SEC Investor.gov compound interest resources, BLS CPI data for real return calculations. Last updated for ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <CompoundInterestCalculator client:load />
 </CalculatorLayout>

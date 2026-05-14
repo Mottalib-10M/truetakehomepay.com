@@ -1,6 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import TraditionalIRACalculator from '../components/calculators/TraditionalIRACalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `Traditional IRA Calculator ${TAX_YEAR}: Tax-Deferred Growth`;
@@ -26,10 +26,10 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Roth IRA Calculator', href: '/roth-ira-calculator', desc: 'Tax-free retirement growth' },
-  { title: '401(k) Calculator', href: '/401k-calculator', desc: 'Employer retirement plan' },
-  { title: 'Tax Refund Calculator', href: '/tax-refund-calculator', desc: 'IRA deduction impact' },
-  { title: 'Compound Interest', href: '/compound-interest-calculator', desc: 'Investment growth projections' },
+  { title: 'Roth IRA Calculator', href: '/roth-ira-calculator/', desc: 'Tax-free retirement growth' },
+  { title: '401(k) Calculator', href: '/401k-calculator/', desc: 'Employer retirement plan' },
+  { title: 'Tax Refund Calculator', href: '/tax-refund-calculator/', desc: 'IRA deduction impact' },
+  { title: 'Compound Interest', href: '/compound-interest-calculator/', desc: 'Investment growth projections' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Traditional IRA Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/traditional-ira-calculator',
+  url: 'https://truetakehomepay.com/traditional-ira-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`IRS Publication 590-A (IRA contributions), IRS Publication 590-B (IRA distributions), IRS Rev. Proc. 2025-11 (${TAX_YEAR} deduction phase-outs), SECURE 2.0 Act. Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <TraditionalIRACalculator client:load />
 </CalculatorLayout>

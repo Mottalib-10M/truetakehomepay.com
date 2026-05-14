@@ -1,9 +1,9 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import RSUTaxCalculator from '../components/calculators/RSUTaxCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
-const title = `RSU Tax Calculator ${TAX_YEAR}: Stock Compensation Taxes`;
+const title = `RSU Tax Calculator ${TAX_YEAR}: Restricted Stock Unit Taxes`;
 const description = `Calculate taxes on restricted stock units (RSUs) for ${TAX_YEAR}. See federal, state, and FICA withholding on vested shares and plan your stock comp strategy.`;
 
 const faqs = [
@@ -27,9 +27,9 @@ const faqs = [
 
 const relatedCalculators = [
   { title: 'Paycheck Calculator', href: '/', desc: 'Take-home pay breakdown' },
-  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator', desc: 'Tax on stock sales' },
-  { title: 'Bonus Tax Calculator', href: '/bonus-tax-calculator', desc: 'Supplemental income tax' },
-  { title: 'Medicare Surtax', href: '/medicare-surtax-calculator', desc: '0.9% + 3.8% NIIT' },
+  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator/', desc: 'Tax on stock sales' },
+  { title: 'Bonus Tax Calculator', href: '/bonus-tax-calculator/', desc: 'Supplemental income tax' },
+  { title: 'Medicare Surtax', href: '/medicare-surtax-calculator/', desc: '0.9% + 3.8% NIIT' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `RSU Tax Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/rsu-tax-calculator',
+  url: 'https://truetakehomepay.com/rsu-tax-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`IRS Publication 525 (Taxable and Nontaxable Income), IRS Rev. Proc. 2025-11 (supplemental withholding rates), IRC Section 83. Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <RSUTaxCalculator client:load />
 </CalculatorLayout>

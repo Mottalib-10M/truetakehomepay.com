@@ -14,7 +14,7 @@ const { state: stateSlug } = Astro.params;
 const stateData = getStateBySlug(stateSlug!);
 
 if (!stateData) {
-  return Astro.redirect('/paycheck-calculator');
+  return Astro.redirect('/paycheck-calculator/');
 }
 
 const { name, abbr, code, neighbors } = stateData;
@@ -38,8 +38,18 @@ if (isNoTax) {
   intro = `${name} has a progressive state income tax with rates up to ${topRate ? formatPercent(topRate * 100) : 'the top bracket'}. Calculate your exact take-home pay after all taxes.`;
 }
 
-const title = `${name} Paycheck Calculator ${TAX_YEAR}: After Tax Pay`;
-const description = `Free ${TAX_YEAR} ${name} paycheck calculator. Calculate your take-home pay after federal and ${name} state taxes, FICA, 401(k), and more.`;
+// Title: 50-60 chars for all state names (4-20 chars)
+const _tBase = `${name} Paycheck Calculator ${TAX_YEAR}`;
+const title = _tBase.length <= 33
+  ? `${_tBase}: Take-Home Pay After Taxes`
+  : _tBase.length <= 43
+    ? `${_tBase} — Take-Home Pay`
+    : `${_tBase} — After Tax`;
+
+// Description: 150-160 chars for all state names
+const description = name.length <= 8
+  ? `Free ${TAX_YEAR} ${name} paycheck calculator. Calculate your take-home pay after federal and ${name} state taxes, Social Security, Medicare, 401(k), and deductions.`
+  : `Free ${TAX_YEAR} ${name} paycheck calculator. See your take-home pay after federal and state income tax, Social Security, Medicare, 401(k), and all deductions.`;
 
 // State-specific FAQs
 const faqs = [
@@ -59,7 +69,7 @@ const faqs = [
   },
   {
     question: `How does ${name} compare to neighboring states for taxes?`,
-    answer: `${name}'s tax burden ${isNoTax ? 'is among the lowest in the country since there is no state income tax' : 'varies based on your income level'}. Nearby states include ${neighborStates.map((n) => n.name + (NO_INCOME_TAX_STATES.includes(n.abbr) ? ' (no income tax)' : '')).join(', ')}. Use our <a href="/take-home-comparison" class="text-navy-600 underline dark:text-navy-400">Take-Home Comparison</a> tool to compare your salary across states.`,
+    answer: `${name}'s tax burden ${isNoTax ? 'is among the lowest in the country since there is no state income tax' : 'varies based on your income level'}. Nearby states include ${neighborStates.map((n) => n.name + (NO_INCOME_TAX_STATES.includes(n.abbr) ? ' (no income tax)' : '')).join(', ')}. Use our <a href="/take-home-comparison/" class="text-navy-600 underline dark:text-navy-400">Take-Home Comparison</a> tool to compare your salary across states.`,
   },
   {
     question: `Does ${name} have local income taxes?`,
@@ -77,16 +87,16 @@ const faqs = [
 
 const relatedCalculators = [
   { title: 'National Paycheck Calculator', href: '/', desc: 'Calculate for any state' },
-  { title: 'Salary Calculator', href: '/salary-calculator', desc: 'Annual salary breakdown' },
-  { title: 'Take-Home Comparison', href: '/take-home-comparison', desc: 'Compare states side-by-side' },
-  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state combined' },
+  { title: 'Salary Calculator', href: '/salary-calculator/', desc: 'Annual salary breakdown' },
+  { title: 'Take-Home Comparison', href: '/take-home-comparison/', desc: 'Compare states side-by-side' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator/', desc: 'Federal + state combined' },
 ];
 
 // Add neighbor state calculators
 neighborStates.slice(0, 2).forEach((n) => {
   relatedCalculators.push({
     title: `${n.name} Calculator`,
-    href: `/paycheck-calculator/${n.slug}`,
+    href: `/paycheck-calculator/${n.slug}/`,
     desc: NO_INCOME_TAX_STATES.includes(n.abbr) ? 'No state income tax' : `${n.name} paycheck`,
   });
 });
@@ -96,7 +106,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `${name} Paycheck Calculator ${TAX_YEAR}`,
   description,
-  url: `https://uspaycheck.com/paycheck-calculator/${stateSlug}`,
+  url: `https://truetakehomepay.com/paycheck-calculator/${stateSlug}`,
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -209,7 +219,7 @@ const schema = {
           <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {neighborStates.map((n) => (
               <a
-                href={`/paycheck-calculator/${n.slug}`}
+                href={`/paycheck-calculator/${n.slug}/`}
                 class="rounded-lg border border-slate-200 bg-white p-4 text-center transition-all hover:border-navy-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
               >
                 <span class="block font-semibold text-navy-700 dark:text-navy-400">{n.name}</span>
@@ -233,7 +243,7 @@ const schema = {
           <div class="grid grid-cols-3 gap-2 sm:grid-cols-4">
             {[30000, 40000, 50000, 60000, 70000, 75000, 80000, 90000, 100000, 120000, 150000, 200000].map((amount) => (
               <a
-                href={`/${stateSlug}/${amount}-after-taxes`}
+                href={`/${stateSlug}/${amount}-after-taxes/`}
                 class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-sm transition-colors hover:border-navy-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-navy-600"
               >
                 <span class="tabular-nums font-semibold text-navy-700 dark:text-navy-400">

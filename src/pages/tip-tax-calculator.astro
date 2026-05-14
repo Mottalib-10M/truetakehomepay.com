@@ -1,10 +1,10 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import TipTaxCalculator from '../components/calculators/TipTaxCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `Tip Tax Calculator ${TAX_YEAR}: Tipped Employee Take-Home Pay`;
-const description = `Calculate your take-home pay as a tipped employee in ${TAX_YEAR}. See how tips, base wages, and taxes combine to determine your actual earnings after taxes.`;
+const description = `Calculate your take-home pay as a tipped employee in ${TAX_YEAR}. See how tips, base wages, and taxes combine to determine your actual earnings after all taxes.`;
 
 const faqs = [
   {
@@ -35,10 +35,10 @@ const faqs = [
 
 const relatedCalculators = [
   { title: 'Paycheck Calculator', href: '/', desc: 'General paycheck breakdown' },
-  { title: 'Hourly Pay Calculator', href: '/hourly-paycheck-calculator', desc: 'Hourly wage to annual' },
-  { title: 'Overtime Pay Calculator', href: '/overtime-pay-calculator', desc: 'OT pay after taxes' },
-  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state tax estimate' },
-  { title: 'Take-Home Pay Calculator', href: '/take-home-pay-calculator', desc: 'Net pay after all taxes' },
+  { title: 'Hourly Pay Calculator', href: '/hourly-paycheck-calculator/', desc: 'Hourly wage to annual' },
+  { title: 'Overtime Pay Calculator', href: '/overtime-pay-calculator/', desc: 'OT pay after taxes' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator/', desc: 'Federal + state tax estimate' },
+  { title: 'Take-Home Pay Calculator', href: '/take-home-pay-calculator/', desc: 'Net pay after all taxes' },
 ];
 
 const schema = {
@@ -46,7 +46,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Tip Tax Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/tip-tax-calculator',
+  url: 'https://truetakehomepay.com/tip-tax-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: {
@@ -68,9 +68,5 @@ const schema = {
   schema={schema}
   sources={`IRS Publication 531 (Reporting Tip Income), U.S. Department of Labor (tipped minimum wage rules), IRS Rev. Proc. 2025-11 (${TAX_YEAR} tax brackets), SSA.gov (Social Security wage base). Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator
-    client:load
-    defaultPayFrequency="biweekly"
-    defaultGross={30000}
-  />
+  <TipTaxCalculator client:load />
 </CalculatorLayout>

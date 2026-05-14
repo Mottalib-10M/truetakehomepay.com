@@ -38,22 +38,53 @@ export default function PaycheckCalculator({
   const [otherDependents, setOtherDependents] = useState('0');
   const [additionalWithholding, setAdditionalWithholding] = useState('0');
 
+  // ─── Valid values for URL param validation ────────────────────────
+  const validStateCodes = useMemo(() => new Set(getStatesArray().map((s) => s.abbr)), []);
+  const validFilingStatuses = useMemo(() => new Set(Object.keys(FILING_STATUSES) as FilingStatus[]), []);
+  const validPayFrequencies = useMemo(() => new Set(Object.keys(PAY_FREQUENCIES) as PayFrequency[]), []);
+
   // ─── URL State Sync ────────────────────────────────────────────────
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('gross')) setGrossInput(params.get('gross')!);
-    if (params.get('state')) setStateCode(params.get('state')!);
-    if (params.get('filing')) setFilingStatus(params.get('filing') as FilingStatus);
-    if (params.get('period')) setPayFrequency(params.get('period') as PayFrequency);
-    if (params.get('401k')) setTraditional401k(params.get('401k')!);
-    if (params.get('local')) setLocalTaxCode(params.get('local')!);
-  }, []);
 
-  // Update URL when inputs change
+    const grossParam = params.get('gross');
+    if (grossParam) {
+      const cleaned = grossParam.replace(/[^0-9.]/g, '');
+      if (cleaned && Number(cleaned) > 0) setGrossInput(cleaned);
+    }
+
+    const stateParam = params.get('state');
+    if (stateParam && validStateCodes.has(stateParam.toUpperCase())) {
+      setStateCode(stateParam.toUpperCase());
+    }
+
+    const filingParam = params.get('filing');
+    if (filingParam && validFilingStatuses.has(filingParam as FilingStatus)) {
+      setFilingStatus(filingParam as FilingStatus);
+    }
+
+    const periodParam = params.get('period');
+    if (periodParam && validPayFrequencies.has(periodParam as PayFrequency)) {
+      setPayFrequency(periodParam as PayFrequency);
+    }
+
+    const k401Param = params.get('401k');
+    if (k401Param) {
+      const cleaned = k401Param.replace(/[^0-9.]/g, '');
+      if (cleaned && Number(cleaned) >= 0) setTraditional401k(cleaned);
+    }
+
+    const localParam = params.get('local');
+    if (localParam && LOCAL_TAXES[localParam]) {
+      setLocalTaxCode(localParam);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Update URL when inputs change (skip state param if it matches the page default)
   const updateUrl = useCallback(() => {
     const params = new URLSearchParams();
     if (grossInput && grossInput !== '60000') params.set('gross', grossInput);
-    if (stateCode) params.set('state', stateCode);
+    if (stateCode && stateCode !== defaultState) params.set('state', stateCode);
     if (filingStatus !== 'single') params.set('filing', filingStatus);
     if (payFrequency !== 'biweekly') params.set('period', payFrequency);
     if (Number(traditional401k) > 0) params.set('401k', traditional401k);
@@ -64,7 +95,7 @@ export default function PaycheckCalculator({
       : window.location.pathname;
 
     window.history.replaceState({}, '', newUrl);
-  }, [grossInput, stateCode, filingStatus, payFrequency, traditional401k, localTaxCode]);
+  }, [grossInput, stateCode, defaultState, filingStatus, payFrequency, traditional401k, localTaxCode]);
 
   useEffect(() => {
     updateUrl();

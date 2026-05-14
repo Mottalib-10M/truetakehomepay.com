@@ -1,0 +1,64 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import CryptoInvestmentSimulator from '../../components/calculators/CryptoInvestmentSimulator';
+import { TAX_YEAR } from '../../lib/constants';
+
+const title = `USD Coin (USDC) Tax Calculator ${TAX_YEAR}: Capital Gains`;
+const description = `USDC swaps and DeFi yields are taxable. Calculate your ${TAX_YEAR} tax on USD Coin gains, lending income, and stablecoin conversions. See IRS rates and net profit.`;
+
+const faqs = [
+  {
+    question: 'Do I owe taxes on USD Coin (USDC) transactions?',
+    answer: `Yes. Even though USDC is a stablecoin pegged to $1, any trade or conversion involving USDC is a taxable event. Buying crypto with USDC, selling crypto for USDC, or converting USDC to another stablecoin can all trigger small gains or losses that must be reported to the IRS.`,
+  },
+  {
+    question: 'How is USDC lending and yield taxed?',
+    answer: `Interest and yield earned from lending USDC on DeFi platforms or centralized exchanges is taxed as ordinary income at your marginal rate (10%-37%). This income is recognized when received, at the fair market value at that time. It is not treated as a capital gain.`,
+  },
+  {
+    question: 'Is converting USDC to USDT taxable?',
+    answer: `Yes. Converting one stablecoin to another (e.g., USDC to USDT) is a taxable event per IRS rules. Since both track $1, any gain or loss is typically minimal, but the transaction must still be reported on Form 8949. Keep records of your cost basis in each stablecoin.`,
+  },
+  {
+    question: 'What is the difference between USDC and USDT for taxes?',
+    answer: `There is no tax difference between USDC and USDT. The IRS treats all cryptocurrencies, including both stablecoins, as property. Both are subject to capital gains tax on disposal. The key distinction is regulatory — USDC is issued by Circle with regular audits, while USDT is issued by Tether.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Tether Calculator', href: '/crypto/tether-calculator/', desc: 'USDT investment simulator' },
+  { title: 'Bitcoin Calculator', href: '/crypto/bitcoin-calculator/', desc: 'BTC investment simulator' },
+  { title: 'Crypto Tax Calculator', href: '/cryptocurrency-tax-calculator/', desc: 'Capital gains tax on crypto' },
+  { title: 'All Crypto Calculators', href: '/crypto/', desc: 'Top 10 crypto simulators' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `USD Coin Tax Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://truetakehomepay.com/crypto/usd-coin-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`USD Coin (USDC) Tax Calculator ${TAX_YEAR}`}
+  intro={`Calculate taxes on your USD Coin transactions for ${TAX_YEAR}. Even stablecoin trades can trigger capital gains. See your USDC tax liability and net profit breakdown.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Notice 2014-21 (cryptocurrency as property), IRC Section 1(h) (capital gains rates), IRC Section 1411 (NIIT). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <CryptoInvestmentSimulator
+    client:load
+    cryptoName="USD Coin"
+    cryptoSymbol="USDC"
+    defaultBuyPrice={1}
+  />
+</CalculatorLayout>

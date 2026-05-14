@@ -1,6 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import CryptoTaxCalculator from '../components/calculators/CryptoTaxCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
 const title = `Crypto Tax Calculator ${TAX_YEAR}: Bitcoin & Crypto Taxes`;
@@ -26,10 +26,10 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator', desc: 'Investment gains calculator' },
-  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state estimate' },
-  { title: 'RSU Tax Calculator', href: '/rsu-tax-calculator', desc: 'Stock compensation taxes' },
-  { title: 'Tax Refund Calculator', href: '/tax-refund-calculator', desc: 'Estimate your IRS refund' },
+  { title: 'Bitcoin Calculator', href: '/crypto/bitcoin-calculator/', desc: 'Bitcoin investment simulator' },
+  { title: 'Ethereum Calculator', href: '/crypto/ethereum-calculator/', desc: 'Ethereum investment simulator' },
+  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator/', desc: 'Investment gains calculator' },
+  { title: 'All Crypto Calculators', href: '/crypto/', desc: 'Top 10 crypto simulators' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Crypto Tax Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/cryptocurrency-tax-calculator',
+  url: 'https://truetakehomepay.com/cryptocurrency-tax-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`IRS Notice 2014-21 (cryptocurrency as property), IRS Rev. Rul. 2019-24, IRS Form 8949 and Schedule D instructions, IRC Section 1001. Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <CryptoTaxCalculator client:load />
 </CalculatorLayout>

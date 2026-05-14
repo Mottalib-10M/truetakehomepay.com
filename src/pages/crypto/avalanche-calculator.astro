@@ -1,0 +1,64 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import CryptoInvestmentSimulator from '../../components/calculators/CryptoInvestmentSimulator';
+import { TAX_YEAR } from '../../lib/constants';
+
+const title = `Avalanche (AVAX) Capital Gains Tax Calculator ${TAX_YEAR}`;
+const description = `Invested in Avalanche? Estimate your ${TAX_YEAR} capital gains tax on AVAX. Enter buy and sell prices, select your holding period, and see your tax bill and net gain.`;
+
+const faqs = [
+  {
+    question: 'How is Avalanche (AVAX) taxed?',
+    answer: `Avalanche is taxed as property by the IRS. Selling AVAX for a profit triggers capital gains tax. Short-term gains (held one year or less) are taxed at ordinary income rates (10%-37%). Long-term gains (held over one year) are taxed at preferential rates of 0%, 15%, or 20%.`,
+  },
+  {
+    question: 'Are Avalanche staking rewards taxable?',
+    answer: `Yes. AVAX staking and validation rewards are taxed as ordinary income when received, at the fair market value on the date of receipt. When you later sell staked AVAX, any gain above the received value is a capital gain. The minimum staking period for AVAX is 2 weeks.`,
+  },
+  {
+    question: 'How are Avalanche subnet tokens taxed?',
+    answer: `Tokens earned or traded on Avalanche subnets are taxed the same as any other cryptocurrency. Receiving tokens is ordinary income; selling them triggers capital gains. Each subnet token is tracked separately for cost basis and holding period purposes.`,
+  },
+  {
+    question: 'Is bridging AVAX between C-Chain and X-Chain taxable?',
+    answer: `Transferring AVAX between Avalanche chains (C-Chain, X-Chain, P-Chain) is generally not a taxable event, as you are moving the same asset between your own wallets. However, any fees paid during the transfer should be tracked as they may affect your cost basis.`,
+  },
+];
+
+const relatedCalculators = [
+  { title: 'Solana Calculator', href: '/crypto/solana-calculator/', desc: 'SOL investment simulator' },
+  { title: 'Ethereum Calculator', href: '/crypto/ethereum-calculator/', desc: 'ETH investment simulator' },
+  { title: 'Crypto Tax Calculator', href: '/cryptocurrency-tax-calculator/', desc: 'Capital gains tax on crypto' },
+  { title: 'All Crypto Calculators', href: '/crypto/', desc: 'Top 10 crypto simulators' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `Avalanche Investment Calculator ${TAX_YEAR}`,
+  description,
+  url: 'https://truetakehomepay.com/crypto/avalanche-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'en-US',
+};
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  h1={`Avalanche (AVAX) Investment Calculator ${TAX_YEAR}`}
+  intro={`Simulate an Avalanche investment and calculate your ${TAX_YEAR} capital gains tax. Enter your buy and sell prices to see your AVAX profit after federal tax and NIIT.`}
+  faqs={faqs}
+  relatedCalculators={relatedCalculators}
+  schema={schema}
+  sources={`IRS Notice 2014-21 (cryptocurrency as property), IRC Section 1(h) (capital gains rates), IRC Section 1411 (NIIT). Last updated for tax year ${TAX_YEAR}.`}
+>
+  <CryptoInvestmentSimulator
+    client:load
+    cryptoName="Avalanche"
+    cryptoSymbol="AVAX"
+    defaultBuyPrice={40}
+  />
+</CalculatorLayout>

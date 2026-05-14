@@ -1,10 +1,10 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
-import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
+import MedicareSurtaxCalculator from '../components/calculators/MedicareSurtaxCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
-const title = `Medicare Surtax Calculator ${TAX_YEAR}: 0.9% + 3.8% NIIT`;
-const description = `Calculate the ${TAX_YEAR} Additional Medicare Tax (0.9%) and Net Investment Income Tax (3.8% NIIT). See if your income triggers these surtaxes.`;
+const title = `Additional Medicare Tax Calculator ${TAX_YEAR}: 0.9% + NIIT`;
+const description = `Calculate the ${TAX_YEAR} Additional Medicare Tax (0.9%) and Net Investment Income Tax (NIIT, 3.8%). See thresholds by filing status and estimate your liability.`;
 
 const faqs = [
   {
@@ -26,10 +26,10 @@ const faqs = [
 ];
 
 const relatedCalculators = [
-  { title: 'Social Security Tax', href: '/social-security-tax-calculator', desc: 'Full FICA breakdown' },
-  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator', desc: 'Investment gains tax' },
-  { title: 'Income Tax Calculator', href: '/income-tax-calculator', desc: 'Federal + state estimate' },
-  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator', desc: '1099 FICA taxes' },
+  { title: 'Social Security Tax', href: '/social-security-tax-calculator/', desc: 'Full FICA breakdown' },
+  { title: 'Capital Gains Tax', href: '/capital-gains-tax-calculator/', desc: 'Investment gains tax' },
+  { title: 'Income Tax Calculator', href: '/income-tax-calculator/', desc: 'Federal + state estimate' },
+  { title: 'Self-Employment Tax', href: '/self-employment-tax-calculator/', desc: '1099 FICA taxes' },
 ];
 
 const schema = {
@@ -37,7 +37,7 @@ const schema = {
   '@type': 'WebApplication',
   name: `Medicare Surtax Calculator ${TAX_YEAR}`,
   description,
-  url: 'https://uspaycheck.com/medicare-surtax-calculator',
+  url: 'https://truetakehomepay.com/medicare-surtax-calculator',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -55,5 +55,5 @@ const schema = {
   schema={schema}
   sources={`IRS Topic 560 (Additional Medicare Tax), IRS Form 8959, IRS Form 8960 (Net Investment Income Tax), IRC Section 1411. Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load />
+  <MedicareSurtaxCalculator client:load />
 </CalculatorLayout>
