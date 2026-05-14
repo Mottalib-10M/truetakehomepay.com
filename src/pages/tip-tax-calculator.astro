@@ -69,4 +69,89 @@ const schema = {
   sources={`IRS Publication 531 (Reporting Tip Income), U.S. Department of Labor (tipped minimum wage rules), IRS Rev. Proc. 2025-11 (${TAX_YEAR} tax brackets), SSA.gov (Social Security wage base). Last updated for tax year ${TAX_YEAR}.`}
 >
   <TipTaxCalculator client:load />
+
+  <Fragment slot="content">
+    <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+        <h2 id="how-tips-are-taxed">How Tips Are Taxed in the United States</h2>
+        <p>
+          The Internal Revenue Service treats all tips as taxable income, regardless of whether they are received in cash, on a credit card, through a mobile payment app, or as a share of a tip pool. This rule applies the moment a tipped employee receives the income. Under IRS guidelines, if your total tips for any calendar month exceed $20, you are required to report the full amount to your employer. Your employer then withholds federal income tax, Social Security tax at 6.2 percent, and Medicare tax at 1.45 percent from your paycheck to cover the liability. If you also live in a state that imposes an income tax, state withholding applies too. Essentially, tip income is subject to the same tax treatment as hourly wages or salary, with one critical difference: the responsibility for accurate tracking and reporting falls heavily on the employee.
+        </p>
+        <p>
+          Many tipped workers are surprised to learn just how much of their tip income goes to taxes. A server earning $400 per week in tips and $200 per week in base wages faces taxation on the full $600. At a combined marginal rate of 25 to 30 percent (federal plus state plus FICA), that server could see $150 to $180 withheld each week. Over a year, the tax on tips alone can easily reach $5,000 to $8,000 for a moderately busy restaurant worker. Using our <a href="/take-home-pay-calculator/">take-home pay calculator</a> can help you see what you actually keep after all withholdings are applied.
+        </p>
+
+        <h2 id="cash-vs-credit-card-tips">The Difference Between Cash Tips and Credit Card Tips for Tax Purposes</h2>
+        <p>
+          From a legal standpoint, cash tips and credit card tips are taxed identically. Both are income, and both must be reported. The practical difference lies in visibility. Credit card tips leave a clear paper trail because the payment processor records them. Your employer knows exactly how much you received in credit card tips and will include that amount on your W-2. There is no ambiguity and no room for error in reporting.
+        </p>
+        <p>
+          Cash tips are another matter. The IRS relies on the honor system combined with enforcement mechanisms. When a customer leaves cash on the table, only the employee knows the exact amount. The IRS is well aware that cash tips are underreported, and it has developed several tools to address this. One is the allocated tips program, which we will discuss below. Another is simply comparing reported cash tip income against credit card tip percentages. If credit card customers tip an average of 20 percent but a server reports cash tips that imply only 8 percent, that discrepancy can trigger scrutiny.
+        </p>
+        <p>
+          Underreporting cash tips is not a gray area. It is tax evasion, a federal offense that can result in penalties of up to 50 percent of the unpaid tax, plus interest, and in extreme cases criminal prosecution. The IRS has aggressively pursued tip reporting compliance in the restaurant industry through initiatives like the Tip Reporting Alternative Commitment (TRAC) and the Employer-Designed Tip Reporting Arrangement (EmTRAC). Workers who underreport also shortchange their own Social Security earnings record, which reduces their future retirement benefits. Every dollar of unreported tip income is a dollar that does not count toward your Social Security benefit calculation. For a career server, decades of underreporting could mean hundreds of dollars less per month in retirement.
+        </p>
+
+        <h2 id="employer-obligations-tip-reporting">Employer Obligations for Tip Reporting</h2>
+        <p>
+          Employers have significant responsibilities when it comes to tipped employee income. They must collect tip reports from employees, withhold the appropriate taxes, and report the amounts on each employee's W-2. If an employee's reported tips and wages are not sufficient to cover the required tax withholding, the employer must notify the employee so that the shortfall can be paid when the employee files their annual return using IRS Form 4137.
+        </p>
+        <p>
+          Employers are also required to pay the employer's share of FICA taxes on reported tip income, which adds 6.2 percent for Social Security and 1.45 percent for Medicare on top of what the employee pays. This cost incentivizes some employers, particularly smaller operations, to look the other way on tip reporting. However, the IRS has made it clear that employers who fail to enforce reporting obligations can face their own penalties, including liability for the unpaid employment taxes.
+        </p>
+        <p>
+          One benefit employers receive in return is the FICA Tip Credit under Section 45B of the Internal Revenue Code. This credit allows employers to recover a portion of the FICA taxes they pay on tip income that exceeds the minimum wage. For restaurants and hospitality businesses with large tipped workforces, this credit can be worth thousands of dollars per year and provides a financial incentive to ensure tips are properly reported. The credit does not affect the employee's take-home pay directly, but it encourages a system where tips flow through proper channels, which in turn supports accurate tax withholding.
+        </p>
+
+        <h2 id="tip-credit-tipped-minimum-wage">The Tip Credit and Tipped Minimum Wage</h2>
+        <p>
+          Federal law allows employers to pay tipped employees a base wage as low as $2.13 per hour, provided that the employee's tips bring total hourly compensation to at least the federal minimum wage of $7.25. The difference between the base wage and the minimum wage is known as the tip credit. In essence, the employer is "crediting" the employee's tips against its minimum wage obligation. If a server's tips plus base wage fall below $7.25 per hour during any pay period, the employer is legally required to make up the difference.
+        </p>
+        <p>
+          This system creates a patchwork of compensation models across the country. Seven states, including California, Oregon, Washington, Montana, Minnesota, Alaska, and Nevada, do not allow a tip credit at all. In those states, tipped employees must be paid the full state minimum wage before tips, which means a server in California earning the $16.50 state minimum wage receives that amount as a floor, with tips adding substantially on top. The result is noticeably higher total compensation in full-minimum-wage states compared to states that allow the $2.13 base.
+        </p>
+        <p>
+          Other states set their own tipped minimum wages somewhere between $2.13 and the full state minimum. New York, for example, has a tipped cash wage for food service workers that varies by region. Understanding your state's specific rules is essential for calculating your true take-home pay accurately. Our calculator above accounts for these variations, and you can also explore how your hourly rate translates to annual income with our <a href="/hourly-paycheck-calculator/">hourly paycheck calculator</a>.
+        </p>
+
+        <h2 id="allocated-tips">Allocated Tips and What They Mean for You</h2>
+        <p>
+          Allocated tips are an IRS enforcement mechanism that applies to large food and beverage establishments, defined as restaurants with more than ten employees that have served food or beverages on a typical business day. When the total reported tips for all employees in an establishment fall below 8 percent of gross receipts, the employer must allocate the difference among employees. These allocated tips appear in Box 8 of the employee's W-2.
+        </p>
+        <p>
+          Allocated tips are not automatically subject to withholding because they represent an estimate rather than actual reported income. However, if you receive allocated tips, the IRS expects you to report at least the allocated amount as income on your tax return unless you can prove, through a daily tip log or other records, that your actual tips were lower. In practice, allocated tips serve as a signal that the IRS believes you may have underreported your income, and they shift the burden of proof to the employee. Keeping a detailed daily tip diary is the best defense if you believe your actual tips were genuinely below the 8 percent threshold.
+        </p>
+
+        <h2 id="tips-and-tax-bracket">How Tip Income Affects Your Overall Tax Bracket</h2>
+        <p>
+          One misunderstanding that many tipped workers share is the belief that tips are taxed at a flat rate or somehow separately from other income. In reality, your tips are added to your base wages, and the combined total determines your tax bracket. If your base wage places you in the 12 percent federal bracket, a strong month of tips could push a portion of your income into the 22 percent bracket. This bracket interaction means that the effective tax rate on your last dollar of tip income may be considerably higher than the rate on your first dollar of wages.
+        </p>
+        <p>
+          Consider a bartender earning $25,000 in base wages and $35,000 in annual tips, for a total of $60,000. After the standard deduction, their taxable income would be roughly $45,850. The first $11,925 is taxed at 10 percent, the next portion up to $48,475 at 12 percent, putting this worker right at the edge of the 22 percent bracket. A few extra thousand in tips during a busy holiday season could push them into that higher bracket on the marginal amount. Understanding this interaction is important for planning estimated tax payments and avoiding a surprise bill at filing time. Our <a href="/income-tax-calculator/">income tax calculator</a> can show you exactly where your combined income places you.
+        </p>
+
+        <h2 id="common-tip-reporting-mistakes">Common Mistakes in Reporting Tip Income</h2>
+        <p>
+          The most prevalent mistake is simply failing to report cash tips in full. As discussed above, this is both illegal and self-defeating because it lowers your future Social Security benefits. A close second is neglecting to report tips during months when they total less than $20. While tips under $20 in a given month do not need to be reported to your employer, they are still taxable income that must be included on your annual tax return. Many workers are unaware of this distinction and assume the $20 threshold is a blanket exemption.
+        </p>
+        <p>
+          Another common error is failing to keep records. The IRS recommends maintaining a daily tip log, and Publication 531 provides a specific form (Form 4070A) for this purpose. Without records, you have no defense against allocated tips, no way to accurately calculate your liability, and no documentation to support your return in the event of an audit. Workers who handle large volumes of cash transactions are particularly vulnerable to record-keeping failures because the money comes and goes without the automatic documentation that credit card payments provide.
+        </p>
+        <p>
+          Some tipped employees also make the mistake of confusing gross tips with net tips after tip-outs. If you tip out a busser, barback, or hostess, your taxable income is the amount you keep, not the total you originally received. Accurate tracking of tip-outs is critical because it directly reduces your tax liability. However, the deduction for tip-outs to other employees is only valid if those tip-outs are genuinely paid to other workers and not retained by the employer. Under the Consolidated Appropriations Act of 2018, employers are prohibited from keeping any portion of employee tips, including through mandatory tip pools that include management.
+        </p>
+
+        <h2 id="tip-pooling-tax-implications">Tip Pooling and Its Tax Implications</h2>
+        <p>
+          Tip pooling arrangements vary widely across the restaurant and hospitality industry. In a traditional front-of-house pool, servers, bartenders, and sometimes bussers or hosts share tips based on a predetermined formula, often tied to hours worked or a point system. In jurisdictions that do not allow a tip credit, back-of-house employees like cooks and dishwashers may also participate in the pool. The key tax principle is straightforward: you pay tax on the tips you actually receive after the pool distribution, not on the total tips you collected from customers.
+        </p>
+        <p>
+          Where tip pooling gets complicated from a tax perspective is in the accuracy of reporting. Each participant in the pool must report their individual share, and the employer must track distributions carefully. Errors in pool calculations can lead to employees over- or under-reporting income, which creates problems for everyone involved. Employers who implement tip pooling should use accounting software or a formal tracking system to ensure that distributions are documented and that each employee's W-2 reflects the correct amount.
+        </p>
+        <p>
+          The legal landscape around tip pooling has shifted in recent years. The Department of Labor now allows tip pooling to include back-of-house workers in states where the employer pays the full minimum wage and does not take a tip credit. This expansion has been controversial, but from a pure tax perspective, the rules remain the same regardless of who participates in the pool. What matters is the amount you personally receive. If you are a tipped worker in any capacity, taking a few minutes to understand your employer's pooling arrangement and verify that your reported income matches your actual receipts can prevent headaches during tax season. You can also use our <a href="/payroll-tax-calculator/">payroll tax calculator</a> to see how FICA obligations apply to your combined wage and tip income, and our <a href="/overtime-pay-calculator/">overtime pay calculator</a> if your hours fluctuate and you sometimes earn overtime on your base wage.
+        </p>
+      </div>
+    </section>
+  </Fragment>
 </CalculatorLayout>

@@ -61,4 +61,86 @@ const schema = {
     cryptoSymbol="SOL"
     defaultBuyPrice={180}
   />
+
+  <Fragment slot="content">
+    <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+        <h2 id="solana-architecture-speed">Solana's Architecture and Speed Advantages</h2>
+        <p>
+          Solana was founded by Anatoly Yakovenko, a former Qualcomm engineer, who introduced a novel consensus innovation called Proof of History. Traditional blockchains rely on validators communicating with each other to agree on the ordering of transactions, a process that creates latency and limits throughput. Proof of History pre-orders transactions using a verifiable cryptographic timestamp before they reach consensus, dramatically reducing the communication overhead between validators. Combined with other technical innovations including Gulf Stream (a mempool-less transaction forwarding protocol), Turbine (a block propagation mechanism), and Sealevel (a parallelized smart contract runtime), Solana achieves theoretical throughput of over 65,000 transactions per second with block times of approximately 400 milliseconds.
+        </p>
+        <p>
+          In practice, Solana consistently processes between 2,000 and 4,000 transactions per second under normal conditions, which still places it orders of magnitude ahead of Ethereum's base layer capacity of roughly 15 to 30 transactions per second. The speed advantage translates directly to user experience. Sending SOL from one wallet to another finalizes in under a second and costs a fraction of a cent. By comparison, an Ethereum base layer transfer can take 15 seconds or more and cost several dollars in gas during periods of moderate congestion. For applications that require high throughput and low latency, such as decentralized exchanges with on-chain order books, gaming, and micropayment systems, Solana's architecture provides capabilities that most competing blockchains simply cannot match at the base layer.
+        </p>
+
+        <h2 id="solana-staking-validators">Solana Staking and Validator Economics</h2>
+        <p>
+          Solana uses a delegated proof-of-stake consensus mechanism. Unlike Ethereum, where validators must stake exactly 32 ETH, Solana allows any SOL holder to delegate their tokens to a validator of their choice. The validator operates the infrastructure, validates transactions, and produces blocks, while the delegator earns a share of the staking rewards proportional to their stake minus the validator's commission fee. As of recent data, over 60 percent of the circulating SOL supply is staked, making it one of the most actively staked networks in the crypto ecosystem.
+        </p>
+        <p>
+          The annualized staking yield for Solana has generally ranged between 6 and 8 percent, though the effective yield after validator commissions is typically 5 to 7 percent. Validators compete for delegations by offering lower commission rates and maintaining high uptime. A validator that goes offline or acts maliciously risks being slashed, meaning a portion of their staked SOL (and by extension their delegators' SOL) can be forfeited. In practice, slashing events on Solana have been rare, but the mechanism exists as a deterrent against bad behavior and provides an economic incentive for validators to invest in reliable infrastructure.
+        </p>
+        <p>
+          From a tax perspective, Solana staking rewards are treated the same as Ethereum staking rewards under IRS guidance. Each reward distribution is taxable as ordinary income at the fair market value on the date received. When you later sell the staked SOL, any gain above the value at receipt is taxed as a capital gain, with the holding period beginning from the receipt date. Because Solana distributes staking rewards every epoch (approximately two days), stakers accumulate many small income events throughout the year, making record-keeping essential. Our <a href="/cryptocurrency-tax-calculator/">crypto tax calculator</a> can help you estimate the capital gains component when you decide to sell.
+        </p>
+
+        <h2 id="solana-ecosystem-growth">The Solana Ecosystem Growth</h2>
+        <p>
+          Solana's ecosystem has expanded dramatically since the network's launch in 2020. The DeFi landscape on Solana is anchored by protocols like Jupiter (the leading decentralized exchange aggregator), Raydium and Orca (automated market makers), Marinade Finance (liquid staking), and Drift Protocol (a perpetual futures exchange). Total value locked in Solana DeFi has grown substantially, driven in part by the network's low fees and fast settlement which make it practical for frequent trading and yield farming strategies that would be cost-prohibitive on Ethereum's base layer.
+        </p>
+        <p>
+          NFTs found a second home on Solana after the initial Ethereum-dominated boom. Marketplaces like Magic Eden and Tensor have built thriving communities around Solana-native collections. The low minting and trading costs on Solana, often just pennies per transaction, enabled experimentation that simply was not feasible on Ethereum where minting a single NFT could cost $50 or more in gas. While the speculative NFT market has cooled broadly, Solana's NFT infrastructure has matured and diversified into gaming assets, real-world asset tokenization, and compressed NFTs that can be minted at scale for fractions of a cent each.
+        </p>
+        <p>
+          Perhaps the most notable growth area for Solana in recent years has been decentralized physical infrastructure networks, or DePIN. Projects like Helium (decentralized wireless networks) migrated to Solana, and Render Network (decentralized GPU computing) has built significant infrastructure on the chain. These applications leverage Solana's high throughput to coordinate large networks of physical devices and compensate participants with token rewards. The growth of DePIN represents a compelling use case that extends blockchain technology beyond pure finance and into the physical world.
+        </p>
+
+        <h2 id="solana-historical-performance">Historical Performance and Volatility</h2>
+        <p>
+          Solana's price history reads like a case study in cryptocurrency volatility. After launching at under $1 in 2020, SOL surged to an all-time high near $260 in November 2021, representing a gain of more than 25,000 percent in less than two years. The subsequent bear market was brutal. SOL crashed below $10 in late 2022, a decline of over 96 percent from its peak, exacerbated by the collapse of FTX, which had been one of the largest holders and most prominent supporters of the Solana ecosystem. Sam Bankman-Fried's Alameda Research held billions of dollars in SOL, and the forced liquidation of those holdings cratered the price and raised existential questions about the network's future.
+        </p>
+        <p>
+          The recovery that followed was one of the most remarkable in crypto history. SOL climbed from its bear market lows back above $200 by late 2024, fueled by genuine ecosystem growth, developer activity, and a narrative that Solana was the most credible high-performance alternative to Ethereum. This recovery demonstrated the resilience of the underlying technology and community, but it also underscored the extreme risk that comes with investing in any single cryptocurrency. An investor who bought at the top in November 2021 and held through the FTX crash experienced a drawdown that would have tested the resolve of even the most committed believer. Investors should consider their overall financial health, including maintaining an adequate <a href="/emergency-fund-calculator/">emergency fund</a>, before allocating to highly volatile assets like SOL.
+        </p>
+
+        <h2 id="solana-tax-treatment">How Solana's Tax Treatment Works</h2>
+        <p>
+          The IRS treats Solana identically to Bitcoin, Ethereum, and every other cryptocurrency: as property. Selling SOL for USD, trading SOL for another token, or using SOL to purchase goods or services are all taxable events. The gain or loss is calculated as the difference between the fair market value at the time of disposal and your cost basis. Short-term gains on SOL held one year or less are taxed at ordinary income rates up to 37 percent. Long-term gains on SOL held for more than one year qualify for preferential rates of 0, 15, or 20 percent, with an additional 3.8 percent NIIT potentially applying to high earners.
+        </p>
+        <p>
+          Solana's ecosystem creates some tax situations that are less common with Bitcoin. Participating in a liquidity pool on a Solana DEX may generate taxable income from trading fees. Airdropped tokens on Solana, which have become increasingly common, are taxable as ordinary income at the fair market value on the date received. Even compressed NFTs minted at near-zero cost can create tax obligations if they appreciate and are later sold. The complexity of tracking dozens or hundreds of small transactions across multiple Solana protocols is one reason why dedicated crypto tax software has become essential for active Solana users. Use our <a href="/capital-gains-tax-calculator/">capital gains tax calculator</a> for a quick estimate of what you would owe on any SOL sale.
+        </p>
+
+        <h2 id="solana-vs-ethereum">The Competition Between Solana and Ethereum</h2>
+        <p>
+          The Solana versus Ethereum debate is one of the most consequential in the cryptocurrency industry. Ethereum has the advantage of being first to market with smart contracts, commanding the largest developer community, and securing the highest total value locked across DeFi protocols. Its Layer 2 scaling roadmap, particularly rollup-centric solutions like Arbitrum and Base, aims to address the throughput limitations of the base layer while preserving its security guarantees. Ethereum's path to scalability involves a multi-layered architecture where the base layer provides security and data availability while Layer 2s handle execution.
+        </p>
+        <p>
+          Solana takes a fundamentally different approach: scale everything at the base layer. Rather than pushing transactions to secondary networks, Solana optimizes its core protocol to handle as much activity as possible on a single chain. This approach eliminates the fragmentation of liquidity and user experience that can occur across multiple Layer 2 networks. On Ethereum, a user on Arbitrum may need to bridge assets to Base to use a specific application, a process that introduces cost, delay, and smart contract risk. On Solana, everything operates on the same chain with shared state and composability, creating a more seamless experience for both users and developers.
+        </p>
+        <p>
+          The trade-off is decentralization. Solana's hardware requirements for running a validator are substantially higher than Ethereum's, which means fewer independent validators and a more concentrated network. Critics argue this makes Solana more vulnerable to censorship and outages, and the network's history of downtime incidents lends credibility to that concern. Ethereum's validator set numbers in the hundreds of thousands and its client diversity spans multiple independent implementations, giving it a level of resilience that Solana has not yet matched. For investors, the competition is not necessarily zero-sum. Both networks may thrive serving different use cases, with <a href="/crypto/ethereum-calculator/">Ethereum</a> dominating high-value, security-critical applications and Solana excelling in high-frequency, consumer-facing products.
+        </p>
+
+        <h2 id="solana-institutional-interest">Institutional Interest in Solana</h2>
+        <p>
+          Institutional attention toward Solana has grown markedly. Several asset managers have filed applications for spot Solana ETFs, following the precedent set by Bitcoin and Ethereum ETF approvals. While regulatory approval is not guaranteed, the filings signal that major financial players see sufficient demand and market maturity to justify a Solana-specific investment product. If approved, a spot SOL ETF would dramatically expand access to the asset for traditional investors and retirement accounts, potentially driving significant inflows.
+        </p>
+        <p>
+          Beyond ETFs, venture capital firms have continued to fund Solana-based projects, and institutional trading desks report growing client interest in SOL as a trading instrument. The Solana Foundation has also pursued partnerships with traditional companies, including a collaboration with Visa to explore stablecoin settlement on the Solana network. PayPal launched its PYUSD stablecoin on Solana in addition to Ethereum, citing the network's speed and low costs as key factors. These enterprise integrations lend credibility to Solana's long-term positioning and provide fundamental demand for the SOL token as the network handles increasing volumes of real-world economic activity.
+        </p>
+
+        <h2 id="solana-risk-factors">Risk Factors Specific to Solana Investments</h2>
+        <p>
+          Investing in Solana carries several risks that are distinct from the broader cryptocurrency market. Network outages have been a recurring issue. Solana experienced multiple extended downtime events between 2021 and 2023, during which the network stopped producing blocks entirely and no transactions could be processed. While improvements to the validator client software and the introduction of the Firedancer client (developed independently by Jump Trading) aim to improve reliability, the historical track record remains a concern. An outage during a period of high market volatility could prevent investors from executing trades at critical moments.
+        </p>
+        <p>
+          Concentration risk is another factor. A significant portion of SOL's supply was allocated to early investors and the Solana Foundation through pre-launch token sales. Large unlocks of these tokens can create selling pressure and price volatility. Additionally, the Solana validator set, while growing, is more geographically and organizationally concentrated than Ethereum's. A coordinated attack or regulatory action targeting a relatively small number of validators could theoretically disrupt the network.
+        </p>
+        <p>
+          Competitive risk should not be overlooked. The blockchain space moves quickly, and newer networks are constantly emerging with their own performance claims. Aptos, Sui, and Monad are among the projects that aim to compete directly with Solana on speed and throughput. If any of these challengers gain meaningful traction, they could draw developers and users away from Solana. Conversely, Ethereum's Layer 2 solutions continue to improve, and if they can match Solana's speed and cost while offering Ethereum's security guarantees, the performance gap that Solana currently enjoys could narrow significantly. As with any cryptocurrency investment, position sizing should reflect these risks. Consider how a Solana position fits within your overall financial picture by exploring tools like our <a href="/net-worth-calculator/">net worth calculator</a> and <a href="/crypto/">crypto investment calculators</a> for other digital assets.
+        </p>
+      </div>
+    </section>
+  </Fragment>
 </CalculatorLayout>

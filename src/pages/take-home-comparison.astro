@@ -56,4 +56,76 @@ const schema = {
   sources={`IRS Rev. Proc. 2025-11 (federal brackets), individual state revenue departments (state tax rates and brackets), Tax Foundation state tax comparisons. Last updated for tax year ${TAX_YEAR}.`}
 >
   <TakeHomeComparisonCalculator client:load />
+
+  <Fragment slot="content">
+    <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+        <h2 id="why-comparing-take-home-pay-matters">Why Comparing Take-Home Pay Across States Matters</h2>
+        <p>
+          Your gross salary tells only part of the story. Two job offers paying the same $90,000 per year can leave you with dramatically different amounts of money in your pocket depending on where you live and work. A software engineer earning that salary in Austin, Texas, keeps several thousand dollars more each year than an identically paid counterpart in Portland, Oregon, purely because of state income tax differences. When you factor in local taxes, sales tax rates, and property tax obligations, the gap can widen even further. Understanding these differences before you accept a position or plan a relocation is one of the most consequential financial decisions you can make.
+        </p>
+        <p>
+          Far too many workers focus exclusively on the headline number during salary negotiations. They compare a $95,000 offer in Seattle against a $90,000 offer in Denver and assume the higher number wins. But Washington State imposes no state income tax, while Colorado levies a flat 4.4 percent income tax. After accounting for that single variable, the $90,000 Denver offer actually puts roughly the same amount in your bank account as an $87,000 offer in Seattle would. When you use a <a href="/take-home-pay-calculator/">take-home pay calculator</a> to run both scenarios, the true picture emerges with clarity that gross salary alone cannot provide.
+        </p>
+
+        <h2 id="nine-no-income-tax-states">The Nine No-Income-Tax States and What They Trade Off</h2>
+        <p>
+          Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming do not impose a broad-based state income tax on wages. For employees, this means every dollar of your paycheck that would have gone to the state treasury stays with you. On a $100,000 salary, that can represent anywhere from $3,000 to $6,000 in annual savings compared to high-tax states like California or New York. It is no coincidence that states like Texas and Florida have attracted enormous population growth in recent years, with workers and companies alike chasing the tangible benefit of keeping more of their earnings.
+        </p>
+        <p>
+          However, state governments need revenue to function. When they forgo income tax, they typically make up the difference through other channels. Texas has some of the highest property tax rates in the nation, with effective rates regularly exceeding 1.6 percent of a home's assessed value. A $400,000 home in the Dallas suburbs can carry an annual property tax bill north of $8,000, whereas the same home in a comparable suburb of Raleigh, North Carolina, might owe closer to $3,500. Tennessee and Washington rely heavily on sales tax instead, with combined state and local rates that can push past 10 percent on everyday purchases. New Hampshire has no sales tax and no income tax, but it compensates with property taxes that consistently rank among the highest in the country.
+        </p>
+        <p>
+          Alaska stands apart from the others because it not only charges no income tax but also distributes an annual Permanent Fund Dividend to residents from oil revenues. That said, the cost of living in Alaska is elevated due to geographic isolation, and the harsh climate makes it a nonstarter for many families despite its tax advantages. The takeaway is simple: no-income-tax status is a powerful advantage, but you must examine the full fiscal picture before concluding that a move will save you money.
+        </p>
+
+        <h2 id="state-local-tax-interaction">How State and Local Taxes Interact</h2>
+        <p>
+          State income tax is only one piece of a layered system. Several states allow cities and counties to impose their own income taxes on top of the state rate. New York City is the most prominent example, tacking on a city income tax that can reach 3.876 percent for high earners. Combined with New York State's top marginal rate of 10.9 percent, a high-income resident of Manhattan can face a state and local income tax burden exceeding 14 percent before federal taxes are even calculated. You can see the full impact using our <a href="/nyc-tax-calculator/">NYC tax calculator</a>.
+        </p>
+        <p>
+          Ohio and Pennsylvania also permit local income taxes, with some municipalities charging rates between 1 and 3 percent. In Ohio, nearly every city and village levies its own earned income tax, meaning two workers in the same state can have noticeably different take-home pay depending on which municipality they call home. Indiana, Maryland, and Kentucky similarly allow county-level income taxes. These local layers are frequently overlooked during relocation planning, yet they can represent thousands of dollars in annual obligations.
+        </p>
+        <p>
+          The interaction between state and local taxes also matters for the federal return. Under current law, the state and local tax (SALT) deduction is capped at $10,000 for most filers. This cap means high earners in states like California, New Jersey, and New York cannot fully deduct their state and local tax burden on their federal return, effectively raising their overall tax rate. If you are comparing take-home pay between a high-SALT state and a no-income-tax state, this cap amplifies the advantage of the lower-tax jurisdiction even beyond what the raw state rate would suggest.
+        </p>
+
+        <h2 id="total-tax-burden-beyond-income-tax">The Total Tax Burden Beyond Income Tax</h2>
+        <p>
+          A thorough comparison of take-home pay must account for sales tax and property tax, not just income tax. Consider the difference between Oregon and Washington, two neighboring states with opposite tax philosophies. Oregon imposes a state income tax rate that can reach 9.9 percent but charges zero sales tax. Washington charges no state income tax but has a 6.5 percent state sales tax, with local additions frequently pushing the effective rate above 10 percent. If you spend $30,000 per year on taxable goods and services in Washington, you are paying roughly $3,000 in sales tax annually. That eats into the income tax savings considerably. You can explore these dynamics further with our <a href="/sales-tax-calculator/">sales tax calculator</a> and <a href="/property-tax-calculator/">property tax calculator</a>.
+        </p>
+        <p>
+          Property taxes introduce another variable that is especially important for homeowners. New Jersey has the highest effective property tax rates in the country, averaging around 2.2 percent. On a $500,000 home, that is $11,000 per year in property taxes alone. Compare that to Hawaii, where property tax rates hover near 0.3 percent, and the same home would generate a bill closer to $1,500. Even states that look attractive from an income tax standpoint can become less appealing once property taxes enter the equation. Illinois charges a flat income tax rate of 4.95 percent, which is moderate, but its property taxes average 2.07 percent and regularly surprise homeowners who moved from lower-property-tax states.
+        </p>
+        <p>
+          For renters, property taxes still matter because landlords incorporate them into rental prices. A high-property-tax environment drives up rents even when you personally never see a property tax bill. This is one reason why the <a href="/cost-of-living-calculator/">cost of living calculator</a> is an important complement to any take-home pay comparison.
+        </p>
+
+        <h2 id="real-world-city-comparisons">Real-World Comparisons of Take-Home Pay in Major Cities</h2>
+        <p>
+          Let us walk through some concrete numbers. Suppose you earn $85,000 per year as a single filer claiming the standard deduction. In Houston, Texas, your state income tax obligation is zero. Your federal tax, Social Security, and Medicare bring your annual take-home pay to approximately $65,800. Now move that same salary to Los Angeles, California. The state income tax adds roughly $3,700 to your annual burden, dropping your take-home to around $62,100. That is a $3,700 difference driven entirely by state income tax, and it compounds year after year.
+        </p>
+        <p>
+          Chicago presents an interesting middle ground. Illinois imposes a flat 4.95 percent state income tax, which on $85,000 works out to about $3,200 after adjustments. Your Chicago take-home falls to roughly $62,600. However, Chicago's cost of living, particularly housing, is substantially lower than Los Angeles, so despite a similar tax burden, your disposable income goes further. A one-bedroom apartment in a decent Chicago neighborhood might run $1,500 per month while a comparable unit in LA could easily cost $2,200 or more.
+        </p>
+        <p>
+          New York City stands at the extreme end. Between state income tax and the city income tax, you would pay roughly $5,400 in state and local income taxes on $85,000, bringing your take-home to approximately $60,400. That is $5,400 less per year than you would keep in Houston, and New York's famously high cost of living compounds the gap. On the other hand, salaries in New York tend to be significantly higher for comparable positions, so the nominal tax hit may be offset by a higher gross. This is precisely why side-by-side comparisons matter. Use our <a href="/income-tax-calculator/">income tax calculator</a> to see detailed breakdowns for your specific situation.
+        </p>
+
+        <h2 id="evaluating-job-offers">How to Use Take-Home Comparison When Evaluating Job Offers</h2>
+        <p>
+          The most practical application of a state-by-state take-home comparison is during job negotiations. When you receive offers from employers in different states, running both through a comparison tool transforms vague feelings about tax burden into precise dollar figures. Start by entering the gross salary from each offer and selecting the corresponding state. The calculator will show you the federal taxes, state taxes, FICA contributions, and net pay for each location, making it immediately clear which offer puts more money in your pocket.
+        </p>
+        <p>
+          Beyond the raw take-home number, consider what you are getting for your tax dollars. States with higher income taxes often invest more in public infrastructure, education, and social services. California's public university system is world-renowned, and its highway network, despite its traffic problems, is extensive. States with no income tax may require residents to pay more out of pocket for services that would be publicly funded elsewhere. If you have children approaching college age, the availability of affordable in-state tuition at a strong public university could outweigh several years of income tax savings.
+        </p>
+        <p>
+          Remote work has fundamentally changed this calculus. If your employer allows you to work from anywhere, you can decouple your salary from your location. A San Francisco salary earned from a home office in Boise, Idaho, produces a remarkable take-home advantage. Idaho does have a state income tax, but at roughly half of California's top rate, and housing costs are a fraction of the Bay Area's. Many remote workers are leveraging exactly this arbitrage. Just be aware that tax nexus rules can be complicated, and some states, notably New York, have a "convenience of the employer" rule that can attempt to tax you on income earned while working remotely from another state if your employer is based there.
+        </p>
+        <p>
+          Finally, think beyond the first year. If you plan to buy a home, the property tax rate in your destination state will affect your monthly housing costs for decades. If you plan to retire in the same state, investigate how retirement income is taxed. Some states exempt Social Security benefits and pension income from state tax, while others tax them fully. A state that seems expensive during your working years might become very attractive in retirement, or vice versa. Use our <a href="/social-security-tax-calculator/">Social Security tax calculator</a> and <a href="/401k-calculator/">401(k) calculator</a> to plan ahead. The comparison you run today should incorporate not just your current situation but your projected financial trajectory over the next decade or more.
+        </p>
+      </div>
+    </section>
+  </Fragment>
 </CalculatorLayout>
