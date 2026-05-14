@@ -4,6 +4,8 @@ import PaycheckCalculator from '../../components/calculators/PaycheckCalculator'
 import { TAX_YEAR } from '../../lib/constants';
 import { STATES, getStateBySlug, getAllStateSlugs, NO_INCOME_TAX_STATES } from '../../data/state-meta';
 import { getStateTaxConfig } from '../../data/income-tax-2026/index';
+import { getPropertyTaxConfig } from '../../data/property-tax-2026/index';
+import { getSalesTaxConfig } from '../../data/sales-tax-2026/index';
 import { formatPercent } from '../../lib/format-us';
 
 export function getStaticPaths() {
@@ -26,6 +28,42 @@ const neighborStates = neighbors
   .map((n) => STATES[n])
   .filter(Boolean)
   .slice(0, 4);
+
+// Data for SEO content
+const propTax = getPropertyTaxConfig(code);
+const salesTax = getSalesTaxConfig(code);
+const isFlat = !isNoTax && !!stateConfig?.flatRate;
+const isProgressive = !isNoTax && !stateConfig?.flatRate;
+const topRate = stateConfig?.brackets?.single?.at(-1)?.rate;
+const lowestRate = stateConfig?.brackets?.single?.[0]?.rate;
+const numBrackets = stateConfig?.brackets?.single?.length ?? 0;
+const stdDed = stateConfig?.standardDeduction?.single;
+const propTaxMonthly = propTax ? Math.round(propTax.medianAnnualTax / 12) : 0;
+const isNoSalesTax = !salesTax || salesTax.stateRate === 0;
+
+const noTaxRevenueMap: Record<string, string> = {
+  FL: 'a 6 percent state sales tax with local discretionary surtaxes that can push combined rates above 7 percent, along with property taxes and documentary stamp taxes on real estate transactions',
+  TX: 'property taxes that rank among the highest in the nation at roughly 1.60 percent of assessed home value, a 6.25 percent state sales tax with local additions, and franchise taxes on businesses',
+  WA: 'a 6.5 percent state sales tax that can exceed 10 percent with local additions, a business and occupation tax, and a capital gains tax of 7 percent on gains above $250,000',
+  TN: 'one of the highest combined state and local sales tax rates in the country averaging roughly 9.55 percent, plus franchise and excise taxes on businesses',
+  NV: 'gaming taxes, a 6.85 percent state sales tax with local additions, and the Modified Business Tax on employer payrolls',
+  AK: 'oil production taxes and mineral extraction revenue, with no state sales tax either, though local municipalities may levy their own sales and property taxes',
+  SD: 'a 4.5 percent state sales tax with municipal additions, excise taxes, and property taxes',
+  WY: 'mineral severance taxes on coal, oil, and natural gas extraction, a 4 percent state sales tax, and property taxes',
+  NH: 'property taxes that rank among the highest in the country, a meals and rooms tax of 8.5 percent, and business taxes, with no general sales tax on consumer goods',
+};
+
+const noTaxConstitutionalMap: Record<string, string> = {
+  FL: 'Florida\'s state constitution explicitly prohibits a personal income tax, which means this advantage cannot be eliminated through ordinary legislation and would require a constitutional amendment approved by voters.',
+  TX: 'The Texas constitution expressly prohibits a personal income tax, and voters reinforced this protection in 2019 by approving a constitutional amendment requiring a two-thirds supermajority in both legislative chambers plus a public referendum before any income tax could ever be enacted.',
+  WA: 'Washington has never enacted a broad-based personal income tax on wages. The state introduced a 7 percent tax on long-term capital gains above $250,000 in 2021, but earned income from employment remains entirely exempt from state-level taxation.',
+  TN: 'Tennessee previously imposed the Hall Income Tax on interest and dividend income, but this levy was fully phased out as of January 2021. Wages and salaries have never been subject to state income tax in Tennessee\'s history.',
+  NV: 'Nevada has operated without a personal income tax since its founding, funding state government primarily through gaming revenue, tourism-related taxes, and sales tax collections.',
+  AK: 'Alaska is unique among all fifty states in that it not only charges no income tax but also distributes an annual Permanent Fund Dividend to eligible residents, funded by the state\'s oil wealth investment returns.',
+  SD: 'South Dakota has never imposed a personal income tax in its history, maintaining a low-tax environment funded through consumption taxes and property taxes.',
+  WY: 'Wyoming has never levied a personal income tax, relying on its substantial mineral extraction industry, particularly coal, oil, and natural gas, to fund the majority of state government operations.',
+  NH: 'New Hampshire fully repealed its Interest and Dividends Tax effective January 2025, eliminating the last form of income taxation in the state and making it a true no-income-tax jurisdiction for all personal income.',
+};
 
 // Build state-specific intro
 let intro: string;
@@ -132,79 +170,217 @@ const schema = {
 
   <!-- State-specific content -->
   <Fragment slot="content">
-    {isNoTax ? (
-      <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-3xl">
-          <h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">
-            {name} Has No State Income Tax
-          </h2>
-          <div class="prose prose-slate dark:prose-invert max-w-none">
-            <p>
-              {name} is one of nine US states that does not levy a state income tax on wages. This means your paycheck deductions come only from federal income tax and FICA (Social Security + Medicare).
-            </p>
-            <p>
-              While {name} residents enjoy the benefit of no state income tax, the state funds its operations through other taxes, including {code === 'TX' ? 'one of the nation\'s highest property tax rates (averaging 1.60% of home value) and sales tax' : code === 'FL' ? 'sales tax (6% state rate plus local additions) and property taxes' : code === 'WA' ? 'one of the highest sales tax rates in the country and a new capital gains tax on gains over $250,000' : code === 'TN' ? 'the highest combined sales tax rate in the country (9.548% average) and property taxes' : code === 'NV' ? 'sales tax and gaming revenue' : 'other forms of taxation such as property and sales tax'}.
-            </p>
-            <p>
-              For a $60,000 salary, a single filer in {name} takes home approximately 22-25% more per paycheck compared to a high-tax state like California or New York, depending on filing status and deductions.
-            </p>
-          </div>
-        </div>
-      </section>
-    ) : (
-      <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-3xl">
-          <h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">
-            {name} Income Tax Overview
-          </h2>
-          <div class="prose prose-slate dark:prose-invert max-w-none">
-            <p>
-              {stateConfig?.flatRate
-                ? `${name} uses a flat income tax rate of ${formatPercent(stateConfig.flatRate * 100)}, which means all taxable income is taxed at the same rate regardless of how much you earn.`
-                : `${name} uses a progressive income tax system with multiple brackets. Your effective tax rate depends on your total taxable income and filing status.`}
-            </p>
-            {stateConfig?.specialRules?.sdi && (
-              <p>
-                {name} also deducts State Disability Insurance (SDI) at a rate of {formatPercent(stateConfig.specialRules.sdi.rate * 100)} from your wages{stateConfig.specialRules.sdi.wageBase ? `, up to wages of $${stateConfig.specialRules.sdi.wageBase.toLocaleString()}` : ' with no cap'}. This is a mandatory employee-paid payroll tax.
-              </p>
-            )}
-            {stateConfig?.specialRules?.pfl && (
-              <p>
-                {name} has a Paid Family Leave program funded by employee payroll deductions at {formatPercent(stateConfig.specialRules.pfl.rate * 100)} of wages{stateConfig.specialRules.pfl.wageBase ? ` up to $${stateConfig.specialRules.pfl.wageBase.toLocaleString()}` : ''}.
-              </p>
-            )}
-          </div>
+    <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
 
-          {/* State tax brackets table */}
-          {stateConfig?.brackets?.single && !stateConfig.flatRate && (
-            <div class="mt-8">
-              <h3 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                {name} Tax Brackets {TAX_YEAR} (Single Filer)
-              </h3>
-              <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
-                <table class="tabular-nums w-full text-sm">
-                  <thead>
-                    <tr class="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
-                      <th class="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">Income Range</th>
-                      <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Tax Rate</th>
-                    </tr>
-                  </thead>
-                  <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                    {stateConfig.brackets.single.map((bracket) => (
-                      <tr>
-                        <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">
-                          ${bracket.min.toLocaleString()} – {bracket.max === Infinity ? 'and above' : `$${bracket.max.toLocaleString()}`}
-                        </td>
-                        <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">
-                          {formatPercent(bracket.rate * 100)}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
+        <h2 id="understanding-paycheck">Understanding Your {name} Paycheck in {TAX_YEAR}</h2>
+
+        {isNoTax && (
+          <p>
+            Every worker in {name} benefits from one of the most significant paycheck advantages available in the United States. Because {name} does not levy a state income tax on earned wages, your paycheck is subject only to federal income tax withholding and FICA contributions for Social Security and Medicare. This means that on a salary of $60,000, a {name} resident keeps noticeably more of each paycheck compared to workers in high-tax states like California, New York, or New Jersey, where state income taxes can consume an additional five to ten percent of gross earnings. The difference adds up to thousands of dollars each year that stay in your pocket rather than going to a state treasury.
+          </p>
+        )}
+        {isNoTax && (
+          <p>
+            The absence of state income tax makes calculating your take-home pay in {name} more straightforward than in most other states. Your employer withholds federal income tax based on the information you provide on your W-4 form, including your filing status and number of dependents. On top of that, 6.2 percent of your gross wages go to Social Security up to the annual wage base of $176,100, and 1.45 percent goes to Medicare with no upper limit. High earners above $200,000 pay an additional 0.9 percent Medicare surtax. These are the only payroll deductions that appear on your {name} pay stub aside from any voluntary deductions you elect, such as retirement contributions or health insurance premiums. The simplicity of having fewer mandatory deductions makes it easier to predict your net pay from paycheck to paycheck.
+          </p>
+        )}
+        {isNoTax && (
+          <p>
+            While {name} residents enjoy a lighter income tax burden on wages, the state compensates through other revenue sources. {name} funds its government operations through {noTaxRevenueMap[code] || 'alternative taxes including sales tax and property taxes'}. Understanding these trade-offs is essential to evaluating the true cost of living and working in {name}, because the money you save on income taxes may be partially offset by higher costs in other tax categories. For many workers, particularly those earning above the median income, the income tax savings in {name} more than offset these other costs, but the equation depends on individual circumstances such as homeownership status, spending habits, and family size.
+          </p>
+        )}
+
+        {isFlat && (
+          <p>
+            Workers in {name} face one of the simpler state tax structures in the country. {name} applies a flat income tax rate of {formatPercent(stateConfig!.flatRate! * 100)} to all taxable income, which means whether you earn $35,000 or $350,000, the state taxes your income at exactly the same percentage. This predictability makes it straightforward to estimate your take-home pay and plan your finances compared to states with complex multi-bracket progressive systems that apply different rates to different income thresholds. You always know exactly what percentage of each additional dollar you earn will go to {name} state tax.
+          </p>
+        )}
+        {isFlat && (
+          <p>
+            Your {name} paycheck reflects multiple layers of deductions that reduce your gross pay to net pay. Federal income tax, calculated using the progressive bracket system with rates from 10 to 37 percent, typically represents the largest single withholding. The {name} state income tax at {formatPercent(stateConfig!.flatRate! * 100)} is applied on top of your federal-adjusted taxable income{stdDed ? `, after subtracting the state standard deduction of $${stdDed.toLocaleString()} for single filers` : ''}. FICA contributions of 6.2 percent for Social Security and 1.45 percent for Medicare complete the mandatory deductions, combining for 7.65 percent of your gross wages before any voluntary deductions like retirement contributions or insurance premiums are applied. Together, these layers determine the gap between the salary your employer pays and the amount deposited into your bank account.
+          </p>
+        )}
+        {isFlat && (
+          <p>
+            The flat rate structure in {name} eliminates one layer of complexity that workers in progressive-tax states must navigate. Every additional dollar you earn above the standard deduction is taxed at the same {formatPercent(stateConfig!.flatRate! * 100)} state rate, so there is no bracket creep and no marginal rate surprise when you receive a raise, a bonus, or overtime pay. This simplicity extends to financial planning as well, since you can multiply any income change by the flat rate to know exactly how much additional state tax you will owe on those extra earnings. For workers considering a job change or negotiating a raise, this transparency makes it easier to evaluate the after-tax value of different compensation offers.
+          </p>
+        )}
+
+        {isProgressive && (
+          <p>
+            Workers in {name} are subject to a progressive state income tax system that applies escalating rates to different portions of taxable income. The state currently uses {numBrackets} tax brackets for single filers, with rates starting at {lowestRate ? formatPercent(lowestRate * 100) : 'the lowest bracket'} on the first dollars of taxable income and rising to {topRate ? formatPercent(topRate * 100) : 'the top bracket'} on income above the highest threshold. This graduated structure means that higher earners pay a larger percentage of their income in state tax, while workers at lower and moderate income levels face more modest rates on most of their earnings.
+          </p>
+        )}
+        {isProgressive && (
+          <p>
+            Your {name} paycheck reflects the combined effect of federal and state progressive taxation. The federal government applies its own seven-bracket system with rates from 10 to 37 percent, and {name}'s {numBrackets} state brackets add another layer of withholding on top of that{stdDed ? `. After subtracting ${name}'s standard deduction of $${stdDed.toLocaleString()} for single filers, your remaining taxable income flows through each state bracket sequentially` : '. Your taxable income flows through each state bracket sequentially, with each portion taxed at its corresponding rate'}. Your employer uses withholding tables from the {name} Department of Revenue to approximate the correct amount to deduct from each pay period, aiming to match your annual tax liability as closely as possible so you neither owe a large balance nor receive an oversized refund when you file your return.
+          </p>
+        )}
+        {isProgressive && (
+          <p>
+            It is important to distinguish between your marginal tax rate and your effective tax rate in {name}. Your marginal rate is the percentage applied to the last dollar you earned, which for higher earners in {name} could be as high as {topRate ? formatPercent(topRate * 100) : 'the top rate'}. Your effective rate, calculated as total state tax divided by total income, will always be lower because only the income within each bracket is taxed at that bracket's rate. A single filer earning $75,000 in {name} will have a marginal state rate in one of the middle or upper brackets but an effective state rate that is meaningfully lower, often by several percentage points. This distinction matters when evaluating job offers or comparing your tax burden to workers in other states, because marginal rates can be misleading without the full context of how progressive brackets actually function.
+          </p>
+        )}
+
+        <h2 id="federal-taxes-impact">How Federal Taxes Affect Your {name} Earnings</h2>
+
+        <p>
+          Regardless of which state you work in, federal income tax is the single largest deduction on most American paychecks. The federal government uses seven tax brackets in {TAX_YEAR} with rates of 10, 12, 22, 24, 32, 35, and 37 percent. After subtracting the federal standard deduction of $15,000 for single filers or $30,000 for married couples filing jointly, your remaining taxable income is applied through these brackets progressively. For a single filer earning $60,000 in {name}, the effective federal income tax rate is approximately 10 to 12 percent, translating to roughly $6,000 to $7,200 withheld annually from your paychecks. This federal withholding applies identically whether you work in {name} or any other state, since federal tax rates are uniform nationwide.
+        </p>
+
+        <p>
+          Your W-4 form determines how much federal tax your {name} employer withholds from each paycheck. If you consistently receive large tax refunds when you file your return, you are over-withholding and effectively providing the federal government with an interest-free loan throughout the year. Conversely, if you owe a significant amount at tax time, you may be under-withholding and could face underpayment penalties. The goal is to match your withholding as closely as possible to your actual tax liability, which means reviewing and updating your W-4 whenever your circumstances change. Life events like marriage, the birth of a child, buying a home, or starting a side business all affect your tax situation. Use our <a href="/">paycheck calculator</a> to model different W-4 scenarios and see exactly how they change your {name} take-home pay.
+        </p>
+
+        <h2 id="state-tax-structure">{isNoTax ? `Why ${name} Has No State Income Tax` : `${name} State Income Tax in Detail`}</h2>
+
+        {isNoTax && (
+          <p>
+            {name} is one of nine US states that does not impose an income tax on wages or salary income. {noTaxConstitutionalMap[code] || `${name} has maintained its no-income-tax status as a fundamental element of its fiscal policy, attracting workers and businesses seeking a lower tax environment.`} This commitment to zero income tax is a defining feature of {name}'s economic identity and a major factor in the state's appeal to both individual workers and businesses considering relocation. Population growth data over the past decade reflects this appeal, as many of the no-income-tax states have experienced faster growth than their higher-tax counterparts.
+          </p>
+        )}
+        {isNoTax && (
+          <p>
+            The practical impact on your paycheck is substantial and compounds over time. A single filer earning $75,000 in {name} saves approximately $2,500 to $5,000 per year compared to a worker earning the same salary in a state with a 4 to 6 percent income tax rate. Over a full career spanning three decades, that advantage compounds to well over $100,000 in additional take-home pay, and even more if the savings are invested. However, {name} makes up for this lost revenue through {noTaxRevenueMap[code] || 'other forms of taxation'}. For many workers, the income tax savings more than offset the higher costs in other tax categories, but the equation depends on individual circumstances such as whether you own property, how much you spend on taxable goods, and your overall consumption patterns. Workers who rent rather than own property and who maintain moderate spending habits tend to benefit the most from living in a no-income-tax state.
+          </p>
+        )}
+
+        {isFlat && (
+          <p>
+            {name}'s flat tax of {formatPercent(stateConfig!.flatRate! * 100)} applies uniformly to all taxable income above the standard deduction. Unlike progressive systems where higher earners pay escalating rates on successive portions of income, every dollar of taxable income in {name} is taxed at the same rate regardless of total earnings. {stdDed ? `The state offers a standard deduction of $${stdDed.toLocaleString()} for single filers, which shields the first portion of your income from state taxation. All income above that threshold is taxed at the flat ${formatPercent(stateConfig!.flatRate! * 100)} rate.` : `Your taxable income for state purposes may differ slightly from your federal taxable income depending on ${name}'s specific adjustments and deductions.`} Several other states use flat tax structures, and the trend toward flat taxation has gained momentum in recent years as states seek to simplify their tax codes and compete for workers and businesses.
+          </p>
+        )}
+        {isFlat && (
+          <p>
+            For practical paycheck planning, {name}'s flat rate makes calculations exceptionally simple. If you receive a $5,000 raise, you can expect approximately ${Math.round(5000 * stateConfig!.flatRate!).toLocaleString()} in additional annual state income tax, or about ${Math.round((5000 * stateConfig!.flatRate!) / 26)} dollars more per biweekly paycheck. This predictability is one of the primary arguments proponents make in favor of flat tax systems. It also simplifies year-end tax planning because there are no bracket thresholds to manage around, and overtime, bonus, or commission income is all taxed at the same state rate as your regular wages. Workers who earn variable income from commissions or seasonal overtime find this predictability particularly valuable compared to the complexity of progressive bracket systems.
+          </p>
+        )}
+
+        {isProgressive && stateConfig?.brackets?.single && (
+          <p>
+            {name}'s progressive tax system divides your income into segments, each taxed at a different rate. The first {stateConfig.brackets.single[0].max === Infinity ? 'dollars of' : `$${stateConfig.brackets.single[0].max.toLocaleString()} of`} taxable income is taxed at just {formatPercent(stateConfig.brackets.single[0].rate * 100)}, while income above {stateConfig.brackets.single.at(-1)!.min > 0 ? `$${stateConfig.brackets.single.at(-1)!.min.toLocaleString()}` : 'the highest threshold'} faces the top rate of {formatPercent(stateConfig.brackets.single.at(-1)!.rate * 100)}. This means that even the highest earners in {name} pay the lower rates on the initial portion of their income. The progressive structure ensures that the state tax burden scales with ability to pay, which is the foundational principle behind graduated income tax systems used by the majority of states and the federal government.
+          </p>
+        )}
+        {isProgressive && (
+          <p>
+            {stateConfig?.specialRules?.sdi ? `${name} also imposes a State Disability Insurance deduction of ${formatPercent(stateConfig.specialRules.sdi.rate * 100)} on wages${stateConfig.specialRules.sdi.wageBase ? ` up to $${stateConfig.specialRules.sdi.wageBase.toLocaleString()}` : ''}, which appears as a separate line item on your pay stub and provides short-term disability coverage for eligible workers. ` : ''}{stateConfig?.specialRules?.pfl ? `Additionally, the state's Paid Family Leave program requires employee contributions at ${formatPercent(stateConfig.specialRules.pfl.rate * 100)} of wages${stateConfig.specialRules.pfl.wageBase ? ` up to $${stateConfig.specialRules.pfl.wageBase.toLocaleString()}` : ''}, funding job-protected leave for qualifying family and medical situations. ` : ''}{stateConfig?.specialRules?.mentalHealthSurtax ? `High earners in ${name} face an additional ${formatPercent(stateConfig.specialRules.mentalHealthSurtax.rate * 100)} mental health services surtax on taxable income above $${stateConfig.specialRules.mentalHealthSurtax.threshold.toLocaleString()}, which effectively raises the top marginal rate beyond the standard bracket maximum. ` : ''}Understanding all of these deductions together gives you the complete picture of how {name} taxation affects your paycheck, and the calculator above factors in every applicable deduction for {name} residents including any state-specific payroll levies that other calculators often overlook.
+          </p>
+        )}
+
+        <h2 id="property-sales-taxes">Property Taxes and Sales Taxes in {name}</h2>
+
+        {propTax && (
+          <p>
+            While income tax receives the most attention on your paycheck, property taxes represent a significant ongoing cost for {name} homeowners that directly affects disposable income. The average effective property tax rate in {name} is {formatPercent(propTax.effectiveRate * 100)}, which on the state's median home value of ${propTax.medianHomeValue.toLocaleString()} produces an annual property tax bill of approximately ${propTax.medianAnnualTax.toLocaleString()}, or about ${propTaxMonthly.toLocaleString()} per month. {propTax.hasHomesteadExemption ? `${name} offers a homestead exemption that can reduce the assessed value of your primary residence, providing meaningful tax relief for owner-occupied homes.` : `${name} does not offer a broad homestead exemption, though some targeted relief programs may be available for seniors, veterans, or disabled homeowners.`} Property tax rates vary considerably by county and municipality within {name}, so your actual bill could be significantly higher or lower depending on where you live. You can estimate your specific property tax burden using our <a href="/property-tax-calculator/">property tax calculator</a>.
+          </p>
+        )}
+
+        {isNoSalesTax && (
+          <p>
+            {name} is one of the few states that does not impose a general state sales tax{code === 'AK' ? ', though local municipalities in Alaska may levy their own sales taxes that typically range from 1 to 7 percent' : code === 'NH' ? ', though it does collect a meals and rooms tax of 8.5 percent on restaurant meals and hotel accommodations' : code === 'MT' ? ', though some resort communities in Montana have enacted local resort taxes' : code === 'OR' ? ', though Oregon does not exempt all purchases and some local jurisdictions have considered their own measures' : code === 'DE' ? ', which combined with relatively moderate property taxes makes Delaware attractive for retirees and workers looking to minimize consumption-based taxation' : ''}. The absence of sales tax is another factor that can make {name}'s overall tax burden more favorable, particularly for residents who spend a significant share of their income on consumer goods and major purchases like vehicles, furniture, and electronics.
+          </p>
+        )}
+        {!isNoSalesTax && salesTax && (
+          <p>
+            {name} imposes a state sales tax rate of {formatPercent(salesTax.stateRate * 100)}{salesTax.maxLocalRate > 0 ? `, and local jurisdictions can add up to ${formatPercent(salesTax.maxLocalRate * 100)} in additional taxes, bringing the average combined rate across ${name} to approximately ${formatPercent(salesTax.avgCombinedRate * 100)}` : ''}. {salesTax.groceryTax === 'exempt' ? 'Grocery food purchases are exempt from the state sales tax, which provides meaningful relief for household budgets and makes the tax less burdensome for lower-income families.' : salesTax.groceryTax === 'reduced' ? `Groceries are taxed at a reduced rate${salesTax.groceryRate ? ` of ${formatPercent(salesTax.groceryRate * 100)}` : ''}, which is lower than the standard rate but still adds to the cost of food over the course of a year.` : 'Groceries are subject to the full sales tax rate, which increases the effective cost of food purchases and disproportionately affects lower-income households.'} {salesTax.clothingExempt ? 'Clothing purchases are also exempt from sales tax, a benefit that helps families with children and workers who need professional attire.' : ''} {salesTax.hasSalesTaxHoliday ? `${name} offers sales tax holidays during the year that provide temporary relief on qualifying purchases.` : ''} When evaluating your total cost of living in {name}, these consumption taxes should be factored in alongside your paycheck deductions to understand the full picture. Our <a href="/sales-tax-calculator/">sales tax calculator</a> can help you estimate the impact.
+          </p>
+        )}
+
+        {isNoTax && (
+          <p>
+            Because {name} does not tax wages, the combination of property and sales taxes represents your primary state and local tax obligation. Workers evaluating a move to {name} should calculate whether the income tax savings outweigh any difference in property tax or sales tax costs compared to their current state. In most cases, particularly for workers earning above $50,000, the math strongly favors the no-income-tax structure, though homeowners in high-property-tax counties within {name} may find the advantage somewhat reduced. The best approach is to calculate your complete financial picture including all taxes, housing costs, and living expenses before making a decision based solely on the absence of state income tax.
+          </p>
+        )}
+        {!isNoTax && (
+          <p>
+            Together, {name}'s income tax, property tax, and sales tax create a combined state and local tax burden that affects your overall financial picture beyond what appears on your pay stub. Your paycheck shows only the income tax and any mandatory state payroll deductions, but property and sales taxes represent additional costs that reduce your true disposable income. When comparing {name} to other states for a potential job or relocation, it is essential to look at the complete tax picture rather than focusing on any single tax category. A state with lower income taxes but higher property and sales taxes may not provide a net benefit depending on your homeownership status and spending patterns. Use our <a href="/take-home-comparison/">take-home comparison tool</a> to see the income tax difference across states, and factor in property and sales tax differences for a comprehensive analysis.
+          </p>
+        )}
+
+        <h2 id="fica-payroll">Social Security and Medicare Taxes on Your {name} Paycheck</h2>
+
+        <p>
+          Every {name} worker, regardless of the state's income tax policy, pays FICA taxes on their wages. Social Security tax is withheld at 6.2 percent of your gross pay up to the {TAX_YEAR} wage base of $176,100, and your employer pays a matching 6.2 percent that does not appear on your pay stub. Medicare tax is withheld at 1.45 percent on all wages with no cap, and your employer again matches this amount. Together, the employee portion of FICA totals 7.65 percent of your gross pay, which on a $60,000 salary amounts to $4,590 per year or approximately $176.54 per biweekly paycheck. These deductions are entirely separate from federal or {name} state income tax, they cannot be reduced through any deductions or credits, and they apply from the very first dollar of earnings with no standard deduction or personal exemption.
+        </p>
+
+        <p>
+          For workers earning above $200,000 as a single filer or $250,000 as a married couple filing jointly, an Additional Medicare Tax of 0.9 percent applies to wages above those thresholds. Unlike the standard Medicare tax, the employer does not match this additional amount, and it is not adjustable through your W-4. If you earn above the Social Security wage base of $176,100, the 6.2 percent Social Security withholding stops for the remainder of the year, which means your paychecks later in the calendar year will be slightly larger as that deduction disappears. This is a noticeable bump in take-home pay for high earners during the final months of the year. You can learn more about how these payroll taxes work and model your specific situation using our <a href="/social-security-tax-calculator/">Social Security tax calculator</a> and <a href="/medicare-surtax-calculator/">Medicare surtax calculator</a>.
+        </p>
+
+        <h2 id="compare-neighbors">How {name} Compares to Neighboring States</h2>
+
+        {neighborStates.length > 0 && isNoTax && (
+          <p>
+            As a no-income-tax state, {name} offers a clear paycheck advantage over any neighboring state that taxes wages. Your nearest neighbors include {neighborStates.map((n) => `${n.name}${NO_INCOME_TAX_STATES.includes(n.abbr) ? ', which also has no state income tax' : ''}`).join(', ')}. The magnitude of the paycheck advantage depends on the specific rates and brackets of each neighboring state's tax system and your income level. For a worker earning $80,000, the difference between paying zero state income tax in {name} and paying 4 to 6 percent in a neighboring state translates to $3,200 to $4,800 per year in additional take-home pay, a sum that can fund a significant portion of retirement savings or accelerate debt payoff. Use our <a href="/take-home-comparison/">take-home comparison tool</a> to run a side-by-side analysis of your salary across multiple states and see exactly how much more you keep in {name}.
+          </p>
+        )}
+        {neighborStates.length > 0 && !isNoTax && (
+          <p>
+            {name}'s tax structure can be evaluated in context by comparing it to neighboring states. Your nearest neighbors include {neighborStates.map((n) => `${n.name}${NO_INCOME_TAX_STATES.includes(n.abbr) ? ', which has no state income tax' : ''}`).join(', ')}. Depending on your income level, you may find that {name}'s effective tax rates are higher or lower than what you would pay in a nearby state. Geographic proximity means that border residents sometimes have the option to live in one state while working in another, though tax reciprocity agreements vary and some states require nonresident tax filings for income earned within their borders. Use our <a href="/take-home-comparison/">take-home comparison tool</a> to run a side-by-side analysis of your salary across multiple states.
+          </p>
+        )}
+
+        {isNoTax && (
+          <p>
+            The decision to live and work in {name} extends beyond income tax alone. While the absence of state income tax is a significant financial advantage, other factors including cost of living, housing prices, job market strength, quality of public services, school systems, and climate all play important roles in the overall quality of life equation. Some workers accept a slightly higher tax burden in a neighboring state because of lower housing costs, shorter commutes, or better access to certain industries. The most thorough approach is to calculate your complete financial picture, including all taxes, housing costs, and living expenses, before making a decision based solely on income tax rates. Our <a href="/cost-of-living-calculator/">cost of living calculator</a> can help you evaluate the broader picture beyond just taxes.
+          </p>
+        )}
+        {!isNoTax && (
+          <p>
+            When comparing {name} to its neighbors, remember that income tax is only one component of the total tax burden. {propTax ? `Property tax rates in ${name} average ${formatPercent(propTax.effectiveRate * 100)} of assessed home value, which may be higher or lower than neighboring states.` : ''} {salesTax && salesTax.stateRate > 0 ? `The combined sales tax rate averaging ${formatPercent(salesTax.avgCombinedRate * 100)} also factors into the equation.` : ''} A state with lower income taxes but higher property and sales taxes may not provide a net benefit depending on your homeownership status, spending patterns, and family size. The best comparison accounts for all tax categories alongside housing costs and general cost of living to determine which state offers the strongest overall financial position for your specific circumstances. Our <a href="/cost-of-living-calculator/">cost of living calculator</a> can help you weigh these factors together.
+          </p>
+        )}
+
+        <h2 id="maximize-take-home">Strategies to Maximize Your Take-Home Pay in {name}</h2>
+
+        {isNoTax && (
+          <p>
+            Even without state income tax, there are meaningful strategies to increase your {name} take-home pay further. The most impactful is optimizing your federal tax withholding by ensuring your W-4 accurately reflects your filing status, number of dependents, and any additional income sources. Contributing to a traditional 401(k) reduces your federal taxable income, lowering your federal tax bill while building retirement savings. On a $60,000 salary, contributing 10 percent to a traditional 401(k) saves roughly $1,320 in federal taxes annually at the 22 percent marginal rate, meaning the $6,000 contribution only costs you about $4,680 in reduced take-home pay. A Health Savings Account, available to workers with high-deductible health plans, provides the only triple tax advantage in the tax code: contributions are pre-tax, growth is tax-free, and withdrawals for qualified medical expenses are tax-free. Explore different contribution scenarios with our <a href="/401k-calculator/">401(k) calculator</a>.
+          </p>
+        )}
+        {!isNoTax && (
+          <p>
+            Maximizing your take-home pay in {name} starts with ensuring your W-4 withholding is accurate at both the federal and state level. If you receive a large tax refund each year, you are over-withholding and could benefit from adjusting your W-4 to keep more money in each paycheck throughout the year. Contributing to a traditional 401(k) reduces both your federal and {name} state taxable income, providing a double tax benefit that workers in no-income-tax states do not receive at the state level. On a $60,000 salary, contributing 10 percent saves approximately $1,320 in federal taxes and an additional ${Math.round(6000 * (stateConfig?.flatRate || (topRate || 0.05))).toLocaleString()} in {name} state taxes at your marginal rate, meaning the $6,000 contribution may only cost you around $4,000 to $4,500 in actual reduced take-home pay. A Health Savings Account offers similar pre-tax benefits for eligible workers. Model different contribution levels with our <a href="/401k-calculator/">401(k) calculator</a>.
+          </p>
+        )}
+
+        <p>
+          Beyond retirement accounts, review your employer's full benefits package for other pre-tax opportunities that reduce your taxable income. Flexible Spending Accounts for healthcare and dependent care expenses, commuter benefit programs, and employer-subsidized insurance premiums all lower your taxable wages and increase your net pay. {isNoTax ? `While these deductions only reduce your federal tax calculation in ${name}, the federal savings alone can add up to hundreds of dollars per paycheck for workers who take full advantage of available programs.` : `In ${name}, these deductions reduce both your federal and state tax liability simultaneously, amplifying the per-dollar benefit compared to what workers in no-income-tax states receive from the same deductions.`} If you are part of a dual-income household, ensure both spouses' W-4 forms account for the combined income to avoid under-withholding, which is one of the most common causes of unexpected tax bills at filing time. Our <a href="/salary-calculator/">salary calculator</a> and <a href="/take-home-pay-calculator/">take-home pay calculator</a> can help you model your complete paycheck scenario with all deductions included.
+        </p>
+
+      </div>
+    </section>
+
+    {/* State tax brackets table */}
+    {isProgressive && stateConfig?.brackets?.single && (
+      <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl">
+          <h3 id="state-tax-brackets" class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
+            {name} Tax Brackets {TAX_YEAR} (Single Filer)
+          </h3>
+          <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
+            <table class="tabular-nums w-full text-sm">
+              <thead>
+                <tr class="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
+                  <th class="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">Income Range</th>
+                  <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Tax Rate</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                {stateConfig.brackets.single.map((bracket) => (
+                  <tr>
+                    <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">
+                      ${bracket.min.toLocaleString()} – {bracket.max === Infinity ? 'and above' : `$${bracket.max.toLocaleString()}`}
+                    </td>
+                    <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">
+                      {formatPercent(bracket.rate * 100)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
     )}
@@ -213,7 +389,7 @@ const schema = {
     {neighborStates.length > 0 && (
       <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-3xl">
-          <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+          <h2 id="neighbor-calculators" class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
             Compare {name} With Neighboring States
           </h2>
           <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -237,7 +413,7 @@ const schema = {
     {['CA', 'TX', 'FL', 'NY', 'PA', 'IL', 'OH', 'GA', 'NC', 'MI'].includes(code) && (
       <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-3xl">
-          <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+          <h2 id="popular-salaries" class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
             Popular Salaries in {name}
           </h2>
           <div class="grid grid-cols-3 gap-2 sm:grid-cols-4">

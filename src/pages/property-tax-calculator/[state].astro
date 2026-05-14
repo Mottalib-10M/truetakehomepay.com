@@ -2,6 +2,11 @@
 import Layout from '../../layouts/Layout.astro';
 import { TAX_YEAR } from '../../lib/constants';
 import { getAllStateSlugs, getStateBySlug } from '../../data/state-meta';
+import { getPropertyTaxConfig } from '../../data/property-tax-2026/index';
+import { getSalesTaxConfig } from '../../data/sales-tax-2026/index';
+import { getStateTaxConfig } from '../../data/income-tax-2026/index';
+import { NO_INCOME_TAX_STATES } from '../../data/state-meta';
+import { formatPercent, formatCurrencyRound } from '../../lib/format-us';
 
 export function getStaticPaths() {
   return getAllStateSlugs().map((slug) => ({ params: { state: slug } }));
@@ -12,6 +17,12 @@ const stateData = getStateBySlug(stateSlug!);
 if (!stateData) return Astro.redirect('/');
 
 const { name } = stateData;
+const { abbr: code } = stateData;
+const propTax = getPropertyTaxConfig(code);
+const salesTax = getSalesTaxConfig(code);
+const stateConfig = getStateTaxConfig(code);
+const isNoTax = NO_INCOME_TAX_STATES.includes(code);
+const slug = stateData.slug;
 // Title: 50-60 chars for all state names (4-20 chars)
 const _tBase = `${name} Property Tax Calculator ${TAX_YEAR}`;
 const title = _tBase.length <= 33
@@ -116,6 +127,161 @@ const faqs = [
           Homestead exemption details for {name} will be displayed here. These exemptions can significantly reduce your property tax bill on your primary residence.
         </p>
       </div>
+    </div>
+  </section>
+
+  <!-- SEO prose section -->
+  <section class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+
+      <h2 id="how-property-taxes-work-in-{slug}">How Property Taxes Work in {name}</h2>
+
+      <p>
+        Property taxes in {name} are administered at the local level by county assessors and tax collectors, making them one of the most significant recurring expenses for homeowners throughout the state. Every property owner in {name} is subject to an annual assessment process in which local officials determine the fair market value of real property, including land, residential homes, commercial buildings, and other improvements. The assessed value of your property serves as the foundation for calculating your annual property tax bill, and understanding how this process works is essential for any current or prospective homeowner in {name}.
+      </p>
+
+      {propTax && (
+        <p>
+          As of {TAX_YEAR}, the effective property tax rate in {name} is {formatPercent(propTax.effectiveRate * 100)}, which means that for every $100,000 of assessed home value, a homeowner can expect to pay approximately {formatCurrencyRound(propTax.effectiveRate * 100000)} per year in property taxes. The median home value in {name} currently stands at {formatCurrencyRound(propTax.medianHomeValue)}, and the median annual property tax payment is {formatCurrencyRound(propTax.medianAnnualTax)}. These figures provide a useful baseline for estimating your own tax liability, although your actual bill may differ depending on the specific county and municipality where your property is located, as well as any exemptions or special assessments that may apply.
+        </p>
+      )}
+
+      {propTax && (
+        <p>
+          The assessment ratio in {name} is {formatPercent(propTax.assessmentRatio * 100)}, which means that properties are assessed at {formatPercent(propTax.assessmentRatio * 100)} of their fair market value. This ratio is critically important because it determines the taxable base upon which your millage rate is applied. In some states, the assessment ratio is well below 100%, meaning the taxable assessed value is significantly lower than what the property would sell for on the open market. Regardless of the specific ratio, the combination of your property's assessed value and the local millage rate determines your final property tax obligation each year.
+        </p>
+      )}
+
+      {propTax?.notes && (
+        <p>
+          It is worth noting an important detail about the property tax system in {name}: {propTax.notes} This information is particularly relevant for homeowners who are planning their long-term housing budgets or comparing property tax costs across different states and jurisdictions.
+        </p>
+      )}
+
+      <h2 id="how-{slug}-property-taxes-compare-nationally">How {name} Property Taxes Compare Nationally</h2>
+
+      {propTax && propTax.effectiveRate < 0.008 && (
+        <p>
+          When viewed in the context of national property tax averages, {name} stands out as a state with a relatively moderate to low effective property tax rate. The national average effective property tax rate hovers around 1.00% to 1.10%, and {name}'s rate of {formatPercent(propTax.effectiveRate * 100)} places it below this benchmark. For homeowners considering relocation or real estate investment, this below-average rate can translate into meaningful savings over the life of a mortgage. However, it is important to remember that a lower effective rate does not necessarily mean a lower tax bill in dollar terms, because {name}'s median home values may be higher or lower than the national median, which directly affects the total annual payment.
+        </p>
+      )}
+
+      {propTax && propTax.effectiveRate >= 0.008 && propTax.effectiveRate < 0.012 && (
+        <p>
+          In the context of national property tax averages, {name} falls in the moderate range among all fifty states and the District of Columbia. The national average effective property tax rate is approximately 1.00% to 1.10%, and {name}'s rate of {formatPercent(propTax.effectiveRate * 100)} places it close to or slightly above this national benchmark. For homeowners in {name}, this means that property tax bills are roughly in line with what residents in many other states experience, although individual bills can vary widely depending on local millage rates, the specific county of residence, and available exemptions that may reduce the taxable assessed value.
+        </p>
+      )}
+
+      {propTax && propTax.effectiveRate >= 0.012 && (
+        <p>
+          Compared to the national average effective property tax rate of approximately 1.00% to 1.10%, {name}'s effective rate of {formatPercent(propTax.effectiveRate * 100)} places it among the higher-taxed states in the country. This elevated rate means that homeowners in {name} generally pay more in annual property taxes relative to the value of their homes than residents of many other states. The median annual property tax payment of {formatCurrencyRound(propTax.medianAnnualTax)} reflects this higher burden, and prospective homebuyers should carefully factor property taxes into their total cost of homeownership when evaluating properties in {name}.
+        </p>
+      )}
+
+      <p>
+        One way to evaluate how property taxes in {name} compare to other states is to look at the effective rate as a percentage of home value, the median annual tax bill in dollar terms, and the overall ranking among all fifty states and the District of Columbia. States like New Jersey, Illinois, and New Hampshire consistently rank among the highest in effective property tax rates, while Hawaii, Alabama, and Louisiana tend to have some of the lowest. Where {name} falls in this spectrum affects not only your annual tax payment but also the relative attractiveness of the state for homebuyers, retirees, and real estate investors who are sensitive to recurring property-related costs.
+      </p>
+
+      <h2 id="{slug}-homestead-exemptions-and-senior-benefits">Homestead Exemptions and Senior Benefits in {name}</h2>
+
+      {propTax && propTax.hasHomesteadExemption && (
+        <p>
+          {name} offers a homestead exemption that can help reduce the property tax burden for qualifying homeowners. {propTax.homesteadExemptionDesc} This exemption is designed to provide tax relief to residents who occupy their property as a primary residence, and it works by reducing the taxable assessed value of the home before the local millage rate is applied. The practical effect is a lower annual property tax bill, which can amount to hundreds or even thousands of dollars in savings depending on the specific terms of the exemption and the local tax rate. Homeowners who have not yet applied for the homestead exemption should contact their county assessor's office to determine eligibility and file the necessary paperwork, as the exemption typically does not apply automatically.
+        </p>
+      )}
+
+      {propTax && !propTax.hasHomesteadExemption && (
+        <p>
+          Unlike many other states, {name} does not offer a traditional homestead exemption that reduces the assessed value of owner-occupied primary residences. This means that all properties in {name} are generally taxed on their full assessed value without a standard deduction for homesteaders. However, {name} may still offer other forms of property tax relief, such as circuit breaker programs that provide credits or refunds to taxpayers whose property tax bills exceed a certain percentage of their income, or targeted relief programs for specific groups of taxpayers. Homeowners in {name} should consult their local assessor's office or the state department of revenue to learn about any available programs that could reduce their tax liability.
+        </p>
+      )}
+
+      {propTax && propTax.hasSeniorExemption && (
+        <p>
+          In addition to the homestead exemption, {name} provides property tax benefits specifically for senior citizens. These senior exemptions are typically available to homeowners who have reached a certain age, often 65, and who meet specific income or residency requirements. The senior exemption may take the form of an additional reduction in assessed value, a freeze on the assessed value of the property so that it does not increase with market conditions, or a cap on the annual tax bill. Senior homeowners in {name} should apply for these benefits through their local county assessor's office, as they generally require a separate application from the standard homestead exemption and must be renewed periodically.
+        </p>
+      )}
+
+      {propTax && !propTax.hasSeniorExemption && (
+        <p>
+          Currently, {name} does not offer a dedicated senior citizen property tax exemption at the state level, although some local jurisdictions within the state may provide their own senior-focused tax relief programs. Seniors living in {name} who are concerned about property tax affordability should investigate county-level and municipal programs, as well as any state-administered property tax credit or rebate programs that may be available based on income level or other qualifying criteria.
+        </p>
+      )}
+
+      <h2 id="how-property-taxes-fund-local-services-in-{slug}">How Property Taxes Fund Local Services in {name}</h2>
+
+      <p>
+        Property taxes collected in {name} serve as the primary funding source for a wide range of essential local government services that residents rely on every day. The largest portion of property tax revenue in virtually every jurisdiction in {name} is directed toward public education, including the construction and maintenance of school buildings, teacher salaries and benefits, instructional materials, and extracurricular programs. In many counties and school districts across {name}, property taxes account for the majority of school funding, making them the single most important revenue source for ensuring that children have access to quality education.
+      </p>
+
+      <p>
+        Beyond education, property tax revenues in {name} support law enforcement and public safety services, including police departments, sheriff's offices, fire departments, and emergency medical services. Local road construction, bridge maintenance, water and sewer infrastructure, public parks, libraries, and community recreation programs also depend heavily on property tax funding. The connection between property tax payments and the quality of local services is direct and tangible, which is why communities with higher property tax rates often have better-funded schools, more responsive emergency services, and better-maintained public infrastructure.
+      </p>
+
+      <p>
+        Understanding where your property tax dollars go in {name} can help you appreciate the value you receive in return for your annual tax payment. Many county governments in {name} publish detailed breakdowns of how property tax revenue is allocated across different departments and services, and reviewing these reports can provide insight into whether your community is investing effectively in the services that matter most to you and your neighbors. If you believe that your property tax dollars are not being used effectively, you have the right to attend local government meetings, participate in budget hearings, and vote on ballot measures that affect property tax rates and spending priorities.
+      </p>
+
+      <h2 id="property-taxes-and-home-values-in-{slug}">The Relationship Between Property Taxes and Home Values in {name}</h2>
+
+      {propTax && (
+        <p>
+          The relationship between property taxes and home values in {name} is complex and bidirectional. On one hand, rising home values in {name} tend to increase property tax bills because the assessed value of a property typically tracks market value, either through annual reassessments or periodic revaluation cycles. With a median home value of {formatCurrencyRound(propTax.medianHomeValue)} and an effective rate of {formatPercent(propTax.effectiveRate * 100)}, even modest increases in home prices across {name} can result in noticeably higher tax bills for homeowners who do not benefit from assessment caps or freezes.
+        </p>
+      )}
+
+      <p>
+        On the other hand, property taxes can also influence home values in {name}. Areas with high property tax rates may see slower home price appreciation because the higher annual cost of ownership discourages some buyers, effectively reducing demand relative to lower-tax areas. Conversely, neighborhoods where property taxes fund excellent schools and public services often command a premium in the housing market, because homebuyers are willing to pay more for a home that comes with access to high-quality education and community amenities. This dynamic creates a feedback loop in which property taxes, home values, and service quality are all interconnected.
+      </p>
+
+      <p>
+        For homeowners in {name} who are considering selling their property, it is worth understanding how the local property tax rate affects buyer perceptions and, ultimately, the sale price. A home in a low-tax jurisdiction may be more attractive to budget-conscious buyers, while a home in a higher-tax area with top-rated schools may appeal to families who prioritize education. Either way, property taxes are a factor that every buyer evaluates when deciding how much they can afford to pay for a home, and sellers in {name} should be prepared to address questions about property tax costs during the marketing and negotiation process.
+      </p>
+
+      <h2 id="how-to-appeal-property-tax-assessment-in-{slug}">How to Appeal Your Property Tax Assessment in {name}</h2>
+
+      <p>
+        If you believe that your property has been assessed at a value that exceeds its true fair market value, you have the right to appeal your property tax assessment in {name}. The appeals process typically begins with an informal review, during which you can present evidence to your county assessor showing that the assessed value is too high. This evidence might include recent comparable sales of similar properties in your neighborhood, an independent appraisal of your property, photographs documenting the condition of your home and any deficiencies that might reduce its value, or evidence that the assessor used incorrect information such as the wrong square footage, lot size, or number of bedrooms and bathrooms.
+      </p>
+
+      <p>
+        If the informal review does not result in a satisfactory adjustment, you can file a formal appeal with your local board of equalization, assessment review board, or equivalent body in {name}. This formal appeal typically involves submitting a written petition by a specific deadline, which varies by jurisdiction but is often within 30 to 90 days of receiving your assessment notice. During the formal hearing, you will have the opportunity to present your case before a panel of board members who will evaluate the evidence and determine whether an adjustment to your assessed value is warranted. It is important to be thorough and organized in your presentation, as the burden of proof generally falls on the property owner to demonstrate that the assessment is inaccurate.
+      </p>
+
+      <p>
+        Successfully appealing your property tax assessment in {name} can result in significant savings, not just for the current tax year but potentially for future years as well, since a reduced assessed value carries forward until the next reassessment. Homeowners who have experienced a decline in property value due to market conditions, structural damage, or changes in the neighborhood should strongly consider filing an appeal. Even if you are unsure whether your assessed value is too high, obtaining a comparative market analysis from a local real estate agent or reviewing recent sales data for your area can help you determine whether an appeal is worthwhile.
+      </p>
+
+      <h2 id="property-taxes-and-overall-tax-burden-in-{slug}">Property Taxes and Your Overall Tax Burden in {name}</h2>
+
+      {isNoTax && propTax && (
+        <p>
+          Because {name} does not impose a state income tax, property taxes play an outsized role in the overall tax structure for residents. Without income tax revenue, {name} relies more heavily on property taxes, sales taxes, and other fees to fund state and local government services. This means that homeowners in {name} may face higher property tax rates than they would in states that spread the tax burden across income, property, and sales taxes. The effective property tax rate of {formatPercent(propTax.effectiveRate * 100)} in {name} should be evaluated in the context of the state's zero income tax rate, which often results in a net tax advantage for high-income earners who own modest homes but can create a heavier burden for homeowners with valuable properties and lower incomes. To understand how your total tax picture compares, use our <a href={`/paycheck-calculator/${slug}/`} class="text-navy-600 hover:text-navy-700 dark:text-navy-400 dark:hover:text-navy-300">paycheck calculator for {name}</a> alongside this property tax calculator.
+        </p>
+      )}
+
+      {!isNoTax && propTax && (
+        <p>
+          {name} imposes a state income tax in addition to property taxes, which means that homeowners must consider both obligations when evaluating their total tax burden. The interplay between income taxes and property taxes in {name} creates a tax landscape where the effective cost of homeownership includes not just the mortgage payment and insurance but also a significant annual property tax bill of approximately {formatCurrencyRound(propTax.medianAnnualTax)} for a median-valued home, plus state income taxes on earned and investment income. To see how property taxes fit into your total take-home pay picture, you can use our <a href={`/paycheck-calculator/${slug}/`} class="text-navy-600 hover:text-navy-700 dark:text-navy-400 dark:hover:text-navy-300">paycheck calculator for {name}</a> to estimate your after-tax income and then factor in property tax costs.
+        </p>
+      )}
+
+      {salesTax && salesTax.stateRate > 0 && (
+        <p>
+          In addition to property taxes and income taxes, residents of {name} also pay sales tax on most purchases at a combined average rate of {formatPercent(salesTax.avgCombinedRate * 100)}. The total tax burden across property, income, and sales taxes determines how much of your earnings you actually keep as a {name} resident. Understanding these interrelationships is essential for making informed financial decisions about where to live, whether to buy or rent, and how to structure your budget. You can explore the full sales tax picture for {name} with our <a href={`/sales-tax-calculator/${slug}/`} class="text-navy-600 hover:text-navy-700 dark:text-navy-400 dark:hover:text-navy-300">{name} sales tax calculator</a>.
+        </p>
+      )}
+
+      {salesTax && salesTax.stateRate === 0 && (
+        <p>
+          Notably, {name} does not impose a statewide sales tax, which means that the property tax burden is partially offset by savings on everyday purchases. This combination of tax policies affects the overall cost of living in {name} and should be considered alongside property tax obligations when evaluating the state's total tax competitiveness. Explore how all of these tax factors come together using our <a href={`/sales-tax-calculator/${slug}/`} class="text-navy-600 hover:text-navy-700 dark:text-navy-400 dark:hover:text-navy-300">{name} sales tax page</a> and our <a href={`/paycheck-calculator/${slug}/`} class="text-navy-600 hover:text-navy-700 dark:text-navy-400 dark:hover:text-navy-300">{name} paycheck calculator</a>.
+        </p>
+      )}
+
+      <p>
+        Ultimately, the property tax you pay in {name} is just one component of a broader tax picture that includes federal income taxes, state income taxes (if applicable), Social Security and Medicare contributions, and sales taxes. Evaluating your property tax obligation in isolation can be misleading, which is why it is important to look at the full picture of your tax burden. Many financial advisors recommend calculating your total effective tax rate across all levels of government and all types of taxes to get an accurate sense of how much you are keeping from each dollar you earn. Our suite of calculators is designed to help you do exactly that, giving you the tools you need to make informed financial decisions about homeownership and budgeting in {name}.
+      </p>
+
     </div>
   </section>
 
