@@ -71,76 +71,269 @@ const faqs = [
     </div>
   </section>
 
-  <!-- Placeholder calculator input -->
+  <!-- Sales Tax Calculator -->
   <section class="px-4 py-12 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
       <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-        <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Calculate {name} Sales Tax</h2>
-        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Enter your purchase amount to calculate sales tax.</p>
-        <div class="mt-6">
-          <label for="purchase-amount" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-            Purchase Amount ($)
-          </label>
-          <input
-            type="text"
-            id="purchase-amount"
-            placeholder="100.00"
-            class="mt-1 block w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 shadow-sm focus:border-navy-500 focus:ring-navy-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
-          />
+        <h2 id="calculator" class="text-xl font-semibold text-slate-900 dark:text-white">Calculate {name} Sales Tax</h2>
+
+        {isNoSalesTax && code !== 'AK' && (
+          <div class="mt-6 flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 p-5 dark:border-green-800 dark:bg-green-950">
+            <span class="mt-0.5 text-2xl text-green-600 dark:text-green-400" aria-hidden="true">&#10003;</span>
+            <div>
+              <p class="text-lg font-semibold text-green-800 dark:text-green-200">{name} has no general sales tax</p>
+              <p class="mt-1 text-sm text-green-700 dark:text-green-300">Purchases in {name} are not subject to a state or local sales tax. The price you see is the price you pay.</p>
+            </div>
+          </div>
+        )}
+
+        {isNoSalesTax && code === 'AK' && (
+          <div class="mt-6 flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 p-5 dark:border-green-800 dark:bg-green-950">
+            <span class="mt-0.5 text-2xl text-green-600 dark:text-green-400" aria-hidden="true">&#10003;</span>
+            <div>
+              <p class="text-lg font-semibold text-green-800 dark:text-green-200">Alaska has no state sales tax</p>
+              <p class="mt-1 text-sm text-green-700 dark:text-green-300">Alaska does not impose a state-level sales tax. However, some local jurisdictions in Alaska levy their own sales taxes, with rates up to {salesTax ? formatPercent(salesTax.maxLocalRate * 100) : '7.50%'}. Check with your local borough or city for applicable rates.</p>
+            </div>
+          </div>
+        )}
+
+        {!isNoSalesTax && salesTax && (
+          <div class="mt-4">
+            <p class="text-sm text-slate-500 dark:text-slate-400">Average combined rate (state + local) in {name}:</p>
+            <p class="mt-1 text-3xl font-bold text-navy-700 dark:text-navy-300">{formatPercent(salesTax.avgCombinedRate * 100)}</p>
+          </div>
+        )}
+
+        {!isNoSalesTax && salesTax && (
+          <div class="mt-6">
+            <label for="purchase-amount" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+              Purchase Amount ($)
+            </label>
+            <input
+              type="number"
+              id="purchase-amount"
+              value="100"
+              min="0"
+              step="0.01"
+              class="mt-1 block w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 shadow-sm focus:border-navy-500 focus:ring-navy-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
+            />
+            <div id="st-result" data-rate={salesTax.avgCombinedRate} class="mt-5 rounded-lg border border-slate-100 bg-slate-50 p-5 dark:border-slate-700 dark:bg-slate-900">
+              <div class="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Sales Tax</p>
+                  <p id="st-tax" class="mt-1 text-xl font-bold text-slate-900 dark:text-white">
+                    {formatCurrencyRound(100 * salesTax.avgCombinedRate)}
+                  </p>
+                </div>
+                <div>
+                  <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Cost</p>
+                  <p id="st-total" class="mt-1 text-xl font-bold text-slate-900 dark:text-white">
+                    {formatCurrencyRound(100 * (1 + salesTax.avgCombinedRate))}
+                  </p>
+                </div>
+                <div>
+                  <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Effective Rate</p>
+                  <p id="st-rate" class="mt-1 text-xl font-bold text-slate-900 dark:text-white">
+                    {formatPercent(salesTax.avgCombinedRate * 100)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {!isNoSalesTax && !salesTax && (
+          <p class="mt-4 text-sm text-slate-500 dark:text-slate-400">Sales tax data for {name} is currently unavailable.</p>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Sales Tax Rates -->
+  <section class="px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <h2 id="{slug}-sales-tax-rates" class="mb-4 text-xl font-bold text-slate-900 dark:text-white">{name} Sales Tax Rates</h2>
+
+      {isNoSalesTax && !salesTax && (
+        <div class="flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 p-5 dark:border-green-800 dark:bg-green-950">
+          <span class="mt-0.5 text-xl text-green-600 dark:text-green-400" aria-hidden="true">&#10003;</span>
+          <p class="font-medium text-green-800 dark:text-green-200">No general sales tax in {name}.</p>
         </div>
-        <p class="mt-4 text-slate-600 dark:text-slate-400">
-          Full sales tax calculator with local rate lookup coming soon.
-        </p>
-      </div>
+      )}
+
+      {isNoSalesTax && salesTax && code === 'AK' && (
+        <div>
+          <div class="flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 p-5 dark:border-green-800 dark:bg-green-950">
+            <span class="mt-0.5 text-xl text-green-600 dark:text-green-400" aria-hidden="true">&#10003;</span>
+            <p class="font-medium text-green-800 dark:text-green-200">No state-level sales tax. Local taxes may apply.</p>
+          </div>
+          <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div class="rounded-lg border border-slate-200 bg-white p-5 text-center dark:border-slate-700 dark:bg-slate-800">
+              <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">State Rate</p>
+              <p class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">0.00%</p>
+            </div>
+            <div class="rounded-lg border border-slate-200 bg-white p-5 text-center dark:border-slate-700 dark:bg-slate-800">
+              <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Avg. Combined Rate</p>
+              <p class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">{formatPercent(salesTax.avgCombinedRate * 100)}</p>
+            </div>
+            <div class="rounded-lg border border-slate-200 bg-white p-5 text-center dark:border-slate-700 dark:bg-slate-800">
+              <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Max Local Rate</p>
+              <p class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">{formatPercent(salesTax.maxLocalRate * 100)}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isNoSalesTax && salesTax && code !== 'AK' && (
+        <div class="flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 p-5 dark:border-green-800 dark:bg-green-950">
+          <span class="mt-0.5 text-xl text-green-600 dark:text-green-400" aria-hidden="true">&#10003;</span>
+          <p class="font-medium text-green-800 dark:text-green-200">No general sales tax in {name}. {salesTax.notes ? salesTax.notes : ''}</p>
+        </div>
+      )}
+
+      {!isNoSalesTax && salesTax && (
+        <div>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div class="rounded-lg border border-slate-200 bg-white p-5 text-center dark:border-slate-700 dark:bg-slate-800">
+              <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">State Rate</p>
+              <p class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">{formatPercent(salesTax.stateRate * 100)}</p>
+            </div>
+            <div class="rounded-lg border border-slate-200 bg-white p-5 text-center dark:border-slate-700 dark:bg-slate-800">
+              <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Avg. Combined Rate</p>
+              <p class="mt-2 text-2xl font-bold text-navy-700 dark:text-navy-300">{formatPercent(salesTax.avgCombinedRate * 100)}</p>
+            </div>
+            <div class="rounded-lg border border-slate-200 bg-white p-5 text-center dark:border-slate-700 dark:bg-slate-800">
+              <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Max Local Rate</p>
+              <p class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">{formatPercent(salesTax.maxLocalRate * 100)}</p>
+            </div>
+          </div>
+          {salesTax.notes && (
+            <p class="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200">
+              {salesTax.notes}
+            </p>
+          )}
+        </div>
+      )}
+
+      {!isNoSalesTax && !salesTax && (
+        <p class="text-sm text-slate-500 dark:text-slate-400">Sales tax rate data for {name} is currently unavailable.</p>
+      )}
     </div>
   </section>
 
-  <!-- State + local rate display placeholder -->
+  <!-- Sales Tax Exemptions -->
   <section class="px-4 py-12 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
-      <h2 class="mb-4 text-xl font-bold text-slate-900 dark:text-white">{name} Sales Tax Rates</h2>
-      <div class="overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
-        <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-          <thead class="bg-slate-50 dark:bg-slate-800">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Rate Type</th>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Rate</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-900">
-            <tr>
-              <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400" colspan="2">
-                Sales tax rate data for {name} coming soon.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+      <h2 id="{slug}-sales-tax-exemptions" class="mb-4 text-xl font-bold text-slate-900 dark:text-white">{name} Sales Tax Exemptions</h2>
 
-  <!-- Exemptions table placeholder -->
-  <section class="px-4 py-12 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-3xl">
-      <h2 class="mb-4 text-xl font-bold text-slate-900 dark:text-white">{name} Sales Tax Exemptions</h2>
-      <div class="overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
-        <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-          <thead class="bg-slate-50 dark:bg-slate-800">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Category</th>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Exempt?</th>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Notes</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-900">
-            <tr>
-              <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400" colspan="3">
-                Exemption data for {name} coming soon.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {isNoSalesTax && (
+        <div class="flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 p-5 dark:border-green-800 dark:bg-green-950">
+          <span class="mt-0.5 text-xl text-green-600 dark:text-green-400" aria-hidden="true">&#10003;</span>
+          <p class="font-medium text-green-800 dark:text-green-200">No sales tax applies to any purchases in {name}.</p>
+        </div>
+      )}
+
+      {!isNoSalesTax && salesTax && (
+        <div class="overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
+          <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+            <thead class="bg-slate-50 dark:bg-slate-800">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Category</th>
+                <th class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Status</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Details</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-900">
+              <tr>
+                <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">Groceries</td>
+                <td class="px-6 py-4 text-center text-sm">
+                  {salesTax.groceryTax === 'exempt' && (
+                    <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-800 dark:bg-green-900 dark:text-green-200">
+                      <span aria-hidden="true">&#10003;</span> Exempt
+                    </span>
+                  )}
+                  {salesTax.groceryTax === 'reduced' && (
+                    <span class="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800 dark:bg-amber-900 dark:text-amber-200">
+                      Reduced
+                    </span>
+                  )}
+                  {salesTax.groceryTax === 'full' && (
+                    <span class="inline-flex items-center gap-1 rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-semibold text-red-800 dark:bg-red-900 dark:text-red-200">
+                      <span aria-hidden="true">&#10007;</span> Taxable
+                    </span>
+                  )}
+                </td>
+                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                  {salesTax.groceryTax === 'exempt' && 'Grocery food is exempt from sales tax.'}
+                  {salesTax.groceryTax === 'reduced' && salesTax.groceryRate !== undefined && `Taxed at a reduced rate of ${formatPercent(salesTax.groceryRate * 100)}.`}
+                  {salesTax.groceryTax === 'reduced' && salesTax.groceryRate === undefined && 'Taxed at a reduced rate.'}
+                  {salesTax.groceryTax === 'full' && 'Grocery food is taxed at the full sales tax rate.'}
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">Clothing</td>
+                <td class="px-6 py-4 text-center text-sm">
+                  {salesTax.clothingExempt && (
+                    <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-800 dark:bg-green-900 dark:text-green-200">
+                      <span aria-hidden="true">&#10003;</span> Exempt
+                    </span>
+                  )}
+                  {!salesTax.clothingExempt && (
+                    <span class="inline-flex items-center gap-1 rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-semibold text-red-800 dark:bg-red-900 dark:text-red-200">
+                      <span aria-hidden="true">&#10007;</span> Taxable
+                    </span>
+                  )}
+                </td>
+                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                  {salesTax.clothingExempt ? 'Clothing and footwear are exempt from sales tax.' : 'Clothing is taxed at the standard sales tax rate.'}
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">Prescription Drugs</td>
+                <td class="px-6 py-4 text-center text-sm">
+                  {salesTax.prescriptionDrugExempt && (
+                    <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-800 dark:bg-green-900 dark:text-green-200">
+                      <span aria-hidden="true">&#10003;</span> Exempt
+                    </span>
+                  )}
+                  {!salesTax.prescriptionDrugExempt && (
+                    <span class="inline-flex items-center gap-1 rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-semibold text-red-800 dark:bg-red-900 dark:text-red-200">
+                      <span aria-hidden="true">&#10007;</span> Taxable
+                    </span>
+                  )}
+                </td>
+                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                  {salesTax.prescriptionDrugExempt ? 'Prescription medications are exempt from sales tax.' : 'Prescription drugs are subject to sales tax.'}
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">Sales Tax Holiday</td>
+                <td class="px-6 py-4 text-center text-sm">
+                  {salesTax.hasSalesTaxHoliday && (
+                    <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-800 dark:bg-green-900 dark:text-green-200">
+                      <span aria-hidden="true">&#10003;</span> Available
+                    </span>
+                  )}
+                  {!salesTax.hasSalesTaxHoliday && (
+                    <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+                      Not available
+                    </span>
+                  )}
+                </td>
+                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                  {salesTax.hasSalesTaxHoliday && salesTax.salesTaxHolidayDesc ? salesTax.salesTaxHolidayDesc : ''}
+                  {salesTax.hasSalesTaxHoliday && !salesTax.salesTaxHolidayDesc ? 'A sales tax holiday is available.' : ''}
+                  {!salesTax.hasSalesTaxHoliday ? `${name} does not currently offer a sales tax holiday.` : ''}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {!isNoSalesTax && !salesTax && (
+        <p class="text-sm text-slate-500 dark:text-slate-400">Exemption data for {name} is currently unavailable.</p>
+      )}
     </div>
   </section>
 
@@ -408,4 +601,38 @@ const faqs = [
       </a>
     </div>
   </section>
+  {!isNoSalesTax && salesTax && (
+    <script>
+      (function () {
+        var input = document.getElementById('purchase-amount');
+        var resultDiv = document.getElementById('st-result');
+        if (!input || !resultDiv) return;
+        var rate = parseFloat(resultDiv.getAttribute('data-rate') || '0');
+        var taxEl = document.getElementById('st-tax');
+        var totalEl = document.getElementById('st-total');
+        var rateEl = document.getElementById('st-rate');
+
+        function fmt(n) {
+          return '$' + n.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        function calc() {
+          var val = parseFloat(input.value);
+          if (isNaN(val) || val < 0) {
+            if (taxEl) taxEl.textContent = '$0';
+            if (totalEl) totalEl.textContent = '$0';
+            return;
+          }
+          var tax = val * rate;
+          var total = val + tax;
+          if (taxEl) taxEl.textContent = fmt(tax);
+          if (totalEl) totalEl.textContent = fmt(total);
+          if (rateEl) rateEl.textContent = (rate * 100).toFixed(2) + '%';
+        }
+
+        input.addEventListener('input', calc);
+        calc();
+      })();
+    </script>
+  )}
 </Layout>
