@@ -14,6 +14,16 @@ interface InputFieldProps {
   step?: number;
   helpText?: string;
   className?: string;
+  noFormat?: boolean;
+}
+
+function formatWithCommas(val: string): string {
+  const clean = val.replace(/[^0-9.]/g, '');
+  if (!clean) return '';
+  const parts = clean.split('.');
+  const intPart = parts[0].replace(/^0+(?=\d)/, '');
+  const formatted = (intPart || '0').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return parts.length > 1 ? formatted + '.' + parts[1] : formatted;
 }
 
 export default function InputField({
@@ -30,15 +40,27 @@ export default function InputField({
   step,
   helpText,
   className = '',
+  noFormat = false,
 }: InputFieldProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const shouldFormat = type === 'text' && !noFormat && prefix === '$';
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      onChange(e.target.value);
+      const raw = e.target.value;
+      if (shouldFormat) {
+        const clean = raw.replace(/[^0-9.]/g, '');
+        if (!clean) { onChange(''); return; }
+        const formatted = formatWithCommas(raw);
+        onChange(formatted);
+      } else {
+        onChange(raw);
+      }
     },
-    [onChange]
+    [onChange, shouldFormat]
   );
+
+  const displayValue = shouldFormat && value ? formatWithCommas(String(value)) : value;
 
   return (
     <div className={`space-y-1 ${className}`}>
@@ -55,7 +77,7 @@ export default function InputField({
           ref={inputRef}
           id={id}
           type={type}
-          value={value}
+          value={displayValue}
           onChange={handleChange}
           placeholder={placeholder}
           min={min}
