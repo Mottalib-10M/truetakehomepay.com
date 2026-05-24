@@ -80,10 +80,11 @@ export default function PaycheckCalculator({
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Update URL when inputs change (skip state param if it matches the page default)
+  // Update URL when inputs change (skip params that match the page defaults)
+  const defaultGrossStr = defaultGross?.toString() ?? '60000';
   const updateUrl = useCallback(() => {
     const params = new URLSearchParams();
-    if (grossInput && grossInput !== '60000') params.set('gross', grossInput);
+    if (grossInput && grossInput !== defaultGrossStr) params.set('gross', grossInput);
     if (stateCode && stateCode !== defaultState) params.set('state', stateCode);
     if (filingStatus !== 'single') params.set('filing', filingStatus);
     if (payFrequency !== 'biweekly') params.set('period', payFrequency);
@@ -95,7 +96,7 @@ export default function PaycheckCalculator({
       : window.location.pathname;
 
     window.history.replaceState({}, '', newUrl);
-  }, [grossInput, stateCode, defaultState, filingStatus, payFrequency, traditional401k, localTaxCode]);
+  }, [grossInput, defaultGrossStr, stateCode, defaultState, filingStatus, payFrequency, traditional401k, localTaxCode]);
 
   useEffect(() => {
     updateUrl();

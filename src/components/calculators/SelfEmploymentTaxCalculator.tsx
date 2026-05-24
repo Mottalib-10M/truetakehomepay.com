@@ -34,9 +34,10 @@ export default function SelfEmploymentTaxCalculator({
   }, []);
 
   // Update URL when inputs change
+  const defaultIncomeStr = defaultIncome?.toString() ?? '80000';
   const updateUrl = useCallback(() => {
     const params = new URLSearchParams();
-    if (incomeInput && incomeInput !== '80000') params.set('income', incomeInput);
+    if (incomeInput && incomeInput !== defaultIncomeStr) params.set('income', incomeInput);
     if (filingStatus !== 'single') params.set('filing', filingStatus);
     if (showExpenses && Number(businessExpenses) > 0) params.set('expenses', businessExpenses);
 
@@ -45,7 +46,7 @@ export default function SelfEmploymentTaxCalculator({
       : window.location.pathname;
 
     window.history.replaceState({}, '', newUrl);
-  }, [incomeInput, filingStatus, showExpenses, businessExpenses]);
+  }, [incomeInput, defaultIncomeStr, filingStatus, showExpenses, businessExpenses]);
 
   useEffect(() => {
     updateUrl();

@@ -130,7 +130,7 @@ const webAppSchema = {
   '@type': 'WebApplication',
   name: `${formatted} After Taxes Calculator ${TAX_YEAR}`,
   description,
-  url: `${SITE_URL}/${amount}-after-taxes`,
+  url: `${SITE_URL}/${amount}-after-taxes/`,
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -152,7 +152,7 @@ const intro = `How much is ${formatted} after taxes in ${TAX_YEAR}? Use our free
   relatedCalculators={relatedCalculators}
   schema={schema}
   sources={`IRS Rev. Proc. 2025-11 (federal brackets), SSA.gov (Social Security wage base ${TAX_YEAR}), individual state revenue departments. Last updated for tax year ${TAX_YEAR}.`}
-  canonical={`${SITE_URL}/${amount}-after-taxes`}
+  canonical={`${SITE_URL}/${amount}-after-taxes/`}
 >
   <PaycheckCalculator
     client:load

@@ -128,7 +128,7 @@ const webAppSchema = {
   '@type': 'WebApplication',
   name: `${formattedRate}/Hour After Taxes Calculator ${TAX_YEAR}`,
   description,
-  url: `${SITE_URL}/${rate}-dollars-an-hour-after-taxes`,
+  url: `${SITE_URL}/${rate}-dollars-an-hour-after-taxes/`,
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -147,7 +147,7 @@ const schema = [faqSchema, webAppSchema];
   relatedCalculators={relatedCalculators}
   schema={schema}
   sources={`IRS Rev. Proc. 2025-11 (federal brackets), SSA.gov (Social Security wage base ${TAX_YEAR}), US Department of Labor (federal minimum wage). Last updated for tax year ${TAX_YEAR}.`}
-  canonical={`${SITE_URL}/${rate}-dollars-an-hour-after-taxes`}
+  canonical={`${SITE_URL}/${rate}-dollars-an-hour-after-taxes/`}
 >
   <PaycheckCalculator
     client:load

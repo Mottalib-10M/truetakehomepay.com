@@ -34,11 +34,12 @@ export default function BonusTaxCalculator({
   }, []);
 
   // Update URL when inputs change
+  const defaultBonusStr = defaultBonus?.toString() ?? '5000';
   const updateUrl = useCallback(() => {
     const params = new URLSearchParams();
-    if (bonusInput && bonusInput !== '5000') params.set('bonus', bonusInput);
+    if (bonusInput && bonusInput !== defaultBonusStr) params.set('bonus', bonusInput);
     if (ytdGrossInput && ytdGrossInput !== '50000') params.set('ytd', ytdGrossInput);
-    if (stateCode) params.set('state', stateCode);
+    if (stateCode && stateCode !== defaultState) params.set('state', stateCode);
     if (filingStatus !== 'single') params.set('filing', filingStatus);
 
     const newUrl = params.toString()
@@ -46,7 +47,7 @@ export default function BonusTaxCalculator({
       : window.location.pathname;
 
     window.history.replaceState({}, '', newUrl);
-  }, [bonusInput, ytdGrossInput, stateCode, filingStatus]);
+  }, [bonusInput, defaultBonusStr, ytdGrossInput, stateCode, defaultState, filingStatus]);
 
   useEffect(() => {
     updateUrl();

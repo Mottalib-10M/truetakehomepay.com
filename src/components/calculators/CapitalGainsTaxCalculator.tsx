@@ -36,12 +36,13 @@ export default function CapitalGainsTaxCalculator({
   }, []);
 
   // Update URL when inputs change
+  const defaultGainsStr = defaultGains?.toString() ?? '50000';
   const updateUrl = useCallback(() => {
     const params = new URLSearchParams();
-    if (gainsInput && gainsInput !== '50000') params.set('gains', gainsInput);
+    if (gainsInput && gainsInput !== defaultGainsStr) params.set('gains', gainsInput);
     if (gainType !== 'long') params.set('type', gainType);
     if (ordinaryIncomeInput && ordinaryIncomeInput !== '75000') params.set('income', ordinaryIncomeInput);
-    if (stateCode) params.set('state', stateCode);
+    if (stateCode && stateCode !== defaultState) params.set('state', stateCode);
     if (filingStatus !== 'single') params.set('filing', filingStatus);
 
     const newUrl = params.toString()
@@ -49,7 +50,7 @@ export default function CapitalGainsTaxCalculator({
       : window.location.pathname;
 
     window.history.replaceState({}, '', newUrl);
-  }, [gainsInput, gainType, ordinaryIncomeInput, stateCode, filingStatus]);
+  }, [gainsInput, defaultGainsStr, gainType, ordinaryIncomeInput, stateCode, defaultState, filingStatus]);
 
   useEffect(() => {
     updateUrl();

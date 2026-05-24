@@ -143,7 +143,7 @@ const webAppSchema = {
   '@type': 'WebApplication',
   name: `${formatted} After Taxes in ${stateName} ${TAX_YEAR}`,
   description,
-  url: `${SITE_URL}/${stateSlug}/${amount}-after-taxes`,
+  url: `${SITE_URL}/${stateSlug}/${amount}-after-taxes/`,
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -162,7 +162,7 @@ const schema = [faqSchema, webAppSchema];
   relatedCalculators={relatedCalculators}
   schema={schema}
   sources={`IRS Rev. Proc. 2025-11 (federal brackets), ${stateName} Department of Revenue (state tax rates), SSA.gov (Social Security wage base). Last updated for tax year ${TAX_YEAR}.`}
-  canonical={`${SITE_URL}/${stateSlug}/${amount}-after-taxes`}
+  canonical={`${SITE_URL}/${stateSlug}/${amount}-after-taxes/`}
 >
   <PaycheckCalculator
     client:load
