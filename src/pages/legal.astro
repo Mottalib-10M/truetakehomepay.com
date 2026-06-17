@@ -1,0 +1,105 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE_NAME, SITE_URL } from '../lib/constants';
+
+const title = `Legal Notice — ${SITE_NAME}`;
+const description = `Legal notice for ${SITE_NAME}: publisher information, hosting details, intellectual property, privacy, cookies, and liability disclaimer.`;
+---
+
+<Layout title={title} description={description} noIndex={true}>
+  <section class="px-4 py-16 sm:px-6 lg:px-8">
+    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
+
+      <h1>Legal Notice</h1>
+
+      <h2>1. Publisher</h2>
+      <p>
+        This website is published by:<br />
+        <strong>Mottalib Radif</strong><br />
+        Email: <a href="mailto:contact@truetakehomepay.com">contact@truetakehomepay.com</a><br />
+        Website: <a href={SITE_URL}>{SITE_URL}</a>
+      </p>
+
+      <h2>2. Hosting</h2>
+      <p>
+        This website is hosted by:<br />
+        <strong>Vercel Inc.</strong><br />
+        440 N Barranca Ave #4133<br />
+        Covina, CA 91723, United States<br />
+        Website: <a href="https://vercel.com" target="_blank" rel="noopener">vercel.com</a>
+      </p>
+
+      <h2>3. Intellectual Property</h2>
+      <p>
+        All content on {SITE_NAME}, including text, calculators, graphics, code, and design, is
+        protected by copyright and intellectual property laws. No reproduction, distribution, or
+        modification of any part of this site is permitted without the prior written consent of
+        the publisher, except as allowed by applicable fair use provisions.
+      </p>
+
+      <h2>4. Privacy and Data Protection</h2>
+      <p>
+        {SITE_NAME} is committed to protecting your privacy. All calculations are performed
+        entirely in your browser. We do not collect, store, or transmit any salary, tax, or
+        financial data that you enter into our calculators.
+      </p>
+      <h3>Data We Collect</h3>
+      <ul>
+        <li><strong>Analytics data</strong>: We may use privacy-friendly analytics to understand site usage (page views, referrers, device types). This data is aggregated and does not identify individual users.</li>
+        <li><strong>Server logs</strong>: Our hosting provider may collect standard server logs including IP addresses, browser type, and requested URLs. These logs are retained for security purposes and deleted automatically.</li>
+      </ul>
+      <h3>Data We Do Not Collect</h3>
+      <ul>
+        <li>Salary or financial information entered into calculators</li>
+        <li>Personal identification information (name, email, phone) unless you contact us voluntarily</li>
+        <li>Social Security numbers or tax filing information</li>
+      </ul>
+      <p>
+        For full details, see our <a href="/privacy-policy/">Privacy Policy</a>.
+      </p>
+
+      <h2>5. Cookies</h2>
+      <p>
+        {SITE_NAME} uses only essential cookies required for site functionality (such as theme
+        preference storage). We do not use tracking cookies, advertising cookies, or third-party
+        cookies for profiling purposes. If third-party advertising is enabled in the future,
+        users will be notified and given the option to manage their cookie preferences.
+      </p>
+
+      <h2>6. Liability Disclaimer</h2>
+      <p>
+        The calculators and information on {SITE_NAME} are provided for educational and
+        informational purposes only. They do not constitute tax advice, financial advice, or
+        any professional service. While we strive for accuracy, we make no warranties regarding
+        the completeness or accuracy of any calculations or content.
+      </p>
+      <p>
+        The publisher shall not be held liable for any direct or indirect damages resulting
+        from the use of the calculators, information, or tools provided on this site. Users
+        should consult a qualified tax professional or CPA for advice specific to their
+        financial situation.
+      </p>
+
+      <h2>7. External Links</h2>
+      <p>
+        This site may contain links to external websites for reference purposes. The publisher
+        has no control over the content of these external sites and assumes no responsibility
+        for their content, privacy practices, or availability.
+      </p>
+
+      <h2>8. Applicable Law</h2>
+      <p>
+        This legal notice is governed by and construed in accordance with the laws of the
+        United States. Any disputes arising from the use of this website shall be subject to
+        the exclusive jurisdiction of the courts of the United States.
+      </p>
+
+      <h2>9. Contact</h2>
+      <p>
+        For any questions regarding this legal notice, please contact us at:<br />
+        <a href="mailto:contact@truetakehomepay.com">contact@truetakehomepay.com</a>
+      </p>
+
+    </div>
+  </section>
+</Layout>

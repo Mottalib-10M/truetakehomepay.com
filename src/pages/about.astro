@@ -1,48 +1,206 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { SITE_NAME, TAX_YEAR } from '../lib/constants';
+import { SITE_NAME, SITE_URL, TAX_YEAR } from '../lib/constants';
 
-const title = 'About Us — Free US Paycheck & Income Tax Calculators';
-const description = `Learn about ${SITE_NAME} and our mission to provide the most accurate free paycheck, tax, and financial calculators for workers in all 50 US states.`;
+const title = `About ${SITE_NAME} — Free US Paycheck & Income Tax Calculators`;
+const description = `Learn about ${SITE_NAME} and our mission to provide the most accurate free paycheck, tax, and financial calculators for workers in all 50 US states. Founded by Mottalib Radif, MBA INSEAD.`;
 ---
 
 <Layout title={title} description={description}>
   <section class="px-4 py-16 sm:px-6 lg:px-8">
-    <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
-      <h1>About {SITE_NAME}</h1>
+    <div class="mx-auto max-w-3xl">
 
-      <p>
-        {SITE_NAME} provides free, accurate paycheck and tax calculators for every US state. We built this site because we believe everyone deserves to understand their take-home pay — without paying for it or wading through confusing interfaces.
-      </p>
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">About {SITE_NAME}</h1>
 
-      <h2 id="what-we-offer">What We Offer</h2>
-      <ul>
-        <li><strong>Paycheck calculators</strong> for all 50 states plus DC, with federal and state tax breakdowns</li>
-        <li><strong>Specialized tax calculators</strong> for self-employment, bonuses, capital gains, lottery winnings, RSUs, and cryptocurrency</li>
-        <li><strong>Retirement planning tools</strong> including 401(k), Roth IRA, Traditional IRA, and HSA calculators</li>
-        <li><strong>Mortgage and loan calculators</strong> for home buying, auto loans, student loans, and debt payoff</li>
-        <li><strong>Property tax and sales tax calculators</strong> for every state</li>
-        <li><strong>Educational guides</strong> explaining how US taxes work</li>
-      </ul>
+      <!-- Author Card -->
+      <div class="mt-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 rounded-2xl border border-navy-100 bg-gradient-to-br from-navy-50 to-slate-50 p-8 dark:border-slate-700 dark:from-slate-800 dark:to-slate-900">
+        <div class="shrink-0">
+          <img
+            src="/team/mottalib-radif.jpg"
+            alt="Mottalib Radif, founder of TrueTakeHomePay"
+            width="120"
+            height="120"
+            class="rounded-full border-4 border-white shadow-lg"
+            loading="eager"
+          />
+        </div>
+        <div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Mottalib Radif</h2>
+          <p class="text-sm font-medium text-navy-700 dark:text-navy-400">Founder of {SITE_NAME} &middot; MBA, INSEAD</p>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            INSEAD MBA graduate and personal finance enthusiast. I built {SITE_NAME} because I
+            believe every American worker deserves free, transparent tools to understand their
+            paycheck, plan their taxes, and make informed financial decisions. No accounts, no
+            paywalls, no hidden agendas.
+          </p>
+        </div>
+      </div>
 
-      <h2 id="our-approach">Our Approach</h2>
-      <p>
-        Every calculator is built from primary sources: IRS publications, state revenue department rules, and SSA announcements. We don't guess — we cite. Our tax engine is validated against reference calculators to ensure accuracy within $10/year for income tax and exact-match precision for sales tax calculations.
-      </p>
+      <!-- Main Content -->
+      <div class="prose prose-slate dark:prose-invert mt-10 max-w-none">
 
-      <h2 id="how-were-different">How We're Different</h2>
-      <ul>
-        <li><strong>Modern design:</strong> Mobile-first, dark mode, instant results as you type</li>
-        <li><strong>No accounts needed:</strong> No sign-up, no email collection, no paywalls</li>
-        <li><strong>Privacy-first:</strong> All calculations run in your browser. We never see your salary.</li>
-        <li><strong>Comprehensive:</strong> Every state, every filing status, pre-tax deductions, local taxes, SDI/PFL</li>
-        <li><strong>Updated:</strong> Tax data refreshed for {TAX_YEAR} brackets, rates, and thresholds</li>
-      </ul>
+        <h2 id="our-mission">Our Mission</h2>
+        <p>
+          {SITE_NAME} exists to answer a deceptively simple question: how much money will I actually
+          take home from my paycheck? Despite being one of the most important financial figures in
+          every working person's life, the answer is buried under layers of federal tax brackets,
+          state income taxes, FICA contributions, pre-tax deductions, and local surcharges. We built
+          {SITE_NAME} to make this number instantly accessible to every worker in every US state.
+        </p>
+        <p>
+          Our mission is to provide free, accurate, and easy-to-use financial calculators that help
+          Americans understand their earnings, plan their budgets, and make better financial decisions.
+          We believe that financial literacy starts with understanding your own paycheck, and that no
+          one should have to pay to learn what their employer is already paying them.
+        </p>
 
-      <h2 id="contact">Contact</h2>
-      <p>
-        Questions, corrections, or feedback? Reach us at contact@truetakehomepay.com.
-      </p>
+        <h2 id="what-we-offer">What We Offer</h2>
+        <p>
+          Our platform has grown from a single paycheck calculator into a comprehensive suite of more
+          than 40 financial tools covering every aspect of personal finance. Here is what you will find:
+        </p>
+        <ul>
+          <li><strong>Paycheck calculators</strong> for all 50 states plus the District of Columbia, with complete federal and state tax breakdowns including FICA, SDI, PFL, and local taxes</li>
+          <li><strong>Specialized tax calculators</strong> for self-employment income, bonuses, capital gains, lottery winnings, RSU vesting, cryptocurrency transactions, and Medicare surtax</li>
+          <li><strong>Retirement planning tools</strong> including 401(k), Roth IRA, Traditional IRA, and HSA contribution and growth calculators</li>
+          <li><strong>Mortgage and loan calculators</strong> for home buying, mortgage affordability, refinancing, auto loans, student loans, credit card payoff, and debt consolidation</li>
+          <li><strong>Property tax and sales tax calculators</strong> covering every state and many local jurisdictions</li>
+          <li><strong>Educational guides</strong> that explain how US taxes work, from federal brackets to W-4 optimization to the difference between deductions and credits</li>
+        </ul>
+        <p>
+          Every tool is designed to work instantly in your browser with no sign-up required. Enter your
+          numbers and see your results in real time. No waiting, no email capture forms, no premium tiers.
+        </p>
+
+        <h2 id="our-methodology">Our Methodology</h2>
+        <p>
+          Accuracy is not optional for a financial calculator. A dollar off in your estimated tax bill can
+          mislead your entire budget. That is why every calculator on {SITE_NAME} is built directly from
+          primary, authoritative sources. We do not estimate. We do not approximate. We implement the
+          actual rules.
+        </p>
+        <h3>Primary Sources</h3>
+        <ul>
+          <li><strong>IRS Publications</strong>: Revenue Procedure documents, Publication 15 (Employer's Tax Guide), Publication 15-T (Federal Income Tax Withholding Methods), and annual bracket announcements</li>
+          <li><strong>State Revenue Departments</strong>: Official withholding formulas, rate schedules, and standard deduction amounts from all 50 state tax authorities</li>
+          <li><strong>Social Security Administration</strong>: Wage base limits, COLA adjustments, and benefit calculation formulas</li>
+          <li><strong>Department of Labor</strong>: Minimum wage data, overtime rules, and prevailing wage information</li>
+        </ul>
+        <h3>Validation Process</h3>
+        <p>
+          Each calculator undergoes a multi-step validation process before publication. We test every
+          calculator against reference implementations, verify edge cases such as the Social Security wage
+          base cap and the Additional Medicare Tax threshold, and cross-check results with official IRS
+          worksheets. For state tax calculators, we verify our results against each state revenue
+          department's own withholding calculator where available. Our tax engine is accurate to within
+          $10 per year for federal income tax withholding and produces exact matches for FICA calculations.
+        </p>
+        <h3>Annual Updates</h3>
+        <p>
+          Tax law changes every year. Brackets are adjusted for inflation, standard deductions increase,
+          Social Security wage bases rise, and states modify their own rates. We update every calculator
+          for the new tax year within two weeks of the IRS announcing updated figures. The current data
+          reflects the {TAX_YEAR} tax year, and every page displays the applicable tax year so you always
+          know which rates you are seeing.
+        </p>
+
+        <h2 id="how-were-different">How We Are Different</h2>
+        <p>
+          There are other paycheck calculators on the internet. Here is why we believe ours are better:
+        </p>
+        <ul>
+          <li><strong>Modern design</strong>: Mobile-first, responsive layout with dark mode support. Results update instantly as you type, with no submit buttons or page reloads.</li>
+          <li><strong>No accounts required</strong>: We will never ask you to create an account, enter your email, or sign up for a newsletter to access a calculator. Every tool is available immediately.</li>
+          <li><strong>Privacy-first</strong>: All calculations run entirely in your browser using client-side JavaScript. Your salary, tax details, and financial data never leave your device. We do not track, store, or transmit any personal financial information.</li>
+          <li><strong>Comprehensive coverage</strong>: Every state, every filing status, pre-tax deductions (401k, HSA, FSA, traditional IRA), post-tax deductions, local taxes, SDI, PFL, and city-level surcharges where applicable.</li>
+          <li><strong>Transparent calculations</strong>: We show you the breakdown, not just the final number. See exactly how much goes to federal tax, state tax, Social Security, Medicare, and each deduction.</li>
+          <li><strong>No upsells</strong>: We do not sell financial products, insurance policies, or investment services. We are not a lead generation site. Our revenue comes exclusively from contextual advertising that has no influence on our calculators or content.</li>
+        </ul>
+
+        <h2 id="understanding-your-paycheck">Why Understanding Your Paycheck Matters</h2>
+        <p>
+          According to a 2024 survey by the National Endowment for Financial Education, 65% of
+          Americans report feeling stressed about their personal finances. Yet many of them cannot
+          explain the difference between gross pay and net pay, or identify what FICA stands for on
+          their pay stub. This knowledge gap has real consequences. Workers who do not understand their
+          withholding may over-withhold throughout the year, effectively giving the government an
+          interest-free loan, or under-withhold and face a surprise tax bill in April.
+        </p>
+        <p>
+          Understanding your paycheck is the foundation of every other financial decision. You cannot
+          create an accurate budget without knowing your take-home pay. You cannot evaluate a job offer
+          without understanding how state taxes will affect your net income. You cannot optimize your
+          401(k) contribution without knowing how pre-tax deductions reduce your taxable income and
+          affect your paycheck.
+        </p>
+        <p>
+          {SITE_NAME} was built to close this knowledge gap. Our calculators do not just give you a
+          number. They show you the full breakdown of every deduction, explain what each line item
+          means, and help you understand the mechanics behind your paycheck. We believe that an
+          informed worker is an empowered worker, and that financial literacy should not be a luxury
+          reserved for those who can afford a CPA.
+        </p>
+
+        <h2 id="the-complexity-of-us-taxes">The Complexity of the US Tax System</h2>
+        <p>
+          The United States has one of the most complex tax systems in the world. At the federal level,
+          you face a progressive income tax with seven brackets, Social Security tax up to a wage base
+          limit that changes annually, Medicare tax with an additional surtax for high earners, and the
+          Alternative Minimum Tax for certain taxpayers. On top of this, 43 states and the District of
+          Columbia impose their own income taxes, each with different brackets, rates, deductions, and
+          credits.
+        </p>
+        <p>
+          Some states, like California and New York, add their own disability insurance and paid family
+          leave contributions. Cities like New York City, Philadelphia, and Detroit impose local income
+          taxes. Some jurisdictions tax resident and non-resident workers differently. A person working
+          in New York City but living in New Jersey faces federal tax, New York state tax, New York
+          City tax, and New Jersey state tax with a credit for taxes paid to New York. Calculating
+          the correct take-home pay in this scenario requires understanding four overlapping tax systems.
+        </p>
+        <p>
+          Our calculators handle all of this complexity automatically. Select your state, enter your
+          salary and filing status, and we compute every applicable tax and deduction. We handle the
+          edge cases that simpler calculators miss: the Social Security wage base cap, the Additional
+          Medicare Tax, state-specific standard deductions, local income taxes, and pre-tax deduction
+          interactions.
+        </p>
+
+        <h2 id="our-commitment">Our Commitment to Quality</h2>
+        <p>
+          We treat every calculator as a product that real people depend on for real financial
+          decisions. That means we do not cut corners on accuracy, we do not obscure limitations,
+          and we do not present estimates as facts. When a calculation involves assumptions, we state
+          them clearly. When a calculator has limitations, we explain them. When tax law changes, we
+          update promptly.
+        </p>
+        <p>
+          Our commitment extends to the user experience as well. Every page loads fast because we do
+          not burden it with heavy frameworks, excessive tracking scripts, or third-party widget
+          bloat. We self-host our fonts to eliminate render-blocking requests to external CDNs. We
+          optimize every image and use modern formats. The result is a site that loads in under two
+          seconds on a mobile connection and works reliably on any device.
+        </p>
+
+        <h2 id="disclaimer">Important Disclaimer</h2>
+        <p>
+          {SITE_NAME} provides estimates based on published tax rates, brackets, and formulas. Our
+          calculators are tools for planning and education, not substitutes for professional tax
+          advice. Your actual tax liability depends on factors that our calculators may not capture,
+          including itemized deductions, tax credits, investment income, and specific state or local
+          provisions. For your specific tax situation, consult a CPA or tax professional.
+        </p>
+
+        <h2 id="contact">Contact</h2>
+        <p>
+          Questions, corrections, or feedback? We welcome all of it. Accuracy depends on community
+          input, and we take every report seriously.
+        </p>
+        <p>
+          <strong>Email:</strong> <a href="mailto:contact@truetakehomepay.com">contact@truetakehomepay.com</a>
+        </p>
+
+      </div>
     </div>
   </section>
 </Layout>

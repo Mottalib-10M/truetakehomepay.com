@@ -48,8 +48,41 @@ const breadcrumbSchema = {
   })),
 };
 
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: `${SITE_URL}/favicon.svg`,
+  founder: {
+    '@type': 'Person',
+    name: 'Mottalib Radif',
+    description: 'MBA INSEAD',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'contact@truetakehomepay.com',
+    contactType: 'customer support',
+  },
+};
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Mottalib Radif',
+  jobTitle: 'Founder',
+  alumniOf: {
+    '@type': 'EducationalOrganization',
+    name: 'INSEAD',
+  },
+  image: `${SITE_URL}/team/mottalib-radif.jpg`,
+  url: `${SITE_URL}/about/`,
+};
+
 const allSchemas = [
   breadcrumbSchema,
+  organizationSchema,
+  personSchema,
   ...(Array.isArray(schema) ? schema : schema ? [schema] : []),
 ];
 ---
@@ -61,6 +94,7 @@ const allSchemas = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content="Mottalib Radif" />
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
 
@@ -83,6 +117,9 @@ const allSchemas = [
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.webmanifest" />
 
     <!-- Preload Inter font (self-hosted) -->
     <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />

@@ -1,0 +1,14 @@
+{
+  "name": "TrueTakeHomePay — Free US Paycheck & Tax Calculators",
+  "short_name": "TrueTakeHomePay",
+  "description": "Free paycheck calculator for all 50 US states. Calculate your take-home pay, federal and state taxes, FICA, 401(k), and more.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1d4ed8",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/favicon-32.png", "sizes": "32x32", "type": "image/png" }
+  ]
+}
