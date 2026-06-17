@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://uspaycheck.com/sitemap-index.xml
+
+Sitemap: https://truetakehomepay.com/sitemap-index.xml
