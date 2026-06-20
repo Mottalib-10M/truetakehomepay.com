@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
-import { SITE_NAME, SITE_URL } from '../lib/constants';
+import { SITE_NAME, SITE_URL, AUTHOR_NAME, AUTHOR_EMAIL, AUTHOR_PHOTO, CLARITY_PROJECT_ID, BING_VERIFY_CODE } from '../lib/constants';
 
 interface Props {
   title: string;
@@ -12,6 +12,7 @@ interface Props {
   ogType?: string;
   schema?: Record<string, unknown> | Record<string, unknown>[];
   noIndex?: boolean;
+  pageType?: string;
 }
 
 const {
@@ -22,18 +23,24 @@ const {
   ogType = 'website',
   schema,
   noIndex = false,
+  pageType,
 } = Astro.props;
 
 const canonicalUrl = canonical || new URL(Astro.url.pathname, SITE_URL).toString();
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, SITE_URL).toString();
 
+// Determine page type from URL
+const urlPath = Astro.url.pathname;
+const isGuide = urlPath.startsWith('/guides/') && urlPath !== '/guides/';
+const isHomepage = urlPath === '/';
+
 // Build breadcrumb from URL path
-const pathSegments = Astro.url.pathname.split('/').filter(Boolean);
+const pathSegments = urlPath.split('/').filter(Boolean);
 const breadcrumbItems = [
   { name: 'Home', url: SITE_URL },
   ...pathSegments.map((seg, i) => ({
     name: seg.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
-    url: `${SITE_URL}/${pathSegments.slice(0, i + 1).join('/')}`,
+    url: `${SITE_URL}/${pathSegments.slice(0, i + 1).join('/')}/`,
   })),
 ];
 
@@ -56,13 +63,13 @@ const organizationSchema = {
   logo: `${SITE_URL}/favicon.svg`,
   founder: {
     '@type': 'Person',
-    name: 'Mottalib Radif',
-    jobTitle: 'Personal Finance and Taxation Expert',
+    name: AUTHOR_NAME,
+    jobTitle: 'Founder & Editor',
     description: 'Personal finance and taxation expert, MBA INSEAD graduate. Specialized in US federal and state tax analysis, helping Americans understand their true take-home pay.',
   },
   contactPoint: {
     '@type': 'ContactPoint',
-    email: 'contact@truetakehomepay.com',
+    email: AUTHOR_EMAIL,
     contactType: 'customer support',
   },
 };
@@ -70,21 +77,38 @@ const organizationSchema = {
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: 'Mottalib Radif',
-  jobTitle: 'Personal Finance and Taxation Expert',
+  name: AUTHOR_NAME,
+  jobTitle: 'Founder & Editor',
   description: 'Personal finance and taxation expert, MBA INSEAD graduate. Specialized in US federal and state tax analysis, helping Americans understand their true take-home pay.',
   alumniOf: {
     '@type': 'EducationalOrganization',
     name: 'INSEAD',
   },
-  image: `${SITE_URL}/team/mottalib-radif.jpg`,
+  image: `${SITE_URL}${AUTHOR_PHOTO}`,
   url: `${SITE_URL}/about/`,
 };
+
+// WebSite + SearchAction (homepage only)
+const websiteSchema = isHomepage ? {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_NAME,
+  url: SITE_URL,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${SITE_URL}/?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
+} : null;
 
 const allSchemas = [
   breadcrumbSchema,
   organizationSchema,
   personSchema,
+  ...(websiteSchema ? [websiteSchema] : []),
   ...(Array.isArray(schema) ? schema : schema ? [schema] : []),
 ];
 ---
@@ -96,9 +120,11 @@ const allSchemas = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="author" content="Mottalib Radif" />
+    <meta name="author" content={AUTHOR_NAME} />
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
+
+    {BING_VERIFY_CODE && <meta name="msvalidate.01" content={BING_VERIFY_CODE} />}
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -111,6 +137,9 @@ const allSchemas = [
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
     <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content={SITE_NAME} />
 
@@ -134,6 +163,18 @@ const allSchemas = [
       }
     </script>
 
+    <!-- Microsoft Clarity (conditional) -->
+    {CLARITY_PROJECT_ID && (
+      <script is:inline define:vars={{ clarityId: CLARITY_PROJECT_ID, pType: pageType || (isGuide ? 'guide' : 'calculator') }}>
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,"clarity","script",clarityId);
+        window.clarity && window.clarity("set","page_type",pType);
+      </script>
+    )}
+
     <!-- Structured data -->
     {allSchemas.map((s) => (
       <script type="application/ld+json" set:html={JSON.stringify(s)} />
@@ -142,8 +183,12 @@ const allSchemas = [
     <meta name="generator" content={Astro.generator} />
   </head>
   <body class="min-h-screen bg-white text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100">
+    <!-- Skip to content (accessibility) -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-navy-700 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg">
+      Skip to content
+    </a>
     <Header />
-    <main>
+    <main id="main-content" role="main">
       <slot />
     </main>
     <Footer />

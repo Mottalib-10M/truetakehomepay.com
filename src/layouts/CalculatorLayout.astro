@@ -1,7 +1,7 @@
 ---
 import Layout from './Layout.astro';
 import FAQAccordion from '../components/ui/FAQAccordion.astro';
-import { TAX_YEAR, DISCLAIMER } from '../lib/constants';
+import { TAX_YEAR, DISCLAIMER, SITE_URL, AUTHOR_NAME, AUTHOR_PHOTO } from '../lib/constants';
 
 interface FAQ {
   question: string;
@@ -37,9 +37,39 @@ const {
   sources,
   canonical,
 } = Astro.props;
+
+// Build breadcrumb segments for visual display
+const pathSegments = Astro.url.pathname.split('/').filter(Boolean);
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  ...pathSegments.map((seg, i) => ({
+    name: seg.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+    href: `/${pathSegments.slice(0, i + 1).join('/')}/`,
+  })),
+];
 ---
 
-<Layout title={title} description={description} schema={schema} canonical={canonical}>
+<Layout title={title} description={description} schema={schema} canonical={canonical} pageType="calculator">
+  <!-- Breadcrumb navigation -->
+  <nav aria-label="Breadcrumb" class="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8">
+    <ol class="flex flex-wrap items-center gap-1 text-sm text-slate-500 dark:text-slate-400">
+      {breadcrumbs.map((crumb, i) => (
+        <li class="flex items-center gap-1">
+          {i > 0 && (
+            <svg class="h-4 w-4 shrink-0 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          )}
+          {i === breadcrumbs.length - 1 ? (
+            <span class="font-medium text-slate-700 dark:text-slate-300" aria-current="page">{crumb.name}</span>
+          ) : (
+            <a href={crumb.href} class="hover:text-navy-700 dark:hover:text-navy-400">{crumb.name}</a>
+          )}
+        </li>
+      ))}
+    </ol>
+  </nav>
+
   <!-- Hero -->
   <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-8 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-7xl text-center">
@@ -51,6 +81,11 @@ const {
       </p>
       <p class="mt-2 text-sm text-slate-500">
         Updated for tax year {TAX_YEAR}
+      </p>
+      <!-- Author byline -->
+      <p class="mt-2 flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+        <img src={AUTHOR_PHOTO} alt={AUTHOR_NAME} width="24" height="24" class="rounded-full" loading="lazy" />
+        Written by <a href="/about/" class="font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
       </p>
     </div>
   </section>

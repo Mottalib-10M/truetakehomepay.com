@@ -76,7 +76,8 @@ export default function InputField({
         <input
           ref={inputRef}
           id={id}
-          type={type}
+          type="text"
+          inputMode="decimal"
           value={displayValue}
           onChange={handleChange}
           placeholder={placeholder}

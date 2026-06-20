@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
 import FAQAccordion from '../components/ui/FAQAccordion.astro';
-import { TAX_YEAR, DISCLAIMER } from '../lib/constants';
+import { TAX_YEAR, DISCLAIMER, AUTHOR_NAME, AUTHOR_PHOTO } from '../lib/constants';
 import { getStatesArray, NO_INCOME_TAX_STATES } from '../data/state-meta';
 
 const title = `Paycheck Calculator ${TAX_YEAR}: Federal + State Take-Home Pay`;
@@ -67,6 +67,10 @@ const schema = {
         </p>
         <p class="mt-2 text-sm text-slate-500 dark:text-slate-500">
           Updated for tax year {TAX_YEAR} &middot; Bi-weekly pay default &middot; Includes FICA, state tax, 401(k), and more
+        </p>
+        <p class="mt-2 flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+          <img src={AUTHOR_PHOTO} alt={AUTHOR_NAME} width="24" height="24" class="rounded-full" loading="lazy" />
+          Written by <a href="/about/" class="font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
         </p>
       </div>
     </div>
