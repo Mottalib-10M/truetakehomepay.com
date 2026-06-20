@@ -294,7 +294,7 @@ export default function PaycheckCalculator({
                 label="Children Under 17"
                 value={dependentsUnder17}
                 onChange={setDependentsUnder17}
-                type="number"
+                type="text" inputMode="decimal"
                 min={0}
                 max={20}
                 helpText="$2,000 credit per child"
@@ -305,7 +305,7 @@ export default function PaycheckCalculator({
                 label="Other Dependents"
                 value={otherDependents}
                 onChange={setOtherDependents}
-                type="number"
+                type="text" inputMode="decimal"
                 min={0}
                 max={20}
                 helpText="$500 credit per dependent"

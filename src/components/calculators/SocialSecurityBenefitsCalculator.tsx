@@ -197,7 +197,7 @@ export default function SocialSecurityBenefitsCalculator() {
               label="Current Age"
               value={age}
               onChange={setAge}
-              type="number"
+              type="text" inputMode="decimal"
               placeholder="40"
               helpText="Your current age (18-70)"
             />
@@ -216,7 +216,7 @@ export default function SocialSecurityBenefitsCalculator() {
               label="Years Worked"
               value={yearsWorked}
               onChange={setYearsWorked}
-              type="number"
+              type="text" inputMode="decimal"
               placeholder="20"
               helpText="Total years of employment with SS contributions"
             />

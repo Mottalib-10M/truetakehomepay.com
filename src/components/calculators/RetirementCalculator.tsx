@@ -154,7 +154,7 @@ export default function RetirementCalculator() {
               label="Years Until Retirement"
               value={years}
               onChange={setYears}
-              type="number"
+              type="text" inputMode="decimal"
               min={1}
               max={50}
               placeholder="30"
