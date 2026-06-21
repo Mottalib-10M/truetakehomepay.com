@@ -34,7 +34,7 @@ if [ -f "$DIST_DIR/sitemap-0.xml" ]; then
   echo "Reading URLs from sitemap..."
   while IFS= read -r url; do
     URLS+=("$url")
-  done < <(grep -oP '(?<=<loc>)[^<]+' "$DIST_DIR/sitemap-0.xml")
+  done < <(grep -o '<loc>[^<]*</loc>' "$DIST_DIR/sitemap-0.xml" | sed 's/<loc>//g;s/<\/loc>//g')
 else
   echo "No sitemap found in dist/. Using core URLs..."
   URLS=(
@@ -73,7 +73,7 @@ RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
   -d "$PAYLOAD")
 
 HTTP_CODE=$(echo "$RESPONSE" | tail -1)
-BODY=$(echo "$RESPONSE" | head -n -1)
+BODY=$(echo "$RESPONSE" | sed \$d)
 
 if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "202" ]; then
   echo "SUCCESS (HTTP $HTTP_CODE): ${#URLS[@]} URLs submitted to Bing IndexNow."
