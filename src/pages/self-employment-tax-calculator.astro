@@ -69,7 +69,7 @@ const schema = {
   sources={`IRS Publication 334 (Tax Guide for Small Business), IRS Schedule SE instructions, IRS Rev. Proc. 2025-11 (${TAX_YEAR} brackets and thresholds), SSA.gov (Social Security wage base $176,100). Last updated for tax year ${TAX_YEAR}.`}
 >
   <SelfEmploymentTaxCalculator
-    client:load
+    client:idle
     defaultIncome={85000}
   />
   <Fragment slot="content">

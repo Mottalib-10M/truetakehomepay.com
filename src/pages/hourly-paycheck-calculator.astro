@@ -68,7 +68,7 @@ const schema = {
   schema={schema}
   sources={`IRS Rev. Proc. 2025-11 (${TAX_YEAR} federal tax brackets), U.S. Department of Labor (FLSA overtime rules), SSA.gov (Social Security wage base). Last updated for tax year ${TAX_YEAR}.`}
 >
-  <HourlyPaycheckCalculator client:load />
+  <HourlyPaycheckCalculator client:idle />
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
       <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">

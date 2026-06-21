@@ -55,7 +55,7 @@ const schema = {
   schema={schema}
   sources={`Freddie Mac Primary Mortgage Market Survey, CFPB refinancing guides, Federal Reserve Board mortgage data. Last updated for ${TAX_YEAR}.`}
 >
-  <MortgageRefinanceCalculator client:load />
+  <MortgageRefinanceCalculator client:idle />
 
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">

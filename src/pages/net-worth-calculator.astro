@@ -56,7 +56,7 @@ const schema = {
   schema={schema}
   sources={`Federal Reserve Survey of Consumer Finances (SCF), Bureau of Labor Statistics, Federal Reserve Economic Data (FRED). Last updated for ${TAX_YEAR}.`}
 >
-  <NetWorthCalculator client:load />
+  <NetWorthCalculator client:idle />
 
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">

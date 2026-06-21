@@ -165,7 +165,7 @@ const schema = [faqSchema, webAppSchema];
   canonical={`${SITE_URL}/${stateSlug}/${amount}-after-taxes/`}
 >
   <PaycheckCalculator
-    client:load
+    client:idle
     defaultState={stateCode}
     defaultGross={amount}
   />

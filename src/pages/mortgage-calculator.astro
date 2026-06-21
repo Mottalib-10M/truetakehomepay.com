@@ -56,7 +56,7 @@ const schema = {
   schema={schema}
   sources={`Freddie Mac Primary Mortgage Market Survey (current rates), CFPB (Consumer Financial Protection Bureau) mortgage guides, IRS Publication 936 (home mortgage interest deduction). Last updated for ${TAX_YEAR}.`}
 >
-  <MortgageCalculator client:load />
+  <MortgageCalculator client:idle />
 
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">

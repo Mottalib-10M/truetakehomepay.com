@@ -69,7 +69,7 @@ const schema = {
   sources={`IRS Publication 15 (Employer's Tax Guide, supplemental wage withholding), IRS Rev. Proc. 2025-11 (${TAX_YEAR} tax brackets), SSA.gov (Social Security wage base $176,100). Last updated for tax year ${TAX_YEAR}.`}
 >
   <BonusTaxCalculator
-    client:load
+    client:idle
     defaultBonus={5000}
   />
   <Fragment slot="content">

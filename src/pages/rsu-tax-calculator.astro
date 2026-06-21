@@ -55,7 +55,7 @@ const schema = {
   schema={schema}
   sources={`IRS Publication 525 (Taxable and Nontaxable Income), IRS Rev. Proc. 2025-11 (supplemental withholding rates), IRC Section 83. Last updated for tax year ${TAX_YEAR}.`}
 >
-  <RSUTaxCalculator client:load />
+  <RSUTaxCalculator client:idle />
 
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">

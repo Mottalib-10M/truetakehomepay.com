@@ -55,7 +55,7 @@ const schema = {
   schema={schema}
   sources={`IRS Topic 560 (Additional Medicare Tax), IRS Form 8959, IRS Form 8960 (Net Investment Income Tax), IRC Section 1411. Last updated for tax year ${TAX_YEAR}.`}
 >
-  <MedicareSurtaxCalculator client:load />
+  <MedicareSurtaxCalculator client:idle />
 
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">

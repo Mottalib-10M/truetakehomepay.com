@@ -69,7 +69,7 @@ const schema = {
   sources={`IRS Rev. Proc. 2025-11 (${TAX_YEAR} federal tax brackets and standard deductions), SSA.gov (Social Security wage base $176,100), state revenue department publications. Last updated for tax year ${TAX_YEAR}.`}
 >
   <PaycheckCalculator
-    client:load
+    client:idle
     defaultPayFrequency="annual"
     defaultGross={75000}
   />

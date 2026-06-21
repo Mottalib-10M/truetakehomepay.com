@@ -55,7 +55,7 @@ const schema = {
   schema={schema}
   sources={`U.S. Census Bureau (housing data), BLS Consumer Price Index (rent inflation), Federal Reserve Economic Data (FRED), National Association of Realtors. Last updated for ${TAX_YEAR}.`}
 >
-  <RentVsBuyCalculator client:load />
+  <RentVsBuyCalculator client:idle />
 
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">

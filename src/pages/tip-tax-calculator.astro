@@ -68,7 +68,7 @@ const schema = {
   schema={schema}
   sources={`IRS Publication 531 (Reporting Tip Income), U.S. Department of Labor (tipped minimum wage rules), IRS Rev. Proc. 2025-11 (${TAX_YEAR} tax brackets), SSA.gov (Social Security wage base). Last updated for tax year ${TAX_YEAR}.`}
 >
-  <TipTaxCalculator client:load />
+  <TipTaxCalculator client:idle />
 
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">

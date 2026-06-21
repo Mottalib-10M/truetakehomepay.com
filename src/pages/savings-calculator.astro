@@ -55,7 +55,7 @@ const schema = {
   schema={schema}
   sources={`Federal Reserve Economic Data (FRED) for savings rates, FDIC national deposit rates, BLS Consumer Expenditure Survey. Last updated for ${TAX_YEAR}.`}
 >
-  <SavingsCalculator client:load />
+  <SavingsCalculator client:idle />
 
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">

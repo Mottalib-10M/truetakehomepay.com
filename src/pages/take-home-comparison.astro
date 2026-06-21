@@ -55,7 +55,7 @@ const schema = {
   schema={schema}
   sources={`IRS Rev. Proc. 2025-11 (federal brackets), individual state revenue departments (state tax rates and brackets), Tax Foundation state tax comparisons. Last updated for tax year ${TAX_YEAR}.`}
 >
-  <TakeHomeComparisonCalculator client:load />
+  <TakeHomeComparisonCalculator client:idle />
 
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">

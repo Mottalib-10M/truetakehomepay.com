@@ -56,7 +56,7 @@ const schema = {
   schema={schema}
   sources={`IRS Notice 2024-80 (${TAX_YEAR} 401(k) contribution limits), IRS Publication 560, DOL Employee Benefits Security Administration. Last updated for tax year ${TAX_YEAR}.`}
 >
-  <RetirementCalculator client:load />
+  <RetirementCalculator client:idle />
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
       <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">

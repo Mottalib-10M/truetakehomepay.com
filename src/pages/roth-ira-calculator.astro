@@ -55,7 +55,7 @@ const schema = {
   schema={schema}
   sources={`IRS Publication 590-A and 590-B (IRA contributions and distributions), IRS Rev. Proc. 2025-11 (${TAX_YEAR} contribution limits and phase-outs). Last updated for tax year ${TAX_YEAR}.`}
 >
-  <RothIRACalculator client:load />
+  <RothIRACalculator client:idle />
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
       <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">

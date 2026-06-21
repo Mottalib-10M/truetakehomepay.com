@@ -55,7 +55,7 @@ const schema = {
   schema={schema}
   sources={`SSA.gov (${TAX_YEAR} wage base and FICA rates), IRS Publication 15 (Employer's Tax Guide), IRS Topic 751 (Social Security and Medicare Withholding). Last updated for tax year ${TAX_YEAR}.`}
 >
-  <SocialSecurityTaxCalculator client:load />
+  <SocialSecurityTaxCalculator client:idle />
 
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">

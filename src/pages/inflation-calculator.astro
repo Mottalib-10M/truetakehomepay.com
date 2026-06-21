@@ -55,7 +55,7 @@ const schema = {
   schema={schema}
   sources={`Bureau of Labor Statistics (BLS) Consumer Price Index (CPI), Federal Reserve Economic Data (FRED), BLS CPI Inflation Calculator. Last updated for ${TAX_YEAR}.`}
 >
-  <InflationCalculator client:load />
+  <InflationCalculator client:idle />
 
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">

@@ -55,7 +55,7 @@ const schema = {
   schema={schema}
   sources={`IRS Publication 590-A (IRA contributions), IRS Publication 590-B (IRA distributions), IRS Rev. Proc. 2025-11 (${TAX_YEAR} deduction phase-outs), SECURE 2.0 Act. Last updated for tax year ${TAX_YEAR}.`}
 >
-  <TraditionalIRACalculator client:load />
+  <TraditionalIRACalculator client:idle />
 
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">

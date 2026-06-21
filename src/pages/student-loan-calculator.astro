@@ -55,7 +55,7 @@ const schema = {
   schema={schema}
   sources={`Federal Student Aid (studentaid.gov), Department of Education loan repayment estimator, IRS Publication 970 (student loan interest deduction). Last updated for ${TAX_YEAR}.`}
 >
-  <StudentLoanCalculator client:load />
+  <StudentLoanCalculator client:idle />
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
       <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">

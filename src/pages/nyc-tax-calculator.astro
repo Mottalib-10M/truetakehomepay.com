@@ -56,7 +56,7 @@ const schema = {
   schema={schema}
   sources={`NYC Department of Finance (city tax rates), New York State Department of Taxation and Finance (tax.ny.gov), IRS Rev. Proc. 2025-11 (federal brackets). Last updated for tax year ${TAX_YEAR}.`}
 >
-  <PaycheckCalculator client:load defaultState="NY" />
+  <PaycheckCalculator client:idle defaultState="NY" />
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
       <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
