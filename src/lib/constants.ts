@@ -17,4 +17,4 @@ export const CLARITY_PROJECT_ID = '';
 export const BING_VERIFY_CODE = '15b1d26333aa4cd7a1cdba8e813bfc7f';
 
 /* IndexNow */
-export const INDEXNOW_KEY = '15b1d26333aa4cd7a1cdba8e813bfc7f';
+export const INDEXNOW_KEY = 'd0eba1637b2640fd95c3273507f85523';
