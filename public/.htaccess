@@ -8,7 +8,7 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
   Header set X-Content-Type-Options "nosniff"
   Header set X-Frame-Options "SAMEORIGIN"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
-  Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
   Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
 </IfModule>
 
