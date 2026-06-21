@@ -13,7 +13,7 @@ export const AUTHOR_EMAIL = 'contact@truetakehomepay.com';
 export const AUTHOR_PHOTO = '/team/mottalib-radif.jpg';
 
 /* Bing / Clarity — leave empty to disable */
-export const CLARITY_PROJECT_ID = '';
+export const CLARITY_PROJECT_ID = 'xanaj4ll6g';
 export const BING_VERIFY_CODE = '15b1d26333aa4cd7a1cdba8e813bfc7f';
 
 /* IndexNow */
