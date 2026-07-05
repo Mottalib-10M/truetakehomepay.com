@@ -1,9 +1,22 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
-import { TAX_YEAR, SITE_URL } from '../lib/constants';
+import { TAX_YEAR, SITE_URL, AUTHOR_NAME, AUTHOR_CREDENTIALS } from '../lib/constants';
 import { SALARY_AMOUNTS, TOP_10_STATES, STATES } from '../data/state-meta';
-import { formatCurrencyRound } from '../lib/format-us';
+import { formatCurrencyRound, formatPercent } from '../lib/format-us';
+import {
+  computeForState,
+  buildStateComparisons,
+  getBandContext,
+  buildFaqs,
+  getBudgetBreakdown,
+  getCareerInfo,
+  getTaxOptimizationTips,
+  getAuthorSchema,
+  getSalaryBand,
+  getFederalBracketWalkthrough,
+  getSalarySpecificContext,
+} from '../lib/salary-content';
 
 export function getStaticPaths() {
   return SALARY_AMOUNTS.map((amount) => ({
@@ -15,43 +28,34 @@ export function getStaticPaths() {
 const { amount } = Astro.props;
 const formatted = formatCurrencyRound(amount);
 
-// ─── Title & Meta (50-60 chars title, 150-160 chars description) ────
+// ─── Tax engine calculations ────────────────────────────────────────
+const txResult = computeForState(amount, 'TX'); // No-tax state baseline
+const caResult = computeForState(amount, 'CA'); // High-tax comparison
+const nyResult = computeForState(amount, 'NY'); // Another comparison
+const band = getSalaryBand(amount);
+
+// Derived values
+const totalFica = txResult.socialSecurity + txResult.medicare + txResult.additionalMedicare;
+const netMonthly = txResult.netAnnual / 12;
+const netBiweekly = txResult.netAnnual / 26;
+const hourlyGross = amount / 2080;
+const hourlyNet = txResult.netAnnual / 2080;
+
+// ─── Content generation ─────────────────────────────────────────────
+const stateComparisons = buildStateComparisons(amount);
+const bandContext = getBandContext(amount, txResult);
+const faqs = buildFaqs(amount, txResult);
+const budgetRows = getBudgetBreakdown(txResult.netAnnual);
+const careerInfo = getCareerInfo(amount);
+const taxTips = getTaxOptimizationTips(amount, txResult);
+const bracketWalkthrough = getFederalBracketWalkthrough(amount, txResult);
+const salaryContext = getSalarySpecificContext(amount, txResult);
+
+// ─── Title & Meta ───────────────────────────────────────────────────
 const title = `${formatted} Salary After Taxes: ${TAX_YEAR} Take-Home Pay Calculator`;
 const description = `How much is ${formatted} after taxes in ${TAX_YEAR}? Calculate your take-home pay on a ${formatted} salary with federal and state income tax breakdown for all 50 US states.`;
 
-// ─── Income-range contextual content ─────────────────────────────────
-type IncomeRange = 'low' | 'mid' | 'upper' | 'high';
-function getIncomeRange(amt: number): IncomeRange {
-  if (amt <= 50000) return 'low';
-  if (amt <= 100000) return 'mid';
-  if (amt <= 200000) return 'upper';
-  return 'high';
-}
-
-const range = getIncomeRange(amount);
-
-const rangeContent: Record<IncomeRange, { heading: string; body: string }> = {
-  low: {
-    heading: `Living on a ${formatted} Salary`,
-    body: `A ${formatted} salary places you below the US median household income. At this income level, federal taxes are relatively modest — you'll fall primarily in the 10% and 12% brackets. Choosing a state with no income tax (like Texas or Florida) can make a meaningful difference in your monthly budget. Maximizing your standard deduction and any available credits (like the Earned Income Tax Credit) is especially important at this income level.`,
-  },
-  mid: {
-    heading: `What ${formatted} Looks Like After Taxes`,
-    body: `A ${formatted} salary is near or above the US median household income. At this level, you'll primarily fall in the 12% and 22% federal tax brackets. State taxes become a significant factor — the difference between a no-tax state like Florida and a high-tax state like California can be several thousand dollars per year. Contributing to a traditional 401(k) is one of the most effective ways to reduce your tax burden and increase take-home pay.`,
-  },
-  upper: {
-    heading: `Tax Planning on a ${formatted} Salary`,
-    body: `Earning ${formatted} places you in the 24% or 32% federal tax bracket for most of your income. At this level, state income tax can cost you $5,000-$15,000+ annually depending on where you live. Tax-advantaged accounts like 401(k), HSA, and FSA become powerful tools — maxing out your 401(k) at $23,500 can save you $5,000+ in federal taxes alone. Consider working with a tax professional to optimize deductions.`,
-  },
-  high: {
-    heading: `Tax Impact on a ${formatted} Salary`,
-    body: `At ${formatted}, you're in the top federal tax brackets (35%-37%). Your effective federal tax rate is significantly higher than median earners, and state taxes can add 5%-13% more in high-tax states. The Additional Medicare Tax (0.9%) kicks in above $200,000 for single filers. Strategies like maximizing retirement contributions, utilizing HSAs, and considering the timing of income recognition become critical at this income level. The difference in take-home pay between states can exceed $20,000 annually.`,
-  },
-};
-
-const content = rangeContent[range];
-
-// ─── Related salary amounts ──────────────────────────────────────────
+// ─── Related salary amounts ─────────────────────────────────────────
 function getRelatedAmounts(amt: number): number[] {
   const step = amt <= 100000 ? 10000 : 25000;
   const related: number[] = [];
@@ -59,7 +63,6 @@ function getRelatedAmounts(amt: number): number[] {
   const higher = amt + step;
   if (SALARY_AMOUNTS.includes(lower)) related.push(lower);
   if (SALARY_AMOUNTS.includes(higher)) related.push(higher);
-  // Add a few more from the full list
   for (const s of SALARY_AMOUNTS) {
     if (s !== amt && !related.includes(s) && related.length < 4) {
       if (Math.abs(s - amt) <= step * 3) related.push(s);
@@ -70,34 +73,14 @@ function getRelatedAmounts(amt: number): number[] {
 
 const relatedAmounts = getRelatedAmounts(amount);
 
-// ─── Popular state versions ──────────────────────────────────────────
+// ─── Popular state versions ─────────────────────────────────────────
 const popularStates = ['CA', 'TX', 'FL', 'NY'].map((code) => ({
   code,
   name: STATES[code].name,
   slug: STATES[code].slug,
 }));
 
-// ─── FAQs ────────────────────────────────────────────────────────────
-const faqs = [
-  {
-    question: `How much is ${formatted} a year after taxes?`,
-    answer: `On a ${formatted} salary, a single filer with no state income tax takes home approximately ${formatCurrencyRound(amount * (range === 'low' ? 0.82 : range === 'mid' ? 0.77 : range === 'upper' ? 0.73 : 0.68))} to ${formatCurrencyRound(amount * (range === 'low' ? 0.85 : range === 'mid' ? 0.80 : range === 'upper' ? 0.76 : 0.71))} after federal taxes and FICA. In states with income tax, take-home pay is lower — typically ${formatCurrencyRound(amount * (range === 'low' ? 0.78 : range === 'mid' ? 0.72 : range === 'upper' ? 0.66 : 0.60))} to ${formatCurrencyRound(amount * (range === 'low' ? 0.82 : range === 'mid' ? 0.77 : range === 'upper' ? 0.73 : 0.68))} depending on the state. Use our calculator above for your exact take-home pay.`,
-  },
-  {
-    question: `How much is ${formatted} a year per paycheck?`,
-    answer: `Before taxes, a ${formatted} salary equals ${formatCurrencyRound(amount / 26)} per bi-weekly paycheck (26 paychecks per year), ${formatCurrencyRound(amount / 24)} semi-monthly (24 paychecks), ${formatCurrencyRound(amount / 12)} monthly, or ${formatCurrencyRound(amount / 52)} weekly. After taxes, each paycheck will be reduced by federal income tax, FICA (7.65%), and any state/local taxes.`,
-  },
-  {
-    question: `What is the federal tax on a ${formatted} salary?`,
-    answer: `Federal income tax on ${formatted} for a single filer in ${TAX_YEAR} uses progressive brackets: 10% on the first $11,925, 12% on income up to $48,475, 22% up to $103,350, and higher rates above that — all after the $15,700 standard deduction. Your effective federal income tax rate on ${formatted} is approximately ${range === 'low' ? '8%-10%' : range === 'mid' ? '10%-14%' : range === 'upper' ? '14%-19%' : '20%-27%'}, depending on filing status and deductions.`,
-  },
-  {
-    question: `Which state has the lowest taxes on a ${formatted} salary?`,
-    answer: `The nine states with no income tax — Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming — offer the highest take-home pay on a ${formatted} salary. Among states with income tax, states with low flat rates like Pennsylvania (3.07%) and Indiana (3.05%) are also favorable. California and New York tend to have the highest state tax burden${amount >= 100000 ? ', especially at this income level where top marginal rates apply' : ''}.`,
-  },
-];
-
-// ─── Related Calculators ─────────────────────────────────────────────
+// ─── Related Calculators ────────────────────────────────────────────
 const relatedCalculators = [
   ...relatedAmounts.slice(0, 2).map((amt) => ({
     title: `${formatCurrencyRound(amt)} After Taxes`,
@@ -111,7 +94,7 @@ const relatedCalculators = [
   })),
 ];
 
-// ─── Schema.org ──────────────────────────────────────────────────────
+// ─── Schema.org ─────────────────────────────────────────────────────
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -137,9 +120,21 @@ const webAppSchema = {
   inLanguage: 'en-US',
 };
 
-const schema = [faqSchema, webAppSchema];
+const authorSchema = getAuthorSchema(`${SITE_URL}/${amount}-after-taxes/`);
 
-// ─── Intro text ──────────────────────────────────────────────────────
+const schema = [webAppSchema, authorSchema];
+
+// ─── Income-range contextual content (kept for existing sections) ───
+type IncomeRange = 'low' | 'mid' | 'upper' | 'high';
+function getIncomeRange(amt: number): IncomeRange {
+  if (amt <= 50000) return 'low';
+  if (amt <= 100000) return 'mid';
+  if (amt <= 200000) return 'upper';
+  return 'high';
+}
+const range = getIncomeRange(amount);
+
+// ─── Intro text ─────────────────────────────────────────────────────
 const intro = `How much is ${formatted} after taxes in ${TAX_YEAR}? Use our free calculator to find your exact take-home pay after federal income tax, state tax, FICA, and deductions — for any US state.`;
 ---
 
@@ -151,7 +146,7 @@ const intro = `How much is ${formatted} after taxes in ${TAX_YEAR}? Use our free
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
-  sources={`IRS Rev. Proc. 2025-11 (federal brackets), SSA.gov (Social Security wage base ${TAX_YEAR}), individual state revenue departments. Last updated for tax year ${TAX_YEAR}.`}
+  sources={`IRS Rev. Proc. 2025-11 (federal brackets), SSA.gov (Social Security wage base ${TAX_YEAR}), individual state revenue departments. Analysis by <strong>${AUTHOR_NAME}</strong>, ${AUTHOR_CREDENTIALS}. Last updated for tax year ${TAX_YEAR}.`}
   canonical={`${SITE_URL}/${amount}-after-taxes/`}
 >
   <PaycheckCalculator
@@ -160,102 +155,174 @@ const intro = `How much is ${formatted} after taxes in ${TAX_YEAR}? Use our free
   />
 
   <Fragment slot="content">
-    <!-- Income-range contextual content -->
+    <!-- ═══════ STAT CARDS ═══════ -->
+    <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-4xl">
+        <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">
+          {formatted} Salary: Snapshot for {TAX_YEAR} (Single Filer, No State Tax)
+        </h2>
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div class="rounded-xl border border-green-200 bg-green-50 p-4 text-center dark:border-green-800 dark:bg-green-900/20">
+            <p class="text-xs font-medium uppercase tracking-wide text-green-700 dark:text-green-400">Net Take-Home</p>
+            <p class="mt-1 text-2xl font-bold text-green-800 dark:text-green-300">{formatCurrencyRound(txResult.netAnnual)}</p>
+            <p class="mt-0.5 text-xs text-green-600 dark:text-green-500">{formatCurrencyRound(netMonthly)}/mo</p>
+          </div>
+          <div class="rounded-xl border border-blue-200 bg-blue-50 p-4 text-center dark:border-blue-800 dark:bg-blue-900/20">
+            <p class="text-xs font-medium uppercase tracking-wide text-blue-700 dark:text-blue-400">Federal Tax</p>
+            <p class="mt-1 text-2xl font-bold text-blue-800 dark:text-blue-300">{formatCurrencyRound(txResult.federalTax)}</p>
+            <p class="mt-0.5 text-xs text-blue-600 dark:text-blue-500">Eff. {formatPercent(txResult.effectiveFederalRate * 100, 1)}</p>
+          </div>
+          <div class="rounded-xl border border-amber-200 bg-amber-50 p-4 text-center dark:border-amber-800 dark:bg-amber-900/20">
+            <p class="text-xs font-medium uppercase tracking-wide text-amber-700 dark:text-amber-400">FICA (SS + Med)</p>
+            <p class="mt-1 text-2xl font-bold text-amber-800 dark:text-amber-300">{formatCurrencyRound(totalFica)}</p>
+            <p class="mt-0.5 text-xs text-amber-600 dark:text-amber-500">{formatPercent((totalFica / amount) * 100, 1)} of gross</p>
+          </div>
+          <div class="rounded-xl border border-purple-200 bg-purple-50 p-4 text-center dark:border-purple-800 dark:bg-purple-900/20">
+            <p class="text-xs font-medium uppercase tracking-wide text-purple-700 dark:text-purple-400">Marginal Rate</p>
+            <p class="mt-1 text-2xl font-bold text-purple-800 dark:text-purple-300">{formatPercent(txResult.marginalFederalRate * 100, 0)}</p>
+            <p class="mt-0.5 text-xs text-purple-600 dark:text-purple-500">Federal bracket</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ BAND CONTEXT (unique per salary level) ═══════ -->
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-3xl">
         <h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">
-          {content.heading}
+          Understanding a {formatted} Salary in the United States
         </h2>
         <div class="prose prose-slate dark:prose-invert max-w-none">
-          <p>{content.body}</p>
+          <p>{bandContext}</p>
+          <p>{salaryContext.medianComparison}</p>
+          <p>{salaryContext.purchasingPower}</p>
+        </div>
+      </div>
+    </section>
 
-          <h2 id="federal-tax-breakdown" class="text-2xl font-bold text-slate-900 dark:text-white">
-            Federal Income Tax on a {formatted} Salary in {TAX_YEAR}
+    <!-- ═══════ SALARY-SPECIFIC ANALYSIS (unique per exact amount) ═══════ -->
+    <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">
+          {formatted} Salary: Raise and Comparison Analysis
+        </h2>
+        <div class="prose prose-slate dark:prose-invert max-w-none">
+          <p>{salaryContext.adjacentComparison}</p>
+          <p>{salaryContext.raiseAnalysis}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ MULTI-STATE COMPARISON TABLE ═══════ -->
+    <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-4xl">
+        <h2 class="mb-2 text-2xl font-bold text-slate-900 dark:text-white">
+          {formatted} Take-Home Pay Across 12 US States
+        </h2>
+        <p class="mb-6 text-sm text-slate-600 dark:text-slate-400">
+          Side-by-side comparison for a single filer with no pre-tax deductions in {TAX_YEAR}. All figures are annual amounts.
+        </p>
+        <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
+          <table class="tabular-nums w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800/70">
+                <th class="px-3 py-3 text-left font-medium text-slate-600 dark:text-slate-400">State</th>
+                <th class="px-3 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Federal Tax</th>
+                <th class="px-3 py-3 text-right font-medium text-slate-600 dark:text-slate-400">State Tax</th>
+                <th class="px-3 py-3 text-right font-medium text-slate-600 dark:text-slate-400">FICA</th>
+                <th class="px-3 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Net Pay</th>
+                <th class="px-3 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Eff. Rate</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+              {stateComparisons.map((sc) => (
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                  <td class="px-3 py-2.5">
+                    <a href={`/${sc.slug}/${amount}-after-taxes/`} class="font-medium text-navy-700 hover:underline dark:text-navy-400">
+                      {sc.name}
+                    </a>
+                  </td>
+                  <td class="px-3 py-2.5 text-right text-slate-700 dark:text-slate-300">{formatCurrencyRound(sc.federalTax)}</td>
+                  <td class="px-3 py-2.5 text-right text-slate-700 dark:text-slate-300">{formatCurrencyRound(sc.stateTax)}</td>
+                  <td class="px-3 py-2.5 text-right text-slate-700 dark:text-slate-300">{formatCurrencyRound(sc.fica)}</td>
+                  <td class="px-3 py-2.5 text-right font-semibold text-green-700 dark:text-green-400">{formatCurrencyRound(sc.netAnnual)}</td>
+                  <td class="px-3 py-2.5 text-right text-slate-700 dark:text-slate-300">{formatPercent(sc.effectiveRate, 1)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">
+          Calculated using {TAX_YEAR} federal brackets, state tax rates, FICA (6.2% SS + 1.45% Medicare), and applicable state disability/PFL contributions. Single filer, standard deduction, no dependents.
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══════ FEDERAL TAX MECHANICS ═══════ -->
+    <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <div class="prose prose-slate dark:prose-invert max-w-none">
+          <h2 id="how-federal-taxes-apply" class="text-2xl font-bold text-slate-900 dark:text-white">
+            How Federal Taxes Apply to Your {formatted} Salary
           </h2>
 
           <p>
-            The federal income tax system in the United States operates on a progressive bracket structure, where different slices of your income are taxed at increasing rates. For a single filer earning {formatted} in {TAX_YEAR}, the first step is subtracting the standard deduction of $15,700, which brings your federal taxable income to approximately {formatCurrencyRound(Math.max(amount - 15700, 0))}. This taxable income then flows through the brackets: 10 percent on the first $11,925, 12 percent on income from $11,925 to $48,475, 22 percent on income from $48,475 to $103,350, 24 percent on income from $103,350 to $197,300, 32 percent on income from $197,300 to $250,525, and 35 percent on income from $250,525 to $626,350. Only the income within each bracket is taxed at that bracket's rate, which is why your effective tax rate is always lower than your marginal rate.
+            When you earn {formatted} as a single filer in {TAX_YEAR}, the IRS first subtracts the standard deduction of {formatCurrencyRound(txResult.standardDeduction)}, reducing your federal taxable income to {formatCurrencyRound(txResult.taxableIncome)}. This {formatCurrencyRound(txResult.taxableIncome)} then flows through the progressive bracket structure where each slice of income is taxed at its own rate. Of your total {formatted} gross salary, the government keeps {formatCurrencyRound(txResult.federalTax)} in federal income tax and {formatCurrencyRound(totalFica)} in FICA, leaving you with {formatCurrencyRound(txResult.netAnnual)} — meaning you retain {formatPercent((txResult.netAnnual / amount) * 100, 1)} of every dollar earned.
           </p>
+
+          <p>
+            The bracket-by-bracket breakdown for your {formatted} salary is: {bracketWalkthrough}. These add up to {formatCurrencyRound(txResult.federalTax)} in total federal income tax, giving you an effective federal rate of {formatPercent(txResult.effectiveFederalRate * 100, 1)} — significantly below your {formatPercent(txResult.marginalFederalRate * 100, 0)} marginal bracket. The practical impact: if you receive a $1,000 bonus, only {formatCurrencyRound(1000 * txResult.marginalFederalRate)} goes to federal income tax (at your marginal rate), not {formatCurrencyRound(1000 * txResult.effectiveFederalRate)} (your effective rate). A $5,000 raise from {formatted} to {formatCurrencyRound(amount + 5000)} would yield approximately {formatCurrencyRound(5000 * (1 - txResult.marginalFederalRate - 0.0765))} in additional after-tax income.
+          </p>
+
+          <h2 id="fica-payroll-taxes" class="text-2xl font-bold text-slate-900 dark:text-white">
+            Payroll Taxes (FICA) on {formatted}
+          </h2>
+
+          <p>
+            On your {formatted} salary, FICA payroll taxes claim {formatCurrencyRound(totalFica)} annually — split between Social Security at {formatCurrencyRound(txResult.socialSecurity)} (6.2% of gross wages) and Medicare at {formatCurrencyRound(txResult.medicare)} (1.45% of gross wages).{amount > 176100 ? ` Because your salary exceeds the $176,100 Social Security wage base in ${TAX_YEAR}, your Social Security contribution is capped at ${formatCurrencyRound(176100 * 0.062)}, and only your first $176,100 is subject to the 6.2% rate.` : ` With ${formatted} fully below the $176,100 Social Security wage base in ${TAX_YEAR}, every dollar of your salary is subject to the 6.2% rate, resulting in the full ${formatCurrencyRound(txResult.socialSecurity)} contribution.`}{amount > 200000 ? ` The Additional Medicare Tax of 0.9% applies to your wages above $200,000, adding ${formatCurrencyRound(txResult.additionalMedicare)} beyond the standard Medicare contribution.` : ''} Per biweekly paycheck, FICA deducts {formatCurrencyRound(totalFica / 26)} — that is {formatCurrencyRound(txResult.socialSecurity / 26)} for Social Security and {formatCurrencyRound(txResult.medicare / 26)} for Medicare.
+          </p>
+
+          <p>
+            Your employer pays an identical {formatCurrencyRound(totalFica)} in matching FICA contributions on your {formatted} salary, meaning the total payroll tax generated by your employment is {formatCurrencyRound(totalFica * 2)} per year. Unlike federal income tax, FICA cannot be reduced through the standard deduction or itemized deductions. However, pre-tax benefits like health insurance premiums paid through a Section 125 cafeteria plan are exempt from FICA, which at {formatted} could save you up to {formatCurrencyRound(Math.min(amount * 0.03, 3000) * 0.0765)} if you contribute {formatCurrencyRound(Math.min(amount * 0.03, 3000))} in eligible premiums.
+          </p>
+
+          <h2 id="state-tax-geography" class="text-2xl font-bold text-slate-900 dark:text-white">
+            The Geographic Tax Divide on a {formatted} Salary
+          </h2>
+
+          <p>
+            One of the largest variables in determining your take-home pay on a {formatted} salary is where you live. In Texas or Florida (no income tax), your take-home pay is {formatCurrencyRound(txResult.netAnnual)} per year. That same salary in California produces take-home pay of {formatCurrencyRound(caResult.netAnnual)}, a reduction of {formatCurrencyRound(txResult.netAnnual - caResult.netAnnual)} per year or {formatCurrencyRound((txResult.netAnnual - caResult.netAnnual) / 12)} per month solely from state income tax of {formatCurrencyRound(caResult.stateTax)}. In New York, the take-home drops to {formatCurrencyRound(nyResult.netAnnual)}, with state tax of {formatCurrencyRound(nyResult.stateTax)}.
+          </p>
+
+          <p>
+            For a {formatted} earner specifically, the state tax landscape creates measurable differences. In flat-tax states like Illinois (4.95%), your state tax would be {formatCurrencyRound(amount * 0.0495)}. In Pennsylvania (3.07%), it would be only {formatCurrencyRound(amount * 0.0307)} — a savings of {formatCurrencyRound(amount * 0.0495 - amount * 0.0307)} over Illinois. In progressive-bracket states, your {formatted} salary lands at a marginal state rate of {amount >= 100000 ? '9 to 13 percent in California or New York' : '6 to 9 percent in California'}, making the total state tax burden {formatCurrencyRound(caResult.stateTax)} in California versus zero in Texas. The annual difference of {formatCurrencyRound(caResult.stateTax)} between California and Texas translates to {formatCurrencyRound(caResult.stateTax / 12)} per month in additional spending power — {amount <= 80000 ? 'enough to cover a car payment and insurance in most markets' : amount <= 150000 ? 'enough to cover rent in many mid-sized cities' : 'a significant sum that compounds substantially when invested over a career'}.
+          </p>
+
+          <h2 id="pre-tax-strategies" class="text-2xl font-bold text-slate-900 dark:text-white">
+            Pre-Tax Deduction Strategies for the {formatted} Earner
+          </h2>
 
           {range === 'low' && (
             <p>
-              At {formatted}, your federal taxable income of approximately {formatCurrencyRound(Math.max(amount - 15700, 0))} falls primarily within the 10 percent and 12 percent brackets. The 10 percent bracket covers the first $11,925 of taxable income, producing approximately {formatCurrencyRound(Math.min(Math.max(amount - 15700, 0), 11925) * 0.10)} in federal tax. Any remaining taxable income falls in the 12 percent bracket. Your total estimated federal income tax is roughly {formatCurrencyRound(amount * 0.09)} to {formatCurrencyRound(amount * 0.11)}, resulting in an effective federal tax rate of approximately 9 to 11 percent. This is a relatively modest federal burden, and it means that for every dollar you earn, you keep roughly 89 to 91 cents before state taxes and FICA are considered. At this income level, claiming all eligible credits such as the Earned Income Tax Credit or the Saver's Credit can further reduce your federal liability, sometimes to zero or even into negative territory where you receive a refund exceeding what was withheld.
+              At {formatted}, pre-tax deductions are a powerful tool for simultaneously reducing your tax burden and building financial security. Contributing to a traditional 401(k) reduces your federal taxable income dollar for dollar. Even a modest contribution of 5 percent of your salary, or {formatCurrencyRound(amount * 0.05)} per year, saves you approximately {formatCurrencyRound(amount * 0.05 * txResult.marginalFederalRate)} in federal income tax because that money comes off the top of your income at the {formatPercent(txResult.marginalFederalRate * 100, 0)} marginal rate. If your employer offers a matching contribution, failing to contribute at least enough to capture the full match is essentially leaving free money on the table. A Health Savings Account is equally valuable if you have a qualifying high-deductible health plan, since contributions reduce both your federal and state taxable income while growing tax-free for future medical expenses.
             </p>
           )}
 
           {range === 'mid' && (
             <p>
-              With a {formatted} salary, your federal taxable income of approximately {formatCurrencyRound(Math.max(amount - 15700, 0))} moves through the 10 percent and 12 percent brackets and into the 22 percent bracket. You pay approximately {formatCurrencyRound(11925 * 0.10)} on the first $11,925, roughly {formatCurrencyRound((48475 - 11925) * 0.12)} on income from $11,925 to $48,475, and 22 percent on the remainder up to your taxable income ceiling. Your total estimated federal income tax falls in the range of {formatCurrencyRound(amount * 0.12)} to {formatCurrencyRound(amount * 0.15)}, yielding an effective federal tax rate between 12 and 15 percent. The 22 percent bracket is where many middle-income earners experience the strongest incentive to use pre-tax deductions, because every dollar you contribute to a traditional 401(k) or similar plan saves you 22 cents in federal tax immediately, on top of any state tax savings. This bracket is often referred to as the "sweet spot" for tax-deferred retirement saving.
+              For someone earning {formatted}, pre-tax deductions become one of the most effective financial strategies available. Contributing to a traditional 401(k) at the maximum of $23,500 in {TAX_YEAR} would reduce your federal taxable income significantly, saving you approximately {formatCurrencyRound(23500 * txResult.marginalFederalRate)} in federal income tax alone since most of the reduction comes from the {formatPercent(txResult.marginalFederalRate * 100, 0)} bracket. If your state also taxes income, the state savings add further value. A Health Savings Account contribution of up to $4,300 for individual coverage adds another layer of tax reduction. Combined, these two accounts could reduce your taxable income by {formatCurrencyRound(23500 + 4300)}, saving you roughly {formatCurrencyRound((23500 + 4300) * txResult.marginalFederalRate)} in federal tax plus any applicable state tax savings.
             </p>
           )}
 
           {range === 'upper' && (
             <p>
-              At {formatted}, your federal taxable income of approximately {formatCurrencyRound(Math.max(amount - 15700, 0))} extends through the 10, 12, and 22 percent brackets and into the 24 percent bracket, and {213000 < amount ? 'potentially into the 32 percent bracket' : 'approaching the boundary of higher brackets'}. Your estimated federal income tax is approximately {formatCurrencyRound(amount * 0.17)} to {formatCurrencyRound(amount * 0.22)}, with an effective rate between 17 and 22 percent. At this level, the gap between your marginal rate and your effective rate becomes more pronounced. While your last dollar of taxable income may be taxed at 24 or even 32 percent, the blending of lower rates on earlier dollars keeps your overall rate significantly lower. Strategic planning at this income level can produce meaningful savings: contributing the maximum $23,500 to a traditional 401(k) reduces your taxable income and can shift a portion of your earnings out of a higher bracket, saving you {formatCurrencyRound(23500 * 0.24)} or more in federal taxes alone.
+              At the {formatted} income level, pre-tax deductions become critically important for managing your overall tax burden. Maxing out your traditional 401(k) at $23,500 saves you {formatCurrencyRound(23500 * txResult.marginalFederalRate)} in federal taxes because the deduction comes off the top of your income, reducing dollars that would otherwise be taxed at {formatPercent(txResult.marginalFederalRate * 100, 0)}. Adding a maximum HSA contribution of $4,300 for individual coverage or $8,550 for family coverage provides additional savings. If you are over 50, catch-up contributions allow you to put an additional $7,500 into your 401(k) for a total of $31,000 in pre-tax retirement savings. At your marginal rate, the tax savings from these combined contributions can exceed {formatCurrencyRound(31000 * txResult.marginalFederalRate)}, translating to hundreds of additional dollars in each paycheck.
             </p>
           )}
 
           {range === 'high' && (
             <p>
-              Earning {formatted} places your federal taxable income of approximately {formatCurrencyRound(Math.max(amount - 15700, 0))} well into the higher federal brackets. Your income passes through every bracket from 10 percent through at least 32 percent, and {266225 < amount ? 'into the 35 percent bracket for income above the $250,525 threshold' : 'you approach the threshold for the 35 percent bracket'}. {642050 < amount ? 'A portion of your income is also taxed at the top marginal rate of 37 percent.' : ''} Your estimated federal income tax is approximately {formatCurrencyRound(amount * 0.24)} to {formatCurrencyRound(amount * 0.30)}, resulting in an effective rate between 24 and 30 percent. The distinction between marginal and effective rates is especially important at this level, as it determines the true cost of additional income from bonuses, stock vesting, or side work. Federal tax planning at this income level often involves maximizing all available deductions, timing income recognition, and potentially itemizing deductions if your mortgage interest, state and local taxes (capped at $10,000), and charitable contributions exceed the standard deduction.
-            </p>
-          )}
-
-          <h2 id="fica-taxes-explained" class="text-2xl font-bold text-slate-900 dark:text-white">
-            FICA Taxes on {formatted}
-          </h2>
-
-          <p>
-            Every W-2 employee in the United States pays FICA taxes, which consist of Social Security tax at 6.2 percent and Medicare tax at 1.45 percent. These payroll taxes are calculated on your gross wages, not on your taxable income, which means that the standard deduction and itemized deductions do not reduce your FICA obligation. On a {formatted} salary, your total FICA contribution is {176100 >= amount ? 'approximately ' + formatCurrencyRound(amount * 0.0765) + ', broken down as ' + formatCurrencyRound(amount * 0.062) + ' for Social Security and ' + formatCurrencyRound(amount * 0.0145) + ' for Medicare' : 'approximately ' + formatCurrencyRound(176100 * 0.062 + amount * 0.0145) + ', consisting of ' + formatCurrencyRound(176100 * 0.062) + ' for Social Security (which is capped at the wage base of $176,100 in ' + TAX_YEAR + ') and ' + formatCurrencyRound(amount * 0.0145) + ' for Medicare, which has no wage base limit'}. Your employer matches your FICA contributions dollar for dollar, meaning the total Social Security and Medicare funding generated by your employment is double what appears on your pay stub.
-          </p>
-
-          {200000 < amount && (
-            <p>
-              Because your {formatted} salary exceeds $200,000 for a single filer, you are subject to the Additional Medicare Tax of 0.9 percent on all wages above that threshold. This adds an extra {formatCurrencyRound((amount - 200000) * 0.009)} to your annual Medicare tax, bringing your total Medicare contribution to {formatCurrencyRound(amount * 0.0145 + (amount - 200000) * 0.009)}. Unlike the standard FICA taxes, the Additional Medicare Tax is not matched by your employer. This surtax is withheld automatically from your paychecks once your cumulative year-to-date wages surpass $200,000, which for a {formatted} earner typically occurs around {300000 >= amount ? 'late in the year' : 400000 >= amount ? 'the middle of the year' : 'early in the year'}.
-            </p>
-          )}
-
-          <p>
-            FICA taxes represent a significant and often underappreciated component of the total tax burden on employment income. On your {formatted} salary, the {176100 >= amount ? formatCurrencyRound(amount * 0.0765) : formatCurrencyRound(176100 * 0.062 + amount * 0.0145 + (200000 < amount ? (amount - 200000) * 0.009 : 0))} in FICA taxes is spread across every paycheck throughout the year, reducing each biweekly payment by approximately {176100 >= amount ? formatCurrencyRound(amount * 0.0765 / 26) : formatCurrencyRound((176100 * 0.062 + amount * 0.0145 + (200000 < amount ? (amount - 200000) * 0.009 : 0)) / 26)}. While there is no way to reduce the standard FICA tax rate through deductions or credits, certain employer-provided benefits like health insurance premiums paid through a Section 125 cafeteria plan are exempt from FICA, which can provide a small but meaningful reduction in your total payroll tax.
-          </p>
-
-          <h2 id="state-tax-variation" class="text-2xl font-bold text-slate-900 dark:text-white">
-            How State Taxes Vary on a {formatted} Salary
-          </h2>
-
-          <p>
-            One of the largest variables in determining your take-home pay on a {formatted} salary is where you live. Nine states impose no income tax on wages: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming. In these states, your only paycheck deductions are federal income tax and FICA, which means a single filer earning {formatted} typically takes home approximately {formatCurrencyRound(amount * (range === 'low' ? 0.82 : range === 'mid' ? 0.78 : range === 'upper' ? 0.74 : 0.70))} to {formatCurrencyRound(amount * (range === 'low' ? 0.86 : range === 'mid' ? 0.82 : range === 'upper' ? 0.78 : 0.73))} per year after all federal deductions. That same {formatted} salary in a high-tax state like California could produce take-home pay closer to {formatCurrencyRound(amount * (range === 'low' ? 0.77 : range === 'mid' ? 0.72 : range === 'upper' ? 0.66 : 0.61))} to {formatCurrencyRound(amount * (range === 'low' ? 0.81 : range === 'mid' ? 0.76 : range === 'upper' ? 0.71 : 0.67))}, a difference of roughly {formatCurrencyRound(amount * 0.06)} to {formatCurrencyRound(amount * 0.10)} per year. This annual difference translates to {formatCurrencyRound(amount * 0.06 / 12)} to {formatCurrencyRound(amount * 0.10 / 12)} per month in additional spending or saving capacity.
-          </p>
-
-          <p>
-            Among states that do levy an income tax, the structures vary considerably. Some states like Illinois, Pennsylvania, and Indiana use a flat tax rate, meaning every dollar of taxable income is taxed at the same percentage regardless of the total amount. Other states like California, New York, and Oregon use progressive brackets similar to the federal system, where higher income is taxed at higher marginal rates. For a {formatted} earner, the difference between a flat 3 percent state tax and a progressive system where your top marginal rate reaches 10 percent or higher can amount to several thousand dollars per year. Understanding which type of system your state uses, and how your specific income level interacts with that system, is essential for accurately projecting your take-home pay and making informed financial plans.
-          </p>
-
-          <h2 id="pre-tax-deductions" class="text-2xl font-bold text-slate-900 dark:text-white">
-            The Importance of Pre-Tax Deductions at the {formatted} Income Level
-          </h2>
-
-          {range === 'low' && (
-            <p>
-              At {formatted}, pre-tax deductions are a powerful tool for simultaneously reducing your tax burden and building financial security. Contributing to a traditional 401(k) reduces your federal taxable income dollar for dollar. Even a modest contribution of 5 percent of your salary, or {formatCurrencyRound(amount * 0.05)} per year, saves you approximately {formatCurrencyRound(amount * 0.05 * 0.12)} in federal income tax if most of your income falls in the 12 percent bracket. If your employer offers a matching contribution, failing to contribute at least enough to capture the full match is essentially leaving free money on the table. A Health Savings Account is equally valuable if you have a qualifying high-deductible health plan, since contributions reduce both your federal and state taxable income while growing tax-free for future medical expenses. At this income level, every dollar saved in taxes directly improves your monthly cash flow and accelerates your path to financial stability.
-            </p>
-          )}
-
-          {range === 'mid' && (
-            <p>
-              For someone earning {formatted}, pre-tax deductions become one of the most effective financial strategies available. Contributing to a traditional 401(k) at the maximum of $23,500 in {TAX_YEAR} would reduce your federal taxable income significantly, saving you approximately {formatCurrencyRound(23500 * 0.22)} in federal income tax alone since most of the reduction comes from the 22 percent bracket. If your state also taxes income, the state savings add further value. A Health Savings Account contribution of up to $4,300 for individual coverage adds another layer of tax reduction. Combined, these two accounts could reduce your taxable income by {formatCurrencyRound(23500 + 4300)}, saving you roughly {formatCurrencyRound((23500 + 4300) * 0.22)} in federal tax plus any applicable state tax savings. Flexible Spending Accounts for healthcare and dependent care offer additional pre-tax savings, though these are "use it or lose it" accounts that require careful planning to avoid forfeiture.
-            </p>
-          )}
-
-          {range === 'upper' && (
-            <p>
-              At the {formatted} income level, pre-tax deductions become critically important for managing your overall tax burden. Maxing out your traditional 401(k) at $23,500 saves you {formatCurrencyRound(23500 * 0.24)} or more in federal taxes because the deduction comes off the top of your income, reducing dollars that would otherwise be taxed at 24 percent or higher. Adding a maximum HSA contribution of $4,300 for individual coverage or $8,550 for family coverage provides additional savings. If you are over 50, catch-up contributions allow you to put an additional $7,500 into your 401(k) for a total of $31,000 in pre-tax retirement savings. At your marginal rate, the tax savings from these combined contributions can exceed {formatCurrencyRound(31000 * 0.24)}, translating to hundreds of additional dollars in each paycheck throughout the year. Beyond these standard accounts, you might also explore whether a backdoor Roth IRA conversion makes sense for your long-term retirement planning, as direct Roth IRA contributions are phased out at higher income levels.
-            </p>
-          )}
-
-          {range === 'high' && (
-            <p>
-              Earning {formatted} puts you at an income level where tax optimization through pre-tax deductions can produce the most substantial absolute savings. Maxing out your 401(k) at $23,500 saves you at minimum {formatCurrencyRound(23500 * 0.32)} in federal taxes since your marginal rate is at least 32 percent. Adding maximum HSA contributions, FSA contributions for dependent care (up to $5,000), and healthcare FSA contributions (up to $3,300) further reduces your taxable income. At this level, you should also consider whether a mega backdoor Roth strategy is available through your employer's plan, which can allow after-tax contributions up to the total 415(c) limit of $70,000 for {TAX_YEAR}. The combined effect of all available pre-tax deductions at a {formatted} salary can reduce your annual tax bill by {formatCurrencyRound(amount * 0.03)} to {formatCurrencyRound(amount * 0.06)}, making aggressive use of these accounts one of the highest-return financial decisions you can make each year.
+              Earning {formatted} puts you at an income level where tax optimization through pre-tax deductions can produce the most substantial absolute savings. Maxing out your 401(k) at $23,500 saves you {formatCurrencyRound(23500 * txResult.marginalFederalRate)} in federal taxes since your marginal rate is {formatPercent(txResult.marginalFederalRate * 100, 0)}. Adding maximum HSA contributions, FSA contributions for dependent care (up to $5,000), and healthcare FSA contributions (up to $3,300) further reduces your taxable income. At this level, you should also consider whether a mega backdoor Roth strategy is available through your employer's plan, which can allow after-tax contributions up to the total 415(c) limit of $70,000 for {TAX_YEAR}. The combined effect of all available pre-tax deductions at a {formatted} salary can reduce your annual tax bill by {formatCurrencyRound(amount * 0.03)} to {formatCurrencyRound(amount * 0.06)}.
             </p>
           )}
 
@@ -264,58 +331,49 @@ const intro = `How much is ${formatted} after taxes in ${TAX_YEAR}? Use our free
           </h2>
 
           <p>
-            How your {formatted} salary translates to actual deposits in your bank account depends on how frequently your employer pays you. The most common pay schedules in the United States are biweekly (every two weeks, resulting in 26 paychecks per year), semi-monthly (twice per month, resulting in 24 paychecks), monthly (12 paychecks), and weekly (52 paychecks). Before any deductions, a {formatted} salary breaks down to {formatCurrencyRound(amount / 12)} per month, {formatCurrencyRound(amount / 24)} per semi-monthly period, {formatCurrencyRound(amount / 26)} per biweekly paycheck, or {formatCurrencyRound(amount / 52)} per week. After federal income tax, FICA, and an average state income tax, your actual take-home pay per paycheck is substantially lower than these gross figures.
+            How your {formatted} salary translates to actual deposits in your bank account depends on how frequently your employer pays you. Before any deductions, a {formatted} salary breaks down to {formatCurrencyRound(amount / 12)} per month, {formatCurrencyRound(amount / 24)} per semi-monthly period, {formatCurrencyRound(amount / 26)} per biweekly paycheck, or {formatCurrencyRound(amount / 52)} per week. After federal income tax, FICA, and state taxes, the after-tax figures in a no-income-tax state are approximately {formatCurrencyRound(txResult.netAnnual / 12)} per month, {formatCurrencyRound(txResult.netAnnual / 24)} semi-monthly, {formatCurrencyRound(netBiweekly)} biweekly, or {formatCurrencyRound(txResult.netAnnual / 52)} weekly.
           </p>
 
           <p>
-            For a single filer earning {formatted} with a typical deduction profile, estimated after-tax take-home pay is approximately {formatCurrencyRound(amount * (range === 'low' ? 0.80 : range === 'mid' ? 0.75 : range === 'upper' ? 0.71 : 0.67) / 12)} per month, {formatCurrencyRound(amount * (range === 'low' ? 0.80 : range === 'mid' ? 0.75 : range === 'upper' ? 0.71 : 0.67) / 24)} per semi-monthly paycheck, {formatCurrencyRound(amount * (range === 'low' ? 0.80 : range === 'mid' ? 0.75 : range === 'upper' ? 0.71 : 0.67) / 26)} per biweekly paycheck, or {formatCurrencyRound(amount * (range === 'low' ? 0.80 : range === 'mid' ? 0.75 : range === 'upper' ? 0.71 : 0.67) / 52)} per week. These figures assume a moderate state income tax rate; your actual take-home will be higher in no-tax states and lower in high-tax states. Biweekly pay schedules deserve special attention because two months each year contain three paychecks instead of the usual two, which can be a helpful budgeting opportunity for building savings or paying down debt. Planning your budget around the two-paycheck months and treating the third paycheck as a bonus can accelerate your financial goals significantly.
+            Your {formatted} salary divided across 2,080 working hours equals a gross hourly rate of {formatCurrencyRound(hourlyGross)}. After federal taxes and FICA, the effective after-tax hourly wage is {formatCurrencyRound(hourlyNet)} in a no-tax state and {formatCurrencyRound(caResult.netAnnual / 2080)} in California. That means taxes reduce your effective hourly pay by {formatCurrencyRound(hourlyGross - hourlyNet)} per hour ({formatPercent(((hourlyGross - hourlyNet) / hourlyGross) * 100, 1)} of your gross rate). For a {formatted} earner considering side work, any freelance opportunity must pay above {formatCurrencyRound(hourlyNet * 1.3)} per hour to account for self-employment tax and make the effort worthwhile relative to your primary compensation.
           </p>
 
-          <p>
-            When comparing pay frequency options or evaluating a job offer quoted as {formatted} annually, it is helpful to understand how your hourly equivalent rate compares. Assuming a standard 2,080 working hours per year (40 hours per week for 52 weeks), a {formatted} salary translates to approximately {formatCurrencyRound(amount / 2080)} per hour before taxes. After accounting for all taxes and deductions, your effective hourly rate drops to roughly {formatCurrencyRound(amount * (range === 'low' ? 0.80 : range === 'mid' ? 0.75 : range === 'upper' ? 0.71 : 0.67) / 2080)} per hour. This after-tax hourly figure is useful for evaluating whether overtime, side work, or freelance opportunities are worth the additional effort relative to your primary compensation.
-          </p>
-
-          <h2 id="reading-pay-stub" class="text-2xl font-bold text-slate-900 dark:text-white">
-            How to Read Your Pay Stub on a {formatted} Salary
+          <h2 id="understanding-pay-stub" class="text-2xl font-bold text-slate-900 dark:text-white">
+            Decoding Your Pay Stub on a {formatted} Salary
           </h2>
 
           <p>
-            Understanding your pay stub is essential for verifying that your employer is withholding the correct amounts and that your take-home pay matches expectations. A typical pay stub for a {formatted} earner shows several key sections. The gross pay section displays your earnings for the period, which on a biweekly schedule would be {formatCurrencyRound(amount / 26)} per paycheck. Below that, you will see deductions separated into pre-tax and post-tax categories. Pre-tax deductions include contributions to a traditional 401(k), health insurance premiums, HSA or FSA contributions, and any other Section 125 cafeteria plan deductions. These amounts are subtracted from your gross pay before taxes are calculated, reducing your taxable income.
-          </p>
-
-          <p>
-            The tax withholding section of your pay stub breaks down the federal income tax, Social Security tax, Medicare tax, and any state and local taxes withheld from your paycheck. For a {formatted} salary on a biweekly schedule, you can expect to see approximately {formatCurrencyRound(amount * 0.062 / 26)} withheld for Social Security and {formatCurrencyRound(amount * 0.0145 / 26)} for Medicare on each paycheck{200000 < amount ? ', with an additional Medicare surtax appearing once your year-to-date earnings exceed $200,000' : ''}. Federal income tax withholding varies based on your W-4 elections, but a single filer with no adjustments earning {formatted} typically sees approximately {formatCurrencyRound(amount * (range === 'low' ? 0.09 : range === 'mid' ? 0.13 : range === 'upper' ? 0.18 : 0.25) / 26)} withheld per biweekly paycheck for federal taxes. The year-to-date totals column on your pay stub is particularly important for tracking whether you are on pace to have the correct total withholding for the year, which helps you avoid both a large tax bill and an excessively large refund when you file your return.
+            On a {formatted} salary paid biweekly, each pay stub shows gross pay of {formatCurrencyRound(amount / 26)}. The deductions that follow include: federal income tax withholding of approximately {formatCurrencyRound(txResult.federalTax / 26)}, Social Security of {formatCurrencyRound(txResult.socialSecurity / 26)}, and Medicare of {formatCurrencyRound(txResult.medicare / 26)} — totaling {formatCurrencyRound((txResult.federalTax + totalFica) / 26)} in mandatory deductions per paycheck. After these withholdings, your net deposit per pay period is approximately {formatCurrencyRound(txResult.netAnnual / 26)} in a no-tax state. If you contribute to a 401(k), those pre-tax deductions appear before the federal tax line, reducing your taxable wages and lowering the {formatCurrencyRound(txResult.federalTax / 26)} federal withholding accordingly.
           </p>
 
           {range === 'low' && (
             <p>
-              At the {formatted} income level, it is especially important to review your W-4 withholding elections carefully. Many lower-income and moderate-income earners have too much withheld from each paycheck, resulting in a large refund at tax time. While a refund might feel like a windfall, it actually represents an interest-free loan to the government throughout the year. By adjusting your W-4 to more accurately reflect your expected tax liability, you can increase each paycheck by a small but meaningful amount, improving your monthly cash flow. The IRS Tax Withholding Estimator is a free online tool that can help you determine the optimal W-4 settings for your {formatted} salary and personal situation.
+              At the {formatted} income level, it is especially important to review your W-4 withholding elections carefully. Many lower-income and moderate-income earners have too much withheld from each paycheck, resulting in a large refund at tax time. While a refund might feel like a windfall, it actually represents an interest-free loan to the government throughout the year. By adjusting your W-4 to more accurately reflect your expected tax liability, you can increase each paycheck by a meaningful amount, improving your monthly cash flow. The IRS Tax Withholding Estimator at irs.gov is a free online tool that can help you determine the optimal W-4 settings for your {formatted} salary.
             </p>
           )}
 
           {range === 'mid' && (
             <p>
-              For earners at the {formatted} level, the net pay section at the bottom of your pay stub represents the amount actually deposited into your bank account. Comparing this figure to your gross pay reveals your total deduction rate, which for a single filer at this income typically ranges from 25 to 32 percent of gross earnings depending on your state, pre-tax deductions, and W-4 elections. If you notice a significant discrepancy between your expected and actual net pay, review each line item on your pay stub for errors. Common issues include incorrect filing status on your W-4, failure to update withholding after a life change like marriage or the birth of a child, or miscalculated pre-tax deduction amounts.
+              At {formatted}, your total deduction rate (everything subtracted from gross) should be approximately {formatPercent(((amount - txResult.netAnnual) / amount) * 100, 1)} in a no-tax state or {formatPercent(((amount - caResult.netAnnual) / amount) * 100, 1)} in California. On each biweekly paycheck of {formatCurrencyRound(amount / 26)} gross, expect to see roughly {formatCurrencyRound((amount - txResult.netAnnual) / 26)} in total deductions, leaving {formatCurrencyRound(txResult.netAnnual / 26)} deposited. If your actual net differs significantly from this amount, check your W-4 elections — at {formatted}, having one too many or too few allowances can swing each paycheck by {formatCurrencyRound(amount * 0.02 / 26)} to {formatCurrencyRound(amount * 0.04 / 26)}.
             </p>
           )}
 
           {range === 'upper' && (
             <p>
-              At the {formatted} income level, your pay stub becomes increasingly complex as more deductions and potentially multiple income types appear. If you receive restricted stock units, bonuses, or commissions in addition to your base salary, these may be taxed at different withholding rates than your regular pay. Supplemental income is often withheld at a flat 22 percent federal rate, which may be lower than your actual marginal rate, potentially leading to a balance due at tax time. Reviewing your year-to-date totals regularly, especially after receiving supplemental income, helps ensure your total withholding is on track and prevents unpleasant surprises when filing your annual return.
+              At the {formatted} income level, your pay stub becomes increasingly complex as more deductions and potentially multiple income types appear. If you receive restricted stock units, bonuses, or commissions in addition to your base salary, these may be withheld at the flat 22 percent federal supplemental rate, which may be lower than your actual marginal rate of {formatPercent(txResult.marginalFederalRate * 100, 0)}, potentially leading to a balance due at tax time. Reviewing your year-to-date totals regularly helps ensure your total withholding is on track.
             </p>
           )}
 
           {range === 'high' && (
             <p>
-              High earners at {formatted} should pay particular attention to the year-to-date sections of their pay stubs, especially the Social Security withholding line. Because Social Security tax only applies to the first $176,100 of wages in {TAX_YEAR}, your Social Security withholding should stop after you have earned that amount, which for a {formatted} salary occurs around {300000 >= amount ? 'late in the year' : 500000 >= amount ? 'the middle of the year' : 'earlier in the year'}. Once Social Security withholding stops, you should see a noticeable increase in your net pay for the remaining paychecks of the year. Verify that your employer correctly stops withholding Social Security at the wage base, as errors in this area can lead to overpayment that must be reclaimed when filing your tax return. Additionally, monitor the Additional Medicare Tax withholding that begins once your cumulative wages exceed $200,000 to ensure it is being applied correctly.
+              High earners at {formatted} should pay particular attention to the year-to-date sections of their pay stubs. Because Social Security tax only applies to the first $176,100 of wages in {TAX_YEAR}, your Social Security withholding should stop after you have earned that amount, which for a {formatted} salary occurs around {300000 >= amount ? 'late in the year' : 500000 >= amount ? 'the middle of the year' : 'earlier in the year'}. Once Social Security withholding stops, you should see a noticeable increase in your net pay for the remaining paychecks of the year. Additionally, monitor the Additional Medicare Tax withholding of {formatCurrencyRound(txResult.additionalMedicare)} that begins once your cumulative wages exceed $200,000.
             </p>
           )}
-
         </div>
       </div>
     </section>
 
-    <!-- Paycheck breakdown table -->
+    <!-- ═══════ PAYCHECK BREAKDOWN TABLE ═══════ -->
     <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-3xl">
         <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
@@ -327,37 +385,134 @@ const intro = `How much is ${formatted} after taxes in ${TAX_YEAR}? Use our free
               <tr class="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
                 <th class="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">Pay Period</th>
                 <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Gross Pay</th>
+                <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Net Pay (est.)</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
               <tr>
                 <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Annual</td>
                 <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatted}</td>
+                <td class="px-4 py-2.5 text-right font-medium text-green-700 dark:text-green-400">{formatCurrencyRound(txResult.netAnnual)}</td>
               </tr>
               <tr>
                 <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Monthly</td>
                 <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(amount / 12)}</td>
+                <td class="px-4 py-2.5 text-right font-medium text-green-700 dark:text-green-400">{formatCurrencyRound(txResult.netAnnual / 12)}</td>
               </tr>
               <tr>
                 <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Semi-Monthly</td>
                 <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(amount / 24)}</td>
+                <td class="px-4 py-2.5 text-right font-medium text-green-700 dark:text-green-400">{formatCurrencyRound(txResult.netAnnual / 24)}</td>
               </tr>
               <tr>
                 <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Bi-Weekly</td>
                 <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(amount / 26)}</td>
+                <td class="px-4 py-2.5 text-right font-medium text-green-700 dark:text-green-400">{formatCurrencyRound(txResult.netAnnual / 26)}</td>
               </tr>
               <tr>
                 <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Weekly</td>
                 <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(amount / 52)}</td>
+                <td class="px-4 py-2.5 text-right font-medium text-green-700 dark:text-green-400">{formatCurrencyRound(txResult.netAnnual / 52)}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">Hourly (2,080 hrs)</td>
+                <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(hourlyGross)}</td>
+                <td class="px-4 py-2.5 text-right font-medium text-green-700 dark:text-green-400">{formatCurrencyRound(hourlyNet)}</td>
               </tr>
             </tbody>
+          </table>
+        </div>
+        <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
+          Net pay estimates assume single filer in a no-income-tax state with standard deduction and no pre-tax contributions.
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══════ MONTHLY BUDGET TABLE ═══════ -->
+    <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-2 text-2xl font-bold text-slate-900 dark:text-white">
+          Suggested Monthly Budget on {formatCurrencyRound(netMonthly)} Take-Home
+        </h2>
+        <p class="mb-6 text-sm text-slate-600 dark:text-slate-400">
+          Based on your estimated {formatCurrencyRound(netMonthly)} monthly take-home pay in a no-income-tax state, here is a guideline allocation following the balanced budget framework.
+        </p>
+        <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
+          <table class="tabular-nums w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
+                <th class="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">Category</th>
+                <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">%</th>
+                <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Monthly</th>
+                <th class="px-4 py-3 text-right font-medium text-slate-600 dark:text-slate-400">Annual</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+              {budgetRows.map((row) => (
+                <tr>
+                  <td class="px-4 py-2.5 text-slate-700 dark:text-slate-300">{row.category}</td>
+                  <td class="px-4 py-2.5 text-right text-slate-600 dark:text-slate-400">{row.percent}%</td>
+                  <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(row.monthly)}</td>
+                  <td class="px-4 py-2.5 text-right font-medium text-slate-900 dark:text-white">{formatCurrencyRound(row.annual)}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr class="border-t border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
+                <td class="px-4 py-2.5 font-semibold text-slate-900 dark:text-white">Total</td>
+                <td class="px-4 py-2.5 text-right font-semibold text-slate-900 dark:text-white">100%</td>
+                <td class="px-4 py-2.5 text-right font-semibold text-slate-900 dark:text-white">{formatCurrencyRound(Math.round(netMonthly))}</td>
+                <td class="px-4 py-2.5 text-right font-semibold text-slate-900 dark:text-white">{formatCurrencyRound(txResult.netAnnual)}</td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>
     </section>
 
-    <!-- State-specific links for this amount -->
+    <!-- ═══════ CAREER INFORMATION ═══════ -->
+    <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">
+          {careerInfo.title}
+        </h2>
+        <div class="prose prose-slate dark:prose-invert max-w-none">
+          <p>{careerInfo.description}</p>
+          <p class="font-medium">Common roles at this salary level include:</p>
+          <ul>
+            {careerInfo.roles.map((role) => (
+              <li>{role}</li>
+            ))}
+          </ul>
+          <p>{careerInfo.advancement}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ TAX OPTIMIZATION TIPS ═══════ -->
     <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">
+          Tax-Saving Strategies for {formatted} Earners in {TAX_YEAR}
+        </h2>
+        <p class="mb-6 text-sm text-slate-600 dark:text-slate-400">
+          Practical steps to reduce your tax burden at the {formatPercent(txResult.marginalFederalRate * 100, 0)} marginal rate. Analysis by {AUTHOR_NAME}, {AUTHOR_CREDENTIALS}.
+        </p>
+        <div class="space-y-4">
+          {taxTips.map((tip, i) => (
+            <div class="flex gap-3 rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
+              <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-navy-100 text-xs font-bold text-navy-700 dark:bg-navy-900 dark:text-navy-300">
+                {i + 1}
+              </span>
+              <p class="text-sm leading-relaxed text-slate-700 dark:text-slate-300">{tip}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ STATE-SPECIFIC LINKS ═══════ -->
+    <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-3xl">
         <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
           {formatted} After Taxes by State
@@ -378,11 +533,11 @@ const intro = `How much is ${formatted} after taxes in ${TAX_YEAR}? Use our free
       </div>
     </section>
 
-    <!-- Related salary amounts -->
-    <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+    <!-- ═══════ RELATED SALARY AMOUNTS (cross-links) ═══════ -->
+    <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-3xl">
         <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
-          Other Salary Amounts
+          Compare Other Salary Amounts
         </h2>
         <div class="grid grid-cols-3 gap-2 sm:grid-cols-5">
           {SALARY_AMOUNTS.filter((s) => s !== amount).map((s) => (
