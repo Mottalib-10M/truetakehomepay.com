@@ -121,8 +121,8 @@ export default function RothIRACalculator() {
   // ─── Contribution limit help text ─────────────────────────────────
   const contribHelpText =
     age50 === 'yes'
-      ? `2026 limit: $${(ROTH_IRA_LIMIT + ROTH_IRA_CATCHUP).toLocaleString()} (includes $${ROTH_IRA_CATCHUP.toLocaleString()} catch-up)`
-      : `2026 limit: $${ROTH_IRA_LIMIT.toLocaleString()} (under age 50)`;
+      ? `2026 limit: $${(ROTH_IRA_LIMIT + ROTH_IRA_CATCHUP).toLocaleString("en-US")} (includes $${ROTH_IRA_CATCHUP.toLocaleString("en-US")} catch-up)`
+      : `2026 limit: $${ROTH_IRA_LIMIT.toLocaleString("en-US")} (under age 50)`;
 
   return (
     <div className="grid gap-8 lg:grid-cols-5">

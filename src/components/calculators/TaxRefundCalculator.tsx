@@ -206,7 +206,7 @@ export default function TaxRefundCalculator() {
               value={children}
               onChange={setChildren}
               placeholder="0"
-              helpText={`$${CHILD_TAX_CREDIT.toLocaleString()} credit per qualifying child`}
+              helpText={`$${CHILD_TAX_CREDIT.toLocaleString("en-US")} credit per qualifying child`}
             />
 
             <InputField

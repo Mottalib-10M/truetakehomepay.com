@@ -383,7 +383,7 @@ export default function CryptoInvestmentSimulator({
               value={buyPrice}
               onChange={setBuyPrice}
               prefix="$"
-              placeholder={defaultBuyPrice.toLocaleString()}
+              placeholder={defaultBuyPrice.toLocaleString("en-US")}
               helpText={`Price per ${cryptoSymbol} at time of purchase`}
             />
 
@@ -393,7 +393,7 @@ export default function CryptoInvestmentSimulator({
               value={sellPrice}
               onChange={setSellPrice}
               prefix="$"
-              placeholder={(defaultBuyPrice * 1.5).toLocaleString()}
+              placeholder={(defaultBuyPrice * 1.5).toLocaleString("en-US")}
               helpText={`Target or actual sell price per ${cryptoSymbol}`}
             />
 
