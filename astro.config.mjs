@@ -17,9 +17,14 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/disclaimer') &&
         !page.includes('/privacy-policy') &&
-        !page.includes('/terms-of-service'),
+        !page.includes('/terms-of-service') &&
+        !page.includes('/widget'),
       changefreq: 'monthly',
       priority: 0.7,
+      serialize: (item) => ({
+        ...item,
+        lastmod: '2026-07-09',
+      }),
     }),
   ],
   vite: {

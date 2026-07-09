@@ -27,16 +27,16 @@ const NO_SALES_TAX_STATES = ['AK', 'DE', 'MT', 'NH', 'OR'];
 const isNoSalesTax = NO_SALES_TAX_STATES.includes(code);
 // Title: 50-60 chars for all state names (4-20 chars)
 const _tBase = `${name} Sales Tax Calculator ${TAX_YEAR}`;
-const title = _tBase.length <= 33
-  ? `${_tBase}: Rates, Exemptions & Lookup`
-  : _tBase.length <= 43
-    ? `${_tBase} — Rates & Exemptions`
-    : `${_tBase} — Rates`;
+const title = _tBase.length <= 39
+  ? `${_tBase} — Rates & Exemptions`
+  : `${_tBase} — Rates`;
 
-// Description: 150-160 chars for all state names
+// Description: 150-160 chars for all state names (including District of Columbia at 20 chars)
 const description = name.length <= 8
   ? `Calculate ${TAX_YEAR} sales tax in ${name}. See combined state and local rates, tax-exempt items, grocery and clothing exemptions, and how ${name} compares to other states.`
-  : `Calculate ${TAX_YEAR} sales tax in ${name}. See combined state and local rates, tax-exempt items, grocery and clothing exemptions, and comparisons to other states.`;
+  : name.length <= 13
+    ? `Calculate ${TAX_YEAR} sales tax in ${name}. See combined state and local rates, tax-exempt items, grocery and clothing exemptions, and comparisons to other states.`
+    : `Calculate ${TAX_YEAR} sales tax in ${name}. See combined state and local rates, tax-exempt items, grocery and clothing exemptions, and state comparisons.`;
 
 const faqs = [
   {

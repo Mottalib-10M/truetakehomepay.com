@@ -125,19 +125,7 @@ const relatedCalculators = [
 ];
 
 // ─── Schema.org ──────────────────────────────────────────────────────
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqs.map((faq) => ({
-    '@type': 'Question',
-    name: faq.question,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: faq.answer,
-    },
-  })),
-};
-
+// FAQPage schema is generated automatically by FAQAccordion via the faqs prop
 const webAppSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
@@ -150,7 +138,7 @@ const webAppSchema = {
   inLanguage: 'en-US',
 };
 
-const schema = [faqSchema, webAppSchema];
+const schema = [webAppSchema];
 ---
 
 <CalculatorLayout

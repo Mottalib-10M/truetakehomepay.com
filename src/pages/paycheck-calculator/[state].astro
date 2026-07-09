@@ -84,10 +84,12 @@ const title = _tBase.length <= 33
     ? `${_tBase} — Take-Home Pay`
     : `${_tBase} — After Tax`;
 
-// Description: 150-160 chars for all state names
+// Description: 150-160 chars for all state names (including District of Columbia at 20 chars)
 const description = name.length <= 8
   ? `Free ${TAX_YEAR} ${name} paycheck calculator. Calculate your take-home pay after federal and ${name} state taxes, Social Security, Medicare, 401(k), and deductions.`
-  : `Free ${TAX_YEAR} ${name} paycheck calculator. See your take-home pay after federal and state income tax, Social Security, Medicare, 401(k), and all deductions.`;
+  : name.length <= 14
+    ? `Free ${TAX_YEAR} ${name} paycheck calculator. See your take-home pay after federal and state income tax, Social Security, Medicare, 401(k), and all deductions.`
+    : `Free ${TAX_YEAR} ${name} paycheck calculator. See your take-home pay after federal, state tax, Social Security, Medicare, 401(k), and deductions.`;
 
 // State-specific FAQs
 const faqs = [

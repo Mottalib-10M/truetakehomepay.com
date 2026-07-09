@@ -33,8 +33,8 @@ const FEDERAL_BRACKETS: Record<FilingStatus, { min: number; max: number; rate: n
     { min: 96950, max: 206700, rate: 0.22 },
     { min: 206700, max: 394600, rate: 0.24 },
     { min: 394600, max: 501050, rate: 0.32 },
-    { min: 501050, max: 751600, rate: 0.35 },
-    { min: 751600, max: Infinity, rate: 0.37 },
+    { min: 501050, max: 752800, rate: 0.35 },
+    { min: 752800, max: Infinity, rate: 0.37 },
   ],
   mfs: [
     { min: 0, max: 11925, rate: 0.10 },
