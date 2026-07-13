@@ -18,7 +18,9 @@ export default defineConfig({
         !page.includes('/disclaimer') &&
         !page.includes('/privacy-policy') &&
         !page.includes('/terms-of-service') &&
-        !page.includes('/widget'),
+        !page.includes('/widget') &&
+        !page.includes('/legal') &&
+        !page.includes('/404'),
       changefreq: 'monthly',
       priority: 0.7,
       serialize: (item) => ({
