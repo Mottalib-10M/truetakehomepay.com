@@ -674,14 +674,10 @@ export function getAuthorSchema(pageUrl: string) {
     '@type': 'Article',
     headline: `Take-Home Pay Calculator`,
     author: {
-      '@type': 'Person',
+      '@type': 'Organization',
       name: AUTHOR_NAME,
       description: AUTHOR_CREDENTIALS,
       jobTitle: 'Founder & Editor',
-      alumniOf: {
-        '@type': 'EducationalOrganization',
-        name: 'INSEAD',
-      },
     },
     publisher: {
       '@type': 'Organization',

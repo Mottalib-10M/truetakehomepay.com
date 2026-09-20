@@ -6,9 +6,9 @@ export const DEFAULT_PAY_FREQUENCY = 'biweekly' as const;
 export const DEFAULT_FILING_STATUS = 'single' as const;
 export const DISCLAIMER = 'This calculator provides estimates only and does not constitute tax or financial advice. Consult a CPA or tax professional for your specific situation.';
 
-export const AUTHOR_NAME = 'Mottalib Radif';
+export const AUTHOR_NAME = 'Radif Partners';
 export const AUTHOR_TITLE = 'Founder & Editor';
-export const AUTHOR_CREDENTIALS = 'MBA INSEAD, Finance Enthusiast';
+export const AUTHOR_CREDENTIALS = 'Publisher of calculators and practical guides';
 export const AUTHOR_EMAIL = 'contact@truetakehomepay.com';
 export const AUTHOR_PHOTO = '/team/mottalib-radif.jpg';
 

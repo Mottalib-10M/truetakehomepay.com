@@ -62,10 +62,10 @@ const organizationSchema = {
   url: SITE_URL,
   logo: `${SITE_URL}/favicon.svg`,
   founder: {
-    '@type': 'Person',
+    '@type': 'Organization',
     name: AUTHOR_NAME,
     jobTitle: 'Founder & Editor',
-    description: 'Personal finance and taxation expert, MBA INSEAD graduate. Specialized in US federal and state tax analysis, helping Americans understand their true take-home pay.',
+    description: 'Personal finance and taxation expert, Éditeur de calculateurs et de guides pratiques graduate. Specialized in US federal and state tax analysis, helping Americans understand their true take-home pay.',
   },
   contactPoint: {
     '@type': 'ContactPoint',
@@ -76,14 +76,10 @@ const organizationSchema = {
 
 const personSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
+  '@type': 'Organization',
   name: AUTHOR_NAME,
   jobTitle: 'Founder & Editor',
-  description: 'Personal finance and taxation expert, MBA INSEAD graduate. Specialized in US federal and state tax analysis, helping Americans understand their true take-home pay.',
-  alumniOf: {
-    '@type': 'EducationalOrganization',
-    name: 'INSEAD',
-  },
+  description: 'Personal finance and taxation expert, Éditeur de calculateurs et de guides pratiques graduate. Specialized in US federal and state tax analysis, helping Americans understand their true take-home pay.',
   image: `${SITE_URL}${AUTHOR_PHOTO}`,
   url: `${SITE_URL}/about/`,
 };
