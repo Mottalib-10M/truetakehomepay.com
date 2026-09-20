@@ -1,7 +1,7 @@
 ---
 import Layout from './Layout.astro';
 import FAQAccordion from '../components/ui/FAQAccordion.astro';
-import { TAX_YEAR, DISCLAIMER, SITE_URL, AUTHOR_NAME, AUTHOR_PHOTO } from '../lib/constants';
+import { TAX_YEAR, DISCLAIMER, SITE_URL, AUTHOR_NAME } from '../lib/constants';
 
 interface FAQ {
   question: string;
@@ -84,7 +84,6 @@ const breadcrumbs = [
       </p>
       <!-- Author byline -->
       <p class="mt-2 flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-        <img src={AUTHOR_PHOTO} alt={AUTHOR_NAME} width="24" height="24" class="rounded-full" loading="lazy" />
         Written by <a href="/about/" class="font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
       </p>
     </div>

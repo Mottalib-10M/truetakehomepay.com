@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { TAX_YEAR, SITE_NAME, AUTHOR_NAME, AUTHOR_PHOTO } from '../../lib/constants';
+import { TAX_YEAR, SITE_NAME, AUTHOR_NAME } from '../../lib/constants';
 
 const title = `${TAX_YEAR} 401(k) Contribution Limits: How to Max Out Your Plan`;
 const description = `Learn the ${TAX_YEAR} contribution limits for 401(k), 403(b), and 457(b) plans. See employee and catch-up limits, employer match, and mega backdoor Roth strategies.`;
@@ -23,7 +23,6 @@ const schema = {
       <h1>{TAX_YEAR} 401(k) Contribution Limits: Everything You Need to Know</h1>
 
       <p class="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 not-prose">
-        <img src={AUTHOR_PHOTO} alt={AUTHOR_NAME} width="24" height="24" class="rounded-full" loading="lazy" />
         Written by <a href="/about/" class="ml-1 font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
       </p>
 

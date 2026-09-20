@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
-import { SITE_NAME, SITE_URL, AUTHOR_NAME, AUTHOR_EMAIL, AUTHOR_PHOTO, CLARITY_PROJECT_ID, BING_VERIFY_CODE } from '../lib/constants';
+import { SITE_NAME, SITE_URL, AUTHOR_NAME, AUTHOR_EMAIL, CLARITY_PROJECT_ID, BING_VERIFY_CODE } from '../lib/constants';
 
 interface Props {
   title: string;
@@ -80,7 +80,6 @@ const personSchema = {
   name: AUTHOR_NAME,
   jobTitle: 'Founder & Editor',
   description: 'Personal finance and taxation expert, Éditeur de calculateurs et de guides pratiques graduate. Specialized in US federal and state tax analysis, helping Americans understand their true take-home pay.',
-  image: `${SITE_URL}${AUTHOR_PHOTO}`,
   url: `${SITE_URL}/about/`,
 };
 

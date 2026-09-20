@@ -10,7 +10,6 @@ export const AUTHOR_NAME = 'Radif Partners';
 export const AUTHOR_TITLE = 'Founder & Editor';
 export const AUTHOR_CREDENTIALS = 'Publisher of calculators and practical guides';
 export const AUTHOR_EMAIL = 'contact@truetakehomepay.com';
-export const AUTHOR_PHOTO = '/team/mottalib-radif.jpg';
 
 /* Bing / Clarity — leave empty to disable */
 export const CLARITY_PROJECT_ID = 'xanaj4ll6g';
