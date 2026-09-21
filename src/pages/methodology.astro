@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="Methodology - Federal, state, FICA and the sources we use | TrueTakeHomePay"
+  description="The order of operations behind our US paycheck calculator: federal brackets and the standard deduction, state income tax, Social Security up to the wage base, Medicare and the additional Medicare tax."
+>
+  <div class="max-w-3xl mx-auto">
+    <nav class="text-sm text-gray-500 mb-6">
+      <a href="/" class="hover:text-primary">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-gray-800">Methodology</span>
+    </nav>
+
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">How we calculate your US take-home pay</h1>
+
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-3">Three layers, computed separately</h2>
+      <p class="text-gray-700 leading-relaxed mb-3">A US paycheck is not one deduction. Federal income tax, state income tax and FICA are three independent systems with different bases, and the calculator computes each on its own terms before adding them.</p>
+      <p class="text-gray-700 leading-relaxed mb-3"><strong>Federal income tax</strong> applies to income after the standard deduction for your filing status. The brackets are marginal: only the slice of income inside a bracket is taxed at that bracket&rsquo;s rate. This is the single most misunderstood point in payroll, and it is why moving into a higher bracket never reduces your take-home pay.</p>
+      <p class="text-gray-700 leading-relaxed mb-3"><strong>State income tax</strong> is layered on top. Nine states levy none at all, several use a single flat rate, and the rest run their own brackets with their own deductions. Selecting a state changes only this layer.</p>
+    </section>
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-3">FICA stops, income tax does not</h2>
+      <p class="text-gray-700 leading-relaxed mb-3"><strong>Social Security</strong> is charged at a flat rate on wages up to the annual wage base, then stops entirely for the rest of the year. <strong>Medicare</strong> has no ceiling, and an additional Medicare tax applies above a threshold that depends on filing status and is not indexed.</p>
+      <p class="text-gray-700 leading-relaxed mb-3">Because Social Security switches off partway through the year for higher earners, real paychecks grow in the later months. The calculator reports the annual position and its monthly average; a payroll system front-loads the contribution.</p>
+    </section>
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-3">What the calculator does not do</h2>
+      <p class="text-gray-700 leading-relaxed mb-3">It does not model local or city income taxes, pre-tax 401(k) or HSA contributions, health premiums, itemised deductions, child tax credits, or multiple jobs. It assumes one employer and a standard W-4.</p>
+      <p class="text-gray-700 leading-relaxed mb-3">It is an estimate for guidance, not tax advice. Your actual withholding follows the W-4 your employer holds and the IRS percentage-method tables.</p>
+    </section>
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-3">When the figures are updated</h2>
+      <p class="text-gray-700 leading-relaxed mb-3">Federal brackets, the standard deduction and the Social Security wage base are indexed annually and published in the autumn for the following year. States publish on their own timetable. We update from the published figures, never from press coverage, and every page carries the date of its last revision, drawn from the site&rsquo;s version history.</p>
+    </section>
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-3">Where the figures come from</h2>
+      <p class="text-gray-700 leading-relaxed mb-3">Every rate and threshold is taken from the following official publications:</p>
+      <ul class="list-disc pl-6 text-gray-700 space-y-2">
+        <li><a class="underline" href="https://www.irs.gov/newsroom/irs-provides-tax-inflation-adjustments-for-tax-year-2026" rel="nofollow noopener" target="_blank">IRS &mdash; Tax inflation adjustments and brackets</a></li>
+        <li><a class="underline" href="https://www.irs.gov/publications/p15t" rel="nofollow noopener" target="_blank">IRS &mdash; Publication 15-T, withholding methods</a></li>
+        <li><a class="underline" href="https://www.ssa.gov/oact/cola/cbb.html" rel="nofollow noopener" target="_blank">Social Security Administration &mdash; Contribution and benefit base</a></li>
+        <li><a class="underline" href="https://www.irs.gov/businesses/small-businesses-self-employed/questions-and-answers-for-the-additional-medicare-tax" rel="nofollow noopener" target="_blank">IRS &mdash; Additional Medicare Tax</a></li>
+      </ul>
+    </section>
+  </div>
+</Layout>
