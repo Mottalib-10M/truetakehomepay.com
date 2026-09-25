@@ -252,7 +252,7 @@ function RSUResultPanel({
             At Vesting (Ordinary Income)
           </h3>
         </div>
-        <table className="tabular-nums w-full text-sm">
+        <div className="overflow-x-auto"><table className="tabular-nums w-full text-sm">
           <thead>
             <tr className="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
               <th className="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">
@@ -282,7 +282,7 @@ function RSUResultPanel({
               isShares
             />
           </tbody>
-        </table>
+        </table></div>
       </div>
 
       {/* If Sold table */}
@@ -292,7 +292,7 @@ function RSUResultPanel({
             If Sold ({holdPeriod === 'long' ? 'Long-Term' : 'Short-Term'} Capital Gains)
           </h3>
         </div>
-        <table className="tabular-nums w-full text-sm">
+        <div className="overflow-x-auto"><table className="tabular-nums w-full text-sm">
           <thead>
             <tr className="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
               <th className="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">
@@ -329,7 +329,7 @@ function RSUResultPanel({
               highlight
             />
           </tbody>
-        </table>
+        </table></div>
       </div>
 
       {/* Informational note */}

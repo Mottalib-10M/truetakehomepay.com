@@ -240,7 +240,7 @@ export default function CreditCardPayoffCalculator() {
                     What if you paid more?
                   </h3>
                 </div>
-                <table className="tabular-nums w-full text-sm">
+                <div className="overflow-x-auto"><table className="tabular-nums w-full text-sm">
                   <thead>
                     <tr className="border-b border-slate-200 bg-slate-50/50 dark:border-slate-700 dark:bg-slate-800/30">
                       <th className="px-4 py-2.5 text-left font-medium text-slate-600 dark:text-slate-400">
@@ -286,7 +286,7 @@ export default function CreditCardPayoffCalculator() {
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                </table></div>
               </div>
             )}
           </div>

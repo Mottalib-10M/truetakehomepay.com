@@ -341,14 +341,14 @@ function AffordabilityResultPanel({
             Monthly Housing Budget
           </h3>
         </div>
-        <table className="tabular-nums w-full text-sm">
+        <div className="overflow-x-auto"><table className="tabular-nums w-full text-sm">
           <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
             <BudgetRow label="Max P&I Payment" value={maxPrincipalAndInterest} />
             <BudgetRow label="Property Tax" value={monthlyPropertyTax} />
             <BudgetRow label="Homeowner's Insurance" value={monthlyInsurance} />
             <BudgetRow label="Total Housing Payment" value={maxMonthlyHousing} bold highlight />
           </tbody>
-        </table>
+        </table></div>
       </div>
 
       {/* Summary table */}
@@ -358,7 +358,7 @@ function AffordabilityResultPanel({
             Affordability Summary
           </h3>
         </div>
-        <table className="tabular-nums w-full text-sm">
+        <div className="overflow-x-auto"><table className="tabular-nums w-full text-sm">
           <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
             <SummaryRow label="Max Home Price" value={formatCurrencyRound(maxHomePrice)} />
             <SummaryRow label="Down Payment" value={formatCurrencyRound(downPayment)} />
@@ -367,7 +367,7 @@ function AffordabilityResultPanel({
             <SummaryRow label="Front-End DTI Ratio" value={formatPercent(frontEndDTI, 1)} />
             <SummaryRow label="Back-End DTI Ratio" value={formatPercent(backEndDTI, 1)} />
           </tbody>
-        </table>
+        </table></div>
       </div>
 
       {/* Conservative / Standard / Aggressive price ranges */}

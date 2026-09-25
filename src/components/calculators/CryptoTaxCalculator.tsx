@@ -399,7 +399,7 @@ export default function CryptoTaxCalculator() {
 
             {/* Detailed breakdown table */}
             <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
-              <table className="tabular-nums w-full text-sm">
+              <div className="overflow-x-auto"><table className="tabular-nums w-full text-sm">
                 <thead>
                   <tr className="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
                     <th className="px-4 py-3 text-left font-medium text-slate-600 dark:text-slate-400">
@@ -450,7 +450,7 @@ export default function CryptoTaxCalculator() {
                     show={result.gain > 0}
                   />
                 </tbody>
-              </table>
+              </table></div>
             </div>
 
             {/* Comparison box */}

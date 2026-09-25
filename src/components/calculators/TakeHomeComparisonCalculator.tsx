@@ -215,7 +215,7 @@ function ComparisonResults({
       {/* Scrollable table */}
       <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
         <div className="max-h-[600px] overflow-y-auto">
-          <table className="tabular-nums w-full text-sm">
+          <div className="overflow-x-auto"><table className="tabular-nums w-full text-sm">
             <thead className="sticky top-0 z-10">
               <tr className="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/80">
                 <th className="px-3 py-3 text-left font-medium text-slate-600 dark:text-slate-400">
@@ -274,7 +274,7 @@ function ComparisonResults({
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
         </div>
       </div>
 
