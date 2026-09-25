@@ -1,8 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import FAQAccordion from '../../components/ui/FAQAccordion.astro';
 import { TAX_YEAR, SITE_NAME, AUTHOR_NAME } from '../../lib/constants';
 
-const title = `How Paychecks Work in the US: Every Deduction Explained`;
+const title = `US Paychecks Explained: Every Deduction, Line by Line`;
 const description = `Understand every line on your pay stub. Learn how federal tax, FICA, state tax, 401(k), and other common deductions reduce your gross pay to take-home pay.`;
 
 const schema = {
@@ -15,12 +16,35 @@ const schema = {
   datePublished: '2026-01-01',
   dateModified: '2026-01-15',
 };
+// §7 : trois questions propres au guide, affichées et balisées depuis la
+// même liste — sans FAQPage, la FAQ n'existe pas pour un moteur.
+const faqs = [
+  {
+    question: `Why is my take-home pay less than my salary divided by 26?`,
+    answer: `Because several deductions come off before the money reaches you: federal income tax withholding, FICA at 7.65 per cent, state and sometimes local income tax, and pre-tax items such as health premiums, 401(k) contributions and HSA deposits. On a $60,000 salary the gross bi-weekly figure is about $2,308 and the net commonly lands between $1,700 and $1,900, depending on the state and on what you have elected.`,
+  },
+  {
+    question: `What is the difference between gross, taxable and net pay?`,
+    answer: `Gross pay is what you earn before anything is taken. Taxable pay is gross minus pre-tax deductions, and it is the figure income tax is calculated on, which is why a 401(k) contribution lowers tax. Net pay is what lands in the account after tax and after post-tax deductions such as a Roth 401(k) or union dues. A payslip shows all three, and the gap between them is where most of the questions arise.`,
+  },
+  {
+    question: `How often are US workers paid?`,
+    answer: `Bi-weekly is the most common schedule, giving 26 cheques a year, followed by semi-monthly with 24, then weekly with 52 and monthly with 12. The distinction matters for budgeting: a bi-weekly schedule produces two months a year with three cheques, while semi-monthly always gives two. State law sets minimum pay frequencies, and an employer can pay more often than the minimum but not less.`,
+  },
+];
+
+// §21 : un paragraphe qui se suffit à lui-même, servi haut dans la page.
+const resumeCitable = `A US payslip subtracts four kinds of item from gross pay, and the order matters. Pre-tax deductions come first: traditional 401(k) contributions, health, dental and vision premiums, HSA and FSA contributions. What remains is taxable pay, on which federal income tax is withheld according to your W-4, along with FICA at 7.65 per cent, 6.2 for Social Security up to the annual wage base and 1.45 for Medicare with no cap. State income tax follows, from nothing in nine states to more than thirteen per cent in California, and in some cities a local tax on top. Post-tax deductions such as Roth contributions, union dues and garnishments come last. On a $60,000 salary paid bi-weekly, gross pay of about $2,308 commonly lands between $1,700 and $1,900 in the account.`;
+
 ---
 
 <Layout title={title} description={description} schema={schema}>
   <article class="px-4 py-16 sm:px-6 lg:px-8" itemscope itemtype="https://schema.org/Article">
     <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
       <h1>How Paychecks Work in the US: Every Deduction Explained</h1>
+      <p class="not-prose my-6 rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+        {resumeCitable}
+      </p>
 
       <p class="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 not-prose">
         Written by <a href="/about/" class="ml-1 font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
@@ -360,6 +384,10 @@ const schema = {
         <a href="/salary-calculator/">salary calculator</a> to model your exact situation and see how
         different choices affect your net pay.
       </p>
+    </div>
+
+    <div class="mx-auto mt-12 max-w-3xl">
+      <FAQAccordion faqs={faqs} />
     </div>
   </article>
 </Layout>

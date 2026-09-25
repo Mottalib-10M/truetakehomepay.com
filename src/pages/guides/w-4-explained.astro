@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import FAQAccordion from '../../components/ui/FAQAccordion.astro';
 import { TAX_YEAR, SITE_NAME, AUTHOR_NAME } from '../../lib/constants';
 
 const title = `W-4 Form Explained ${TAX_YEAR}: How to Fill It Out Correctly`;
@@ -15,12 +16,35 @@ const schema = {
   datePublished: '2026-01-01',
   dateModified: '2026-01-15',
 };
+// §7 : trois questions propres au guide, affichées et balisées depuis la
+// même liste — sans FAQPage, la FAQ n'existe pas pour un moteur.
+const faqs = [
+  {
+    question: `How often should I update my W-4?`,
+    answer: `Whenever something changes the picture: a marriage or divorce, a birth, a second job, a spouse starting or leaving work, a large bonus, or a refund or bill last year that surprised you. There is no annual requirement, and a W-4 filed in 2019 stays in force until replaced. A good habit is one check each January and one after any life event, using last year's return as the starting point.`,
+  },
+  {
+    question: `What happened to withholding allowances?`,
+    answer: `They disappeared in the 2020 redesign. The old form asked how many allowances you claimed, a number few people could justify; the current one asks for dollar amounts instead, in four optional steps covering multiple jobs, dependents, other income and extra withholding. The result is more accurate but less forgiving of a blank form, because leaving Steps 2 to 4 empty tells the employer to withhold as though this were your only job.`,
+  },
+  {
+    question: `How do I fix withholding that is too low?`,
+    answer: `Use Step 4(c), extra withholding, which adds a flat dollar amount to each paycheck. Work out the shortfall for the year, divide by the number of pay periods left, and enter that. It is more precise than adjusting dependents, and it is the right tool when the gap comes from freelance income, investment income or a spouse's job rather than from an error on the form.`,
+  },
+];
+
+// §21 : un paragraphe qui se suffit à lui-même, servi haut dans la page.
+const resumeCitable = `The W-4 does one job: it tells your employer how much federal income tax to withhold from each paycheck. The 2020 redesign removed withholding allowances and replaced them with dollar amounts across five steps, of which only the first and the last are required. Step 1 is your name, address and filing status. Step 2 covers a second job or a working spouse and is the step most often left blank by people who need it, which is why two-earner couples so often owe money in April. Step 3 claims dependents and converts credits into lower withholding. Step 4 adds other income, deductions and, in 4(c), a flat extra amount per paycheck, which is the most precise tool on the form. Step 5 is the signature. A W-4 stays in force until replaced, so the form you signed years ago is still the one being applied.`;
+
 ---
 
 <Layout title={title} description={description} schema={schema}>
   <article class="px-4 py-16 sm:px-6 lg:px-8" itemscope itemtype="https://schema.org/Article">
     <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
       <h1>W-4 Form Explained: A Complete Guide</h1>
+      <p class="not-prose my-6 rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+        {resumeCitable}
+      </p>
 
       <p class="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 not-prose">
         Written by <a href="/about/" class="ml-1 font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
@@ -246,6 +270,10 @@ const schema = {
         <a href="/take-home-pay-calculator/">take-home pay calculator</a>. For a complete picture of your
         tax situation, use our <a href="/income-tax-calculator/">income tax calculator</a>.
       </p>
+    </div>
+
+    <div class="mx-auto mt-12 max-w-3xl">
+      <FAQAccordion faqs={faqs} />
     </div>
   </article>
 </Layout>

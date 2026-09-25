@@ -6,7 +6,8 @@ import { STATES, getStateBySlug, getAllStateSlugs, NO_INCOME_TAX_STATES } from '
 import { getStateTaxConfig } from '../../data/income-tax-2026/index';
 import { getPropertyTaxConfig } from '../../data/property-tax-2026/index';
 import { getSalesTaxConfig } from '../../data/sales-tax-2026/index';
-import { formatPercent } from '../../lib/format-us';
+import { formatPercent, formatCurrencyRound } from '../../lib/format-us';
+import { ajusterTitre } from '../../lib/bornes-seo';
 
 export function getStaticPaths() {
   return getAllStateSlugs().map((slug) => ({ params: { state: slug } }));
@@ -78,11 +79,18 @@ if (isNoTax) {
 
 // Title: 50-60 chars for all state names (4-20 chars)
 const _tBase = `${name} Paycheck Calculator ${TAX_YEAR}`;
-const title = _tBase.length <= 33
-  ? `${_tBase}: Take-Home Pay After Taxes`
-  : _tBase.length <= 43
-    ? `${_tBase} — Take-Home Pay`
-    : `${_tBase} — After Tax`;
+// §11 : les trois paliers fixes laissaient les noms de longueur moyenne
+// (Louisiana, Minnesota) à 49 caractères ; l'ajusteur essaie toute la gamme.
+const title = ajusterTitre([
+  `${_tBase}: Take-Home Pay After Taxes`,
+  `${_tBase}: Net Pay After Federal Tax`,
+  `${_tBase}: Take-Home Pay by Paycheck`,
+  `${_tBase}: Your Net Pay After Taxes`,
+  `${_tBase}: Take-Home Pay Estimate`,
+  `${_tBase}: Take-Home Pay`,
+  `${_tBase}: Net Pay`,
+  _tBase,
+]);
 
 // Description: 150-160 chars for all state names (including District of Columbia at 20 chars)
 const description = name.length <= 8
@@ -92,36 +100,40 @@ const description = name.length <= 8
     : `Free ${TAX_YEAR} ${name} paycheck calculator. See your take-home pay after federal, state tax, Social Security, Medicare, 401(k), and deductions.`;
 
 // State-specific FAQs
+// §7 : chaque réponse tient entre 40 et 90 mots et porte les chiffres de l'État,
+// plutôt que de renvoyer au calculateur en trente mots.
 const faqs = [
   {
     question: `How much tax do I pay in ${name}?`,
     answer: isNoTax
-      ? `${name} has no state income tax on wages. You'll still pay federal income tax (10%-37% based on bracket) and FICA taxes (Social Security 6.2% + Medicare 1.45%). Your total tax burden in ${name} is lower than most other states.`
-      : `In ${name}, you pay federal income tax (10%-37%), state income tax (${stateConfig?.flatRate ? formatPercent(stateConfig.flatRate * 100) + ' flat' : 'progressive rates'}), Social Security (6.2% up to $176,100), and Medicare (1.45%). Your exact rate depends on your income, filing status, and deductions.`,
+      ? `${name} levies no state income tax on wages, so the only deductions from your gross pay are federal: income tax at 10 to 37 per cent depending on your bracket, Social Security at 6.2 per cent up to the $176,100 wage base, and Medicare at 1.45 per cent with an extra 0.9 per cent above $200,000. A single filer on $60,000 therefore keeps noticeably more here than in a state with an income tax, though ${name} recovers part of it through ${isNoSalesTax ? 'property taxes' : 'sales and property taxes'}.`
+      : `In ${name} you pay federal income tax at 10 to 37 per cent, state income tax ${isFlat ? `at a flat ${formatPercent(stateConfig!.flatRate! * 100)}` : `on ${numBrackets} brackets running up to ${topRate ? formatPercent(topRate * 100) : 'the top rate'}`}, Social Security at 6.2 per cent up to the $176,100 wage base and Medicare at 1.45 per cent. Your effective rate is well below the top bracket, because only the income above each threshold is taxed at that rate${stdDed ? `, and the first ${formatCurrencyRound(stdDed)} of state taxable income is covered by the standard deduction` : ''}.`,
   },
   {
     question: `What is the ${name} state income tax rate for ${TAX_YEAR}?`,
     answer: isNoTax
-      ? `${name} does not levy a state income tax on wages for ${TAX_YEAR}. This is established in the state constitution${code === 'TX' || code === 'FL' ? ' and cannot be changed without a constitutional amendment' : ''}.`
-      : stateConfig?.flatRate
-        ? `${name} has a flat state income tax rate of ${formatPercent(stateConfig.flatRate * 100)} for ${TAX_YEAR}. This rate applies to all taxable income regardless of how much you earn.`
-        : `${name} uses a progressive income tax system for ${TAX_YEAR} with multiple brackets. The rate increases as your income rises, with the top marginal rate of ${stateConfig?.brackets?.single?.at(-1)?.rate ? formatPercent(stateConfig.brackets.single.at(-1)!.rate * 100) : 'varies'}.`,
+      ? `There is none: ${name} does not tax wage income in ${TAX_YEAR}${code === 'TX' || code === 'FL' ? ', and the prohibition sits in the state constitution rather than in ordinary law, so it cannot be changed by a simple legislative majority' : ''}. That applies to salaries, hourly wages and most self-employment income alike. Federal income tax and FICA still apply in full, and they are what the calculator above deducts from your gross pay.`
+      : isFlat
+        ? `${name} applies a single flat rate of ${formatPercent(stateConfig!.flatRate! * 100)} to taxable income in ${TAX_YEAR}, whatever you earn. A flat rate makes the arithmetic simple but it does not make the tax proportional to gross pay: deductions and exemptions still apply first${stdDed ? `, starting with a standard deduction of ${formatCurrencyRound(stdDed)} for a single filer` : ''}, so someone on a modest salary pays a lower share of their gross than the headline rate suggests.`
+        : `${name} uses a progressive schedule in ${TAX_YEAR}, with ${numBrackets} brackets running from ${lowestRate ? formatPercent(lowestRate * 100) : 'the lowest rate'} to ${topRate ? formatPercent(topRate * 100) : 'the top rate'}. Only the income above each threshold is taxed at the higher rate, so reaching the top bracket does not mean paying that rate on everything you earn${stdDed ? `. A single filer's first ${formatCurrencyRound(stdDed)} is covered by the standard deduction` : ''}.`,
   },
   {
     question: `How does ${name} compare to neighboring states for taxes?`,
-    answer: `${name}'s tax burden ${isNoTax ? 'is among the lowest in the country since there is no state income tax' : 'varies based on your income level'}. Nearby states include ${neighborStates.map((n) => n.name + (NO_INCOME_TAX_STATES.includes(n.abbr) ? ' (no income tax)' : '')).join(', ')}. Use our <a href="/take-home-comparison/" class="text-navy-600 underline dark:text-navy-400">Take-Home Comparison</a> tool to compare your salary across states.`,
+    answer: `${name}'s burden ${isNoTax ? 'is among the lightest in the country on wages, since there is no state income tax at all' : `sits ${topRate && topRate > 0.06 ? 'above' : 'around or below'} the national middle on income`}, but income tax is only part of the picture: ${propTax ? `property tax runs at about ${formatPercent(propTax.effectiveRate * 100)} of value here, some ${formatCurrencyRound(propTaxMonthly)} a month on the median home` : 'property and sales taxes also weigh on the total'}${salesTax ? `, and the combined sales tax averages ${formatPercent(salesTax.avgCombinedRate * 100)}` : ''}. Nearby states include ${neighborStates.map((n) => n.name + (NO_INCOME_TAX_STATES.includes(n.abbr) ? ' (no income tax)' : '')).join(', ')}. Compare your own salary across states with our <a href="/take-home-comparison/" class="text-navy-600 underline dark:text-navy-400">Take-Home Comparison</a> tool.`,
   },
   {
     question: `Does ${name} have local income taxes?`,
     answer: code === 'NY'
-      ? `Yes. New York City residents pay an additional city income tax of 3.078%-3.876%. Yonkers residents pay a 16.75% surcharge on their NY state tax. Use the local tax dropdown in our calculator to include these.`
+      ? `Yes, and they matter. New York City residents pay a city income tax of 3.078 to 3.876 per cent on top of the state tax, which on a $100,000 salary is roughly $3,500 a year that a commuter living outside the city does not pay. Yonkers residents pay a surcharge of 16.75 per cent of their New York State tax liability. Use the local tax dropdown in the calculator so the result reflects where you actually live.`
       : code === 'PA'
-        ? `Yes. Philadelphia levies a city wage tax of 3.75% for residents and 3.44% for non-residents. Many other PA municipalities also have local earned income taxes.`
+        ? `Yes. Philadelphia levies a wage tax of 3.75 per cent on residents and 3.44 per cent on non-residents who work in the city, and most other Pennsylvania municipalities levy a local earned income tax, commonly 1 per cent, split between the municipality and the school district. On a $60,000 salary the Philadelphia tax alone is around $2,250 a year, so the local line is not a rounding error here.`
         : code === 'MD'
-          ? `Yes. All Maryland counties impose a local income tax ranging from 2.25% to 3.20%. This is in addition to the state tax. Our calculator supports the major Maryland county rates.`
+          ? `Yes. Every Maryland county, and Baltimore City, levies its own income tax on residents, ranging from 2.25 to 3.20 per cent of Maryland taxable income. It is collected with the state return rather than separately, and the rate follows where you live rather than where you work, so moving one county over changes the bill. The calculator supports the main county rates.`
           : code === 'OH'
-            ? `Yes. Many Ohio cities and municipalities levy their own income tax, typically 1%-3%. Major cities like Columbus, Cleveland, and Cincinnati all have local income taxes.`
-            : `${isNoTax ? 'No — ' + name + ' has no state or local income tax on wages.' : 'Most ' + name + ' residents do not pay local income taxes, though some municipalities may have local levies.'}`,
+            ? `Yes. Ohio municipalities levy their own income taxes, typically 1 to 3 per cent, and Columbus, Cleveland and Cincinnati all do. The tax generally follows where the work is performed, with a credit, often partial, for tax paid to another municipality where you live. For someone commuting between two taxing cities, the combined local bill can exceed the state tax itself.`
+            : isNoTax
+              ? `No. ${name} has neither a state nor a local income tax on wages, so the deductions on your payslip are federal only. A handful of states with no income tax still allow local payroll levies; this is not one of them. What ${name} does collect instead falls on ${isNoSalesTax ? 'property and business taxes' : 'sales and property taxes'}, which do not appear on a payslip.`
+              : `Most ${name} residents pay no local income tax: the state tax is the only state-level deduction on a payslip here. A few municipalities in some states levy their own earned income tax, so it is worth checking with your city or county if you have just moved, but for the great majority of employees in ${name} the calculator's state figure is the whole story.`,
   },
 ];
 

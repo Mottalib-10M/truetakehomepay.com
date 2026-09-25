@@ -17,11 +17,19 @@ const faqs = [
   },
   {
     question: 'Can capital losses offset my gains?',
-    answer: `Yes. Capital losses first offset gains of the same type (short-term losses offset short-term gains first). Any remaining net losses can offset up to $3,000 of ordinary income per year. Unused losses carry forward to future tax years indefinitely.`,
+    answer: `Yes. Capital losses first offset gains of the same type (short-term losses offset short-term gains first). Any remaining net losses can offset up to $3,000 of ordinary income per year. Unused losses carry forward to future tax years indefinitely. Losses must first offset gains of the same type, short against short and long against long, before the remainder crosses over.`,
   },
   {
     question: 'Do I pay capital gains tax on my primary home?',
     answer: `You can exclude up to $250,000 in gains ($500,000 for married couples filing jointly) from the sale of your primary home if you've owned and lived in it for at least 2 of the last 5 years. Gains above these thresholds are taxed at capital gains rates.`,
+  },
+  {
+    question: `What is the difference between short and long-term capital gains?`,
+    answer: `The holding period. An asset sold within a year of purchase is a short-term gain taxed at ordinary income rates, up to 37 per cent. Held more than a year, it is long-term and taxed at 0, 15 or 20 per cent depending on taxable income. On a $50,000 gain, the difference between selling at eleven months and at thirteen can exceed $10,000, which makes the calendar worth checking before a sale.`,
+  },
+  {
+    question: `How can capital gains tax be reduced legally?`,
+    answer: `Hold assets beyond a year to reach the long-term rates. Harvest losses to offset gains, with up to $3,000 of net loss usable against ordinary income each year and the rest carried forward. Keep taxable-account turnover low. Use retirement accounts for the assets that throw off the most tax. And on a main home, the exclusion of $250,000 of gain for a single filer and $500,000 for a couple removes most residential gains entirely.`,
   },
 ];
 
@@ -53,6 +61,7 @@ const schema = {
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
+  resume={`Capital gains tax depends on how long you held the asset and on your taxable income. An asset sold within a year of purchase produces a short-term gain, taxed at ordinary income rates of up to 37 per cent. Held beyond a year, the gain is long-term and taxed at 0, 15 or 20 per cent, and higher earners add the 3.8 per cent Net Investment Income Tax. On a $50,000 gain, the difference between selling at eleven months and at thirteen can exceed $10,000, which makes the purchase date worth checking before a sale. Losses offset gains of the same type first, then cross over, and up to $3,000 of net loss can be set against ordinary income each year with the remainder carried forward indefinitely.`}
   sources={`IRS Rev. Proc. 2025-11 (${TAX_YEAR} capital gains brackets), IRS Publication 550 (Investment Income and Expenses), IRS Topic 409. Last updated for tax year ${TAX_YEAR}.`}
 >
   <CapitalGainsTaxCalculator client:idle />

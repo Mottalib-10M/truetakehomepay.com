@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import FAQAccordion from '../../components/ui/FAQAccordion.astro';
 import { TAX_YEAR, SITE_NAME, AUTHOR_NAME } from '../../lib/constants';
 
 const title = 'Tax Deductions vs Credits: The Key Difference Explained';
@@ -15,12 +16,35 @@ const schema = {
   datePublished: '2026-01-01',
   dateModified: '2026-01-15',
 };
+// §7 : trois questions propres au guide, affichées et balisées depuis la
+// même liste — sans FAQPage, la FAQ n'existe pas pour un moteur.
+const faqs = [
+  {
+    question: `Which is worth more, a deduction or a credit?`,
+    answer: `A credit, almost always. A deduction reduces taxable income, so a $1,000 deduction saves $220 for someone in the 22 per cent bracket. A $1,000 credit reduces the tax itself by the full $1,000, whatever the bracket. That is why credits are capped and phased out by income while deductions are not, and why a credit aimed at families is worth the same to a low earner as to a high one.`,
+  },
+  {
+    question: `Should I itemise or take the standard deduction?`,
+    answer: `Take whichever is larger, which for the large majority is the standard deduction. Itemising becomes worthwhile when mortgage interest, state and local taxes capped at $10,000, charitable gifts and large medical expenses together exceed it, which typically means a substantial mortgage in a high-tax state. Bunching two years of charitable giving into one can lift a borderline year above the threshold.`,
+  },
+  {
+    question: `What is the difference between a refundable and a non-refundable credit?`,
+    answer: `A non-refundable credit can reduce your tax to zero and no further; anything left over is lost. A refundable credit is paid out even if it exceeds the tax owed, which is how the Earned Income Tax Credit delivers money to low earners with little or no liability. Some credits are partly refundable, the Child Tax Credit among them, so part is paid out and part only offsets tax.`,
+  },
+];
+
+// §21 : un paragraphe qui se suffit à lui-même, servi haut dans la page.
+const resumeCitable = `A deduction reduces the income on which tax is calculated; a credit reduces the tax itself. That difference decides which is worth more, and it is not close. A $1,000 deduction saves $220 for someone in the 22 per cent bracket and $370 for someone at 37, so its value rises with income. A $1,000 credit saves $1,000 for both, which is why credits are capped and phased out as income rises while deductions rarely are. Credits come in two forms: non-refundable ones can reduce tax to zero and no further, while refundable ones are paid out even when they exceed the tax owed, which is how the Earned Income Tax Credit reaches low earners with little liability. Most filers now take the standard deduction, and itemising pays only when mortgage interest, capped state and local taxes and charitable gifts together exceed it.`;
+
 ---
 
 <Layout title={title} description={description} schema={schema}>
   <article class="px-4 py-16 sm:px-6 lg:px-8" itemscope itemtype="https://schema.org/Article">
     <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
       <h1>Tax Deductions vs Credits: What Is the Difference?</h1>
+      <p class="not-prose my-6 rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+        {resumeCitable}
+      </p>
 
       <p class="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 not-prose">
         Written by <a href="/about/" class="ml-1 font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
@@ -260,6 +284,10 @@ const schema = {
         affect your tax bill, and review our <a href="/guides/tax-season-checklist-2026/">tax season
         checklist</a> to make sure you do not miss anything when filing.
       </p>
+    </div>
+
+    <div class="mx-auto mt-12 max-w-3xl">
+      <FAQAccordion faqs={faqs} />
     </div>
   </article>
 </Layout>

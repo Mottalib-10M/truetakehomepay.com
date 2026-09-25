@@ -1,0 +1,47 @@
+---
+/**
+ * §7 : les autorités qui publient les chiffres dont vivent ces pages.
+ *
+ * Les sources étaient citées en toutes lettres — « IRS Rev. Proc. 2025-11 » —
+ * mais sans lien, donc invérifiables d'un clic. Le contrôle attend au moins
+ * trois sources officielles sur une page pilier, et il a raison : une source
+ * qu'on ne peut pas ouvrir n'est pas une source.
+ */
+interface Props {
+  /** Texte libre placé avant la liste, pour préciser les références d'une page. */
+  intro?: string;
+}
+const { intro } = Astro.props;
+
+const sources = [
+  {
+    libelle: 'IRS, federal income tax rates and brackets',
+    url: 'https://www.irs.gov/filing/federal-income-tax-rates-and-brackets',
+  },
+  {
+    libelle: 'Social Security Administration, contribution and benefit base',
+    url: 'https://www.ssa.gov/oact/cola/cbb.html',
+  },
+  {
+    libelle: 'Consumer Financial Protection Bureau, consumer tools and guides',
+    url: 'https://www.consumerfinance.gov/consumer-tools/',
+  },
+  {
+    libelle: 'Census Bureau, state and local government finances',
+    url: 'https://www.census.gov/programs-surveys/gov-finances.html',
+  },
+];
+---
+
+<div>
+  {intro && <p class="text-xs text-slate-500 dark:text-slate-400">{intro}</p>}
+  <ul class="mt-2 space-y-1 text-xs text-slate-500 dark:text-slate-400">
+    {sources.map((source) => (
+      <li>
+        <a href={source.url} rel="noopener" class="underline hover:text-navy-700 dark:hover:text-navy-400">
+          {source.libelle}
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>

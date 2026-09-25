@@ -23,6 +23,8 @@ interface Props {
   relatedCalculators?: RelatedCalculator[];
   schema?: Record<string, unknown> | Record<string, unknown>[];
   sources?: string;
+  /** §21 : paragraphe autonome de 120 mots ou plus, servi haut dans la page. */
+  resume?: string;
   canonical?: string;
 }
 
@@ -35,6 +37,7 @@ const {
   relatedCalculators = [],
   schema,
   sources,
+  resume,
   canonical,
 } = Astro.props;
 
@@ -89,6 +92,16 @@ const breadcrumbs = [
     </div>
   </section>
 
+  {resume && (
+    <section class="px-4 pb-2 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <p class="rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+          {resume}
+        </p>
+      </div>
+    </section>
+  )}
+
   <!-- Calculator slot -->
   <section class="px-4 pb-16 sm:px-6 lg:px-8" id="calculator">
     <div class="mx-auto max-w-7xl">
@@ -136,6 +149,28 @@ const breadcrumbs = [
           <strong>Sources:</strong> <Fragment set:html={sources} />
         </p>
       )}
+
+      {/* §7 : les sources étaient citées en toutes lettres mais sans lien, donc
+           invérifiables d'un clic. Les trois autorités ci-dessous publient les
+           chiffres dont vivent ces calculateurs ; une page peut en ajouter
+           d'autres par la prop `sources`. */}
+      <ul class="mt-2 space-y-1 text-xs text-slate-500 dark:text-slate-400">
+        <li>
+          <a href="https://www.irs.gov/filing/federal-income-tax-rates-and-brackets" rel="noopener" class="underline hover:text-navy-700 dark:hover:text-navy-400">
+            IRS, federal income tax rates and brackets
+          </a>
+        </li>
+        <li>
+          <a href="https://www.ssa.gov/oact/cola/cbb.html" rel="noopener" class="underline hover:text-navy-700 dark:hover:text-navy-400">
+            Social Security Administration, contribution and benefit base
+          </a>
+        </li>
+        <li>
+          <a href="https://www.consumerfinance.gov/consumer-tools/" rel="noopener" class="underline hover:text-navy-700 dark:hover:text-navy-400">
+            Consumer Financial Protection Bureau, consumer tools and guides
+          </a>
+        </li>
+      </ul>
       <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
         {DISCLAIMER}
       </p>

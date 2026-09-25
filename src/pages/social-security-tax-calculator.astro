@@ -9,7 +9,7 @@ const description = `See exactly how much FICA comes out of every paycheck in ${
 const faqs = [
   {
     question: 'How much is Social Security tax in 2026?',
-    answer: `In ${TAX_YEAR}, Social Security tax is 6.2% of your wages up to the wage base limit of $176,100. Your employer pays a matching 6.2%, for a combined 12.4%. Self-employed individuals pay the full 12.4% through self-employment tax.`,
+    answer: `In ${TAX_YEAR}, Social Security tax is 6.2% of your wages up to the wage base limit of $176,100. Your employer pays a matching 6.2%, for a combined 12.4%. Self-employed individuals pay the full 12.4% through self-employment tax. Employers pay a matching 6.2 per cent, so the true cost of the contribution is 12.4 per cent of covered wages.`,
   },
   {
     question: 'What is the Social Security wage base for 2026?',
@@ -17,11 +17,19 @@ const faqs = [
   },
   {
     question: 'What is the Additional Medicare Tax?',
-    answer: `The Additional Medicare Tax is an extra 0.9% on wages exceeding $200,000 (single), $250,000 (married filing jointly), or $125,000 (married filing separately). Unlike the standard 1.45% Medicare tax, your employer does not match the additional 0.9%.`,
+    answer: `An extra 0.9 per cent on wages above $200,000 for a single filer, $250,000 for a couple filing jointly and $125,000 filing separately, on top of the ordinary 1.45 per cent. The employer does not match it. Withholding begins once an individual's wages pass $200,000 whatever the filing status, so a two-earner couple is often under-withheld and a single filer with two jobs over-withheld; the return settles the difference.`,
   },
   {
     question: 'Can I get a refund if I overpaid Social Security tax?',
     answer: `If you had multiple employers and your combined wages exceeded the $176,100 wage base, you may have had too much Social Security tax withheld. You can claim the excess as a credit on your federal tax return (Form 1040, line 71). Your employers cannot adjust this — only you can claim it.`,
+  },
+  {
+    question: `What is the Social Security wage base?`,
+    answer: `The cap on earnings subject to the 6.2 per cent Social Security tax, $176,100 in 2026. Earnings above it pay no further Social Security tax, which is why a high earner's effective payroll rate falls as income rises. Medicare has no such cap: its 1.45 per cent applies to every dollar, with an extra 0.9 per cent above $200,000 for a single filer. The base is indexed to average wage growth and rises most years.`,
+  },
+  {
+    question: `Are Social Security benefits themselves taxable?`,
+    answer: `Often, yes. Up to 85 per cent of benefits become taxable once combined income, adjusted gross income plus tax-exempt interest plus half of the benefits, passes $34,000 for a single filer or $44,000 for a couple filing jointly. Below $25,000 and $32,000 respectively, benefits are tax-free. The thresholds are not indexed to inflation, so each year a few more retirees cross them, and managing withdrawals around them is worth real money.`,
   },
 ];
 

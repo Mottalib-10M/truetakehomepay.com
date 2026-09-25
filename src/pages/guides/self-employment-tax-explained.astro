@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import FAQAccordion from '../../components/ui/FAQAccordion.astro';
 import { TAX_YEAR, SITE_NAME, AUTHOR_NAME } from '../../lib/constants';
 
 const title = 'Self-Employment Tax Explained: 1099 & Freelancer Guide';
@@ -15,12 +16,35 @@ const schema = {
   datePublished: '2026-01-01',
   dateModified: '2026-01-15',
 };
+// §7 : trois questions propres au guide, affichées et balisées depuis la
+// même liste — sans FAQPage, la FAQ n'existe pas pour un moteur.
+const faqs = [
+  {
+    question: `Who has to pay self-employment tax?`,
+    answer: `Anyone with $400 or more of net earnings from self-employment in a year: sole traders, freelancers, gig workers, partners in a partnership and single-member LLC owners. It applies to net profit, not gross receipts, so legitimate business expenses reduce it directly. Employees of a company do not pay it, because their employer pays half of the equivalent payroll tax on their behalf.`,
+  },
+  {
+    question: `How much is self-employment tax and is any of it deductible?`,
+    answer: `The rate is 15.3 per cent: 12.4 for Social Security on earnings up to the annual wage base, and 2.9 for Medicare with no cap, plus 0.9 above $200,000. You may deduct half of it against income tax, which mirrors the employer's deduction for its share, and the calculation runs on 92.35 per cent of net profit rather than the whole. The tax is owed even in a year with no income tax liability.`,
+  },
+  {
+    question: `When are quarterly estimated payments due?`,
+    answer: `Mid-April, mid-June, mid-September and mid-January of the following year. Paying at least 90 per cent of the current year's liability, or 100 per cent of last year's, 110 per cent for higher earners, avoids the underpayment penalty. Setting aside 25 to 30 per cent of each payment received, in a separate account, is the habit that makes the quarterly deadlines uneventful.`,
+  },
+];
+
+// §21 : un paragraphe qui se suffit à lui-même, servi haut dans la page.
+const resumeCitable = `Self-employment tax is the self-employed person's version of FICA, and it is owed once net earnings reach $400 in a year. The rate is 15.3 per cent, made up of 12.4 for Social Security on earnings up to the annual wage base and 2.9 for Medicare with no ceiling, plus 0.9 per cent above $200,000. It applies to net profit rather than gross receipts, so business expenses reduce it directly, and the calculation runs on 92.35 per cent of that profit. Half of the tax is deductible against income tax, mirroring the deduction an employer takes for its share. Because nobody withholds it, quarterly estimated payments are due in April, June, September and the following January, and setting aside 25 to 30 per cent of each invoice is the habit that makes those deadlines uneventful.`;
+
 ---
 
 <Layout title={title} description={description} schema={schema}>
   <article class="px-4 py-16 sm:px-6 lg:px-8" itemscope itemtype="https://schema.org/Article">
     <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
       <h1>Self-Employment Tax Explained: The Complete 1099 Guide</h1>
+      <p class="not-prose my-6 rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+        {resumeCitable}
+      </p>
 
       <p class="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 not-prose">
         Written by <a href="/about/" class="ml-1 font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
@@ -250,6 +274,10 @@ const schema = {
         and see how your total tax compares to employee scenarios with our
         <a href="/income-tax-calculator/">income tax calculator</a>.
       </p>
+    </div>
+
+    <div class="mx-auto mt-12 max-w-3xl">
+      <FAQAccordion faqs={faqs} />
     </div>
   </article>
 </Layout>

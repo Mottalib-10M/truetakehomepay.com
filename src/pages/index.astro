@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import SourcesOfficielles from '../components/ui/SourcesOfficielles.astro';
 import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
 import FAQAccordion from '../components/ui/FAQAccordion.astro';
 import { TAX_YEAR, DISCLAIMER, AUTHOR_NAME } from '../lib/constants';
@@ -272,6 +273,13 @@ const schema = {
       <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
         {DISCLAIMER}
       </p>
+    </div>
+  </section>
+
+  <!-- §7 : les sources officielles, avec leur lien -->
+  <section class="border-t border-slate-200 px-4 py-8 dark:border-slate-800 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <SourcesOfficielles intro="Figures on this page come from the following official publications:" />
     </div>
   </section>
 </Layout>

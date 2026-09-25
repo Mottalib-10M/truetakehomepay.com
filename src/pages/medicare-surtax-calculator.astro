@@ -9,7 +9,7 @@ const description = `Calculate the ${TAX_YEAR} Additional Medicare Tax (0.9%) an
 const faqs = [
   {
     question: 'Who pays the 0.9% Additional Medicare Tax?',
-    answer: `You owe the 0.9% Additional Medicare Tax on wages, compensation, and self-employment income exceeding $200,000 (single), $250,000 (married filing jointly), or $125,000 (married filing separately). Your employer withholds it once your wages pass $200,000, regardless of filing status.`,
+    answer: `You owe the 0.9% Additional Medicare Tax on wages, compensation, and self-employment income exceeding $200,000 (single), $250,000 (married filing jointly), or $125,000 (married filing separately). Your employer withholds it once your wages pass $200,000, regardless of filing status. Employers begin withholding it at $200,000 of wages regardless of filing status, so a two-earner couple is often under-withheld.`,
   },
   {
     question: 'What is the 3.8% Net Investment Income Tax (NIIT)?',
@@ -17,11 +17,19 @@ const faqs = [
   },
   {
     question: 'Can I reduce my exposure to the Medicare surtaxes?',
-    answer: `Strategies include maximizing pre-tax retirement contributions (401k, Traditional IRA) to lower MAGI, timing capital gains realization across tax years, investing in tax-exempt municipal bonds, and using Health Savings Accounts. Consult a tax professional for personalized planning.`,
+    answer: `Strategies include maximizing pre-tax retirement contributions (401k, Traditional IRA) to lower MAGI, timing capital gains realization across tax years, investing in tax-exempt municipal bonds, and using Health Savings Accounts. Consult a tax professional for personalized planning. Pre-tax retirement contributions lower the income that counts toward the Net Investment Income Tax, though not the wage-based surtax itself.`,
   },
   {
     question: 'Are these surtaxes in addition to regular Medicare tax?',
     answer: `Yes. The standard Medicare tax is 1.45% on all wages (2.9% combined with employer). The 0.9% Additional Medicare Tax applies on top of that for high earners, making the total employee rate 2.35%. The 3.8% NIIT is a separate tax on investment income — it applies even if you're not subject to the 0.9% wage surtax.`,
+  },
+  {
+    question: `Who pays the Additional Medicare Tax?`,
+    answer: `Anyone with wages, compensation or self-employment income above $200,000 filing single, $250,000 filing jointly or $125,000 filing separately. The rate is 0.9 per cent on the excess, on top of the ordinary 1.45 per cent. Employers begin withholding it once an individual's wages pass $200,000, regardless of filing status, which means a two-earner couple can be under-withheld and a single filer with two jobs over-withheld; filing reconciles both.`,
+  },
+  {
+    question: `What is the Net Investment Income Tax?`,
+    answer: `A separate 3.8 per cent levy on investment income, interest, dividends, capital gains, rents and passive business income, for taxpayers whose modified adjusted gross income exceeds the same $200,000 and $250,000 thresholds. It applies to the lesser of net investment income and the amount above the threshold, so a modest overshoot produces a modest bill. Wages are not investment income, but they count toward the threshold that triggers it.`,
   },
 ];
 

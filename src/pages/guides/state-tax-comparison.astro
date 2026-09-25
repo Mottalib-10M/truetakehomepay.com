@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import FAQAccordion from '../../components/ui/FAQAccordion.astro';
 import { TAX_YEAR, SITE_NAME, AUTHOR_NAME } from '../../lib/constants';
 
 const title = 'State Income Tax Comparison: All 50 US States Ranked';
@@ -15,12 +16,35 @@ const schema = {
   datePublished: '2026-01-01',
   dateModified: '2026-01-15',
 };
+// §7 : trois questions propres au guide, affichées et balisées depuis la
+// même liste — sans FAQPage, la FAQ n'existe pas pour un moteur.
+const faqs = [
+  {
+    question: `Which states tax income most heavily?`,
+    answer: `California tops the list with a top marginal rate of 13.3 per cent including the surcharge above $1 million, followed by New York, which reaches 10.9 and adds a city tax of up to 3.876 per cent for residents of New York City, then Hawaii, New Jersey and Oregon. Top rates apply only to income above the threshold, so the effective rate on a middle salary is far lower than the headline.`,
+  },
+  {
+    question: `Are flat-tax states cheaper than progressive ones?`,
+    answer: `For a high earner, usually; for a modest income, often not. A flat rate of 4 to 5 per cent taxes the first dollar at the same rate as the last, whereas a progressive schedule may charge 2 per cent on the early slices. Several states have moved to flat rates in recent years, among them Arizona, Iowa, Georgia and Mississippi, and the effect has been to lower the bill at the top more than at the bottom.`,
+  },
+  {
+    question: `What should I compare besides income tax?`,
+    answer: `Property tax, which varies from under 0.4 per cent of value in Hawaii to over 2 per cent in New Jersey and Illinois; combined sales tax, which ranges from nothing to above 9.5 per cent; the treatment of retirement income, since many states exempt Social Security and some exempt pensions; and estate or inheritance tax, which a dozen states still levy. The income tax line alone settles very few real decisions.`,
+  },
+];
+
+// §21 : un paragraphe qui se suffit à lui-même, servi haut dans la page.
+const resumeCitable = `State income tax is where take-home pay actually diverges, since federal tax and FICA are identical everywhere. Nine states tax no wage income at all. Around a dozen apply a single flat rate, commonly between 3 and 5 per cent, a group that has grown as Arizona, Iowa, Georgia and Mississippi moved away from progressive schedules. The rest run brackets, with top marginal rates reaching 13.3 per cent in California, 10.9 in New York before a city tax of up to 3.876 per cent for residents of New York City, and around 11 in Hawaii. Top rates apply only to income above their threshold, so the effective rate on a middle salary is far lower than the headline. Income tax is also only part of the burden: property and sales taxes, and the treatment of retirement income, often reverse the ranking.`;
+
 ---
 
 <Layout title={title} description={description} schema={schema}>
   <article class="px-4 py-16 sm:px-6 lg:px-8" itemscope itemtype="https://schema.org/Article">
     <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
       <h1>State Income Tax Comparison: All 50 States</h1>
+      <p class="not-prose my-6 rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+        {resumeCitable}
+      </p>
 
       <p class="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 not-prose">
         Written by <a href="/about/" class="ml-1 font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
@@ -269,6 +293,10 @@ const schema = {
         across states, or explore <a href="/income-tax-calculator/">income tax calculations</a> for any
         state and filing status.
       </p>
+    </div>
+
+    <div class="mx-auto mt-12 max-w-3xl">
+      <FAQAccordion faqs={faqs} />
     </div>
   </article>
 </Layout>

@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import FAQAccordion from '../../components/ui/FAQAccordion.astro';
 import { TAX_YEAR, SITE_NAME, AUTHOR_NAME } from '../../lib/constants';
 
 const title = `${TAX_YEAR} 401(k) Contribution Limits: How to Max Out Your Plan`;
@@ -15,12 +16,35 @@ const schema = {
   datePublished: '2026-01-01',
   dateModified: '2026-01-15',
 };
+// §7 : trois questions propres au guide, affichées et balisées depuis la
+// même liste — sans FAQPage, la FAQ n'existe pas pour un moteur.
+const faqs = [
+  {
+    question: `What counts toward the 401(k) contribution limit?`,
+    answer: `The employee limit of $23,500 covers your own elective deferrals, whether traditional or Roth, across all 401(k) plans you participate in during the year. Employer matching and profit-sharing do not count against it; they fall under the much higher combined limit of $70,000. Someone who changes jobs mid-year has to track both plans themselves, because neither employer sees the other's contributions.`,
+  },
+  {
+    question: `What is the catch-up contribution and who can use it?`,
+    answer: `Anyone aged 50 or over by the end of the year can add $7,500 on top of the standard limit, taking the total to $31,000. A larger catch-up applies in the early sixties under recent rules, and high earners are increasingly required to make catch-up contributions on a Roth basis rather than pre-tax. The catch-up is per person, not per plan, and it is claimed simply by electing the higher deferral with payroll.`,
+  },
+  {
+    question: `What happens if I contribute too much?`,
+    answer: `Excess deferrals are taxed twice unless corrected: once in the year contributed and again when withdrawn. The fix is to notify the plan administrator early in the new year and withdraw the excess, with its earnings, before the April deadline. This most often affects people who changed jobs and let both plans run at the same percentage, which is why a mid-year job move is worth a quick check of the year-to-date figures.`,
+  },
+];
+
+// §21 : un paragraphe qui se suffit à lui-même, servi haut dans la page.
+const resumeCitable = `The 2026 employee contribution limit for a 401(k) is $23,500, with a catch-up of $7,500 from age 50 taking the total to $31,000, and a combined employer-and-employee ceiling of $70,000. The employee limit is per person rather than per plan, so someone who changes employers mid-year has to add the two payroll records together themselves; neither employer can see the other. Employer matching and profit-sharing do not count against the $23,500, which is why a generous match can push total contributions far above it without breaking any rule. Contributing the full amount at a 24 per cent marginal rate saves about $5,640 in federal tax, before any state saving. Exceeding the limit is fixable but costly if missed: the excess and its earnings must be withdrawn before the April deadline or the money is taxed twice.`;
+
 ---
 
 <Layout title={title} description={description} schema={schema}>
   <article class="px-4 py-16 sm:px-6 lg:px-8" itemscope itemtype="https://schema.org/Article">
     <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
       <h1>{TAX_YEAR} 401(k) Contribution Limits: Everything You Need to Know</h1>
+      <p class="not-prose my-6 rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+        {resumeCitable}
+      </p>
 
       <p class="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 not-prose">
         Written by <a href="/about/" class="ml-1 font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
@@ -286,6 +310,10 @@ const schema = {
         guide</a>, or see the paycheck impact with our
         <a href="/take-home-pay-calculator/">take-home pay calculator</a>.
       </p>
+    </div>
+
+    <div class="mx-auto mt-12 max-w-3xl">
+      <FAQAccordion faqs={faqs} />
     </div>
   </article>
 </Layout>

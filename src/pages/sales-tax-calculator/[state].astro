@@ -7,6 +7,7 @@ import { getSalesTaxConfig } from '../../data/sales-tax-2026/index';
 import { getStateTaxConfig } from '../../data/income-tax-2026/index';
 import { NO_INCOME_TAX_STATES } from '../../data/state-meta';
 import { formatPercent, formatCurrencyRound } from '../../lib/format-us';
+import { ajusterTitre, ajusterDescription } from '../../lib/bornes-seo';
 
 export function getStaticPaths() {
   return getAllStateSlugs().map((slug) => ({ params: { state: slug } }));
@@ -27,38 +28,70 @@ const NO_SALES_TAX_STATES = ['AK', 'DE', 'MT', 'NH', 'OR'];
 const isNoSalesTax = NO_SALES_TAX_STATES.includes(code);
 // Title: 50-60 chars for all state names (4-20 chars)
 const _tBase = `${name} Sales Tax Calculator ${TAX_YEAR}`;
-const title = _tBase.length <= 39
-  ? `${_tBase} — Rates & Exemptions`
-  : `${_tBase} — Rates`;
+// §11 : les paliers fixes tombaient hors bornes sur les noms courts.
+const title = ajusterTitre([
+  `${_tBase}: Combined Rates and Exemptions`,
+  `${_tBase}: Rates, Local Taxes, Exemptions`,
+  `${_tBase}: Rates and Exemptions`,
+  `${_tBase}: Combined State and Local Rates`,
+  `${_tBase}: Rates by County`,
+  `${_tBase}: Rates`,
+  _tBase,
+]);
 
 // Description: 150-160 chars for all state names (including District of Columbia at 20 chars)
-const description = name.length <= 8
-  ? `Calculate ${TAX_YEAR} sales tax in ${name}. See combined state and local rates, tax-exempt items, grocery and clothing exemptions, and how ${name} compares to other states.`
-  : name.length <= 13
-    ? `Calculate ${TAX_YEAR} sales tax in ${name}. See combined state and local rates, tax-exempt items, grocery and clothing exemptions, and comparisons to other states.`
-    : `Calculate ${TAX_YEAR} sales tax in ${name}. See combined state and local rates, tax-exempt items, grocery and clothing exemptions, and state comparisons.`;
+const description = ajusterDescription(
+  `Calculate ${TAX_YEAR} sales tax in ${name}: combined state and local rates, exempt items, and how the rate compares with other states.`,
+  [`Grocery and clothing exemptions included.`, `With grocery and clothing rules.`, `Exemptions included.`],
+);
 
 const faqs = [
   {
     question: `What is the sales tax rate in ${name}?`,
-    answer: `Sales tax rates in ${name} include a state-level rate plus any applicable local taxes from counties, cities, and special districts. Use our calculator above to find the combined rate for your specific location in ${name}.`,
+    answer: `${name} levies a state sales tax of ${formatPercent(salesTax.stateRate * 100)}, and local jurisdictions add their own on top, up to ${formatPercent(salesTax.maxLocalRate * 100)}. The average combined rate paid across the state is ${formatPercent(salesTax.avgCombinedRate * 100)}, which on a $100 purchase comes to ${formatCurrencyRound(100 * salesTax.avgCombinedRate)} of tax. The rate that applies to you is the one where the sale takes place, so the calculator above asks for your own combined rate.`,
   },
   {
-    question: `What items are exempt from sales tax in ${name}?`,
-    answer: `Common exemptions vary by state. ${name} may exempt groceries, prescription medications, clothing, or other essential items from sales tax. Check the exemptions table above for ${name}-specific details.`,
+    question: `Are groceries taxed in ${name}?`,
+    answer: salesTax.groceryTax === 'exempt'
+      ? `Groceries are exempt from sales tax in ${name}. The exemption covers unprepared food bought to take home; prepared food, restaurant meals, hot food from a supermarket counter and usually sweets and soft drinks stay taxable at the full rate. ${salesTax.prescriptionDrugExempt ? 'Prescription medicines are exempt too.' : 'Prescription medicines, by contrast, are not exempt here.'}`
+      : salesTax.groceryTax === 'reduced'
+        ? `${name} taxes groceries at a reduced rate rather than exempting them, so food bought to take home costs less in tax than other goods but is not tax-free. Prepared food, restaurant meals and hot food from a counter are taxed at the full rate. ${salesTax.prescriptionDrugExempt ? 'Prescription medicines are exempt.' : 'Prescription medicines are not exempt here.'}`
+        : `Groceries are taxed at the full rate in ${name}: unlike most states, there is no exemption or reduced rate for food bought to take home, which is why the effective burden on a household here is higher than the headline rate suggests. ${salesTax.prescriptionDrugExempt ? 'Prescription medicines are exempt.' : 'Prescription medicines are not exempt here either.'}`,
+  },
+  {
+    question: `Is clothing taxed in ${name}?`,
+    answer: salesTax.clothingExempt
+      ? `Clothing is exempt from sales tax in ${name}, which is unusual: most states tax it like any other good. The exemption normally covers everyday garments and footwear rather than accessories, sports equipment or protective gear, and some states cap it at a price per item. Check the exemptions table above for the line that applies to your purchase.`
+      : `Clothing is taxed like any other retail good in ${name}, at the state rate of ${formatPercent(salesTax.stateRate * 100)} plus whatever your locality adds. A handful of states exempt clothing outright and a few more lift the tax during an annual holiday, but here the everyday rule is that a shirt is taxed at the same rate as a television.`,
   },
   {
     question: `Does ${name} have local sales taxes?`,
-    answer: `Many states allow local jurisdictions to add their own sales tax on top of the state rate. This means the total rate you pay in ${name} can vary depending on the city or county where you make a purchase.`,
+    answer: salesTax.maxLocalRate > 0
+      ? `Yes. Counties, cities and special districts in ${name} can add up to ${formatPercent(salesTax.maxLocalRate * 100)} on top of the ${formatPercent(salesTax.stateRate * 100)} state rate, which is why the combined rate averages ${formatPercent(salesTax.avgCombinedRate * 100)} and varies from one town to the next. Sales tax follows where the sale happens, so an address a few miles away can carry a different rate on the same purchase.`
+      : `No. ${name} does not allow local jurisdictions to add their own sales tax, so the rate is ${formatPercent(salesTax.stateRate * 100)} everywhere in the state. That makes budgeting simpler than in states where the rate changes between neighbouring towns, and it means an online order is taxed at the same rate wherever in the state it is delivered.`,
   },
   {
     question: `Does ${name} have a sales tax holiday?`,
-    answer: `Some states hold annual sales tax holidays — typically before the back-to-school season — where certain items can be purchased tax-free. Check your state's department of revenue for any upcoming tax-free periods in ${name}.`,
+    answer: salesTax.hasSalesTaxHoliday
+      ? `Yes. ${name} runs at least one sales tax holiday a year, typically before the start of the school year, during which qualifying clothing, footwear, school supplies and sometimes computers can be bought free of sales tax. Each holiday has its own dates, its own list of eligible items and usually a price cap per item, all set annually, so check the department of revenue's page before planning a purchase around it.`
+      : `${name} does not currently run a sales tax holiday. Around a third of states hold one, usually before the school year, and the list changes from year to year as legislatures add or drop them. If that changes here, the state's department of revenue publishes the dates, the eligible items and the price caps well before the weekend concerned.`,
   },
 ];
+
+// §7 : la FAQ est affichée plus bas ; sans FAQPage, elle n'existe pas pour un
+// moteur. Le schéma est construit depuis la même liste, jamais recopié.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} schema={faqSchema}>
   <!-- Hero -->
   <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-8 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-7xl text-center">
@@ -74,7 +107,7 @@ const faqs = [
   <!-- Sales Tax Calculator -->
   <section class="px-4 py-12 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
-      <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+      <div class="rounded-xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
         <h2 id="calculator" class="text-xl font-semibold text-slate-900 dark:text-white">Calculate {name} Sales Tax</h2>
 
         {isNoSalesTax && code !== 'AK' && (

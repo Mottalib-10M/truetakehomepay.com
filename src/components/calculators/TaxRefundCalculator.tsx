@@ -166,7 +166,7 @@ export default function TaxRefundCalculator() {
     <div className="grid gap-8 lg:grid-cols-5">
       {/* Input panel */}
       <div className="space-y-6 lg:col-span-2">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
           <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
             Tax Details
           </h2>
@@ -247,7 +247,7 @@ export default function TaxRefundCalculator() {
         <div className="space-y-6">
           {/* Hero card: Refund or Amount Owed */}
           <div
-            className={`rounded-2xl p-6 text-center text-white shadow-lg ${
+            className={`rounded-xl p-6 text-center text-white shadow-lg ${
               result.isRefund
                 ? 'bg-gradient-to-br from-success-700 to-success-800'
                 : 'bg-gradient-to-br from-amber-600 to-amber-700'

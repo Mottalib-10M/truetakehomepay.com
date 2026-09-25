@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import FAQAccordion from '../../components/ui/FAQAccordion.astro';
 import { TAX_YEAR, SITE_NAME, AUTHOR_NAME } from '../../lib/constants';
 
 const title = `${TAX_YEAR} Federal Income Tax Brackets: Rates for All Filers`;
@@ -74,6 +75,26 @@ const deductions = [
   { status: 'Married Filing Separately', amount: '$15,000' },
   { status: 'Head of Household', amount: '$22,500' },
 ];
+// §7 : trois questions propres au guide, affichées et balisées depuis la
+// même liste — sans FAQPage, la FAQ n'existe pas pour un moteur.
+const faqs = [
+  {
+    question: `Does moving into a higher bracket raise tax on all my income?`,
+    answer: `No, and this is the most common misunderstanding in the whole system. The brackets are marginal: only the income above each threshold is taxed at the higher rate. A single filer crossing into the 24 per cent bracket pays 24 per cent on the dollars above that line and the same rates as before on everything below it. A pay rise never leaves you with less after tax.`,
+  },
+  {
+    question: `What is the difference between the marginal and effective rate?`,
+    answer: `The marginal rate is what the next dollar is taxed at; the effective rate is total tax divided by total income. They differ widely: a single filer on $100,000 has a 22 or 24 per cent marginal rate but an effective federal rate nearer 14, because the first slices of income are taxed at 10 and 12 per cent and the standard deduction covers a further chunk. Use the marginal rate for decisions, the effective rate to judge the burden.`,
+  },
+  {
+    question: `Are the brackets adjusted for inflation?`,
+    answer: `Yes, annually. The IRS indexes the bracket thresholds, the standard deduction and dozens of other figures to a measure of price changes, which stops inflation alone from pushing people into higher brackets. The adjustment is published in the autumn for the following year. Several other thresholds are deliberately not indexed, among them the levels at which Social Security benefits and the Net Investment Income Tax kick in.`,
+  },
+];
+
+// §21 : un paragraphe qui se suffit à lui-même, servi haut dans la page.
+const resumeCitable = `Federal income tax brackets are marginal, which is the single fact that explains most of the confusion about them. Seven rates apply in 2026, from 10 to 37 per cent, and each applies only to the slice of taxable income that falls inside its band. A single filer whose income reaches the 24 per cent bracket pays 10 per cent on the first slice, 12 on the next, 22 on the next and 24 only on the amount above that threshold, which is why the effective rate on a $100,000 salary is nearer 14 per cent than 24. Taxable income is not gross pay either: the standard deduction comes off first, as do pre-tax retirement and health contributions. The thresholds are indexed to inflation each year, so crossing a bracket after a cost-of-living rise does not by itself increase real tax.`;
+
 ---
 
 <Layout title={title} description={description} schema={schema}>
@@ -83,6 +104,9 @@ const deductions = [
       <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
         {TAX_YEAR} Federal Income Tax Brackets and Rates
       </h1>
+      <p class="not-prose my-6 rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+        {resumeCitable}
+      </p>
 
       <p class="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 not-prose">
         Written by <a href="/about/" class="ml-1 font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
@@ -386,6 +410,10 @@ const deductions = [
           Take-Home Pay Calculator
         </a>
       </div>
+    </div>
+
+    <div class="mx-auto mt-12 max-w-3xl">
+      <FAQAccordion faqs={faqs} />
     </div>
   </section>
 </Layout>

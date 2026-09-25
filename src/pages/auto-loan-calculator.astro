@@ -23,6 +23,14 @@ const faqs = [
     question: 'How does a trade-in or down payment affect my loan?',
     answer: `A trade-in or down payment reduces the loan amount, lowering both your monthly payment and total interest paid. A $5,000 down payment on a $30,000 car at 7% for 60 months saves about $99/month and $1,188 in total interest. It also reduces the chance of negative equity if the car depreciates faster than you pay off the loan.`,
   },
+  {
+    question: `How long should a car loan run?`,
+    answer: `Four years is the traditional advice and still the sensible one, though seven and eight-year terms are now common. A longer term lowers the payment and raises the total cost, and worse, it keeps you in negative equity longer: a car depreciating twenty per cent in the first year against a loan paid down slowly can leave you owing more than it is worth for half the term. If the payment only works over seven years, the car is too expensive.`,
+  },
+  {
+    question: `Should I take the dealer's low rate or the cash rebate?`,
+    answer: `Run both. A zero per cent offer on a $30,000 car over 60 months against a $3,000 rebate with a 6 per cent loan from a credit union: the rebate cuts the balance to $27,000 and the interest over five years is roughly $4,300, so the zero per cent deal wins by about $1,300. Change the rebate or the rate and the answer flips, which is why the comparison has to be made with the actual numbers rather than by instinct.`,
+  },
 ];
 
 const relatedCalculators = [
@@ -53,6 +61,7 @@ const schema = {
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
+  resume={`A car loan payment is set by four numbers: the amount borrowed, the annual rate, the term and any deposit or trade-in. On a $30,000 loan at 7 per cent, the payment is about $594 over 60 months and $457 over 84, and the longer term costs roughly $3,000 more in interest. That is the trade the dealer is offering when a payment is quoted rather than a price. Two further costs sit outside the payment: sales tax and fees, which vary by state and are usually financed, and depreciation, which is steepest in the first year and is what leaves a borrower on a long term owing more than the car is worth. Arranging finance with a bank or credit union before visiting the showroom turns the negotiation back into one about price.`}
   sources={`Federal Reserve Board (consumer auto loan data), Experian State of the Automotive Finance Market, CFPB auto loan guides. Last updated for ${TAX_YEAR}.`}
 >
   <AutoLoanCalculator client:idle />

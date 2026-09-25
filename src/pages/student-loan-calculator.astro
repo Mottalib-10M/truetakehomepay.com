@@ -23,6 +23,14 @@ const faqs = [
     question: 'Should I pay off student loans early or invest?',
     answer: `Compare your loan interest rate to expected investment returns (after tax). If your loan rate exceeds 6-7%, paying it off faster likely beats investing. If your rate is below 4-5%, investing the extra money may yield higher returns. Always make minimum payments and consider employer 401(k) match first — that's an instant 50-100% return.`,
   },
+  {
+    question: `Which repayment plan should I choose?`,
+    answer: `The standard ten-year plan costs least in total and clears the debt soonest. Income-driven plans cap the payment at a share of discretionary income and forgive the balance after twenty or twenty-five years, which suits a balance large relative to income, and they are a requirement for Public Service Loan Forgiveness. The cost of a lower payment is more interest and, outside PSLF, a possible tax bill on the forgiven amount.`,
+  },
+  {
+    question: `Should I refinance federal student loans privately?`,
+    answer: `Only with your eyes open. Refinancing to a private lender can lower the rate, but it permanently gives up income-driven repayment, federal forbearance, death and disability discharge and any route to forgiveness. For a borrower with stable high income, no interest in public service and a rate improvement of two points or more, it can save real money. For anyone whose income might fall, the federal protections are worth more than the rate.`,
+  },
 ];
 
 const relatedCalculators = [
@@ -53,6 +61,7 @@ const schema = {
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
+  resume={`The repayment plan matters more than the rate for most federal student loan borrowers. The standard ten-year plan costs least in total and clears the debt soonest. Income-driven plans cap the payment at a share of discretionary income and forgive the balance after twenty or twenty-five years, which suits a balance large relative to income and is a requirement for Public Service Loan Forgiveness; the cost is more interest and, outside PSLF, a possible tax bill on the forgiven amount. Refinancing privately can lower the rate but permanently surrenders income-driven repayment, federal forbearance, discharge on death or disability, and any route to forgiveness, which is why it suits a stable high earner and almost nobody else. Whichever plan applies, an extra payment directed at the highest-rate loan rather than spread across the balance is what shortens the term soonest.`}
   sources={`Federal Student Aid (studentaid.gov), Department of Education loan repayment estimator, IRS Publication 970 (student loan interest deduction). Last updated for ${TAX_YEAR}.`}
 >
   <StudentLoanCalculator client:idle />

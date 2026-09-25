@@ -31,6 +31,14 @@ const faqs = [
     question: 'How can I reduce the tax on my bonus?',
     answer: `Strategies to reduce bonus tax include: (1) Ask your employer to increase your 401(k) contribution for the bonus paycheck (traditional 401(k) contributions reduce taxable income), (2) Contribute to an HSA if eligible, (3) Time the bonus to a year when your income is lower if possible, or (4) Adjust your W-4 withholding to account for the bonus. These reduce income tax but not FICA.`,
   },
+  {
+    question: `Why was so much withheld from my bonus?`,
+    answer: `Because withholding is not the same as tax. Employers usually treat a bonus as supplemental pay and withhold a flat 22 per cent federally, plus 7.65 per cent FICA and any state tax, which on a $10,000 bonus leaves roughly $7,000. If your marginal rate is 12 or 24 per cent, that flat figure is too much or too little, and the difference is settled at filing. A bonus is not taxed at a penalty rate; it is simply over-withheld.`,
+  },
+  {
+    question: `Can I reduce the tax on a bonus?`,
+    answer: `To an extent, and it has to be arranged before the money is paid. Directing part of it into a 401(k) or HSA removes it from taxable income in the same way as salary, and the HSA route also escapes FICA. Some employers allow a bonus to be deferred into the following year, which helps if this year pushes you into a higher bracket. Once the bonus has been paid, the only remaining adjustment is at filing.`,
+  },
 ];
 
 const relatedCalculators = [
@@ -66,6 +74,7 @@ const schema = {
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
+  resume={`A bonus is taxed as ordinary income, but it is usually withheld at a flat rate, and those two facts are what make bonuses feel punitively taxed. Employers commonly treat a bonus as supplemental wages and withhold 22 per cent federally, plus 7.65 per cent FICA and any state tax, so a $10,000 bonus often arrives as about $7,000. If your marginal rate is 12 per cent, too much was withheld and the difference comes back at filing; if it is 32, too little was withheld and you will owe. Nothing about the bonus is taxed at a penalty rate. The only ways to reduce the tax itself are arranged before payment: directing part of it into a 401(k) or HSA, or, where the employer allows, deferring it into the following year.`}
   sources={`IRS Publication 15 (Employer's Tax Guide, supplemental wage withholding), IRS Rev. Proc. 2025-11 (${TAX_YEAR} tax brackets), SSA.gov (Social Security wage base $176,100). Last updated for tax year ${TAX_YEAR}.`}
 >
   <BonusTaxCalculator

@@ -32,7 +32,7 @@ export default function ResultPanel({ result }: ResultPanelProps) {
   return (
     <div className="space-y-6">
       {/* Big take-home number */}
-      <div className="rounded-2xl bg-gradient-to-br from-navy-800 to-navy-900 p-6 text-center text-white shadow-lg">
+      <div className="rounded-xl bg-gradient-to-br from-navy-800 to-navy-900 p-6 text-center text-white shadow-lg">
         <p className="text-sm font-medium text-navy-200">{periodLabel} Take-Home Pay</p>
         <p className="tabular-nums mt-1 text-4xl font-bold tracking-tight sm:text-5xl">
           {formatCurrency(netPerPeriod)}

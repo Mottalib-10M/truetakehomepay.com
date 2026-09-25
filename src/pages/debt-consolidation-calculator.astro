@@ -23,6 +23,14 @@ const faqs = [
     question: 'What is the difference between debt consolidation and debt settlement?',
     answer: `Debt consolidation pays off your full balances with a new loan — your credit stays intact. Debt settlement negotiates with creditors to accept less than you owe — it severely damages your credit, may trigger tax liability on forgiven amounts, and often involves fees. Consolidation is the better option for most people who can qualify for a reasonable loan rate.`,
   },
+  {
+    question: `When does consolidation actually help?`,
+    answer: `When the new rate is meaningfully lower and the term is not much longer. Replacing three cards at 22 per cent with a personal loan at 11 halves the interest and gives a fixed payoff date, which is a genuine improvement. Stretching the same debt over seven years at a lower rate can leave the total cost higher, and the monthly saving hides it. Compare total interest to payoff, not the monthly payment.`,
+  },
+  {
+    question: `What are the risks of consolidating?`,
+    answer: `Two, and both are common. The first is behavioural: cards cleared by a consolidation loan tend to acquire new balances, leaving the borrower with both. The second is collateral: a home equity loan or cash-out refinance offers the lowest rate precisely because it turns unsecured debt into debt secured on your house, so a lost job now risks the home rather than a credit score. Consolidation is a tool for a repayment plan, not a substitute for one.`,
+  },
 ];
 
 const relatedCalculators = [
@@ -53,6 +61,7 @@ const schema = {
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
+  resume={`Consolidation replaces several debts with one, and whether it helps depends on the rate and the term rather than on the monthly payment. Swapping three cards at 22 per cent for a personal loan at 11 halves the interest and sets a fixed payoff date, which is a genuine improvement. Stretching the same balance from three years to seven at a lower rate can leave the total cost higher while the payment falls, which is how a consolidation can feel like progress and cost more. Compare total interest to payoff, not the monthly figure. Two risks recur: cards cleared by a loan tend to acquire new balances, leaving both; and a home equity loan offers the lowest rate precisely because it secures the debt on your house.`}
   sources={`CFPB (Consumer Financial Protection Bureau) debt consolidation guides, Federal Trade Commission (FTC) consumer debt resources, National Foundation for Credit Counseling. Last updated for ${TAX_YEAR}.`}
 >
   <DebtConsolidationCalculator client:idle />

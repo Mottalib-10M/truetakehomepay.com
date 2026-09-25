@@ -23,6 +23,14 @@ const faqs = [
     question: 'Do I have to report small lottery prizes?',
     answer: `Yes, all gambling and lottery winnings are taxable income regardless of amount. Prizes of $600 or more are reported to the IRS on Form W-2G. Even if you don't receive a W-2G, you're legally required to report all winnings on your tax return. You can deduct gambling losses up to the amount of your winnings if you itemize.`,
   },
+  {
+    question: `Lump sum or annuity: which leaves more?`,
+    answer: `The advertised jackpot is the annuity total, paid over 29 years; the lump sum is the present value, usually a little under half. Taking the lump sum means the whole amount is taxed in one year at the top rate, while the annuity spreads income across three decades. Financially the lump sum wins if the money is invested at a return above the annuity's implied rate; in practice, the annuity protects against the far commoner outcome of spending it.`,
+  },
+  {
+    question: `How much tax is withheld from lottery winnings?`,
+    answer: `Twenty-four per cent is withheld federally on a large prize, which is not the end of it: a jackpot lands in the 37 per cent bracket, so a further 13 points fall due at filing. State tax is on top and ranges from nothing in a handful of states to more than ten per cent in New York, and New York City adds a further municipal tax. A $1 million prize commonly nets between $550,000 and $650,000.`,
+  },
 ];
 
 const relatedCalculators = [
@@ -53,6 +61,7 @@ const schema = {
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
+  resume={`A lottery jackpot is advertised as the annuity total, paid over 29 years; the lump sum is its present value, usually a little under half. Whichever you take, tax is the first claim on it. Twenty-four per cent is withheld federally on a large prize, which is not the end of it: a jackpot lands in the 37 per cent bracket, so a further 13 points fall due at filing. State tax comes on top and ranges from nothing in a handful of states to more than ten per cent in New York, where New York City adds a municipal tax of its own. A $1 million prize commonly nets between $550,000 and $650,000. The annuity spreads income across three decades and so keeps more of it out of the top bracket.`}
   sources={`IRS Publication 525 (Taxable and Nontaxable Income), IRS Instructions for Form W-2G, individual state lottery commission tax policies. Last updated for tax year ${TAX_YEAR}.`}
 >
   <LotteryTaxCalculator client:idle />

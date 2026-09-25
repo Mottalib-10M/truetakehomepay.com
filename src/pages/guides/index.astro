@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import SourcesOfficielles from '../../components/ui/SourcesOfficielles.astro';
+import FAQAccordion from '../../components/ui/FAQAccordion.astro';
 import { TAX_YEAR } from '../../lib/constants';
 
 const title = `Tax & Finance Guides ${TAX_YEAR}: How US Taxes & Payroll Work`;
@@ -79,6 +81,38 @@ const guides = [
     category: 'Tax Season',
   },
 ];
+// §7 : une page pilier porte six à huit questions. Celles-ci sont les questions
+// que le lecteur pose avant de choisir un guide.
+const faqs = [
+  {
+    question: `Who writes these guides?`,
+    answer: `Radif Partners, which publishes TrueTakeHomePay. The figures come from the IRS revenue procedures, the Social Security Administration and the revenue departments of the states concerned, and each guide names the source of any rate it quotes. Where a rule is genuinely contested or pending, the guide says so rather than choosing a side, and each page carries the date of its last real check rather than the date it was served.`,
+  },
+  {
+    question: `Are these guides tax advice?`,
+    answer: `No. They describe how the rules generally work and what the published rates are, which is the part that applies to everyone. What they cannot do is weigh your own circumstances: a diagnosed situation, a partnership, an unusual residency, a trust or a business structure all change the answer. Where a guide and a professional who has seen your paperwork disagree, the professional is the one to follow.`,
+  },
+  {
+    question: `Which guide should I read first?`,
+    answer: `Whichever matches the question in front of you. If you have just started a job, the guide to how paychecks work and the W-4 walkthrough between them cover the first payslip. If you are filing, the tax season checklist and the piece on deductions against credits do most of the work. If you are weighing a move, the state comparison and the no-income-tax guide are the pair to read together.`,
+  },
+  {
+    question: `How often are the guides updated?`,
+    answer: `When the underlying figures change, which for brackets, contribution limits and the Social Security wage base means annually in the autumn for the following year, and at any point when a rule is amended. Nothing here is rewritten simply to refresh a date: a guide that has not needed changing keeps the date it was last genuinely checked, which is the date shown on the page.`,
+  },
+  {
+    question: `Do these guides cover state taxes as well as federal?`,
+    answer: `Both. Federal rules are the same everywhere and take up most of the space, but the state layer is where take-home pay actually differs, from nothing in nine states to more than thirteen per cent in California, plus city taxes in New York, Philadelphia and much of Ohio. The state comparison guide covers the whole picture, and the individual calculators give the figure for one state at a time.`,
+  },
+  {
+    question: `Can I use these figures for my own tax return?`,
+    answer: `As a check, yes; as a substitute for the forms, no. The rates and thresholds quoted here are the published ones, so a guide is a good way to see whether a number on a return looks plausible. The return itself depends on documents only you hold, W-2s, 1099s, records of estimated payments, and on choices such as filing status that the guides can explain but not make for you.`,
+  },
+];
+
+// §21 : un paragraphe qui se suffit à lui-même, servi haut dans la page.
+const resumeCitable = `These guides cover the part of the US tax and pay system that applies to everyone, in the order most people meet it: how a payslip is built and why net pay is so much lower than salary, how to fill in a W-4 so that April holds no surprises, what the federal brackets actually do, and how the state layer changes the answer from nothing in nine states to more than thirteen per cent in California. Alongside those sit the pieces on self-employment tax, deductions against credits, property and sales tax, retirement contribution limits, and a filing checklist. Every rate quoted comes from the IRS, the Social Security Administration or a named state revenue department, each page carries the date it was last genuinely checked, and none of it substitutes for a professional who has seen your own paperwork.`;
+
 ---
 
 <Layout title={title} description={description}>
@@ -87,6 +121,9 @@ const guides = [
       <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
         Tax &amp; Finance Guides
       </h1>
+      <p class="not-prose my-6 rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+        {resumeCitable}
+      </p>
       <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
         Clear, practical guides to understanding US taxes, paychecks, and personal finance. No jargon, no fluff.
       </p>
@@ -113,6 +150,17 @@ const guides = [
           </a>
         ))}
       </div>
+    </div>
+
+    <div class="mx-auto mt-12 max-w-3xl px-4">
+      <FAQAccordion faqs={faqs} />
+    </div>
+  </section>
+
+  <!-- §7 : les sources officielles, avec leur lien -->
+  <section class="border-t border-slate-200 px-4 py-8 dark:border-slate-800 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <SourcesOfficielles intro="Figures on this page come from the following official publications:" />
     </div>
   </section>
 </Layout>

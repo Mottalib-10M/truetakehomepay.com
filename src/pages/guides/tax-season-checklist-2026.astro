@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import FAQAccordion from '../../components/ui/FAQAccordion.astro';
 import { TAX_YEAR, SITE_NAME, AUTHOR_NAME } from '../../lib/constants';
 
 const title = `${TAX_YEAR} Tax Season Checklist: File Your Federal Taxes Right`;
@@ -15,12 +16,35 @@ const schema = {
   datePublished: '2026-01-01',
   dateModified: '2026-01-15',
 };
+// §7 : trois questions propres au guide, affichées et balisées depuis la
+// même liste — sans FAQPage, la FAQ n'existe pas pour un moteur.
+const faqs = [
+  {
+    question: `What documents do I need before filing?`,
+    answer: `W-2s from every employer, 1099s for freelance work, interest, dividends, brokerage sales and retirement distributions, 1098s for mortgage interest and student loan interest, records of estimated payments made, and receipts for anything you intend to deduct. If you use the marketplace for health insurance, Form 1095-A is required before the return can be completed. Waiting until late February usually avoids filing before a late 1099 arrives.`,
+  },
+  {
+    question: `When are the filing deadlines?`,
+    answer: `Mid-April for individual returns, with an automatic six-month extension available to October on request. The extension gives more time to file, not more time to pay: tax owed is still due in April, and interest runs from then. Quarterly estimated payments for the self-employed fall in April, June, September and the following January, and a missed one carries a penalty even if the annual return is settled in full.`,
+  },
+  {
+    question: `How long should I keep tax records?`,
+    answer: `Three years from the filing date covers the ordinary audit window, six if income was understated by more than 25 per cent, and there is no limit where a return was never filed or fraud is alleged. Keep records of property purchases, improvements and non-deductible IRA contributions for as long as you own the asset plus three years, because they establish the cost basis that determines the gain when you sell.`,
+  },
+];
+
+// §21 : un paragraphe qui se suffit à lui-même, servi haut dans la page.
+const resumeCitable = `Filing goes smoothly or badly depending almost entirely on whether the documents are in hand before you start. The set is predictable: a W-2 from every employer, 1099s for freelance work, interest, dividends, brokerage sales and retirement distributions, 1098s for mortgage and student loan interest, Form 1095-A if you bought health insurance through the marketplace, a record of any estimated payments made, and receipts for anything you intend to deduct. Returns are due in mid-April, and the automatic six-month extension postpones the filing rather than the payment: tax owed still falls due in April and interest runs from then. Returns claiming the Earned Income Tax Credit or the Additional Child Tax Credit are held by law until mid-February, so filing on the first possible day does not speed those refunds.`;
+
 ---
 
 <Layout title={title} description={description} schema={schema}>
   <article class="px-4 py-16 sm:px-6 lg:px-8" itemscope itemtype="https://schema.org/Article">
     <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
       <h1>{TAX_YEAR} Tax Season Checklist: Everything You Need to File</h1>
+      <p class="not-prose my-6 rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+        {resumeCitable}
+      </p>
 
       <p class="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 not-prose">
         Written by <a href="/about/" class="ml-1 font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
@@ -269,6 +293,10 @@ const schema = {
         <a href="/take-home-pay-calculator/">take-home pay calculator</a>, and review your
         <a href="/guides/w-4-explained/">W-4 settings</a> to make sure next year's withholding is dialed in.
       </p>
+    </div>
+
+    <div class="mx-auto mt-12 max-w-3xl">
+      <FAQAccordion faqs={faqs} />
     </div>
   </article>
 </Layout>

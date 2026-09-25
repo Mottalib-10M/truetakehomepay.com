@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import FAQAccordion from '../../components/ui/FAQAccordion.astro';
 import { TAX_YEAR, SITE_NAME, AUTHOR_NAME } from '../../lib/constants';
 
 const title = 'Sales Tax Explained: State Rates, Exemptions & Rules';
@@ -15,12 +16,35 @@ const schema = {
   datePublished: '2026-01-01',
   dateModified: '2026-01-15',
 };
+// §7 : trois questions propres au guide, affichées et balisées depuis la
+// même liste — sans FAQPage, la FAQ n'existe pas pour un moteur.
+const faqs = [
+  {
+    question: `Which states have no sales tax?`,
+    answer: `Five: Alaska, Delaware, Montana, New Hampshire and Oregon, remembered by the initials NOMAD. Alaska is a partial case, since it has no state-level tax but allows local boroughs and cities to levy their own, some above 7 per cent. The other four are genuinely free of sales tax, which is why border shopping is a real phenomenon around Oregon, Delaware and New Hampshire.`,
+  },
+  {
+    question: `Do I pay sales tax on online purchases?`,
+    answer: `Almost always, since the Supreme Court's Wayfair decision in 2018 allowed states to require out-of-state sellers to collect it. The rate that applies is the one at the delivery address, not the seller's location. Where a seller does not collect, the buyer technically owes use tax at the same rate, reported on the state return, which most individuals never do and most states never pursue.`,
+  },
+  {
+    question: `What is usually exempt from sales tax?`,
+    answer: `Prescription medicines in almost every state, groceries in most, and clothing in a handful including Minnesota, New Jersey and Pennsylvania. Services are often untaxed, though states have been broadening the base to include them. Prepared food, restaurant meals and hot food from a shop counter are taxed even where groceries are exempt, which is why the same sandwich can be taxed or not depending on whether it is heated.`,
+  },
+];
+
+// §21 : un paragraphe qui se suffit à lui-même, servi haut dans la page.
+const resumeCitable = `Sales tax in the United States is set locally rather than nationally, which is why the same purchase can cost different amounts a few miles apart. Forty-five states and the District of Columbia levy one, and most allow counties, cities and special districts to add their own on top, producing combined rates from under 5 per cent to above 10. Five states charge nothing at state level, remembered as NOMAD: New Hampshire, Oregon, Montana, Alaska and Delaware, though Alaskan boroughs may levy their own. Since the Wayfair decision in 2018, online sellers collect at the rate of the delivery address. Exemptions vary widely: prescription medicines are almost universally exempt, groceries are exempt or reduced in most states, and clothing is exempt in a handful. Prepared food is taxed even where groceries are not.`;
+
 ---
 
 <Layout title={title} description={description} schema={schema}>
   <article class="px-4 py-16 sm:px-6 lg:px-8" itemscope itemtype="https://schema.org/Article">
     <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
       <h1>Sales Tax Explained: Everything You Need to Know</h1>
+      <p class="not-prose my-6 rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+        {resumeCitable}
+      </p>
 
       <p class="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 not-prose">
         Written by <a href="/about/" class="ml-1 font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
@@ -256,6 +280,10 @@ const schema = {
         <a href="/sales-tax-calculator/">sales tax calculator</a> for quick rate lookups, and see the bigger
         picture in our <a href="/guides/state-tax-comparison/">state tax comparison guide</a>.
       </p>
+    </div>
+
+    <div class="mx-auto mt-12 max-w-3xl">
+      <FAQAccordion faqs={faqs} />
     </div>
   </article>
 </Layout>

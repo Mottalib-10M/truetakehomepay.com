@@ -6,6 +6,8 @@ import { TOP_10_STATES, STATE_SALARY_AMOUNTS, STATES, NO_INCOME_TAX_STATES } fro
 import { formatCurrencyRound } from '../../lib/format-us';
 import { getStateTaxConfig } from '../../data/income-tax-2026/index';
 import { formatPercent } from '../../lib/format-us';
+import { etofferFaq } from '../../lib/faq-bornes';
+import { ajusterTitre, ajusterDescription } from '../../lib/bornes-seo';
 
 export function getStaticPaths() {
   const paths: {
@@ -33,12 +35,26 @@ const stateConfig = getStateTaxConfig(stateCode);
 // Title: 50-60 chars — adapted to state name + amount length
 const _tFull = `${formatted} After Taxes in ${stateName} — ${TAX_YEAR} Take-Home Pay`;
 const _tShort = `${formatted} After Taxes in ${stateName} ${TAX_YEAR}`;
-const title = _tFull.length <= 60 ? _tFull : _tShort.length <= 60 ? _tShort : `${formatted} After Tax in ${stateName} ${TAX_YEAR}`;
+// §11 : les gabarits ci-dessus tombaient à 48 caractères sur les noms d'État
+// courts (Ohio, Texas) ; l'ajusteur retient le premier qui tient dans 50-60.
+const title = ajusterTitre([
+  // Les noms d'État courts — Ohio, Texas, Iowa — ne tiennent qu'avec un
+  // sous-titre plus long : sans ces paliers, le titre restait à 48 caractères.
+  `${formatted} After Taxes in ${stateName}: ${TAX_YEAR} Net Pay by Paycheck`,
+  `${formatted} After Taxes in ${stateName}: ${TAX_YEAR} Monthly Take-Home`,
+  `${formatted} After Taxes in ${stateName}: ${TAX_YEAR} Take-Home Pay`,
+  `${formatted} After Taxes in ${stateName} — ${TAX_YEAR} Take-Home Pay`,
+  `${formatted} After Taxes in ${stateName}: Take-Home Pay ${TAX_YEAR}`,
+  `${formatted} After Taxes in ${stateName}: Your ${TAX_YEAR} Net Pay`,
+  `${formatted} After Taxes in ${stateName} ${TAX_YEAR}`,
+  `${formatted} After Tax in ${stateName} ${TAX_YEAR}`,
+]);
 
 // Description: 150-160 chars — use state name once for long names
-const description = stateName.length <= 8
-  ? `How much is ${formatted} after taxes in ${stateName}? Calculate your ${TAX_YEAR} take-home pay with federal income tax, ${stateName} state tax, FICA, and deductions.`
-  : `How much is ${formatted} after taxes in ${stateName}? Calculate your ${TAX_YEAR} take-home pay with federal, state income tax, FICA, and deductions breakdown.`;
+const description = ajusterDescription(
+  `How much is ${formatted} after taxes in ${stateName}? Your ${TAX_YEAR} take-home pay after federal income tax, ${stateName} state tax, FICA and deductions.`,
+  [`Monthly and bi-weekly figures included.`, `With monthly and weekly figures.`, `Monthly figures included.`],
+);
 
 // ─── State tax summary ──────────────────────────────────────────────
 let stateTaxNote: string;
@@ -100,6 +116,18 @@ const faqs = [
   },
 ];
 
+// §7 : les réponses tenaient en 28 à 38 mots. Les faits ci-dessous portent les
+// plus courtes dans les bornes, avec les chiffres de cette page et non du
+// remplissage ; un fait dont le nombre figure déjà dans la réponse est sauté.
+const faitsFaq = [
+  `Gross pay of ${formatted} works out at ${formatCurrencyRound(amount / 12)} a month and ${formatCurrencyRound(amount / 26)} per bi-weekly cheque before anything is withheld.`,
+  `FICA alone takes 7.65 per cent of that, about ${formatCurrencyRound(amount * 0.0765)} a year, split between Social Security at 6.2 per cent and Medicare at 1.45 per cent.`,
+  `The figures assume a single filer taking the standard deduction, with no pre-tax retirement contributions; a 401(k) at 5 per cent of salary would lower taxable income by ${formatCurrencyRound(amount * 0.05)}.`,
+  `Married filing jointly, the same gross usually leaves more in hand, because the federal brackets and the standard deduction are roughly doubled.`,
+  `These are estimates from published ${TAX_YEAR} rates, not a payslip: bonuses, local levies, health premiums and garnishments all move the final figure.`,
+];
+const faqsEtoffees = etofferFaq(faqs, faitsFaq, { plafond: 8 });
+
 // ─── Related Calculators ─────────────────────────────────────────────
 const relatedCalculators = [
   {
@@ -146,7 +174,7 @@ const schema = [webAppSchema];
   description={description}
   h1={`${formatted} After Taxes in ${stateName} (${TAX_YEAR})`}
   intro={intro}
-  faqs={faqs}
+  faqs={faqsEtoffees}
   relatedCalculators={relatedCalculators}
   schema={schema}
   sources={`IRS Rev. Proc. 2025-11 (federal brackets), ${stateName} Department of Revenue (state tax rates), SSA.gov (Social Security wage base). Last updated for tax year ${TAX_YEAR}.`}

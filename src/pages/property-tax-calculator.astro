@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import SourcesOfficielles from '../components/ui/SourcesOfficielles.astro';
 import { TAX_YEAR } from '../lib/constants';
 import { STATES, getAllStateSlugs, getStateBySlug } from '../data/state-meta';
 
@@ -23,14 +24,42 @@ const faqs = [
     question: 'Can I deduct property taxes on my federal return?',
     answer: `Yes, property taxes are deductible on your federal income tax return if you itemize deductions. However, the ${TAX_YEAR} SALT (State and Local Tax) deduction is capped at $10,000 for single filers and married filing jointly, which includes both property and income/sales taxes combined.`,
   },
+  {
+    question: `Which states have the highest and lowest property taxes?`,
+    answer: `New Jersey and Illinois sit at the top, with effective rates above 2 per cent of market value, followed by Connecticut, New Hampshire and Vermont. Hawaii has the lowest rate at under 0.4 per cent, though its house prices make the bill in dollars less exceptional, followed by Alabama, Colorado and Louisiana. Comparing dollars paid rather than rates changes the ranking considerably.`,
+  },
+  {
+    question: `Why did my assessment rise without any work on the house?`,
+    answer: `Because the assessor's job is to track market value, and in a rising market the value rises whether or not anything was done to the property. Some states cap how fast an owner-occupier's assessment can grow, California's Proposition 13 most strictly, which is why two identical houses on one street can carry very different bills depending on when each was last sold.`,
+  },
+  {
+    question: `How do exemptions reduce the bill?`,
+    answer: `They come off the taxable value before the rate is applied, so their worth depends on your local rate: a $25,000 homestead exemption at 25 mills saves $625 a year. Most states offer something for owner-occupiers, and many add relief for people over 65, veterans, and owners with disabilities. Nearly all have to be claimed, often once, and a missed application usually waits for the following tax year.`,
+  },
+  {
+    question: `Is property tax deductible on a federal return?`,
+    answer: `Only if you itemise, and only within the cap on state and local taxes, which limits the combined deduction for income, sales and property taxes to $10,000 for most filers. In a high-tax state that cap is reached by income tax alone, leaving the property tax effectively non-deductible. Since the standard deduction is now large, the great majority of homeowners get no federal benefit from it at all.`,
+  },
 ];
 
 const stateEntries = Object.entries(STATES)
   .map(([code, s]) => ({ code, ...s }))
   .sort((a, b) => a.name.localeCompare(b.name));
+// §7 : la FAQ est affichée plus bas ; sans FAQPage, elle n'existe pas pour un
+// moteur. Le schéma est construit depuis la même liste, jamais recopié.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} schema={faqSchema}>
   <!-- Hero -->
   <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-8 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-7xl text-center">
@@ -46,7 +75,7 @@ const stateEntries = Object.entries(STATES)
   <!-- State selector -->
   <section class="px-4 py-12 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
-      <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+      <div class="rounded-xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
         <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Estimate Your Property Tax</h2>
         <p class="mt-2 text-slate-600 dark:text-slate-400">
           Select your state below to see property tax rates, county-level breakdowns, and homestead exemption details.
@@ -166,6 +195,13 @@ const stateEntries = Object.entries(STATES)
           </div>
         ))}
       </dl>
+    </div>
+  </section>
+
+  <!-- §7 : les sources officielles, avec leur lien -->
+  <section class="border-t border-slate-200 px-4 py-8 dark:border-slate-800 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <SourcesOfficielles intro="Figures on this page come from the following official publications:" />
     </div>
   </section>
 </Layout>

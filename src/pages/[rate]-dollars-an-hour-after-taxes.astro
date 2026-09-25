@@ -87,6 +87,17 @@ const faqs = [
   {
     question: `How can I reduce taxes on ${formattedRate} an hour?`,
     answer: `The most effective ways to reduce taxes on your ${formattedRate}/hour income: (1) Contribute to a traditional 401(k) — every dollar you contribute reduces your federal and state taxable income. (2) Use an HSA if you have a high-deductible health plan — HSA contributions reduce both income tax and FICA tax. (3) Claim all eligible tax credits, especially if you have dependents. (4) If you can choose where to live, no-income-tax states save you 3%-13% in state taxes.`,
+  },  {
+    question: `What does ${formattedRate} an hour come to with overtime?`,
+    answer: `Overtime is paid at one and a half times the regular rate under the Fair Labor Standards Act, so an hour beyond forty pays ${formatCurrency(rate * 1.5)} rather than ${formattedRate}. Five overtime hours a week add ${formatCurrencyRound(rate * 1.5 * 5 * 52)} to the year, taking gross pay from ${formattedAnnual} to about ${formatCurrencyRound(annualGross + rate * 1.5 * 5 * 52)}. Overtime is taxed as ordinary income, not at a penalty rate, though a large one-off cheque can be over-withheld and corrected at filing.`,
+  },
+  {
+    question: `Is ${formattedRate} an hour enough to live on?`,
+    answer: `At ${formattedRate} an hour a full-time worker grosses ${formattedAnnual} a year and keeps roughly ${formatCurrencyRound(annualGross * 0.82)} after federal tax and FICA in a state with no income tax. On the common rule that rent should stay under thirty per cent of take-home, that supports about ${formatCurrencyRound((annualGross * 0.82) / 12 * 0.3)} a month in housing, which goes a long way in a low-cost state and very little in a coastal metro.`,
+  },
+  {
+    question: `How many hours at ${formattedRate} to earn ${formatCurrencyRound(50000)} a year?`,
+    answer: `Reaching ${formatCurrencyRound(50000)} of gross pay at ${formattedRate} an hour takes ${Math.round(50000 / rate).toLocaleString('en-US')} hours, which is ${Math.round(50000 / rate / 52)} hours a week across a full year, against the ${Math.round(annualGross / rate / 52)} hours a week a standard full-time schedule gives you. Hours beyond forty in a week are paid at time and a half for non-exempt employees, so the overtime route gets there faster than the arithmetic above suggests.`,
   },
 ];
 

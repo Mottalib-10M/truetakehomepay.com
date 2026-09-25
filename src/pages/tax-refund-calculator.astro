@@ -9,11 +9,11 @@ const description = `Estimate your ${TAX_YEAR} federal tax refund or amount owed
 const faqs = [
   {
     question: 'How is my tax refund calculated?',
-    answer: `Your refund equals the total tax you've already paid (through paycheck withholdings and estimated payments) minus your actual tax liability. If you've overpaid, you get a refund. If you've underpaid, you owe the IRS the difference.`,
+    answer: `Your refund equals the total tax you've already paid (through paycheck withholdings and estimated payments) minus your actual tax liability. If you've overpaid, you get a refund. If you've underpaid, you owe the IRS the difference. In other words, a refund is not a payment from the government but the return of your own over-withholding.`,
   },
   {
     question: 'When will I receive my IRS refund?',
-    answer: `Most e-filed returns with direct deposit are processed within 21 days. Paper returns can take 6-8 weeks. You can track your refund status using the IRS "Where's My Refund?" tool at irs.gov/refunds.`,
+    answer: `Most e-filed returns with direct deposit are processed within 21 days. Paper returns can take 6-8 weeks. You can track your refund status using the IRS "Where's My Refund?" tool at irs.gov/refunds. Returns claiming the Earned Income Tax Credit or the Additional Child Tax Credit are held by law until mid-February, whatever the filing date.`,
   },
   {
     question: 'Why is my refund smaller than last year?',
@@ -22,6 +22,14 @@ const faqs = [
   {
     question: 'Should I aim for a large refund or break-even?',
     answer: `Financial experts generally recommend adjusting your W-4 withholdings so you break even or get a small refund. A large refund means you've been giving the IRS an interest-free loan all year. That money could have been earning interest in a savings account or invested instead.`,
+  },
+  {
+    question: `Is a large refund a good thing?`,
+    answer: `It means you lent the government money at no interest for up to a year. A $3,600 refund is $300 a month that could have been in your account, paying down a card at 22 per cent or earning interest. Adjusting your W-4 turns the refund into monthly cash. The counter-argument is behavioural: some people save the lump sum and would have spent the monthly equivalent, and for them the forced saving is worth the lost interest.`,
+  },
+  {
+    question: `Why is my refund smaller than last year?`,
+    answer: `Usually because something changed in the withholding or in the credits, not because tax rose. A pay rise without a W-4 update, a bonus withheld at the flat 22 per cent, a second job, a child ageing out of the Child Tax Credit, or the end of a one-off credit all reduce the refund. Comparing this year's total tax with last year's, rather than the refunds, shows whether you actually paid more.`,
   },
 ];
 
@@ -53,6 +61,7 @@ const schema = {
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
+  resume={`A refund is the return of your own money, not a payment from the government: it is the gap between what was withheld from your paychecks during the year and what you actually owed. A $3,600 refund therefore means $300 a month was withheld unnecessarily, money that could have been paying down a card at 22 per cent. Adjusting the W-4, particularly Step 4(c) for extra withholding, moves the balance either way. The size of a refund changes with anything that alters withholding or credits: a pay rise without a W-4 update, a bonus withheld at the flat 22 per cent, a second job, a child ageing out of the Child Tax Credit. Comparing total tax year on year, rather than refunds, shows whether you really paid more.`}
   sources={`IRS Rev. Proc. 2025-11 (${TAX_YEAR} federal brackets and standard deductions), IRS Publication 17, IRS.gov/refunds. Last updated for tax year ${TAX_YEAR}.`}
 >
   <TaxRefundCalculator client:idle />

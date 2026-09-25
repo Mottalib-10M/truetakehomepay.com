@@ -264,7 +264,7 @@ export default function RentVsBuyCalculator() {
       {/* Input panel */}
       <div className="space-y-6 lg:col-span-2">
         {/* Buying inputs */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
           <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
             Buying Details
           </h2>
@@ -334,7 +334,7 @@ export default function RentVsBuyCalculator() {
         </div>
 
         {/* Renting inputs */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
           <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
             Renting Details
           </h2>
@@ -371,7 +371,7 @@ export default function RentVsBuyCalculator() {
         </div>
 
         {/* Timeline inputs */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
           <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
             Timeline & Investment
           </h2>
@@ -403,7 +403,7 @@ export default function RentVsBuyCalculator() {
         {result ? (
           <ResultSection result={result} />
         ) : (
-          <div className="flex h-64 items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700">
+          <div className="flex h-64 items-center justify-center rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700">
             <p className="text-slate-500 dark:text-slate-400">
               Enter your details to compare renting vs buying
             </p>
@@ -446,7 +446,7 @@ function ResultSection({ result }: { result: RentVsBuyResult }) {
     <div className="space-y-6">
       {/* Hero card */}
       <div
-        className={`rounded-2xl p-6 text-center text-white shadow-lg ${
+        className={`rounded-xl p-6 text-center text-white shadow-lg ${
           buyingIsCheaper
             ? 'bg-gradient-to-br from-success-600 to-success-700'
             : 'bg-gradient-to-br from-navy-800 to-navy-900'

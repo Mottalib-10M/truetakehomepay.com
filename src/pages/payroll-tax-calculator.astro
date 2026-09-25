@@ -12,8 +12,8 @@ const faqs = [
     answer: `Payroll taxes (FICA) fund Social Security and Medicare. Employees pay 7.65% of gross wages: 6.2% for Social Security (up to the $176,100 wage base in ${TAX_YEAR}) and 1.45% for Medicare (no cap). Employers match this amount, for a combined 15.3%. High earners also pay a 0.9% Additional Medicare Tax on wages above $200,000 (single) or $250,000 (married filing jointly).`,
   },
   {
-    question: `What is the Social Security wage base for ${TAX_YEAR}?`,
-    answer: `The Social Security taxable wage base for ${TAX_YEAR} is $176,100. You only pay the 6.2% Social Security tax on earnings up to this amount. Once your year-to-date earnings exceed $176,100, Social Security tax stops — your paychecks get bigger for the rest of the year. Medicare has no wage base limit; all earnings are subject to the 1.45% tax.`,
+    question: `How much Social Security tax does an employer owe per employee in ${TAX_YEAR}?`,
+    answer: `The employer matches the employee's 6.2 per cent up to the ${TAX_YEAR} wage base of $176,100, so the maximum Social Security cost per employee is $10,918.20 a year. Above that ceiling the employer owes nothing further for Social Security, though the 1.45 per cent Medicare match continues on every dollar with no cap. The employer does not match the 0.9 per cent Additional Medicare Tax, which falls on the employee alone.`,
   },
   {
     question: 'What is the difference between payroll tax and income tax?',
@@ -22,6 +22,14 @@ const faqs = [
   {
     question: 'Do employers pay payroll taxes too?',
     answer: `Yes. Employers pay a matching 7.65% FICA tax on each employee's wages (6.2% Social Security + 1.45% Medicare). Employers also pay Federal Unemployment Tax (FUTA) of 6% on the first $7,000 per employee (usually reduced to 0.6% with state credits) and State Unemployment Tax (SUTA) at varying rates. The employer's cost is roughly 8-10% above your salary.`,
+  },
+  {
+    question: `What payroll taxes does an employer pay?`,
+    answer: `The employer matches Social Security at 6.2 per cent and Medicare at 1.45 per cent, so the 7.65 per cent on your payslip is paid twice over. On top come federal unemployment tax, 6 per cent on the first $7,000 of wages before credits that usually cut it to 0.6, and state unemployment insurance at a rate set by the state and the employer's claims history. The total employer cost of an employee typically runs 8 to 12 per cent above salary.`,
+  },
+  {
+    question: `How do payroll taxes differ for the self-employed?`,
+    answer: `A self-employed person pays both halves, 15.3 per cent, as self-employment tax: 12.4 for Social Security up to the wage base and 2.9 for Medicare with no cap. Half of it is deductible against income tax, and the tax applies to net profit rather than gross receipts. Because no employer withholds, quarterly estimated payments are required, and missing them brings an underpayment penalty even when the annual return is correct.`,
   },
 ];
 

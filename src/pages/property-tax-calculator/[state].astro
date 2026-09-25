@@ -7,6 +7,7 @@ import { getSalesTaxConfig } from '../../data/sales-tax-2026/index';
 import { getStateTaxConfig } from '../../data/income-tax-2026/index';
 import { NO_INCOME_TAX_STATES } from '../../data/state-meta';
 import { formatPercent, formatCurrencyRound } from '../../lib/format-us';
+import { ajusterTitre, ajusterDescription } from '../../lib/bornes-seo';
 
 export function getStaticPaths() {
   return getAllStateSlugs().map((slug) => ({ params: { state: slug } }));
@@ -25,38 +26,77 @@ const isNoTax = NO_INCOME_TAX_STATES.includes(code);
 const slug = stateData.slug;
 // Title: 50-60 chars for all state names (4-20 chars)
 const _tBase = `${name} Property Tax Calculator ${TAX_YEAR}`;
-const title = _tBase.length <= 40
-  ? `${_tBase} — Rates & Estimates`
-  : `${_tBase} — Rates`;
+// §11 : les paliers fixes tombaient hors bornes sur les noms courts.
+const title = ajusterTitre([
+  `${_tBase}: Rates, Exemptions and Estimates`,
+  `${_tBase}: County Rates and Exemptions`,
+  `${_tBase}: Rates and Exemptions`,
+  `${_tBase}: Effective Rates by County`,
+  `${_tBase}: Rates by County`,
+  `${_tBase}: Rates`,
+  _tBase,
+]);
 
 // Description: 150-160 chars for all state names (including District of Columbia at 20 chars)
-const description = name.length <= 8
-  ? `Calculate your ${TAX_YEAR} property tax in ${name}. See effective tax rates by county, homestead exemptions, appeals process, and how ${name} compares to other states.`
-  : name.length <= 14
-    ? `Calculate your ${TAX_YEAR} property tax in ${name}. See effective tax rates by county, homestead exemptions, appeals process, and comparisons to other states.`
-    : `Calculate your ${TAX_YEAR} property tax in ${name}. See effective tax rates by county, homestead exemptions, appeals process, and state comparisons.`;
+const description = ajusterDescription(
+  `Estimate your ${TAX_YEAR} property tax in ${name}: effective rates by county, homestead exemptions and how to appeal an assessment.`,
+  [`With the state median home value and bill.`, `Median home value included.`, `Median bill included.`],
+);
+
+// §21 : un paragraphe qui se suffit à lui-même, composé des chiffres de l'État,
+// placé haut dans la page pour être citable.
+const resumeCitable = [
+  `Property tax in ${name} runs at an effective rate of about ${formatPercent(propTax.effectiveRate * 100)} of market value,`,
+  `which on the state median home of ${formatCurrencyRound(propTax.medianHomeValue)} comes to roughly ${formatCurrencyRound(propTax.medianAnnualTax)} a year,`,
+  `or ${formatCurrencyRound(Math.round(propTax.medianAnnualTax / 12))} a month alongside the mortgage.`,
+  `The bill is built from three numbers rather than one: the assessor's market value, the assessment ratio that turns it into taxable value,`,
+  `${formatPercent(propTax.assessmentRatio * 100)} here, and the millage set by the county, the city, the school district and any special districts.`,
+  propTax.hasHomesteadExemption
+    ? `${name} reduces the taxable value of an owner-occupied home through a homestead exemption, which usually has to be claimed rather than granted automatically.`
+    : `${name} offers no general homestead exemption, so the full assessed value is taxed unless a local relief programme applies.`,
+  `Because the rate is local, two houses of the same value in different counties can differ by a third,`,
+  `which is why the figure that matters is the one produced by your own assessed value and your own county rate rather than the state average.`,
+].join(' ');
 
 const faqs = [
   {
     question: `What is the average property tax rate in ${name}?`,
-    answer: `Property tax rates in ${name} vary by county and municipality. Use our calculator above to see the effective rate for your specific location. Rates are updated for ${TAX_YEAR}.`,
+    answer: `${name} has an effective property tax rate of about ${formatPercent(propTax.effectiveRate * 100)} of market value, which on the state median home of ${formatCurrencyRound(propTax.medianHomeValue)} works out at roughly ${formatCurrencyRound(propTax.medianAnnualTax)} a year. That is a statewide average: the bill is set by your county, your city and any school or special district, so two houses of the same value in different counties can differ by a third. Use the calculator above with your own assessed value to get the figure that matters.`,
+  },
+  {
+    question: `How is property tax calculated in ${name}?`,
+    answer: `Three numbers produce the bill. The assessor sets a market value, the assessment ratio turns it into a taxable value, and the millage rate is applied to that. In ${name} the assessment ratio is ${formatPercent(propTax.assessmentRatio * 100)}, so a home worth ${formatCurrencyRound(propTax.medianHomeValue)} is taxed on ${formatCurrencyRound(propTax.medianHomeValue * propTax.assessmentRatio)} before exemptions. Subtract any exemption you qualify for, then apply your local rate.`,
   },
   {
     question: `Does ${name} offer a homestead exemption?`,
-    answer: `Many states, including ${name}, offer homestead exemptions that reduce the taxable value of your primary residence. Check with your county assessor's office for specific eligibility requirements and exemption amounts in ${name}.`,
+    answer: propTax.hasHomesteadExemption
+      ? `Yes. ${name} reduces the taxable value of an owner-occupied primary residence: ${propTax.homesteadExemptionDesc} It applies to the home you actually live in, not to a rental or a second property, and in most counties it has to be claimed once rather than being granted automatically. ${propTax.hasSeniorExemption ? `${name} also offers an additional exemption or freeze for older owners, so check both with your county assessor.` : 'Check the filing deadline with your county assessor, since a late claim usually waits for the following tax year.'}`
+      : `${name} does not offer a general homestead exemption on primary residences. ${propTax.hasSeniorExemption ? `There is, however, relief for older owners, so an owner past the qualifying age should ask the county assessor what applies.` : 'Some counties and municipalities run their own relief programmes for veterans, disabled owners or people on low incomes, so it is still worth asking the assessor what exists locally.'} Without an exemption, the full assessed value is taxed at your local rate.`,
   },
   {
     question: `How often are properties reassessed in ${name}?`,
-    answer: `Reassessment frequency varies by jurisdiction within ${name}. Some counties reassess annually while others may reassess every few years. Contact your local assessor's office for the specific schedule in your area.`,
+    answer: `Reassessment frequency is set by jurisdiction rather than by the state, and within ${name} it ranges from annual revaluation to cycles of several years. That matters for your bill: a county that reassesses once every five years produces a jump when it does, while an annual county moves in smaller steps. Your assessor's office will give both the schedule and the date your current value was set.`,
   },
   {
     question: `Can I appeal my property tax assessment in ${name}?`,
-    answer: `Yes. If you believe your property has been overvalued, you can appeal your assessment with your county board of equalization or assessment appeals board. The appeal process and deadlines vary by county in ${name}.`,
+    answer: `Yes. If you believe the assessor has overvalued your home, you can appeal to the county board of equalization or assessment appeals board. The case rests on comparable sales rather than on the size of the bill, so gather recent sales of similar properties nearby before filing. Deadlines are short and vary by county in ${name}, often a few weeks after the valuation notice, and paying the disputed bill on time keeps penalties away while the appeal runs.`,
   },
 ];
+
+// §7 : la FAQ est affichée plus bas ; sans FAQPage, elle n'existe pas pour un
+// moteur. Le schéma est construit depuis la même liste, jamais recopié.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} schema={faqSchema}>
   <!-- Hero -->
   <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-8 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-7xl text-center">
@@ -69,10 +109,19 @@ const faqs = [
     </div>
   </section>
 
+  <!-- §21 : le paragraphe citable -->
+  <section class="px-4 pb-4 pt-6 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <p class="rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+        {resumeCitable}
+      </p>
+    </div>
+  </section>
+
   <!-- Property Tax Calculator -->
   <section class="px-4 py-12 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
-      <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+      <div class="rounded-xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
         <h2 id="property-tax-calculator" class="text-xl font-semibold text-slate-900 dark:text-white">Estimate Your {name} Property Tax</h2>
         <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Enter your home value below to estimate your annual and monthly property tax in {name}.</p>
 
@@ -130,7 +179,7 @@ const faqs = [
     <div class="mx-auto max-w-3xl">
       <h2 id="property-tax-rates" class="mb-4 text-xl font-bold text-slate-900 dark:text-white">{name} Property Tax Rates</h2>
       {propTax ? (
-        <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <div class="rounded-xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
           <div class="grid grid-cols-2 gap-6 sm:grid-cols-3">
             <div class="rounded-lg bg-slate-50 p-4 dark:bg-slate-700">
               <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Effective Tax Rate</p>
@@ -160,7 +209,7 @@ const faqs = [
           )}
         </div>
       ) : (
-        <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <div class="rounded-xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
           <p class="text-slate-600 dark:text-slate-400">Property tax rate data for {name} is not currently available.</p>
         </div>
       )}
@@ -171,7 +220,7 @@ const faqs = [
   <section class="px-4 py-12 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
       <h2 id="homestead-exemption" class="mb-4 text-xl font-bold text-slate-900 dark:text-white">{name} Homestead Exemption</h2>
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+      <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
         {propTax && propTax.hasHomesteadExemption ? (
           <div>
             <div class="flex items-center gap-2">

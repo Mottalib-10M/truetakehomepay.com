@@ -178,7 +178,7 @@ export default function OvertimePayCalculator() {
     <div className="grid gap-8 lg:grid-cols-5">
       {/* Input panel */}
       <div className="space-y-6 lg:col-span-2">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
           <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
             Your Overtime Details
           </h2>
@@ -237,7 +237,7 @@ export default function OvertimePayCalculator() {
         {result ? (
           <OvertimeResultPanel result={result} />
         ) : (
-          <div className="flex h-64 items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700">
+          <div className="flex h-64 items-center justify-center rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700">
             <p className="text-slate-500 dark:text-slate-400">
               Enter your hourly rate and hours to see your overtime take-home pay
             </p>
@@ -254,7 +254,7 @@ function OvertimeResultPanel({ result }: { result: OvertimeResult }) {
   return (
     <div className="space-y-6">
       {/* Hero card */}
-      <div className="rounded-2xl bg-gradient-to-br from-navy-800 to-navy-900 p-6 text-white shadow-lg">
+      <div className="rounded-xl bg-gradient-to-br from-navy-800 to-navy-900 p-6 text-white shadow-lg">
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="text-center">
             <p className="text-sm font-medium text-navy-200">Weekly Take-Home (with OT)</p>

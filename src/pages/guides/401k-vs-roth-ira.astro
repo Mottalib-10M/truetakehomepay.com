@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import FAQAccordion from '../../components/ui/FAQAccordion.astro';
 import { TAX_YEAR, SITE_NAME, AUTHOR_NAME } from '../../lib/constants';
 
 const title = '401(k) vs Roth IRA: Which Retirement Account Is Best?';
@@ -15,12 +16,35 @@ const schema = {
   datePublished: '2026-01-01',
   dateModified: '2026-01-15',
 };
+// §7 : trois questions propres au guide, affichées et balisées depuis la
+// même liste — sans FAQPage, la FAQ n'existe pas pour un moteur.
+const faqs = [
+  {
+    question: `Can I contribute to both a 401(k) and a Roth IRA?`,
+    answer: `Yes, and for many people that is the right answer. The limits are separate: $23,500 for the 401(k) in 2026 and $7,000 for an IRA, with catch-up amounts above 50. The usual order is to contribute enough to the 401(k) to capture the full employer match, then fund the Roth IRA for its tax-free growth and wider investment choice, then return to the 401(k) with whatever is left.`,
+  },
+  {
+    question: `Which is better if I expect my income to rise?`,
+    answer: `The Roth, generally. Roth contributions are made at today's rate and withdrawn tax-free, so paying tax while you are in the 12 or 22 per cent bracket and withdrawing when you might be in the 24 or 32 is the winning side of the trade. Someone already at the top of the scale, expecting a lower retirement income, gains more from the traditional deduction now.`,
+  },
+  {
+    question: `What are the withdrawal rules for each?`,
+    answer: `A traditional 401(k) allows penalty-free withdrawals from 59 and a half, or 55 if you separate from that employer in the year you reach it, and requires minimum distributions from 73. A Roth IRA lets you take out contributions at any time without tax or penalty, requires the account to be five years old for earnings to come out tax-free, and has no required minimum distributions during the owner's lifetime.`,
+  },
+];
+
+// §21 : un paragraphe qui se suffit à lui-même, servi haut dans la page.
+const resumeCitable = `The choice between a 401(k) and a Roth IRA is mostly a question of when you pay tax, and for many people the answer is both. A traditional 401(k) takes contributions before tax, up to $23,500 in 2026, lowers this year's taxable income and is taxed on withdrawal; it is also the only one of the two that can attract an employer match, which is money no investment return matches. A Roth IRA takes $7,000 of after-tax money, grows tax-free and is withdrawn tax-free from 59 and a half provided the account is five years old, with no required minimum distributions. The usual order is to contribute enough to the 401(k) to capture the full match, fund the Roth IRA next for its tax-free growth and wider investment choice, then return to the 401(k) with whatever is left.`;
+
 ---
 
 <Layout title={title} description={description} schema={schema}>
   <article class="px-4 py-16 sm:px-6 lg:px-8" itemscope itemtype="https://schema.org/Article">
     <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
       <h1>401(k) vs Roth IRA: A Complete Comparison</h1>
+      <p class="not-prose my-6 rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+        {resumeCitable}
+      </p>
 
       <p class="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 not-prose">
         Written by <a href="/about/" class="ml-1 font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
@@ -272,6 +296,10 @@ const schema = {
         contributions affect your paycheck, try our
         <a href="/take-home-pay-calculator/">take-home pay calculator</a>.
       </p>
+    </div>
+
+    <div class="mx-auto mt-12 max-w-3xl">
+      <FAQAccordion faqs={faqs} />
     </div>
   </article>
 </Layout>

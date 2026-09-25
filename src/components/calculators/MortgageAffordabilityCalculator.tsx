@@ -178,7 +178,7 @@ export default function MortgageAffordabilityCalculator() {
     <div className="grid gap-8 lg:grid-cols-5">
       {/* Input panel */}
       <div className="space-y-6 lg:col-span-2">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
           <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
             Your Finances
           </h2>
@@ -216,7 +216,7 @@ export default function MortgageAffordabilityCalculator() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
           <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
             Loan Details
           </h2>
@@ -268,7 +268,7 @@ export default function MortgageAffordabilityCalculator() {
         {result ? (
           <AffordabilityResultPanel result={result} downPayment={Number(down.replace(/[^0-9.]/g, '')) || 0} />
         ) : (
-          <div className="flex h-64 items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700">
+          <div className="flex h-64 items-center justify-center rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700">
             <p className="text-slate-500 dark:text-slate-400">
               Enter your income to see how much house you can afford
             </p>
@@ -308,7 +308,7 @@ function AffordabilityResultPanel({
   return (
     <div className="space-y-6">
       {/* Hero card */}
-      <div className="rounded-2xl bg-gradient-to-br from-navy-800 to-navy-900 p-6 text-center text-white shadow-lg">
+      <div className="rounded-xl bg-gradient-to-br from-navy-800 to-navy-900 p-6 text-center text-white shadow-lg">
         <p className="text-sm font-medium text-navy-200">You Can Afford Up To</p>
         <p className="tabular-nums mt-1 text-4xl font-bold tracking-tight sm:text-5xl">
           {formatCurrencyRound(maxHomePrice)}

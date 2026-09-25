@@ -23,6 +23,14 @@ const faqs = [
     question: 'Does paying extra on my loan save money?',
     answer: `Yes. Extra payments go directly to principal, reducing the balance faster and saving on interest. Even small extra payments make a difference. On a $20,000 loan at 10% for 5 years, paying just $50 extra per month saves $870 in interest and pays off the loan 8 months early. Check that your lender has no prepayment penalty first.`,
   },
+  {
+    question: `What is the difference between APR and the interest rate?`,
+    answer: `The interest rate prices the borrowing; the APR adds the fees, points and charges required to get the loan and expresses the whole cost as an annual rate. Two loans quoted at the same rate can carry APRs a point apart, and the higher-fee one is the more expensive. Lenders must disclose the APR, which makes it the number to compare, though it assumes you keep the loan to term and overstates the cost if you repay early.`,
+  },
+  {
+    question: `How does loan amortisation work?`,
+    answer: `Each payment is the same size, but its composition shifts. Early on, most of it is interest on a large balance and only a sliver reduces the principal; as the balance falls, the interest share falls and the principal share grows. On a 30-year mortgage, more than half the total interest is paid in the first ten years, which is why an extra payment early is worth several times the same payment late.`,
+  },
 ];
 
 const relatedCalculators = [
@@ -54,6 +62,7 @@ const schema = {
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
+  resume={`Any fixed-rate loan payment comes from three inputs: the principal, the annual rate and the number of payments. What changes over the life of the loan is the composition of each payment rather than its size. Early on, most of it is interest on a large balance and only a little reduces the principal; as the balance falls, the shares reverse. On a 30-year mortgage more than half the total interest is paid in the first ten years, which is why an extra payment early is worth several times the same payment late. When comparing offers, use the APR rather than the interest rate, since it includes the fees and points required to obtain the loan and is the only figure that makes two quotes comparable.`}
   sources={`Federal Reserve Board (consumer credit data), CFPB (Consumer Financial Protection Bureau) lending guides, Truth in Lending Act (TILA) disclosures. Last updated for ${TAX_YEAR}.`}
 >
   <LoanCalculator client:idle />

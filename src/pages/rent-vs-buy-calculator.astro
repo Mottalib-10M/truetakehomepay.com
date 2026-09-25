@@ -23,6 +23,14 @@ const faqs = [
     question: 'How does the price-to-rent ratio help me decide?',
     answer: `The price-to-rent ratio divides the home price by annual rent for a comparable property. A ratio under 15 generally favors buying; 15-20 is a gray area; over 20 tends to favor renting. For example, a $500,000 home that would rent for $2,500/month has a ratio of 16.7 ($500,000 / $30,000) — a borderline case.`,
   },
+  {
+    question: `How long do I need to stay for buying to win?`,
+    answer: `Usually five to seven years, because the costs of buying and selling, two to five per cent going in and five to six per cent coming out, take that long to be outweighed by equity and rent avoided. In a market with high prices relative to rents the break-even stretches; where buying is cheap relative to renting it shortens. A move expected within three years almost always favours renting, whatever the headline comparison of payment against rent.`,
+  },
+  {
+    question: `What costs do buyers forget?`,
+    answer: `The mortgage payment is not the cost of owning. Add property tax, homeowner's insurance, and maintenance at roughly one per cent of the value a year, which on a $400,000 home is $4,000 before anything breaks. Add HOA fees where they apply, and the opportunity cost of the deposit, which would otherwise be invested. Renting has its own hidden side, chiefly that rent rises with inflation while a fixed mortgage payment does not.`,
+  },
 ];
 
 const relatedCalculators = [
@@ -53,6 +61,7 @@ const schema = {
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
+  resume={`Buying usually overtakes renting somewhere between five and seven years, because the costs of the transaction, two to five per cent going in and five to six per cent coming out, take that long to be outweighed by equity and rent avoided. The break-even stretches where prices are high relative to rents and shortens where they are not. The comparison is not payment against rent: ownership adds property tax, insurance, and maintenance at about one per cent of value a year, which on a $400,000 home is $4,000 before anything breaks, plus the return the deposit would have earned elsewhere. Renting has its own hidden side, chiefly that rent rises with inflation while a fixed mortgage payment does not. A move expected within three years almost always favours renting, whatever the monthly comparison suggests, because the transaction costs have no time to be recovered.`}
   sources={`U.S. Census Bureau (housing data), BLS Consumer Price Index (rent inflation), Federal Reserve Economic Data (FRED), National Association of Realtors. Last updated for ${TAX_YEAR}.`}
 >
   <RentVsBuyCalculator client:idle />

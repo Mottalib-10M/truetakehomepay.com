@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import SourcesOfficielles from '../components/ui/SourcesOfficielles.astro';
 import { TAX_YEAR } from '../lib/constants';
 import { STATES, getAllStateSlugs, getStateBySlug } from '../data/state-meta';
 
@@ -12,8 +13,8 @@ const faqs = [
     answer: `Sales tax is calculated by multiplying the purchase price by the combined tax rate (state + local). For example, a $100 purchase with a 7.25% combined rate would include $7.25 in sales tax for a total of $107.25. Some states exempt certain items like groceries or clothing.`,
   },
   {
-    question: 'Which states have no sales tax?',
-    answer: `Five states have no statewide sales tax: Alaska, Delaware, Montana, New Hampshire, and Oregon. However, Alaska allows local jurisdictions to impose their own sales taxes, so some areas in Alaska do collect local sales tax.`,
+    question: 'Where in the United States is there no sales tax at all?',
+    answer: `Five states charge none at state level: New Hampshire, Oregon, Montana, Alaska and Delaware, remembered by the initials NOMAD. Alaska is the partial case, since its boroughs and cities may levy their own, sometimes above 7 per cent, so a purchase in Anchorage is not necessarily tax-free. The other four are genuinely free of it, which is why retail clusters on their side of a state line.`,
   },
   {
     question: 'What is the difference between state and local sales tax?',
@@ -23,14 +24,42 @@ const faqs = [
     question: 'Are online purchases subject to sales tax?',
     answer: `Yes. Following the 2018 Supreme Court decision in South Dakota v. Wayfair, states can require online retailers to collect sales tax even if they have no physical presence in the state. Most states now require online sellers meeting certain revenue or transaction thresholds to collect and remit sales tax.`,
   },
+  {
+    question: `Which states charge no sales tax on a purchase?`,
+    answer: `Five, remembered as NOMAD: New Hampshire, Oregon, Montana, Alaska and Delaware. Alaska is a partial case, since it levies nothing at state level but allows boroughs and cities to charge their own, sometimes above 7 per cent. The other four are genuinely free of sales tax, which is why shops cluster on the Oregon and Delaware sides of their borders.`,
+  },
+  {
+    question: `How is sales tax applied to online orders?`,
+    answer: `At the rate of the delivery address, not the seller's location, since the Supreme Court's Wayfair decision in 2018 let states require out-of-state sellers to collect. Marketplaces such as Amazon and eBay collect on behalf of their sellers in every state that taxes. Where nothing is collected, the buyer technically owes use tax at the same rate on the state return.`,
+  },
+  {
+    question: `Why do two towns in the same state charge different rates?`,
+    answer: `Because most states let counties, cities and special districts add their own tax on top of the state rate. Transit districts, stadium levies and county sales taxes all stack, which is how Chicago reaches 10.25 per cent while parts of downstate Illinois sit near 6.25. The rate that applies is the one where the sale takes place, so crossing a boundary changes the total on the same purchase.`,
+  },
+  {
+    question: `What is typically exempt from sales tax?`,
+    answer: `Prescription medicines in nearly every state, groceries in most, and clothing in a handful including Pennsylvania, New Jersey and Minnesota. Services have historically escaped, though states have been broadening the base. Prepared food is taxed even where groceries are not, which is why a cold sandwich and a heated one can carry different totals at the same counter.`,
+  },
 ];
 
 const stateEntries = Object.entries(STATES)
   .map(([code, s]) => ({ code, ...s }))
   .sort((a, b) => a.name.localeCompare(b.name));
+// §7 : la FAQ est affichée plus bas ; sans FAQPage, elle n'existe pas pour un
+// moteur. Le schéma est construit depuis la même liste, jamais recopié.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} schema={faqSchema}>
   <!-- Hero -->
   <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-8 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-7xl text-center">
@@ -46,7 +75,7 @@ const stateEntries = Object.entries(STATES)
   <!-- State selector -->
   <section class="px-4 py-12 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
-      <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+      <div class="rounded-xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
         <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Calculate Sales Tax</h2>
         <p class="mt-2 text-slate-600 dark:text-slate-400">
           Select your state below to see sales tax rates, local rate variations, and exemptions.
@@ -166,6 +195,13 @@ const stateEntries = Object.entries(STATES)
           </div>
         ))}
       </dl>
+    </div>
+  </section>
+
+  <!-- §7 : les sources officielles, avec leur lien -->
+  <section class="border-t border-slate-200 px-4 py-8 dark:border-slate-800 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <SourcesOfficielles intro="Figures on this page come from the following official publications:" />
     </div>
   </section>
 </Layout>

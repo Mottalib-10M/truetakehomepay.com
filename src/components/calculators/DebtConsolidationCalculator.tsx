@@ -274,7 +274,7 @@ export default function DebtConsolidationCalculator() {
       {/* Input panel */}
       <div className="space-y-6 lg:col-span-2">
         {/* Debt 1 */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
           <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
             Debt 1
           </h2>
@@ -308,7 +308,7 @@ export default function DebtConsolidationCalculator() {
 
         {/* Debt 2 */}
         {showDebt2 && (
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
+          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
             <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
               Debt 2
               <span className="ml-2 text-sm font-normal text-slate-400">(optional)</span>
@@ -344,7 +344,7 @@ export default function DebtConsolidationCalculator() {
 
         {/* Debt 3 */}
         {showDebt3 && (
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
+          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
             <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
               Debt 3
               <span className="ml-2 text-sm font-normal text-slate-400">(optional)</span>
@@ -379,7 +379,7 @@ export default function DebtConsolidationCalculator() {
         )}
 
         {/* Consolidation Loan */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
           <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
             Consolidation Loan
           </h2>
@@ -412,7 +412,7 @@ export default function DebtConsolidationCalculator() {
           <div className="space-y-6">
             {/* Hero card */}
             {savings.interestSaved > 0 ? (
-              <div className="rounded-2xl bg-gradient-to-br from-emerald-600 to-emerald-700 p-6 text-center text-white shadow-lg">
+              <div className="rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 p-6 text-center text-white shadow-lg">
                 <p className="text-sm font-medium text-emerald-100">Potential Interest Savings</p>
                 <p className="tabular-nums mt-1 text-4xl font-bold tracking-tight sm:text-5xl">
                   {formatCurrencyRound(savings.interestSaved)}
@@ -422,7 +422,7 @@ export default function DebtConsolidationCalculator() {
                 </p>
               </div>
             ) : (
-              <div className="rounded-2xl bg-gradient-to-br from-amber-500 to-amber-600 p-6 text-center text-white shadow-lg">
+              <div className="rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 p-6 text-center text-white shadow-lg">
                 <p className="text-sm font-medium text-amber-100">Consolidation Costs More</p>
                 <p className="tabular-nums mt-1 text-4xl font-bold tracking-tight sm:text-5xl">
                   {formatCurrencyRound(Math.abs(savings.interestSaved))}
@@ -614,7 +614,7 @@ export default function DebtConsolidationCalculator() {
             </div>
           </div>
         ) : (
-          <div className="flex h-64 items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700">
+          <div className="flex h-64 items-center justify-center rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700">
             <p className="text-slate-500 dark:text-slate-400">
               Enter your debt details to see your consolidation comparison
             </p>

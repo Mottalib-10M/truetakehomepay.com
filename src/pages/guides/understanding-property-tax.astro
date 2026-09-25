@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import FAQAccordion from '../../components/ui/FAQAccordion.astro';
 import { TAX_YEAR, SITE_NAME, AUTHOR_NAME } from '../../lib/constants';
 
 const title = 'Understanding Property Tax: How It Works in Every State';
@@ -15,12 +16,35 @@ const schema = {
   datePublished: '2026-01-01',
   dateModified: '2026-01-15',
 };
+// §7 : trois questions propres au guide, affichées et balisées depuis la
+// même liste — sans FAQPage, la FAQ n'existe pas pour un moteur.
+const faqs = [
+  {
+    question: `How is a property tax bill calculated?`,
+    answer: `Three numbers: the assessor's market value, the assessment ratio that turns it into taxable value, and the millage rate applied by the county, city, school district and any special districts. A mill is one dollar per thousand of taxable value, so 25 mills on a $200,000 taxable value is $5,000. Exemptions are subtracted before the rate is applied, which is why a homestead exemption is worth more than its face value suggests.`,
+  },
+  {
+    question: `Why did my property tax rise when the rate did not?`,
+    answer: `Because the assessment did. Reassessment brings the taxable value in line with the market, and in a rising market that alone raises the bill even with an unchanged millage. Some states cap how fast an assessment can grow for an owner-occupier, California's Proposition 13 being the strictest, which produces the odd result that two identical houses on the same street can carry very different bills depending on when each was bought.`,
+  },
+  {
+    question: `How do I appeal an assessment?`,
+    answer: `On evidence, and quickly. Gather recent sales of comparable properties nearby, note any error in the recorded square footage, condition or features, and file with the county board of equalization before the deadline in the valuation notice, often only a few weeks. The argument that the bill is too high will fail; the argument that the valuation exceeds market value, with three or four comparables to prove it, is the one that works.`,
+  },
+];
+
+// §21 : un paragraphe qui se suffit à lui-même, servi haut dans la page.
+const resumeCitable = `A property tax bill is the product of three numbers, and only one of them is the rate. The assessor sets a market value, an assessment ratio turns that into taxable value, and the millage set by the county, the city, the school district and any special districts is applied to the result. A mill is one dollar per thousand of taxable value, so 25 mills on a $200,000 taxable value is $5,000. Exemptions come off before the rate, which is why a homestead exemption is worth more than its face value suggests. Effective rates run from under 0.4 per cent of market value in Hawaii to above 2 per cent in New Jersey and Illinois. A bill can rise with no change in the rate, because reassessment alone raises taxable value in a rising market.`;
+
 ---
 
 <Layout title={title} description={description} schema={schema}>
   <article class="px-4 py-16 sm:px-6 lg:px-8" itemscope itemtype="https://schema.org/Article">
     <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
       <h1>Understanding Property Tax: How It Works</h1>
+      <p class="not-prose my-6 rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+        {resumeCitable}
+      </p>
 
       <p class="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 not-prose">
         Written by <a href="/about/" class="ml-1 font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
@@ -276,6 +300,10 @@ const schema = {
         consider the property tax impact when comparing states with our
         <a href="/guides/moving-to-a-no-income-tax-state/">no-income-tax state guide</a>.
       </p>
+    </div>
+
+    <div class="mx-auto mt-12 max-w-3xl">
+      <FAQAccordion faqs={faqs} />
     </div>
   </article>
 </Layout>

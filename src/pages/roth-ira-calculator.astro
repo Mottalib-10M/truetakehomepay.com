@@ -9,7 +9,7 @@ const description = `Calculate your Roth IRA growth potential for ${TAX_YEAR}. S
 const faqs = [
   {
     question: `What is the Roth IRA contribution limit for ${TAX_YEAR}?`,
-    answer: `The ${TAX_YEAR} Roth IRA contribution limit is $7,000 ($8,000 if you're age 50 or older). However, your ability to contribute phases out at higher incomes: $150,000-$165,000 MAGI for single filers and $236,000-$246,000 for married filing jointly.`,
+    answer: `The ${TAX_YEAR} Roth IRA contribution limit is $7,000 ($8,000 if you're age 50 or older). However, your ability to contribute phases out at higher incomes: $150,000-$165,000 MAGI for single filers and $236,000-$246,000 for married filing jointly. The limit is shared with a traditional IRA, so $7,000 split between the two is the ceiling, not $7,000 in each.`,
   },
   {
     question: 'What are the benefits of a Roth IRA?',
@@ -22,6 +22,14 @@ const faqs = [
   {
     question: 'Roth IRA vs Traditional IRA — which should I choose?',
     answer: `Choose Roth if you expect higher taxes in retirement, want tax-free withdrawals, or value flexibility (no RMDs). Choose Traditional if you need the tax deduction now, expect lower taxes in retirement, or earn too much for a deductible Traditional IRA. Many people benefit from having both for tax diversification.`,
+  },
+  {
+    question: `What are the Roth IRA income limits?`,
+    answer: `Contributions phase out as income rises, and above the top of the range direct contributions are barred entirely. A single filer begins to lose the allowance in the low $150,000s of modified adjusted gross income and loses it altogether around $165,000; for a married couple filing jointly the range sits roughly $30,000 higher. Above those limits, a contribution to a traditional IRA followed by a conversion, the so-called backdoor Roth, reaches the same place.`,
+  },
+  {
+    question: `Can I withdraw money from a Roth IRA early?`,
+    answer: `Contributions can be withdrawn at any age without tax or penalty, because they were made with money already taxed. Earnings are different: to take them out tax-free you must be 59 and a half and have held a Roth for five years. Outside those conditions, earnings are taxed and usually carry a 10 per cent penalty, with exceptions for a first home up to $10,000, disability and qualified education costs.`,
   },
 ];
 

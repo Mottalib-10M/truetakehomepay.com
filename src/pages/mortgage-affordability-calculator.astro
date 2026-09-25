@@ -3,7 +3,7 @@ import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import MortgageAffordabilityCalculator from '../components/calculators/MortgageAffordabilityCalculator';
 import { TAX_YEAR } from '../lib/constants';
 
-const title = `How Much House Can I Afford? ${TAX_YEAR} Mortgage Calculator`;
+const title = `Mortgage Affordability Calculator ${TAX_YEAR}: What You Can Buy`;
 const description = `Find out how much house you can afford in ${TAX_YEAR}. Enter your income, debts, and down payment to calculate your maximum home price, monthly payment, and budget.`;
 
 const faqs = [
@@ -22,6 +22,14 @@ const faqs = [
   {
     question: 'What other costs should I budget for beyond the mortgage?',
     answer: `Beyond your monthly mortgage payment, budget for: property taxes (0.5%-2.5% of home value annually), homeowners insurance ($1,000-$3,000/year), maintenance/repairs (1-2% of home value/year), HOA fees if applicable, utilities, and closing costs (2-5% of loan amount). These can add $500-$1,500+/month to your housing costs.`,
+  },
+  {
+    question: `What debt-to-income ratio do lenders accept?`,
+    answer: `Two ratios matter. The front-end ratio, housing costs against gross income, is conventionally kept at or under 28 per cent. The back-end ratio, all monthly debt payments including the new mortgage, is the one lenders weigh most and generally sits at or below 36 per cent, with qualified mortgages allowed up to 43 and FHA loans stretching to about 50 with compensating factors. Being approved for a figure and being able to live on it are different questions.`,
+  },
+  {
+    question: `How much deposit do I actually need?`,
+    answer: `Twenty per cent avoids private mortgage insurance and secures the best pricing, but it is not a requirement. Conventional loans start at three per cent for a first-time buyer, FHA at 3.5, and VA and USDA loans can require nothing at all. The cost of a smaller deposit is PMI, roughly 0.5 to 1.5 per cent of the loan a year until you reach twenty per cent equity, plus a higher balance and a higher rate.`,
   },
 ];
 
@@ -53,6 +61,7 @@ const schema = {
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
+  resume={`Lenders judge affordability with two ratios. The front-end ratio measures housing costs against gross income and is conventionally kept at or under 28 per cent. The back-end ratio measures all monthly debt payments including the new mortgage and generally sits at or below 36 per cent, with qualified mortgages allowed up to 43 and FHA loans stretching towards 50 with compensating factors. On a $100,000 income that points to housing costs of about $2,333 a month and total debt payments of $3,000. Being approved for a figure and being able to live on it are different questions: the payment lenders will allow assumes nothing about childcare, commuting, or the maintenance that a house consumes at roughly one per cent of its value a year.`}
   sources={`CFPB (Consumer Financial Protection Bureau) homebuyer guides, Fannie Mae and Freddie Mac lending guidelines, HUD FHA loan requirements. Last updated for ${TAX_YEAR}.`}
 >
   <MortgageAffordabilityCalculator client:idle />

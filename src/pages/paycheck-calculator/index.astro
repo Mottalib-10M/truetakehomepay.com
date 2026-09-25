@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import SourcesOfficielles from '../../components/ui/SourcesOfficielles.astro';
 import { TAX_YEAR } from '../../lib/constants';
 import { STATES, NO_INCOME_TAX_STATES } from '../../data/state-meta';
 
@@ -15,8 +16,8 @@ const taxStates = stateEntries.filter((s) => !NO_INCOME_TAX_STATES.includes(s.co
 
 const faqs = [
   {
-    question: 'Which states have no income tax?',
-    answer: `Nine states have no state income tax on wages: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming. Residents in these states keep more of their paycheck since only federal taxes and FICA apply.`,
+    question: 'How much does a no-income-tax state add to a payslip?',
+    answer: `Nine states levy no income tax on wages: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington and Wyoming. On a $100,000 salary that is worth roughly $5,000 a year against Illinois, and more than $9,000 against California, since only federal tax and FICA come off the payslip. The money is recovered through property and sales taxes, which do not appear on a payslip but do appear in the household budget.`,
   },
   {
     question: 'How does state tax affect my paycheck?',
@@ -30,10 +31,38 @@ const faqs = [
     question: `What are the ${TAX_YEAR} federal tax brackets?`,
     answer: `For ${TAX_YEAR}, the federal tax brackets for Single filers are: 10% up to $11,925; 12% up to $48,475; 22% up to $103,350; 24% up to $197,300; 32% up to $250,525; 35% up to $626,350; and 37% above $626,350. These apply to taxable income after the standard deduction.`,
   },
+  {
+    question: `How much does a no-income-tax state add to a payslip?`,
+    answer: `Nine: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington and Wyoming. In those states the only deductions on a payslip are federal income tax and FICA, which is worth between three and thirteen per cent of salary compared with a high-tax state. The money is raised elsewhere, chiefly through property and sales taxes, so the saving on the payslip is not always a saving overall.`,
+  },
+  {
+    question: `Why does my state matter more than my salary for take-home pay?`,
+    answer: `It does not, but it moves the figure more than most people expect. Federal tax and FICA are the same everywhere, so the whole difference between states comes from the state and local lines: nothing in Texas, up to 13.3 per cent in California, plus a city tax in New York City, Philadelphia and much of Ohio. On $100,000, the gap between the extremes exceeds $9,000 a year.`,
+  },
+  {
+    question: `Do I pay tax where I live or where I work?`,
+    answer: `Where you live, generally, with a credit for tax paid to the state where you work, so you end up paying the higher of the two rates rather than both in full. Several neighbouring states have reciprocity agreements that let you pay only your home state. New York is the notable exception, taxing income sourced to the state including remote days worked for a New York employer.`,
+  },
+  {
+    question: `What does the calculator not include?`,
+    answer: `Employer-specific deductions it cannot know: health, dental and vision premiums, life insurance, union dues, garnishments and flexible spending contributions. It also assumes a full year at one salary in one state, which a mid-year raise, a bonus or a move breaks. Treat the result as the tax picture, then subtract your own benefit deductions to reach the figure that will appear on the payslip.`,
+  },
 ];
+// §7 : la FAQ est affichée plus bas ; sans FAQPage, elle n'existe pas pour un
+// moteur. Le schéma est construit depuis la même liste, jamais recopié.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} schema={faqSchema}>
   <!-- Hero -->
   <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-8 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-7xl text-center">
@@ -189,6 +218,13 @@ const faqs = [
           </div>
         ))}
       </dl>
+    </div>
+  </section>
+
+  <!-- §7 : les sources officielles, avec leur lien -->
+  <section class="border-t border-slate-200 px-4 py-8 dark:border-slate-800 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <SourcesOfficielles intro="Figures on this page come from the following official publications:" />
     </div>
   </section>
 </Layout>
