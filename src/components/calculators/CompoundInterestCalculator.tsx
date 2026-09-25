@@ -74,7 +74,7 @@ export default function CompoundInterestCalculator() {
   return (
     <div className="grid gap-8 lg:grid-cols-5">
       {/* Input panel */}
-      <div className="space-y-6 lg:col-span-2">
+      <div className="space-y-6 lg:col-span-2 min-w-0">
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
           <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
             Investment Details
@@ -134,7 +134,7 @@ export default function CompoundInterestCalculator() {
       </div>
 
       {/* Results panel */}
-      <div className="lg:col-span-3">
+      <div className="lg:col-span-3 min-w-0">
         {result ? (
           <ResultSection result={result} />
         ) : (
