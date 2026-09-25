@@ -7,6 +7,7 @@ import { formatCurrencyRound } from '../../lib/format-us';
 import { getStateTaxConfig } from '../../data/income-tax-2026/index';
 import { formatPercent } from '../../lib/format-us';
 import { etofferFaq } from '../../lib/faq-bornes';
+import { PROSE_MONTANT, PROSE_ETAT } from '../../lib/salary-state-prose';
 import { ajusterTitre, ajusterDescription } from '../../lib/bornes-seo';
 
 export function getStaticPaths() {
@@ -85,6 +86,12 @@ const otherStates = TOP_10_STATES.filter((c) => c !== stateCode).map((c) => ({
   name: STATES[c].name,
   slug: STATES[c].slug,
 }));
+
+// Unicité : les 120 pages d'État partageaient le même texte, seuls les nombres
+// changeaient. Chaque page porte désormais le paragraphe de son montant et
+// celui de son État : aucune combinaison ne se répète.
+const proseMontant = PROSE_MONTANT[amount] ?? "";
+const proseEtat = PROSE_ETAT[stateName] ?? "";
 
 // ─── FAQs ────────────────────────────────────────────────────────────
 const faqs = [
@@ -222,6 +229,24 @@ const schema = [webAppSchema];
             <p>
               Earning {formatted} annually in {stateName} places you among the top earners in the country. At this income level, you are subject to the highest federal marginal tax rates, and if {stateName} levies a state income tax, the combined burden can claim a substantial portion of each additional dollar earned. However, {formatted} also provides access to sophisticated financial planning strategies, including maximizing all available tax-advantaged accounts, implementing backdoor Roth IRA contributions, and potentially benefiting from tax-loss harvesting in investment portfolios. In {stateName}, the difference between strategic and passive tax planning at this income level can amount to tens of thousands of dollars in annual savings.
             </p>
+          )}
+
+          {proseMontant && (
+            <>
+              <h3 class="text-xl font-semibold text-slate-900 dark:text-white">
+                What {formatted} looks like in practice
+              </h3>
+              <p>{proseMontant}</p>
+            </>
+          )}
+
+          {proseEtat && (
+            <>
+              <h3 class="text-xl font-semibold text-slate-900 dark:text-white">
+                What sets {stateName} apart
+              </h3>
+              <p>{proseEtat}</p>
+            </>
           )}
 
           <h2 id="federal-tax-breakdown" class="text-2xl font-bold text-slate-900 dark:text-white">
