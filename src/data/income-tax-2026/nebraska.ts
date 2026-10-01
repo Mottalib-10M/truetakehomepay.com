@@ -1,11 +1,10 @@
 /**
- * Nebraska Income Tax 2026
+ * Nebraska income tax, tax year 2026
  *
- * Nebraska has 4 progressive brackets (2.46% to 5.84%).
- *
- * Sources:
- * - Nebraska Department of Revenue
- * - Neb. Rev. Stat. § 77-2715.03
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
@@ -13,36 +12,28 @@ import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
 const config: StateIncomeTaxConfig = {
   brackets: {
     single: [
-      { min: 0, max: 3700, rate: 0.0246 },
-      { min: 3700, max: 22170, rate: 0.0351 },
-      { min: 22170, max: 35730, rate: 0.0501 },
-      { min: 35730, max: Infinity, rate: 0.0584 },
+      { min: 0, max: 4130, rate: 0.0246 },
+      { min: 4130, max: 24760, rate: 0.0351 },
+      { min: 24760, max: Infinity, rate: 0.0455 },
     ],
     mfj: [
-      { min: 0, max: 7400, rate: 0.0246 },
-      { min: 7400, max: 44340, rate: 0.0351 },
-      { min: 44340, max: 71460, rate: 0.0501 },
-      { min: 71460, max: Infinity, rate: 0.0584 },
+      { min: 0, max: 8250, rate: 0.0246 },
+      { min: 8250, max: 49530, rate: 0.0351 },
+      { min: 49530, max: Infinity, rate: 0.0455 },
     ],
     mfs: [
-      { min: 0, max: 3700, rate: 0.0246 },
-      { min: 3700, max: 22170, rate: 0.0351 },
-      { min: 22170, max: 35730, rate: 0.0501 },
-      { min: 35730, max: Infinity, rate: 0.0584 },
+      { min: 0, max: 4130, rate: 0.0246 },
+      { min: 4130, max: 24760, rate: 0.0351 },
+      { min: 24760, max: Infinity, rate: 0.0455 },
     ],
     hoh: [
-      { min: 0, max: 5550, rate: 0.0246 },
-      { min: 5550, max: 33260, rate: 0.0351 },
-      { min: 33260, max: 53600, rate: 0.0501 },
-      { min: 53600, max: Infinity, rate: 0.0584 },
+      { min: 0, max: 4130, rate: 0.0246 },
+      { min: 4130, max: 24760, rate: 0.0351 },
+      { min: 24760, max: Infinity, rate: 0.0455 },
     ],
   },
-  standardDeduction: {
-    single: 7900,
-    mfj: 15800,
-    mfs: 7900,
-    hoh: 11600,
-  },
+  standardDeduction: { single: 8850, mfj: 17700, mfs: 8850, hoh: 12990 },
+  personalCredit: { single: 176, mfj: 352, mfs: 176, hoh: 176 },
 };
 
 export default config;

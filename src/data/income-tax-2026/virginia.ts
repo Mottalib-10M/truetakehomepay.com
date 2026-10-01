@@ -1,12 +1,10 @@
 /**
- * Virginia Income Tax 2026
+ * Virginia income tax, tax year 2026
  *
- * Virginia has 4 progressive brackets (2% to 5.75%).
- * Virginia brackets have not been adjusted for inflation in decades.
- *
- * Sources:
- * - Virginia Department of Taxation
- * - Va. Code Ann. § 58.1-320
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
@@ -38,18 +36,8 @@ const config: StateIncomeTaxConfig = {
       { min: 17000, max: Infinity, rate: 0.0575 },
     ],
   },
-  standardDeduction: {
-    single: 8000,
-    mfj: 16000,
-    mfs: 8000,
-    hoh: 8000,
-  },
-  personalExemption: {
-    single: 930,
-    mfj: 1860,
-    mfs: 930,
-    hoh: 930,
-  },
+  standardDeduction: { single: 8750, mfj: 17500, mfs: 8750, hoh: 8750 },
+  personalExemption: { single: 930, mfj: 1860, mfs: 930, hoh: 930 },
 };
 
 export default config;

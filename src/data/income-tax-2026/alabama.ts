@@ -1,13 +1,11 @@
 /**
- * Alabama Income Tax 2026
+ * Alabama income tax, tax year 2026
  *
- * Alabama has 3 progressive brackets (2% to 5%).
- * Alabama is unique in allowing a deduction for federal income taxes paid.
- * Standard deduction and personal exemption amounts vary by filing status.
- *
- * Sources:
- * - Alabama Department of Revenue
- * - Code of Alabama § 40-18-5
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Standard deduction shown at its floor ($2,500 single, $5,000 joint), reached above about $35,000 of AGI. Federal income tax deductibility is not modelled.
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
@@ -35,18 +33,8 @@ const config: StateIncomeTaxConfig = {
       { min: 6000, max: Infinity, rate: 0.05 },
     ],
   },
-  standardDeduction: {
-    single: 2500,
-    mfj: 7500,
-    mfs: 3750,
-    hoh: 2500,
-  },
-  personalExemption: {
-    single: 1500,
-    mfj: 3000,
-    mfs: 1500,
-    hoh: 3000,
-  },
+  standardDeduction: { single: 2500, mfj: 5000, mfs: 2500, hoh: 2500 },
+  personalExemption: { single: 1500, mfj: 3000, mfs: 1500, hoh: 3000 },
 };
 
 export default config;

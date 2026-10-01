@@ -1,11 +1,10 @@
 /**
- * Kansas Income Tax 2026
+ * Kansas income tax, tax year 2026
  *
- * Kansas has 3 progressive brackets (3.1% to 5.7%).
- *
- * Sources:
- * - Kansas Department of Revenue
- * - K.S.A. § 79-32,110
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
@@ -13,38 +12,24 @@ import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
 const config: StateIncomeTaxConfig = {
   brackets: {
     single: [
-      { min: 0, max: 15000, rate: 0.031 },
-      { min: 15000, max: 30000, rate: 0.0525 },
-      { min: 30000, max: Infinity, rate: 0.057 },
+      { min: 0, max: 23000, rate: 0.052 },
+      { min: 23000, max: Infinity, rate: 0.0558 },
     ],
     mfj: [
-      { min: 0, max: 30000, rate: 0.031 },
-      { min: 30000, max: 60000, rate: 0.0525 },
-      { min: 60000, max: Infinity, rate: 0.057 },
+      { min: 0, max: 46000, rate: 0.052 },
+      { min: 46000, max: Infinity, rate: 0.0558 },
     ],
     mfs: [
-      { min: 0, max: 15000, rate: 0.031 },
-      { min: 15000, max: 30000, rate: 0.0525 },
-      { min: 30000, max: Infinity, rate: 0.057 },
+      { min: 0, max: 23000, rate: 0.052 },
+      { min: 23000, max: Infinity, rate: 0.0558 },
     ],
     hoh: [
-      { min: 0, max: 15000, rate: 0.031 },
-      { min: 15000, max: 30000, rate: 0.0525 },
-      { min: 30000, max: Infinity, rate: 0.057 },
+      { min: 0, max: 23000, rate: 0.052 },
+      { min: 23000, max: Infinity, rate: 0.0558 },
     ],
   },
-  standardDeduction: {
-    single: 3500,
-    mfj: 8000,
-    mfs: 4000,
-    hoh: 6000,
-  },
-  personalExemption: {
-    single: 2250,
-    mfj: 4500,
-    mfs: 2250,
-    hoh: 2250,
-  },
+  standardDeduction: { single: 3605, mfj: 8240, mfs: 3605, hoh: 6180 },
+  personalExemption: { single: 9160, mfj: 18320, mfs: 9160, hoh: 9160 },
 };
 
 export default config;

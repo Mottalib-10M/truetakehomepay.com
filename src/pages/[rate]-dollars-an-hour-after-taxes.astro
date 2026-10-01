@@ -157,7 +157,7 @@ const schema = [faqSchema, webAppSchema];
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
-  sources={`IRS Rev. Proc. 2025-11 (federal brackets), SSA.gov (Social Security wage base ${TAX_YEAR}), US Department of Labor (federal minimum wage). Last updated for tax year ${TAX_YEAR}.`}
+  sources={`IRS Rev. Proc. 2025-32 (federal brackets), SSA.gov (Social Security wage base ${TAX_YEAR}), US Department of Labor (federal minimum wage). Last updated for tax year ${TAX_YEAR}.`}
   canonical={`${SITE_URL}/${rate}-dollars-an-hour-after-taxes/`}
 >
   <PaycheckCalculator
@@ -268,7 +268,7 @@ const schema = [faqSchema, webAppSchema];
         <h2 id="federal-tax-impact">How Federal Income Taxes Affect {formattedRate} per Hour</h2>
 
         <p>
-          Federal income tax is the single largest deduction most workers see on their paychecks, and understanding how it applies to your {formattedAnnual} annual gross income at {formattedRate} per hour is essential for accurate financial planning. The United States uses a progressive tax system, meaning different portions of your income are taxed at different rates. For the {TAX_YEAR} tax year, the federal brackets for a single filer start at 10% on the first $11,925 of taxable income (after the standard deduction), then 12% on income from $11,926 to $48,475, 22% on income from $48,476 to $103,350, and higher rates beyond that. Your taxable income is your gross income minus the standard deduction, which is $15,000 for single filers in {TAX_YEAR}.
+          Federal income tax is the single largest deduction most workers see on their paychecks, and understanding how it applies to your {formattedAnnual} annual gross income at {formattedRate} per hour is essential for accurate financial planning. The United States uses a progressive tax system, meaning different portions of your income are taxed at different rates. For the {TAX_YEAR} tax year, the federal brackets for a single filer start at 10% on the first $12,400 of taxable income (after the standard deduction), then 12% on income from $12,401 to $50,400, 22% on income from $50,401 to $105,700, and higher rates beyond that. Your taxable income is your gross income minus the standard deduction, which is $15,000 for single filers in {TAX_YEAR}.
         </p>
 
         {(wageLevel === 'entry' || wageLevel === 'moderate') && (
@@ -322,7 +322,7 @@ const schema = [faqSchema, webAppSchema];
         </p>
 
         <p>
-          One often-overlooked aspect of FICA is that HSA (Health Savings Account) contributions are one of the only deductions that reduce both your income tax and your FICA tax liability. If your employer offers a high-deductible health plan with an HSA option, contributing to that HSA effectively reduces your FICA burden as well as your federal and state income tax. At {formattedRate} per hour, maximizing HSA contributions (up to $4,300 for individual coverage in {TAX_YEAR}) can save you an additional {formatCurrencyRound(4300 * 0.0765)} in FICA taxes beyond the income tax savings.
+          One often-overlooked aspect of FICA is that HSA (Health Savings Account) contributions are one of the only deductions that reduce both your income tax and your FICA tax liability. If your employer offers a high-deductible health plan with an HSA option, contributing to that HSA effectively reduces your FICA burden as well as your federal and state income tax. At {formattedRate} per hour, maximizing HSA contributions (up to $4,400 for individual coverage in {TAX_YEAR}) can save you an additional {formatCurrencyRound(4400 * 0.0765)} in FICA taxes beyond the income tax savings.
         </p>
 
         <h2 id="overtime-economics">Overtime Economics at {formattedRate} per Hour</h2>

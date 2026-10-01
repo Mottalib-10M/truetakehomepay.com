@@ -3,25 +3,25 @@ import { formatCurrency, formatCurrencyRound, formatPercent } from '../../lib/fo
 import InputField from '../ui/InputField';
 import SelectField from '../ui/SelectField';
 
-// ─── Tax Constants (2025 single filer, simplified) ─────────────────────────
+// ─── Tax Constants (2026 single filer, simplified) ─────────────────────────
 const FEDERAL_BRACKETS = [
-  { min: 0, max: 11925, rate: 0.10 },
-  { min: 11925, max: 48475, rate: 0.12 },
-  { min: 48475, max: 103350, rate: 0.22 },
-  { min: 103350, max: 197300, rate: 0.24 },
-  { min: 197300, max: 250525, rate: 0.32 },
-  { min: 250525, max: 626350, rate: 0.35 },
-  { min: 626350, max: Infinity, rate: 0.37 },
+  { min: 0, max: 12400, rate: 0.10 },
+  { min: 12400, max: 50400, rate: 0.12 },
+  { min: 50400, max: 105700, rate: 0.22 },
+  { min: 105700, max: 201775, rate: 0.24 },
+  { min: 201775, max: 256225, rate: 0.32 },
+  { min: 256225, max: 640600, rate: 0.35 },
+  { min: 640600, max: Infinity, rate: 0.37 },
 ];
 
-const STANDARD_DEDUCTION = 15700;
+const STANDARD_DEDUCTION = 16100;
 const SS_RATE = 0.062;
-const SS_WAGE_BASE = 176100;
+const SS_WAGE_BASE = 184500;
 const MEDICARE_RATE = 0.0145;
 
 // ─── Helper: progressive federal tax ───────────────────────────────────────
-function calcFederalTax(grossAnnual: number): number {
-  const taxable = Math.max(0, grossAnnual - STANDARD_DEDUCTION);
+function calcFederalTax(grossAnnual: number, deduction = 0): number {
+  const taxable = Math.max(0, grossAnnual - STANDARD_DEDUCTION - deduction);
   let tax = 0;
   for (const bracket of FEDERAL_BRACKETS) {
     if (taxable <= bracket.min) break;
@@ -127,7 +127,15 @@ export default function OvertimePayCalculator() {
     const annualGrossWithoutOt = annualRegular;
 
     // Taxes WITH overtime
-    const federalTaxWithOt = calcFederalTax(annualGrossWithOt);
+    // Deduction for qualified overtime (tax years 2025-2028): only the premium
+    // above the regular rate counts, up to $12,500 for a single filer, reduced
+    // by $100 per $1,000 of income above $150,000. FICA still applies.
+    const otPremium = mult > 1 ? (annualOt * (mult - 1)) / mult : 0;
+    const otDeduction = Math.max(
+      0,
+      Math.min(otPremium, 12500) - Math.floor(Math.max(0, annualGrossWithOt - 150000) / 1000) * 100
+    );
+    const federalTaxWithOt = calcFederalTax(annualGrossWithOt, otDeduction);
     const ficaObjWithOt = calcFica(annualGrossWithOt);
     const ficaWithOt = ficaObjWithOt.total;
     const totalTaxWithOt = federalTaxWithOt + ficaWithOt;
@@ -372,8 +380,9 @@ function OvertimeResultPanel({ result }: { result: OvertimeResult }) {
         <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-400">
           <span className="font-semibold text-slate-700 dark:text-slate-300">How OT tax works: </span>
           Overtime is taxed as ordinary income &mdash; there is no special &ldquo;overtime tax rate.&rdquo;
-          However, the extra earnings may push you into a higher marginal bracket, so the effective
-          tax rate on your OT dollars can be higher than on your base pay. This calculator uses
+          For tax years 2025 to 2028, the premium part of overtime pay (the extra half in time and a
+          half) can be deducted from federal taxable income, up to $12,500 for a single filer; Social
+          Security and Medicare still apply to every overtime dollar. This calculator applies that deduction and uses
           simplified federal tax brackets for a single filer with the standard deduction. Your actual
           withholding may differ based on your W-4, filing status, state taxes, and other deductions.
         </p>

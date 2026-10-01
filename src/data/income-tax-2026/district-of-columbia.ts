@@ -1,12 +1,10 @@
 /**
- * District of Columbia Income Tax 2026
+ * District Of Columbia income tax, tax year 2026
  *
- * DC has 7 progressive brackets (4% to 10.75%).
- * DC is not a state but levies its own income tax.
- *
- * Sources:
- * - DC Office of Tax and Revenue (OTR)
- * - DC Code § 47-1806.03
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
@@ -50,12 +48,7 @@ const config: StateIncomeTaxConfig = {
       { min: 1000000, max: Infinity, rate: 0.1075 },
     ],
   },
-  standardDeduction: {
-    single: 12950,
-    mfj: 25900,
-    mfs: 12950,
-    hoh: 19400,
-  },
+  standardDeduction: { single: 16100, mfj: 32200, mfs: 16100, hoh: 24150 },
 };
 
 export default config;

@@ -9,7 +9,7 @@ const description = `Enter your annual salary and see what you actually take hom
 const faqs = [
   {
     question: 'How do I calculate my annual take-home pay?',
-    answer: `Start with your gross annual salary, then subtract federal income tax, state income tax (if applicable), Social Security tax (6.2% up to $176,100), Medicare tax (1.45%), and any pre-tax deductions like 401(k) or health insurance premiums. The remainder is your net annual take-home pay.`,
+    answer: `Start with your gross annual salary, then subtract federal income tax, state income tax (if applicable), Social Security tax (6.2% up to $184,500), Medicare tax (1.45%), and any pre-tax deductions like 401(k) or health insurance premiums. The remainder is your net annual take-home pay.`,
   },
   {
     question: 'What is the difference between gross salary and net salary?',
@@ -29,7 +29,7 @@ const faqs = [
   },
   {
     question: `What are the ${TAX_YEAR} federal tax brackets for salary income?`,
-    answer: `For ${TAX_YEAR}, Single filers pay: 10% on income up to $11,925; 12% up to $48,475; 22% up to $103,350; 24% up to $197,300; 32% up to $250,525; 35% up to $626,350; and 37% above that. These rates apply to taxable income after the standard deduction ($15,700 for Single, $31,400 for Married Filing Jointly).`,
+    answer: `For ${TAX_YEAR}, Single filers pay: 10% on income up to $12,400; 12% up to $50,400; 22% up to $105,700; 24% up to $201,775; 32% up to $256,225; 35% up to $640,600; and 37% above that. These rates apply to taxable income after the standard deduction ($16,100 for Single, $32,200 for Married Filing Jointly).`,
   },
 ];
 
@@ -67,7 +67,7 @@ const schema = {
   relatedCalculators={relatedCalculators}
   schema={schema}
   resume={`Converting a salary into take-home pay means subtracting four layers, and only the first is federal income tax. Pre-tax deductions come off first, so a 401(k) contribution or a health premium lowers the income that is taxed at all. Federal tax is then withheld on what remains, according to your W-4 rather than your eventual liability. FICA takes 7.65 per cent, 6.2 for Social Security up to the annual wage base and 1.45 for Medicare with no ceiling. State income tax follows, from nothing in nine states to more than 13 per cent in California, with a local tax on top in New York City, Philadelphia and much of Ohio. On a $75,000 salary the result commonly falls between $55,000 and $62,000 depending on the state.`}
-  sources={`IRS Rev. Proc. 2025-11 (${TAX_YEAR} federal tax brackets and standard deductions), SSA.gov (Social Security wage base $176,100), state revenue department publications. Last updated for tax year ${TAX_YEAR}.`}
+  sources={`IRS Rev. Proc. 2025-32 (${TAX_YEAR} federal tax brackets and standard deductions), SSA.gov (Social Security wage base $184,500), state revenue department publications. Last updated for tax year ${TAX_YEAR}.`}
 >
   <PaycheckCalculator
     client:idle
@@ -97,7 +97,7 @@ const schema = {
         <p>Your pay stub contains a wealth of information, but many employees glance at the net pay amount and ignore the rest. Taking the time to understand each line item will help you identify errors, plan for taxes, and make smarter decisions about benefits enrollment.</p>
         <p>The first section of your pay stub shows gross earnings. For salaried employees, this is your annual salary divided by the number of pay periods. If you see a discrepancy between your expected gross and the actual amount, check whether your employer prorates the first or last paycheck of your employment or adjusts for mid-period start dates.</p>
         <p>Federal income tax withholding is typically the largest deduction. The amount withheld depends on your taxable wages (gross minus pre-tax deductions), your filing status, and any adjustments on your W-4. If you received a large tax refund last year, you may be over-withholding, which means you are giving the government an interest-free loan from every paycheck. Conversely, if you owed money at tax time, you may need to increase your withholding to avoid a penalty. The <a href="/income-tax-calculator/">income tax calculator</a> on this site can help you estimate your annual federal and state tax liability so you can adjust your W-4 accordingly.</p>
-        <p>Social Security tax is withheld at a flat rate of 6.2% on wages up to the annual cap, which is $176,100 for 2025. Once your year-to-date earnings exceed this threshold, Social Security withholding stops for the remainder of the year. If you earn above the cap, you will notice slightly larger paychecks in the last few months of the year. Medicare tax is withheld at 1.45% on all wages with no cap, and high earners pay an Additional Medicare Tax of 0.9% on wages above $200,000 for single filers.</p>
+        <p>Social Security tax is withheld at a flat rate of 6.2% on wages up to the annual cap, which is $184,500 for 2026. Once your year-to-date earnings exceed this threshold, Social Security withholding stops for the remainder of the year. If you earn above the cap, you will notice slightly larger paychecks in the last few months of the year. Medicare tax is withheld at 1.45% on all wages with no cap, and high earners pay an Additional Medicare Tax of 0.9% on wages above $200,000 for single filers.</p>
         <p>State income tax withholding varies enormously depending on where you live. If you reside in one of the nine states with no income tax on wages, including Texas, Florida, and Washington, your paycheck will be noticeably larger than someone earning the same salary in a high-tax state like California or New York. The difference can be substantial. A worker earning $80,000 in Texas takes home roughly $3,000 to $5,000 more per year than an identical earner in California, purely from the state tax difference. Our <a href="/take-home-pay-calculator/">take-home pay calculator</a> lets you compare net pay across different states to quantify this effect.</p>
 
         <h2 id="regional-salary-differences">Regional Salary Differences and Cost of Living</h2>

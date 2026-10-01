@@ -1,15 +1,11 @@
 /**
- * Washington Income Tax 2026
+ * Washington income tax, tax year 2026
  *
- * Washington has NO state income tax on earned income.
- * Washington does have a 7% capital gains tax on gains over $250,000,
- * but this does not apply to paycheck withholding.
- *
- * Washington has Paid Family & Medical Leave (PFML).
- *
- * Sources:
- * - Washington State Department of Revenue
- * - Washington Employment Security Department (PFML)
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * No tax on wages. Payroll deductions: WA Cares 0.58% and the employee share of Paid Family and Medical Leave.
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
@@ -17,7 +13,8 @@ import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
 const config: StateIncomeTaxConfig = {
   brackets: null,
   specialRules: {
-    pfl: { rate: 0.0058, wageBase: 176100 },
+    sdi: { rate: 0.0058 },
+    pfl: { rate: 0.00807, wageBase: 184500 },
   },
 };
 

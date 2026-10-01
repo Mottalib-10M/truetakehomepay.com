@@ -1,11 +1,11 @@
 /**
- * Maine Income Tax 2026
+ * Maine income tax, tax year 2026
  *
- * Maine has 3 progressive brackets (5.8% to 7.15%).
- *
- * Sources:
- * - Maine Revenue Services
- * - 36 M.R.S. § 5111
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Maine sets its own standard deduction from 2026: $15,300 single, $30,600 joint, $22,950 head of household.
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
@@ -13,37 +13,30 @@ import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
 const config: StateIncomeTaxConfig = {
   brackets: {
     single: [
-      { min: 0, max: 24500, rate: 0.058 },
-      { min: 24500, max: 58050, rate: 0.0675 },
-      { min: 58050, max: Infinity, rate: 0.0715 },
+      { min: 0, max: 27399, rate: 0.058 },
+      { min: 27399, max: 64849, rate: 0.0675 },
+      { min: 64849, max: Infinity, rate: 0.0715 },
     ],
     mfj: [
-      { min: 0, max: 49050, rate: 0.058 },
-      { min: 49050, max: 116100, rate: 0.0675 },
-      { min: 116100, max: Infinity, rate: 0.0715 },
+      { min: 0, max: 54849, rate: 0.058 },
+      { min: 54849, max: 129749, rate: 0.0675 },
+      { min: 129749, max: Infinity, rate: 0.0715 },
     ],
     mfs: [
-      { min: 0, max: 24500, rate: 0.058 },
-      { min: 24500, max: 58050, rate: 0.0675 },
-      { min: 58050, max: Infinity, rate: 0.0715 },
+      { min: 0, max: 27399, rate: 0.058 },
+      { min: 27399, max: 64849, rate: 0.0675 },
+      { min: 64849, max: Infinity, rate: 0.0715 },
     ],
     hoh: [
-      { min: 0, max: 36750, rate: 0.058 },
-      { min: 36750, max: 87100, rate: 0.0675 },
-      { min: 87100, max: Infinity, rate: 0.0715 },
+      { min: 0, max: 41100, rate: 0.058 },
+      { min: 41100, max: 97300, rate: 0.0675 },
+      { min: 97300, max: Infinity, rate: 0.0715 },
     ],
   },
-  standardDeduction: {
-    single: 14600,
-    mfj: 29200,
-    mfs: 14600,
-    hoh: 21900,
-  },
-  personalExemption: {
-    single: 4700,
-    mfj: 9400,
-    mfs: 4700,
-    hoh: 4700,
+  standardDeduction: { single: 15300, mfj: 30600, mfs: 15300, hoh: 22950 },
+  personalExemption: { single: 5300, mfj: 10600, mfs: 5300, hoh: 5300 },
+  specialRules: {
+    pfl: { rate: 0.005, wageBase: 184500 },
   },
 };
 

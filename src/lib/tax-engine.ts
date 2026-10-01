@@ -257,6 +257,14 @@ export interface StateIncomeTaxConfig {
   standardDeduction?: Record<FilingStatus, number>;
   personalExemption?: Record<FilingStatus, number>;
   flatRate?: number; // For flat-tax states
+  /** Exemption or deduction granted as a credit against tax (CA, OR, NE, UT…) */
+  personalCredit?: Record<FilingStatus, number>;
+  /** Credit reduced by `rate` per dollar of income above `start` (Utah) */
+  creditPhaseOut?: { rate: number; start: Record<FilingStatus, number> };
+  /** Standard deduction reduced linearly from `start` to zero over `range` (SC, WI) */
+  deductionPhaseOut?: Record<FilingStatus, { start: number; range: number }>;
+  /** Personal exemption reduced linearly from `start` to zero over `range` (CT) */
+  exemptionPhaseOut?: Record<FilingStatus, { start: number; range: number }>;
   specialRules?: {
     sdi?: { rate: number; wageBase?: number }; // State Disability Insurance
     pfl?: { rate: number; wageBase?: number }; // Paid Family Leave
@@ -301,8 +309,16 @@ export function calculateStateIncomeTax(
   const stateAGI = grossAnnual - traditional401k - hsa - fsa - healthPremiums;
 
   // State standard deduction (some states have their own, others use federal)
-  const stateStdDeduction = stateConfig.standardDeduction?.[filingStatus] ?? 0;
-  const personalExemption = stateConfig.personalExemption?.[filingStatus] ?? 0;
+  const phase = (amount: number, p?: { start: number; range: number }) =>
+    p ? amount * Math.max(0, 1 - Math.max(0, stateAGI - p.start) / p.range) : amount;
+  const stateStdDeduction = phase(
+    stateConfig.standardDeduction?.[filingStatus] ?? 0,
+    stateConfig.deductionPhaseOut?.[filingStatus]
+  );
+  const personalExemption = phase(
+    stateConfig.personalExemption?.[filingStatus] ?? 0,
+    stateConfig.exemptionPhaseOut?.[filingStatus]
+  );
 
   const taxableIncome = Math.max(0, stateAGI - stateStdDeduction - personalExemption);
 
@@ -331,6 +347,14 @@ export function calculateStateIncomeTax(
     marginalRate = result.marginalRate;
     brackets = result.details;
   }
+
+  // Exemptions and deductions granted as a credit against the tax
+  let credit = stateConfig.personalCredit?.[filingStatus] ?? 0;
+  if (credit && stateConfig.creditPhaseOut) {
+    const { rate, start } = stateConfig.creditPhaseOut;
+    credit = Math.max(0, credit - Math.max(0, stateAGI - start[filingStatus]) * rate);
+  }
+  tax = Math.max(0, tax - credit);
 
   // Mental Health Services Tax (California)
   if (stateConfig.specialRules?.mentalHealthSurtax) {

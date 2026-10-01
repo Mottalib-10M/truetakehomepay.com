@@ -6,7 +6,7 @@ import SelectField from '../ui/SelectField';
 
 // ─── Tax Constants ──────────────────────────────────────────────────────
 const SS_RATE = 0.062;
-const SS_WAGE_BASE = 176100;
+const SS_WAGE_BASE = 184500;
 const MEDICARE_RATE = 0.0145;
 const ADDITIONAL_MEDICARE_RATE = 0.009;
 const ADDITIONAL_MEDICARE_THRESHOLDS: Record<FilingStatus, number> = {

@@ -9,7 +9,7 @@ const description = `Calculate your take-home pay as a tipped employee in ${TAX_
 const faqs = [
   {
     question: 'Are tips taxable income?',
-    answer: `Yes. All tips — cash, credit card, and allocated — are considered taxable income by the IRS. You must report all tips to your employer if they total $20 or more in a calendar month. Tips are subject to federal income tax, state income tax (if applicable), Social Security tax (6.2%), and Medicare tax (1.45%). Failure to report tips can result in penalties.`,
+    answer: `Yes. All tips — cash, credit card, and allocated — are considered taxable income by the IRS. You must report all tips to your employer if they total $20 or more in a calendar month. Tips are subject to federal income tax, state income tax (if applicable), Social Security tax (6.2%), and Medicare tax (1.45%). Failure to report tips can result in penalties. For tax years 2025 to 2028, workers in customarily tipped occupations can deduct up to $25,000 of reported tips from federal taxable income; the deduction shrinks above $150,000 of income ($300,000 for joint filers) and does not reduce Social Security or Medicare tax.`,
   },
   {
     question: 'What is the tipped minimum wage?',
@@ -25,7 +25,7 @@ const faqs = [
   },
   {
     question: 'Can I deduct tip-related expenses?',
-    answer: `Under the Tax Cuts and Jobs Act (in effect through 2025 and expected to continue into ${TAX_YEAR}), employees cannot deduct unreimbursed work expenses like tip-outs to support staff. However, if you are self-employed (e.g., food delivery driver), you can deduct business expenses on Schedule C. Always keep records of tips received and any tip-outs paid.`,
+    answer: `Employees cannot deduct unreimbursed work expenses like tip-outs to support staff. However, if you are self-employed (e.g., food delivery driver), you can deduct business expenses on Schedule C. Always keep records of tips received and any tip-outs paid.`,
   },
   {
     question: 'What is the FICA tip credit for employers?',
@@ -66,7 +66,7 @@ const schema = {
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
-  sources={`IRS Publication 531 (Reporting Tip Income), U.S. Department of Labor (tipped minimum wage rules), IRS Rev. Proc. 2025-11 (${TAX_YEAR} tax brackets), SSA.gov (Social Security wage base). Last updated for tax year ${TAX_YEAR}.`}
+  sources={`IRS Publication 531 (Reporting Tip Income), U.S. Department of Labor (tipped minimum wage rules), IRS Rev. Proc. 2025-32 (${TAX_YEAR} tax brackets), SSA.gov (Social Security wage base). Last updated for tax year ${TAX_YEAR}.`}
 >
   <TipTaxCalculator client:idle />
 
@@ -127,7 +127,7 @@ const schema = {
           One misunderstanding that many tipped workers share is the belief that tips are taxed at a flat rate or somehow separately from other income. In reality, your tips are added to your base wages, and the combined total determines your tax bracket. If your base wage places you in the 12 percent federal bracket, a strong month of tips could push a portion of your income into the 22 percent bracket. This bracket interaction means that the effective tax rate on your last dollar of tip income may be considerably higher than the rate on your first dollar of wages.
         </p>
         <p>
-          Consider a bartender earning $25,000 in base wages and $35,000 in annual tips, for a total of $60,000. After the standard deduction, their taxable income would be roughly $45,850. The first $11,925 is taxed at 10 percent, the next portion up to $48,475 at 12 percent, putting this worker right at the edge of the 22 percent bracket. A few extra thousand in tips during a busy holiday season could push them into that higher bracket on the marginal amount. Understanding this interaction is important for planning estimated tax payments and avoiding a surprise bill at filing time. Our <a href="/income-tax-calculator/">income tax calculator</a> can show you exactly where your combined income places you.
+          Consider a bartender earning $25,000 in base wages and $35,000 in annual tips, for a total of $60,000. After the $16,100 standard deduction, taxable income would be $43,900 and the federal income tax $5,020: $1,240 on the first $12,400 at 10 percent, then $3,780 on the remaining $31,500 at 12 percent. For tax years 2025 to 2028, the deduction for qualified tips removes up to $25,000 of reported tips from that base. Taxable income falls to $18,900 and the tax to $2,020, a saving of $3,000. Social Security and Medicare are still owed on every tipped dollar, about $2,678 on the $35,000 of tips. Understanding this interaction is important for planning estimated tax payments and avoiding a surprise bill at filing time. Our <a href="/income-tax-calculator/">income tax calculator</a> can show you exactly where your combined income places you.
         </p>
 
         <h2 id="common-tip-reporting-mistakes">Common Mistakes in Reporting Tip Income</h2>

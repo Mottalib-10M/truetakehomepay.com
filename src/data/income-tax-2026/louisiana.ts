@@ -1,13 +1,10 @@
 /**
- * Louisiana Income Tax 2026
+ * Louisiana income tax, tax year 2026
  *
- * Louisiana has 3 progressive brackets (1.85% to 4.25%).
- * Brackets are the same for all filing statuses.
- * Louisiana uses the federal standard deduction.
- *
- * Sources:
- * - Louisiana Department of Revenue
- * - La. R.S. 47:32
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
@@ -15,32 +12,20 @@ import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
 const config: StateIncomeTaxConfig = {
   brackets: {
     single: [
-      { min: 0, max: 12500, rate: 0.0185 },
-      { min: 12500, max: 50000, rate: 0.035 },
-      { min: 50000, max: Infinity, rate: 0.0425 },
+      { min: 0, max: Infinity, rate: 0.03 },
     ],
     mfj: [
-      { min: 0, max: 25000, rate: 0.0185 },
-      { min: 25000, max: 100000, rate: 0.035 },
-      { min: 100000, max: Infinity, rate: 0.0425 },
+      { min: 0, max: Infinity, rate: 0.03 },
     ],
     mfs: [
-      { min: 0, max: 12500, rate: 0.0185 },
-      { min: 12500, max: 50000, rate: 0.035 },
-      { min: 50000, max: Infinity, rate: 0.0425 },
+      { min: 0, max: Infinity, rate: 0.03 },
     ],
     hoh: [
-      { min: 0, max: 12500, rate: 0.0185 },
-      { min: 12500, max: 50000, rate: 0.035 },
-      { min: 50000, max: Infinity, rate: 0.0425 },
+      { min: 0, max: Infinity, rate: 0.03 },
     ],
   },
-  standardDeduction: {
-    single: 14600,
-    mfj: 29200,
-    mfs: 14600,
-    hoh: 21900,
-  },
+  flatRate: 0.03,
+  standardDeduction: { single: 12875, mfj: 25750, mfs: 12875, hoh: 19310 },
 };
 
 export default config;

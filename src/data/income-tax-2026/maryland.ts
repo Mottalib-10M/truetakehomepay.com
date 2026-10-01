@@ -1,13 +1,10 @@
 /**
- * Maryland Income Tax 2026
+ * Maryland income tax, tax year 2026
  *
- * Maryland has 8 progressive brackets (2% to 5.75%).
- * Maryland counties also levy local income taxes (handled in local-tax-2026.ts).
- * Standard deduction is 15% of AGI with min/max limits.
- *
- * Sources:
- * - Comptroller of Maryland
- * - Md. Tax-General Code Ann. § 10-105
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
@@ -22,7 +19,9 @@ const config: StateIncomeTaxConfig = {
       { min: 100000, max: 125000, rate: 0.05 },
       { min: 125000, max: 150000, rate: 0.0525 },
       { min: 150000, max: 250000, rate: 0.055 },
-      { min: 250000, max: Infinity, rate: 0.0575 },
+      { min: 250000, max: 500000, rate: 0.0575 },
+      { min: 500000, max: 1000000, rate: 0.0625 },
+      { min: 1000000, max: Infinity, rate: 0.065 },
     ],
     mfj: [
       { min: 0, max: 1000, rate: 0.02 },
@@ -32,7 +31,9 @@ const config: StateIncomeTaxConfig = {
       { min: 150000, max: 175000, rate: 0.05 },
       { min: 175000, max: 225000, rate: 0.0525 },
       { min: 225000, max: 300000, rate: 0.055 },
-      { min: 300000, max: Infinity, rate: 0.0575 },
+      { min: 300000, max: 600000, rate: 0.0575 },
+      { min: 600000, max: 1200000, rate: 0.0625 },
+      { min: 1200000, max: Infinity, rate: 0.065 },
     ],
     mfs: [
       { min: 0, max: 1000, rate: 0.02 },
@@ -42,7 +43,9 @@ const config: StateIncomeTaxConfig = {
       { min: 100000, max: 125000, rate: 0.05 },
       { min: 125000, max: 150000, rate: 0.0525 },
       { min: 150000, max: 250000, rate: 0.055 },
-      { min: 250000, max: Infinity, rate: 0.0575 },
+      { min: 250000, max: 500000, rate: 0.0575 },
+      { min: 500000, max: 1000000, rate: 0.0625 },
+      { min: 1000000, max: Infinity, rate: 0.065 },
     ],
     hoh: [
       { min: 0, max: 1000, rate: 0.02 },
@@ -52,21 +55,13 @@ const config: StateIncomeTaxConfig = {
       { min: 150000, max: 175000, rate: 0.05 },
       { min: 175000, max: 225000, rate: 0.0525 },
       { min: 225000, max: 300000, rate: 0.055 },
-      { min: 300000, max: Infinity, rate: 0.0575 },
+      { min: 300000, max: 600000, rate: 0.0575 },
+      { min: 600000, max: 1200000, rate: 0.0625 },
+      { min: 1200000, max: Infinity, rate: 0.065 },
     ],
   },
-  standardDeduction: {
-    single: 2550,
-    mfj: 5150,
-    mfs: 2550,
-    hoh: 2550,
-  },
-  personalExemption: {
-    single: 3200,
-    mfj: 6400,
-    mfs: 3200,
-    hoh: 3200,
-  },
+  standardDeduction: { single: 3350, mfj: 6700, mfs: 3350, hoh: 3350 },
+  personalExemption: { single: 3200, mfj: 6400, mfs: 3200, hoh: 3200 },
 };
 
 export default config;

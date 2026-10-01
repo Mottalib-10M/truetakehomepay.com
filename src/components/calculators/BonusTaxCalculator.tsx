@@ -235,7 +235,7 @@ function BonusResultPanel({
           The IRS treats bonuses as &ldquo;supplemental wages&rdquo; and requires employers to withhold
           federal tax at a flat 22% rate (or 37% for the portion exceeding $1 million). This is
           separate from your regular income tax bracket. Social Security tax (6.2%) applies until
-          your year-to-date wages reach the $176,100 wage base, and Medicare (1.45%) applies with
+          your year-to-date wages reach the $184,500 wage base, and Medicare (1.45%) applies with
           no cap. Your actual tax liability may differ at filing time — the 22% is a withholding
           rate, not your final tax rate.
         </p>

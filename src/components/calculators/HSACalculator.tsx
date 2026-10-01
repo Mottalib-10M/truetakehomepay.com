@@ -4,15 +4,15 @@ import InputField from '../ui/InputField';
 import SelectField from '../ui/SelectField';
 
 // ─── 2026 HSA Constants ────────────────────────────────────────────────
-const HSA_LIMIT_SELF = 4300;
-const HSA_LIMIT_FAMILY = 8550;
+const HSA_LIMIT_SELF = 4400;
+const HSA_LIMIT_FAMILY = 8750;
 const HSA_CATCHUP = 1000; // age 55+
 const FICA_RATE = 0.0765;
 
 export default function HSACalculator() {
   // ─── State ─────────────────────────────────────────────────────────
   const [incomeInput, setIncomeInput] = useState('80000');
-  const [hsaInput, setHsaInput] = useState('4300');
+  const [hsaInput, setHsaInput] = useState('4400');
   const [coverage, setCoverage] = useState('self');
   const [age55, setAge55] = useState('no');
   const [fedRate, setFedRate] = useState('22');
@@ -33,7 +33,7 @@ export default function HSACalculator() {
   const updateUrl = useCallback(() => {
     const params = new URLSearchParams();
     if (incomeInput && incomeInput !== '80000') params.set('income', incomeInput);
-    if (hsaInput && hsaInput !== '4300') params.set('hsa', hsaInput);
+    if (hsaInput && hsaInput !== '4400') params.set('hsa', hsaInput);
     if (coverage !== 'self') params.set('coverage', coverage);
     if (age55 !== 'no') params.set('age55', age55);
     if (fedRate !== '22') params.set('fedrate', fedRate);
@@ -132,7 +132,7 @@ export default function HSACalculator() {
               value={hsaInput}
               onChange={setHsaInput}
               prefix="$"
-              placeholder="4,300"
+              placeholder="4,400"
               helpText="Your annual HSA contribution (pre-tax via payroll)"
             />
 

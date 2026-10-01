@@ -6,19 +6,19 @@ import InputField from '../ui/InputField';
 const FEDERAL_TIPPED_MIN_WAGE = 2.13;
 const _FEDERAL_REGULAR_MIN_WAGE = 7.25; // $7.25/hr — kept for reference
 const SS_RATE = 0.062;
-const SS_WAGE_BASE = 176100;
+const SS_WAGE_BASE = 184500;
 const MEDICARE_RATE = 0.0145;
-const STANDARD_DEDUCTION = 15700;
+const STANDARD_DEDUCTION = 16100;
 
 /** Simplified 2026 federal tax brackets (single filer) */
 const FEDERAL_BRACKETS: { min: number; max: number; rate: number }[] = [
-  { min: 0, max: 11925, rate: 0.10 },
-  { min: 11925, max: 48475, rate: 0.12 },
-  { min: 48475, max: 103350, rate: 0.22 },
-  { min: 103350, max: 197300, rate: 0.24 },
-  { min: 197300, max: 250525, rate: 0.32 },
-  { min: 250525, max: 626350, rate: 0.35 },
-  { min: 626350, max: Infinity, rate: 0.37 },
+  { min: 0, max: 12400, rate: 0.10 },
+  { min: 12400, max: 50400, rate: 0.12 },
+  { min: 50400, max: 105700, rate: 0.22 },
+  { min: 105700, max: 201775, rate: 0.24 },
+  { min: 201775, max: 256225, rate: 0.32 },
+  { min: 256225, max: 640600, rate: 0.35 },
+  { min: 640600, max: Infinity, rate: 0.37 },
 ];
 
 function calcFederalIncomeTax(taxableIncome: number): number {
@@ -105,7 +105,13 @@ export default function TipTaxCalculator() {
     const totalGross = baseAnnual + tipsAnnual;
 
     // Federal income tax (simplified single filer)
-    const taxableIncome = Math.max(0, totalGross - STANDARD_DEDUCTION);
+    // Deduction for qualified tips (tax years 2025-2028): up to $25,000,
+    // reduced by $100 per $1,000 of income above $150,000. FICA still applies.
+    const tipDeduction = Math.max(
+      0,
+      Math.min(tipsAnnual, 25000) - Math.floor(Math.max(0, totalGross - 150000) / 1000) * 100
+    );
+    const taxableIncome = Math.max(0, totalGross - STANDARD_DEDUCTION - tipDeduction);
     const federalTax = calcFederalIncomeTax(taxableIncome);
 
     // FICA taxes (all wages + tips subject)

@@ -9,7 +9,7 @@ const description = `Calculate your New York state income tax for ${TAX_YEAR}. S
 const faqs = [
   {
     question: `What are New York's ${TAX_YEAR} income tax brackets?`,
-    answer: `New York has 9 progressive tax brackets for ${TAX_YEAR}. For single filers: 4% on income up to $8,500; 4.5% up to $11,700; 5.25% up to $13,900; 5.5% up to $80,650; 6% up to $215,400; 6.85% up to $1,077,550; 9.65% up to $5,000,000; 10.3% up to $25,000,000; and 10.9% on income over $25,000,000.`,
+    answer: `New York has 9 progressive tax brackets for ${TAX_YEAR}. For single filers: 3.9% on income up to $8,500; 4.4% up to $11,700; 5.15% up to $13,900; 5.4% up to $80,650; 5.9% up to $215,400; 6.85% up to $1,077,550; 9.65% up to $5,000,000; 10.3% up to $25,000,000; and 10.9% on income over $25,000,000.`,
   },
   {
     question: 'Do New York City residents pay additional taxes?',
@@ -61,14 +61,14 @@ const schema = {
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
-  sources={`New York State Department of Taxation and Finance (tax.ny.gov) ${TAX_YEAR} rates, NYC Department of Finance (city tax rates), IRS Rev. Proc. 2025-11 (federal brackets). Last updated for tax year ${TAX_YEAR}.`}
+  sources={`New York State Department of Taxation and Finance (tax.ny.gov) ${TAX_YEAR} rates, NYC Department of Finance (city tax rates), IRS Rev. Proc. 2025-32 (federal brackets). Last updated for tax year ${TAX_YEAR}.`}
 >
   <PaycheckCalculator client:idle defaultState="NY" />
   <Fragment slot="content">
     <section class="border-t border-slate-200 px-4 py-16 dark:border-slate-800 sm:px-6 lg:px-8">
       <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
         <h2 id="new-york-tax-bracket-structure">New York State's Tax Bracket Structure in Detail</h2>
-        <p>New York imposes a graduated income tax with nine brackets that cover an exceptionally wide range of income levels. The lowest bracket taxes income at 4% on earnings up to $8,500 for single filers, while the highest bracket charges 10.9% on taxable income exceeding $25,000,000. Between those two extremes, the rates step through 4.5%, 5.25%, 5.5%, 6%, 6.85%, 9.65%, and 10.3%. The jump from 6.85% to 9.65% at $1,077,550 is one of the most dramatic bracket increases in any state tax system, adding nearly three percentage points to the marginal rate in a single step. This steep escalation was introduced as part of a broader fiscal package in 2021 and reflects Albany's strategy of concentrating the tax burden on the state's highest earners.</p>
+        <p>New York imposes a graduated income tax with nine brackets that cover an exceptionally wide range of income levels. The lowest bracket taxes income at 3.9% on earnings up to $8,500 for single filers, while the highest bracket charges 10.9% on taxable income exceeding $25,000,000. Between those two extremes, the rates step through 4.4%, 5.15%, 5.4%, 5.9%, 6.85%, 9.65%, and 10.3%. The jump from 6.85% to 9.65% at $1,077,550 is one of the most dramatic bracket increases in any state tax system, adding nearly three percentage points to the marginal rate in a single step. This steep escalation was introduced as part of a broader fiscal package in 2021 and reflects Albany's strategy of concentrating the tax burden on the state's highest earners.</p>
 
         <p>What makes New York's bracket structure particularly consequential is the sheer number of high-income taxpayers residing in the state. New York City alone contains one of the densest concentrations of wealth in the world, spanning Wall Street financiers, corporate executives, attorneys at white-shoe law firms, and partners at major consulting and accounting firms. These individuals do not just pay New York State income tax. They typically also owe <a href="/nyc-tax-calculator/">New York City's local income tax</a>, which adds another 3.078% to 3.876% on top of the state rates. For a detailed look at how the combined state and city burden works, our NYC-specific calculator breaks down every layer of taxation that city residents face.</p>
 

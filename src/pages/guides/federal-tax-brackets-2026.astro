@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import FAQAccordion from '../../components/ui/FAQAccordion.astro';
 import { TAX_YEAR, SITE_NAME, AUTHOR_NAME } from '../../lib/constants';
+import { FEDERAL_BRACKETS, STANDARD_DEDUCTION } from '../../data/federal-tax-2026';
 
 const title = `${TAX_YEAR} Federal Income Tax Brackets: Rates for All Filers`;
 const description = `Complete ${TAX_YEAR} federal income tax brackets and rates for all filing statuses. Learn marginal vs effective tax rates with step-by-step calculation examples.`;
@@ -17,43 +18,27 @@ const schema = {
   dateModified: '2026-01-15',
 };
 
+// Tables and worked example are built from the data module, so the guide
+// cannot drift from the calculators.
+const usd = (n: number, d = 0) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+const rows = (list: { min: number; max: number; rate: number }[]) => {
+  let cumul = 0;
+  return list.map((b, i) => {
+    const pct = `${Math.round(b.rate * 100)}%`;
+    const row = {
+      rate: pct,
+      range: b.max === Infinity ? `Over ${usd(b.min)}` : `${usd(i === 0 ? 0 : b.min + 1)} – ${usd(b.max)}`,
+      owed: i === 0 ? '10% of taxable income' : `${usd(cumul, 2)} + ${pct} of amount over ${usd(b.min)}`,
+    };
+    if (b.max !== Infinity) cumul += (b.max - b.min) * b.rate;
+    return row;
+  });
+};
 const brackets = {
-  single: [
-    { rate: '10%', range: '$0 – $11,925', owed: '10% of taxable income' },
-    { rate: '12%', range: '$11,926 – $48,475', owed: '$1,192.50 + 12% of amount over $11,925' },
-    { rate: '22%', range: '$48,476 – $103,350', owed: '$5,578.50 + 22% of amount over $48,475' },
-    { rate: '24%', range: '$103,351 – $197,300', owed: '$17,651.00 + 24% of amount over $103,350' },
-    { rate: '32%', range: '$197,301 – $250,525', owed: '$40,199.00 + 32% of amount over $197,300' },
-    { rate: '35%', range: '$250,526 – $626,350', owed: '$57,231.00 + 35% of amount over $250,525' },
-    { rate: '37%', range: 'Over $626,350', owed: '$188,769.75 + 37% of amount over $626,350' },
-  ],
-  mfj: [
-    { rate: '10%', range: '$0 – $23,850', owed: '10% of taxable income' },
-    { rate: '12%', range: '$23,851 – $96,950', owed: '$2,385.00 + 12% of amount over $23,850' },
-    { rate: '22%', range: '$96,951 – $206,700', owed: '$11,157.00 + 22% of amount over $96,950' },
-    { rate: '24%', range: '$206,701 – $394,600', owed: '$35,302.00 + 24% of amount over $206,700' },
-    { rate: '32%', range: '$394,601 – $501,050', owed: '$80,398.00 + 32% of amount over $394,600' },
-    { rate: '35%', range: '$501,051 – $752,800', owed: '$114,462.00 + 35% of amount over $501,050' },
-    { rate: '37%', range: 'Over $752,800', owed: '$202,574.50 + 37% of amount over $752,800' },
-  ],
-  mfs: [
-    { rate: '10%', range: '$0 – $11,925', owed: '10% of taxable income' },
-    { rate: '12%', range: '$11,926 – $48,475', owed: '$1,192.50 + 12% of amount over $11,925' },
-    { rate: '22%', range: '$48,476 – $103,350', owed: '$5,578.50 + 22% of amount over $48,475' },
-    { rate: '24%', range: '$103,351 – $197,300', owed: '$17,651.00 + 24% of amount over $103,350' },
-    { rate: '32%', range: '$197,301 – $250,525', owed: '$40,199.00 + 32% of amount over $197,300' },
-    { rate: '35%', range: '$250,526 – $375,800', owed: '$57,231.00 + 35% of amount over $250,525' },
-    { rate: '37%', range: 'Over $375,800', owed: '$101,077.25 + 37% of amount over $375,800' },
-  ],
-  hoh: [
-    { rate: '10%', range: '$0 – $17,000', owed: '10% of taxable income' },
-    { rate: '12%', range: '$17,001 – $64,850', owed: '$1,700.00 + 12% of amount over $17,000' },
-    { rate: '22%', range: '$64,851 – $103,350', owed: '$7,442.00 + 22% of amount over $64,850' },
-    { rate: '24%', range: '$103,351 – $197,300', owed: '$15,912.00 + 24% of amount over $103,350' },
-    { rate: '32%', range: '$197,301 – $250,500', owed: '$38,460.00 + 32% of amount over $197,300' },
-    { rate: '35%', range: '$250,501 – $626,350', owed: '$55,484.00 + 35% of amount over $250,500' },
-    { rate: '37%', range: 'Over $626,350', owed: '$187,031.50 + 37% of amount over $626,350' },
-  ],
+  single: rows(FEDERAL_BRACKETS.single),
+  mfj: rows(FEDERAL_BRACKETS.mfj),
+  mfs: rows(FEDERAL_BRACKETS.mfs),
+  hoh: rows(FEDERAL_BRACKETS.hoh),
 };
 
 const bracketSections = [
@@ -63,17 +48,27 @@ const bracketSections = [
   { key: 'hoh', label: 'Head of Household' },
 ] as const;
 
-const exampleRows = [
-  { bracket: '10% ($0 – $11,925)', income: '$11,925', tax: '$1,192.50' },
-  { bracket: '12% ($11,926 – $48,475)', income: '$36,550', tax: '$4,386.00' },
-  { bracket: '22% ($48,476 – $85,000)', income: '$36,525', tax: '$8,035.50' },
-];
+// Worked example: single filer on $100,000
+const exGross = 100000;
+const exTaxable = exGross - STANDARD_DEDUCTION.single;
+const exSlices = FEDERAL_BRACKETS.single
+  .filter((b) => exTaxable > b.min)
+  .map((b) => ({ ...b, income: Math.min(exTaxable, b.max) - b.min }));
+const exTax = exSlices.reduce((t, b) => t + b.income * b.rate, 0);
+const exampleRows = exSlices.map((b, i) => ({
+  bracket: `${Math.round(b.rate * 100)}% (${usd(i === 0 ? 0 : b.min + 1)} – ${usd(Math.min(b.max, exTaxable))})`,
+  income: usd(b.income),
+  tax: usd(b.income * b.rate, 2),
+}));
+const exMarginal = `${Math.round(exSlices[exSlices.length - 1].rate * 100)}%`;
+const exEffTaxable = `${(exTax / exTaxable * 100).toFixed(1)}%`;
+const exEffGross = `${(exTax / exGross * 100).toFixed(1)}%`;
 
 const deductions = [
-  { status: 'Single', amount: '$15,000' },
-  { status: 'Married Filing Jointly', amount: '$30,000' },
-  { status: 'Married Filing Separately', amount: '$15,000' },
-  { status: 'Head of Household', amount: '$22,500' },
+  { status: 'Single', amount: usd(STANDARD_DEDUCTION.single) },
+  { status: 'Married Filing Jointly', amount: usd(STANDARD_DEDUCTION.mfj) },
+  { status: 'Married Filing Separately', amount: usd(STANDARD_DEDUCTION.mfs) },
+  { status: 'Head of Household', amount: usd(STANDARD_DEDUCTION.hoh) },
 ];
 // §7 : trois questions propres au guide, affichées et balisées depuis la
 // même liste — sans FAQPage, la FAQ n'existe pas pour un moteur.
@@ -84,7 +79,7 @@ const faqs = [
   },
   {
     question: `What is the difference between the marginal and effective rate?`,
-    answer: `The marginal rate is what the next dollar is taxed at; the effective rate is total tax divided by total income. They differ widely: a single filer on $100,000 has a 22 or 24 per cent marginal rate but an effective federal rate nearer 14, because the first slices of income are taxed at 10 and 12 per cent and the standard deduction covers a further chunk. Use the marginal rate for decisions, the effective rate to judge the burden.`,
+    answer: `The marginal rate is what the next dollar is taxed at; the effective rate is total tax divided by total income. They differ widely: a single filer on $100,000 has a 22 or 24 per cent marginal rate but an effective federal rate nearer 13, because the first slices of income are taxed at 10 and 12 per cent and the standard deduction covers a further chunk. Use the marginal rate for decisions, the effective rate to judge the burden.`,
   },
   {
     question: `Are the brackets adjusted for inflation?`,
@@ -149,8 +144,8 @@ const resumeCitable = `Federal income tax brackets are marginal, which is the si
         </table>
       </div>
       <p class="mt-4 text-sm text-slate-500 dark:text-slate-500">
-        Taxpayers aged 65 or older receive an additional standard deduction of $1,950 (single/head of
-        household) or $1,550 per qualifying spouse (married filing jointly/separately).
+        Taxpayers aged 65 or older receive an additional standard deduction of $2,050 (single/head of
+        household) or $1,650 per qualifying spouse (married filing jointly/separately).
       </p>
     </div>
   </section>
@@ -225,7 +220,7 @@ const resumeCitable = `Federal income tax brackets are marginal, which is the si
       <div class="mb-6 rounded-xl border border-slate-200 p-6 dark:border-slate-700">
         <h3 id="example-step-1" class="mb-2 text-lg font-semibold text-slate-900 dark:text-white">Step 1: Apply the Standard Deduction</h3>
         <p class="text-slate-600 dark:text-slate-400">
-          $100,000 − $15,000 = <span class="font-semibold text-slate-900 dark:text-white">$85,000 taxable income</span>
+          $100,000 − {usd(STANDARD_DEDUCTION.single)} = <span class="font-semibold text-slate-900 dark:text-white">{usd(exTaxable)} taxable income</span>
         </p>
       </div>
 
@@ -251,8 +246,8 @@ const resumeCitable = `Federal income tax brackets are marginal, which is the si
               ))}
               <tr class="bg-navy-50 dark:bg-navy-900/20">
                 <td class="px-4 py-2.5 font-semibold text-slate-900 dark:text-white">Total</td>
-                <td class="tabular-nums px-4 py-2.5 text-right font-semibold text-slate-900 dark:text-white">$85,000</td>
-                <td class="tabular-nums px-4 py-2.5 text-right font-semibold text-navy-700 dark:text-navy-400">$13,614.00</td>
+                <td class="tabular-nums px-4 py-2.5 text-right font-semibold text-slate-900 dark:text-white">{usd(exTaxable)}</td>
+                <td class="tabular-nums px-4 py-2.5 text-right font-semibold text-navy-700 dark:text-navy-400">{usd(exTax, 2)}</td>
               </tr>
             </tbody>
           </table>
@@ -265,24 +260,24 @@ const resumeCitable = `Federal income tax brackets are marginal, which is the si
         <div class="grid gap-3 sm:grid-cols-3">
           <div class="rounded-lg bg-slate-50 p-4 text-center dark:bg-slate-800">
             <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Marginal Rate</p>
-            <p class="mt-1 text-2xl font-bold text-slate-900 dark:text-white">22%</p>
+            <p class="mt-1 text-2xl font-bold text-slate-900 dark:text-white">{exMarginal}</p>
             <p class="mt-1 text-xs text-slate-500 dark:text-slate-500">Bracket of last dollar</p>
           </div>
           <div class="rounded-lg bg-slate-50 p-4 text-center dark:bg-slate-800">
             <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Effective (Taxable)</p>
-            <p class="mt-1 text-2xl font-bold text-slate-900 dark:text-white">16.0%</p>
-            <p class="mt-1 text-xs text-slate-500 dark:text-slate-500">$13,614 / $85,000</p>
+            <p class="mt-1 text-2xl font-bold text-slate-900 dark:text-white">{exEffTaxable}</p>
+            <p class="mt-1 text-xs text-slate-500 dark:text-slate-500">{usd(exTax)} / {usd(exTaxable)}</p>
           </div>
           <div class="rounded-lg bg-slate-50 p-4 text-center dark:bg-slate-800">
             <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Effective (Gross)</p>
-            <p class="mt-1 text-2xl font-bold text-navy-700 dark:text-navy-400">13.6%</p>
-            <p class="mt-1 text-xs text-slate-500 dark:text-slate-500">$13,614 / $100,000</p>
+            <p class="mt-1 text-2xl font-bold text-navy-700 dark:text-navy-400">{exEffGross}</p>
+            <p class="mt-1 text-xs text-slate-500 dark:text-slate-500">{usd(exTax)} / $100,000</p>
           </div>
         </div>
         <p class="mt-4 text-sm text-slate-600 dark:text-slate-400">
-          Even though this filer is "in the 22% bracket," they only pay an effective rate of 13.6% on their
-          gross income. The first $15,000 is shielded by the standard deduction, the next $11,925 is taxed at
-          10%, the next $36,550 at 12%, and only the final $36,525 is taxed at 22%.
+          Even though this filer is "in the {exMarginal} bracket," they only pay an effective rate of {exEffGross} on their
+          gross income. The first {usd(STANDARD_DEDUCTION.single)} is shielded by the standard deduction, the next {usd(exSlices[0].income)} is taxed at
+          10%, the next {usd(exSlices[1].income)} at 12%, and only the final {usd(exSlices[2].income)} is taxed at 22%.
         </p>
       </div>
     </div>
@@ -339,7 +334,7 @@ const resumeCitable = `Federal income tax brackets are marginal, which is the si
             "I don't want a raise because it will put me in a higher bracket"
           </h3>
           <p class="text-sm text-slate-600 dark:text-slate-400">
-            Only the income within the new bracket is taxed at the higher rate. If you earn $48,475 (the top of
+            Only the income within the new bracket is taxed at the higher rate. If you earn $50,400 (the top of
             the 12% bracket as a single filer) and get a $5,000 raise, only that $5,000 is taxed at 22%. Your
             total tax increases by $1,100, and you still take home an additional $3,900. You will never lose
             money by earning more due to bracket progression.

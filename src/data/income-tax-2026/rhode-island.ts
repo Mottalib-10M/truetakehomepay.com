@@ -1,13 +1,10 @@
 /**
- * Rhode Island Income Tax 2026
+ * Rhode Island income tax, tax year 2026
  *
- * Rhode Island has 3 progressive brackets (3.75% to 5.99%).
- * Rhode Island also has Temporary Disability Insurance (TDI).
- *
- * Sources:
- * - Rhode Island Division of Taxation
- * - R.I. Gen. Laws § 44-30-2.6
- * - RI Department of Labor and Training (TDI rates)
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
@@ -15,34 +12,30 @@ import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
 const config: StateIncomeTaxConfig = {
   brackets: {
     single: [
-      { min: 0, max: 73450, rate: 0.0375 },
-      { min: 73450, max: 166950, rate: 0.0475 },
-      { min: 166950, max: Infinity, rate: 0.0599 },
+      { min: 0, max: 82050, rate: 0.0375 },
+      { min: 82050, max: 186450, rate: 0.0475 },
+      { min: 186450, max: Infinity, rate: 0.0599 },
     ],
     mfj: [
-      { min: 0, max: 73450, rate: 0.0375 },
-      { min: 73450, max: 166950, rate: 0.0475 },
-      { min: 166950, max: Infinity, rate: 0.0599 },
+      { min: 0, max: 82050, rate: 0.0375 },
+      { min: 82050, max: 186450, rate: 0.0475 },
+      { min: 186450, max: Infinity, rate: 0.0599 },
     ],
     mfs: [
-      { min: 0, max: 73450, rate: 0.0375 },
-      { min: 73450, max: 166950, rate: 0.0475 },
-      { min: 166950, max: Infinity, rate: 0.0599 },
+      { min: 0, max: 82050, rate: 0.0375 },
+      { min: 82050, max: 186450, rate: 0.0475 },
+      { min: 186450, max: Infinity, rate: 0.0599 },
     ],
     hoh: [
-      { min: 0, max: 73450, rate: 0.0375 },
-      { min: 73450, max: 166950, rate: 0.0475 },
-      { min: 166950, max: Infinity, rate: 0.0599 },
+      { min: 0, max: 82050, rate: 0.0375 },
+      { min: 82050, max: 186450, rate: 0.0475 },
+      { min: 186450, max: Infinity, rate: 0.0599 },
     ],
   },
-  standardDeduction: {
-    single: 10550,
-    mfj: 21100,
-    mfs: 10550,
-    hoh: 10550,
-  },
+  standardDeduction: { single: 11200, mfj: 22400, mfs: 11200, hoh: 11200 },
+  personalExemption: { single: 5250, mfj: 10500, mfs: 5250, hoh: 5250 },
   specialRules: {
-    sdi: { rate: 0.012, wageBase: 89600 },
+    sdi: { rate: 0.011, wageBase: 100000 },
   },
 };
 

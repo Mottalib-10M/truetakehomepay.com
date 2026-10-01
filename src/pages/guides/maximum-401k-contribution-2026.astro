@@ -21,11 +21,11 @@ const schema = {
 const faqs = [
   {
     question: `What counts toward the 401(k) contribution limit?`,
-    answer: `The employee limit of $23,500 covers your own elective deferrals, whether traditional or Roth, across all 401(k) plans you participate in during the year. Employer matching and profit-sharing do not count against it; they fall under the much higher combined limit of $70,000. Someone who changes jobs mid-year has to track both plans themselves, because neither employer sees the other's contributions.`,
+    answer: `The employee limit of $24,500 covers your own elective deferrals, whether traditional or Roth, across all 401(k) plans you participate in during the year. Employer matching and profit-sharing do not count against it; they fall under the much higher combined limit of $70,000. Someone who changes jobs mid-year has to track both plans themselves, because neither employer sees the other's contributions.`,
   },
   {
     question: `What is the catch-up contribution and who can use it?`,
-    answer: `Anyone aged 50 or over by the end of the year can add $7,500 on top of the standard limit, taking the total to $31,000. A larger catch-up applies in the early sixties under recent rules, and high earners are increasingly required to make catch-up contributions on a Roth basis rather than pre-tax. The catch-up is per person, not per plan, and it is claimed simply by electing the higher deferral with payroll.`,
+    answer: `Anyone aged 50 or over by the end of the year can add $8,000 on top of the standard limit, taking the total to $32,500. A larger catch-up applies in the early sixties under recent rules, and high earners are increasingly required to make catch-up contributions on a Roth basis rather than pre-tax. The catch-up is per person, not per plan, and it is claimed simply by electing the higher deferral with payroll.`,
   },
   {
     question: `What happens if I contribute too much?`,
@@ -34,7 +34,7 @@ const faqs = [
 ];
 
 // §21 : un paragraphe qui se suffit à lui-même, servi haut dans la page.
-const resumeCitable = `The 2026 employee contribution limit for a 401(k) is $23,500, with a catch-up of $7,500 from age 50 taking the total to $31,000, and a combined employer-and-employee ceiling of $70,000. The employee limit is per person rather than per plan, so someone who changes employers mid-year has to add the two payroll records together themselves; neither employer can see the other. Employer matching and profit-sharing do not count against the $23,500, which is why a generous match can push total contributions far above it without breaking any rule. Contributing the full amount at a 24 per cent marginal rate saves about $5,640 in federal tax, before any state saving. Exceeding the limit is fixable but costly if missed: the excess and its earnings must be withdrawn before the April deadline or the money is taxed twice.`;
+const resumeCitable = `The 2026 employee contribution limit for a 401(k) is $24,500, with a catch-up of $8,000 from age 50 taking the total to $32,500, and a combined employer-and-employee ceiling of $72,000. The employee limit is per person rather than per plan, so someone who changes employers mid-year has to add the two payroll records together themselves; neither employer can see the other. Employer matching and profit-sharing do not count against the $24,500, which is why a generous match can push total contributions far above it without breaking any rule. Contributing the full amount at a 24 per cent marginal rate saves about $5,640 in federal tax, before any state saving. Exceeding the limit is fixable but costly if missed: the excess and its earnings must be withdrawn before the April deadline or the money is taxed twice.`;
 
 ---
 
@@ -78,27 +78,27 @@ const resumeCitable = `The 2026 employee contribution limit for a 401(k) is $23,
         <tbody>
           <tr>
             <td>401(k)</td>
-            <td>$24,000</td>
-            <td>$31,500</td>
-            <td>$35,250</td>
+            <td>$24,500</td>
+            <td>$32,500</td>
+            <td>$35,750</td>
           </tr>
           <tr>
             <td>403(b)</td>
-            <td>$24,000</td>
-            <td>$31,500</td>
-            <td>$35,250</td>
+            <td>$24,500</td>
+            <td>$32,500</td>
+            <td>$35,750</td>
           </tr>
           <tr>
             <td>457(b) Government</td>
-            <td>$24,000</td>
-            <td>$31,500</td>
-            <td>$35,250</td>
+            <td>$24,500</td>
+            <td>$32,500</td>
+            <td>$35,750</td>
           </tr>
           <tr>
             <td>SIMPLE IRA/401(k)</td>
-            <td>$16,500</td>
-            <td>$20,000</td>
-            <td>$21,750</td>
+            <td>$17,000</td>
+            <td>$21,000</td>
+            <td>$22,250</td>
           </tr>
         </tbody>
       </table>
@@ -112,8 +112,8 @@ const resumeCitable = `The 2026 employee contribution limit for a 401(k) is $23,
 
       <h3 id="standard-catch-up">Standard Catch-Up (Age 50+)</h3>
       <p>
-        If you turn 50 or older during {TAX_YEAR}, you can contribute an additional <strong>$7,500</strong>
-        beyond the standard limit, for a total of $31,500. This has been the standard catch-up amount for
+        If you turn 50 or older during {TAX_YEAR}, you can contribute an additional <strong>$8,000</strong>
+        beyond the standard limit, for a total of $32,500. This has been the standard catch-up amount for
         several years and applies to 401(k), 403(b), and governmental 457(b) plans.
       </p>
 
@@ -121,22 +121,22 @@ const resumeCitable = `The 2026 employee contribution limit for a 401(k) is $23,
       <p>
         Starting in 2025, the SECURE 2.0 Act introduced an enhanced catch-up for participants who are 60,
         61, 62, or 63 years old. The catch-up limit is the greater of $10,000 or 150% of the standard
-        catch-up amount. For {TAX_YEAR}, that is <strong>$11,250</strong> (150% x $7,500), bringing the
-        total to $35,250. This provision recognizes that many workers are behind on retirement savings as
+        catch-up amount. For {TAX_YEAR}, that is <strong>$11,250</strong>, unchanged from 2025, bringing the
+        total to $35,750. This provision recognizes that many workers are behind on retirement savings as
         they approach retirement.
       </p>
 
       <p>
-        Important: once you turn 64, you revert to the standard $7,500 catch-up limit. The super catch-up
+        Important: once you turn 64, you revert to the standard $8,000 catch-up limit. The super catch-up
         is specifically and only for ages 60 through 63.
       </p>
 
       <h3 id="catch-up-roth-requirement">Catch-Up Roth Requirement for High Earners</h3>
       <p>
-        Under SECURE 2.0, starting in 2026, if you earned more than $145,000 in W-2 wages from your
+        Under SECURE 2.0, starting in 2026, if you earned more than $150,000 in W-2 wages from your
         employer in the prior year, your catch-up contributions must be made on a Roth (after-tax) basis.
-        This does not affect the standard $24,000 limit, only the additional catch-up amount. Workers
-        earning $145,000 or less can still make pre-tax catch-up contributions.
+        This does not affect the standard $24,500 limit, only the additional catch-up amount. Workers
+        earning $150,000 or less can still make pre-tax catch-up contributions.
       </p>
 
       <h2 id="employer-limits">Employer Contribution Limits</h2>
@@ -156,26 +156,26 @@ const resumeCitable = `The 2026 employee contribution limit for a 401(k) is $23,
         <tbody>
           <tr>
             <td>Total (employee + employer), under 50</td>
-            <td>$70,000</td>
+            <td>$72,000</td>
           </tr>
           <tr>
             <td>Total (employee + employer), age 50-59 or 64+</td>
-            <td>$77,500</td>
+            <td>$80,000</td>
           </tr>
           <tr>
             <td>Total (employee + employer), age 60-63</td>
-            <td>$81,250</td>
+            <td>$83,250</td>
           </tr>
           <tr>
             <td>Compensation limit for calculating contributions</td>
-            <td>$350,000</td>
+            <td>$360,000</td>
           </tr>
         </tbody>
       </table>
 
       <p>
-        The $350,000 compensation limit means employer match calculations are capped at this salary level.
-        If you earn $500,000 and your employer matches 3%, the match is based on $350,000 (= $10,500), not
+        The $360,000 compensation limit means employer match calculations are capped at this salary level.
+        If you earn $500,000 and your employer matches 3%, the match is based on $360,000 (= $10,800), not
         $500,000.
       </p>
 
@@ -207,17 +207,17 @@ const resumeCitable = `The 2026 employee contribution limit for a 401(k) is $23,
 
       <ol>
         <li>
-          You max out your employee contributions ($24,000 pre-tax or Roth).
+          You max out your employee contributions ($24,500 pre-tax or Roth).
         </li>
         <li>
           Your employer contributes their match (say $6,000).
         </li>
         <li>
-          The combined total is $30,000, well below the $70,000 annual additions limit.
+          The combined total is $30,500, well below the $72,000 annual additions limit.
         </li>
         <li>
           If your plan allows after-tax (non-Roth) contributions, you contribute up to the remaining
-          $40,000 in after-tax dollars.
+          $41,500 in after-tax dollars.
         </li>
         <li>
           You then do an in-plan Roth conversion or in-service withdrawal to a Roth IRA, converting those
@@ -226,8 +226,8 @@ const resumeCitable = `The 2026 employee contribution limit for a 401(k) is $23,
       </ol>
 
       <p>
-        This effectively allows you to put up to $70,000 per year into Roth accounts, far exceeding the
-        $7,000 Roth IRA limit. However, not all employer plans allow after-tax contributions or in-service
+        This effectively allows you to put up to $72,000 per year into Roth accounts, far exceeding the
+        $7,500 Roth IRA limit. However, not all employer plans allow after-tax contributions or in-service
         conversions, so check with your plan administrator.
       </p>
 
@@ -242,17 +242,17 @@ const resumeCitable = `The 2026 employee contribution limit for a 401(k) is $23,
         <li><strong>Employer match (mandatory):</strong> Contribute at least enough to get the full match. Anything less is leaving free money on the table.</li>
         <li><strong>High-interest debt:</strong> If you have credit card debt at 20%+ interest, paying that off likely beats additional 401(k) contributions beyond the match.</li>
         <li><strong>Emergency fund:</strong> Maintain 3-6 months of expenses before maximizing retirement contributions.</li>
-        <li><strong>Max out Roth IRA ($7,000):</strong> For most workers under 50, this provides valuable tax diversification.</li>
-        <li><strong>Max out 401(k) ($24,000):</strong> If you can afford it, maximizing the 401(k) provides significant tax savings.</li>
-        <li><strong>HSA ($4,300 self / $8,550 family):</strong> If eligible, the HSA's triple tax advantage makes it extremely powerful.</li>
+        <li><strong>Max out Roth IRA ($7,500):</strong> For most workers under 50, this provides valuable tax diversification.</li>
+        <li><strong>Max out 401(k) ($24,500):</strong> If you can afford it, maximizing the 401(k) provides significant tax savings.</li>
+        <li><strong>HSA ($4,400 self / $8,750 family):</strong> If eligible, the HSA's triple tax advantage makes it extremely powerful.</li>
         <li><strong>Mega backdoor Roth:</strong> If your plan allows it and you have surplus savings.</li>
       </ol>
 
       <h2 id="tax-impact">Tax Impact of Maxing Out Your 401(k)</h2>
 
       <p>
-        Contributing the full $24,000 to a traditional 401(k) on a $100,000 salary reduces your taxable
-        income to $76,000. The tax savings depend on your marginal bracket:
+        Contributing the full $24,500 to a traditional 401(k) on a $100,000 salary reduces your taxable
+        income to $75,500. The tax savings depend on your marginal bracket:
       </p>
 
       <table>
@@ -260,20 +260,20 @@ const resumeCitable = `The 2026 employee contribution limit for a 401(k) is $23,
           <tr>
             <th>Marginal Bracket</th>
             <th>Federal Tax Saved</th>
-            <th>"Real" Cost of $24,000 Contribution</th>
+            <th>"Real" Cost of $24,500 Contribution</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>12%</td><td>$2,880</td><td>$21,120</td></tr>
-          <tr><td>22%</td><td>$5,280</td><td>$18,720</td></tr>
-          <tr><td>24%</td><td>$5,760</td><td>$18,240</td></tr>
-          <tr><td>32%</td><td>$7,680</td><td>$16,320</td></tr>
+          <tr><td>12%</td><td>$2,940</td><td>$21,560</td></tr>
+          <tr><td>22%</td><td>$5,390</td><td>$19,110</td></tr>
+          <tr><td>24%</td><td>$5,880</td><td>$18,620</td></tr>
+          <tr><td>32%</td><td>$7,840</td><td>$16,660</td></tr>
         </tbody>
       </table>
 
       <p>
         State tax savings increase the benefit further. In California (9.3% marginal rate on this income),
-        an additional $2,232 is saved, bringing the real cost of a $24,000 contribution to just $16,488 for
+        an additional $2,279 is saved, bringing the real cost of a $24,500 contribution to just $16,831 for
         someone in the 22% federal bracket.
       </p>
 
@@ -290,8 +290,8 @@ const resumeCitable = `The 2026 employee contribution limit for a 401(k) is $23,
       <h3 id="457b-plans">457(b) Plans</h3>
       <p>
         Governmental 457(b) plans are unique because their limits are separate from 401(k)/403(b) limits.
-        If you have access to both a 403(b) and a governmental 457(b), you can contribute $24,000 to each
-        for a combined $48,000. Additionally, 457(b) plans have no 10% early withdrawal penalty regardless
+        If you have access to both a 403(b) and a governmental 457(b), you can contribute $24,500 to each
+        for a combined $49,000. Additionally, 457(b) plans have no 10% early withdrawal penalty regardless
         of age, making them more flexible for early retirees.
       </p>
 

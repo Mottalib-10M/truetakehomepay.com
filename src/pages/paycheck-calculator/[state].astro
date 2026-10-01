@@ -106,8 +106,8 @@ const faqs = [
   {
     question: `How much tax do I pay in ${name}?`,
     answer: isNoTax
-      ? `${name} levies no state income tax on wages, so the only deductions from your gross pay are federal: income tax at 10 to 37 per cent depending on your bracket, Social Security at 6.2 per cent up to the $176,100 wage base, and Medicare at 1.45 per cent with an extra 0.9 per cent above $200,000. A single filer on $60,000 therefore keeps noticeably more here than in a state with an income tax, though ${name} recovers part of it through ${isNoSalesTax ? 'property taxes' : 'sales and property taxes'}.`
-      : `In ${name} you pay federal income tax at 10 to 37 per cent, state income tax ${isFlat ? `at a flat ${formatPercent(stateConfig!.flatRate! * 100)}` : `on ${numBrackets} brackets running up to ${topRate ? formatPercent(topRate * 100) : 'the top rate'}`}, Social Security at 6.2 per cent up to the $176,100 wage base and Medicare at 1.45 per cent. Your effective rate is well below the top bracket, because only the income above each threshold is taxed at that rate${stdDed ? `, and the first ${formatCurrencyRound(stdDed)} of state taxable income is covered by the standard deduction` : ''}.`,
+      ? `${name} levies no state income tax on wages, so the only deductions from your gross pay are federal: income tax at 10 to 37 per cent depending on your bracket, Social Security at 6.2 per cent up to the $184,500 wage base, and Medicare at 1.45 per cent with an extra 0.9 per cent above $200,000. A single filer on $60,000 therefore keeps noticeably more here than in a state with an income tax, though ${name} recovers part of it through ${isNoSalesTax ? 'property taxes' : 'sales and property taxes'}.`
+      : `In ${name} you pay federal income tax at 10 to 37 per cent, state income tax ${isFlat ? `at a flat ${formatPercent(stateConfig!.flatRate! * 100)}` : `on ${numBrackets} brackets running up to ${topRate ? formatPercent(topRate * 100) : 'the top rate'}`}, Social Security at 6.2 per cent up to the $184,500 wage base and Medicare at 1.45 per cent. Your effective rate is well below the top bracket, because only the income above each threshold is taxed at that rate${stdDed ? `, and the first ${formatCurrencyRound(stdDed)} of state taxable income is covered by the standard deduction` : ''}.`,
   },
   {
     question: `What is the ${name} state income tax rate for ${TAX_YEAR}?`,
@@ -174,7 +174,7 @@ const schema = {
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
-  sources={`IRS Rev. Proc. 2025-11 (federal brackets), ${name} Department of Revenue (state tax rates), SSA.gov (Social Security wage base). Last updated for tax year ${TAX_YEAR}.`}
+  sources={`IRS Rev. Proc. 2025-32 (federal brackets), ${name} Department of Revenue (state tax rates), SSA.gov (Social Security wage base). Last updated for tax year ${TAX_YEAR}.`}
 >
   <PaycheckCalculator
     client:idle
@@ -196,7 +196,7 @@ const schema = {
         )}
         {isNoTax && (
           <p>
-            The absence of state income tax makes calculating your take-home pay in {name} more straightforward than in most other states. Your employer withholds federal income tax based on the information you provide on your W-4 form, including your filing status and number of dependents. On top of that, 6.2 percent of your gross wages go to Social Security up to the annual wage base of $176,100, and 1.45 percent goes to Medicare with no upper limit. High earners above $200,000 pay an additional 0.9 percent Medicare surtax. These are the only payroll deductions that appear on your {name} pay stub aside from any voluntary deductions you elect, such as retirement contributions or health insurance premiums. The simplicity of having fewer mandatory deductions makes it easier to predict your net pay from paycheck to paycheck.
+            The absence of state income tax makes calculating your take-home pay in {name} more straightforward than in most other states. Your employer withholds federal income tax based on the information you provide on your W-4 form, including your filing status and number of dependents. On top of that, 6.2 percent of your gross wages go to Social Security up to the annual wage base of $184,500, and 1.45 percent goes to Medicare with no upper limit. High earners above $200,000 pay an additional 0.9 percent Medicare surtax. These are the only payroll deductions that appear on your {name} pay stub aside from any voluntary deductions you elect, such as retirement contributions or health insurance premiums. The simplicity of having fewer mandatory deductions makes it easier to predict your net pay from paycheck to paycheck.
           </p>
         )}
         {isNoTax && (
@@ -315,11 +315,11 @@ const schema = {
         <h2 id="fica-payroll">Social Security and Medicare Taxes on Your {name} Paycheck</h2>
 
         <p>
-          Every {name} worker, regardless of the state's income tax policy, pays FICA taxes on their wages. Social Security tax is withheld at 6.2 percent of your gross pay up to the {TAX_YEAR} wage base of $176,100, and your employer pays a matching 6.2 percent that does not appear on your pay stub. Medicare tax is withheld at 1.45 percent on all wages with no cap, and your employer again matches this amount. Together, the employee portion of FICA totals 7.65 percent of your gross pay, which on a $60,000 salary amounts to $4,590 per year or approximately $176.54 per biweekly paycheck. These deductions are entirely separate from federal or {name} state income tax, they cannot be reduced through any deductions or credits, and they apply from the very first dollar of earnings with no standard deduction or personal exemption.
+          Every {name} worker, regardless of the state's income tax policy, pays FICA taxes on their wages. Social Security tax is withheld at 6.2 percent of your gross pay up to the {TAX_YEAR} wage base of $184,500, and your employer pays a matching 6.2 percent that does not appear on your pay stub. Medicare tax is withheld at 1.45 percent on all wages with no cap, and your employer again matches this amount. Together, the employee portion of FICA totals 7.65 percent of your gross pay, which on a $60,000 salary amounts to $4,590 per year or approximately $176.54 per biweekly paycheck. These deductions are entirely separate from federal or {name} state income tax, they cannot be reduced through any deductions or credits, and they apply from the very first dollar of earnings with no standard deduction or personal exemption.
         </p>
 
         <p>
-          For workers earning above $200,000 as a single filer or $250,000 as a married couple filing jointly, an Additional Medicare Tax of 0.9 percent applies to wages above those thresholds. Unlike the standard Medicare tax, the employer does not match this additional amount, and it is not adjustable through your W-4. If you earn above the Social Security wage base of $176,100, the 6.2 percent Social Security withholding stops for the remainder of the year, which means your paychecks later in the calendar year will be slightly larger as that deduction disappears. This is a noticeable bump in take-home pay for high earners during the final months of the year. You can learn more about how these payroll taxes work and model your specific situation using our <a href="/social-security-tax-calculator/">Social Security tax calculator</a> and <a href="/medicare-surtax-calculator/">Medicare surtax calculator</a>.
+          For workers earning above $200,000 as a single filer or $250,000 as a married couple filing jointly, an Additional Medicare Tax of 0.9 percent applies to wages above those thresholds. Unlike the standard Medicare tax, the employer does not match this additional amount, and it is not adjustable through your W-4. If you earn above the Social Security wage base of $184,500, the 6.2 percent Social Security withholding stops for the remainder of the year, which means your paychecks later in the calendar year will be slightly larger as that deduction disappears. This is a noticeable bump in take-home pay for high earners during the final months of the year. You can learn more about how these payroll taxes work and model your specific situation using our <a href="/social-security-tax-calculator/">Social Security tax calculator</a> and <a href="/medicare-surtax-calculator/">Medicare surtax calculator</a>.
         </p>
 
         <h2 id="compare-neighbors">How {name} Compares to Neighboring States</h2>

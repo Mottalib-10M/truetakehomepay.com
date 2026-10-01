@@ -8,7 +8,7 @@ const FEDERAL_SUPPLEMENTAL_RATE = 0.22; // 22% for amounts <= $1M
 const FEDERAL_SUPPLEMENTAL_RATE_HIGH = 0.37; // 37% for amounts > $1M
 const SUPPLEMENTAL_THRESHOLD = 1_000_000;
 const SS_RATE = 0.062;
-const SS_WAGE_BASE = 176_100;
+const SS_WAGE_BASE = 184_500;
 const MEDICARE_RATE = 0.0145;
 const LONG_TERM_CG_RATE = 0.15; // Simplified 15% federal long-term CG rate
 const SHORT_TERM_CG_RATE = 0.24; // ~24% for a ~$150k earner (simplified)

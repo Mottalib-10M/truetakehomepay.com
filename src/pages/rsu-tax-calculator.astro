@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     question: 'Are RSUs subject to FICA taxes?',
-    answer: `Yes. RSU income at vesting is subject to Social Security tax (6.2% up to the $176,100 wage base in ${TAX_YEAR}) and Medicare tax (1.45%, plus 0.9% Additional Medicare Tax on combined wages over $200,000). This makes RSUs more tax-costly than some other equity comp forms for high earners.`,
+    answer: `Yes. RSU income at vesting is subject to Social Security tax (6.2% up to the $184,500 wage base in ${TAX_YEAR}) and Medicare tax (1.45%, plus 0.9% Additional Medicare Tax on combined wages over $200,000). This makes RSUs more tax-costly than some other equity comp forms for high earners.`,
   },
   {
     question: `How are RSUs taxed?`,
@@ -61,7 +61,7 @@ const schema = {
   faqs={faqs}
   relatedCalculators={relatedCalculators}
   schema={schema}
-  sources={`IRS Publication 525 (Taxable and Nontaxable Income), IRS Rev. Proc. 2025-11 (supplemental withholding rates), IRC Section 83. Last updated for tax year ${TAX_YEAR}.`}
+  sources={`IRS Publication 525 (Taxable and Nontaxable Income), IRS Rev. Proc. 2025-32 (supplemental withholding rates), IRC Section 83. Last updated for tax year ${TAX_YEAR}.`}
 >
   <RSUTaxCalculator client:idle />
 
@@ -92,7 +92,7 @@ const schema = {
 
         <h2 id="planning-around-rsu-vesting">Planning Around Large RSU Vesting Events</h2>
         <p>Proactive planning around major RSU vesting dates can save you thousands of dollars in taxes and prevent unpleasant surprises at filing time. The first step is to estimate your total income for the year, including all RSU vesting events, and run the numbers through a tax projection to see where you will land in terms of brackets, surtaxes, and withholding adequacy. If you anticipate owing more than the amount withheld, you should make estimated tax payments during the year or request additional withholding on your W-4 to avoid underpayment penalties.</p>
-        <p>Maximizing pre-tax retirement contributions is one of the most effective strategies for offsetting RSU income. Contributing the maximum to your employer's 401(k) plan, which allows up to $23,500 in employee deferrals for 2026 plus a $7,500 catch-up contribution if you are over 50, directly reduces your taxable income. If your employer offers a mega backdoor Roth option through after-tax 401(k) contributions with in-plan Roth conversions, this can shelter even more income from current taxation. Health savings account contributions, if you have a qualifying high-deductible health plan, provide another above-the-line deduction that reduces your adjusted gross income and may help you avoid phase-outs and surtaxes.</p>
+        <p>Maximizing pre-tax retirement contributions is one of the most effective strategies for offsetting RSU income. Contributing the maximum to your employer's 401(k) plan, which allows up to $24,500 in employee deferrals for 2026 plus a $7,500 catch-up contribution if you are over 50, directly reduces your taxable income. If your employer offers a mega backdoor Roth option through after-tax 401(k) contributions with in-plan Roth conversions, this can shelter even more income from current taxation. Health savings account contributions, if you have a qualifying high-deductible health plan, provide another above-the-line deduction that reduces your adjusted gross income and may help you avoid phase-outs and surtaxes.</p>
         <p>Charitable giving strategies can also pair well with RSU events. If you hold appreciated shares after vesting and donate them to a qualified charity, you can claim a deduction for the full fair market value without recognizing the capital gain. For employees who are charitably inclined, donating shares that have appreciated since vesting is often more tax-efficient than donating cash. A donor-advised fund can be a useful vehicle for bunching charitable contributions into a high-income year when the deduction provides the greatest benefit.</p>
 
         <h2 id="rsus-vs-stock-options">Comparing RSUs to Stock Options</h2>

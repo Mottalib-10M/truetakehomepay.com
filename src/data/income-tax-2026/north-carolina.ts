@@ -1,31 +1,31 @@
 /**
- * North Carolina Income Tax 2026
+ * North Carolina income tax, tax year 2026
  *
- * North Carolina has a flat income tax rate of 4.5% (reduced from 4.75% in 2025).
- * Rate is scheduled to continue decreasing in future years per HB 334 (2021).
- *
- * Sources:
- * - North Carolina Department of Revenue
- * - N.C.G.S. § 105-153.7
- * - HB 334 (2021) — Tax rate reduction schedule
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
 
 const config: StateIncomeTaxConfig = {
   brackets: {
-    single: [{ min: 0, max: Infinity, rate: 0.045 }],
-    mfj: [{ min: 0, max: Infinity, rate: 0.045 }],
-    mfs: [{ min: 0, max: Infinity, rate: 0.045 }],
-    hoh: [{ min: 0, max: Infinity, rate: 0.045 }],
+    single: [
+      { min: 0, max: Infinity, rate: 0.0399 },
+    ],
+    mfj: [
+      { min: 0, max: Infinity, rate: 0.0399 },
+    ],
+    mfs: [
+      { min: 0, max: Infinity, rate: 0.0399 },
+    ],
+    hoh: [
+      { min: 0, max: Infinity, rate: 0.0399 },
+    ],
   },
-  flatRate: 0.045,
-  standardDeduction: {
-    single: 12750,
-    mfj: 25500,
-    mfs: 12750,
-    hoh: 19125,
-  },
+  flatRate: 0.0399,
+  standardDeduction: { single: 12750, mfj: 25500, mfs: 12750, hoh: 19120 },
 };
 
 export default config;

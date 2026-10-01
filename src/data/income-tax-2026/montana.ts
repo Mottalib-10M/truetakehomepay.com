@@ -1,12 +1,10 @@
 /**
- * Montana Income Tax 2026
+ * Montana income tax, tax year 2026
  *
- * Montana has 2 progressive brackets (4.7% and 5.9%) after the
- * 2023 tax reform (SB 121/HB 222) simplified the bracket structure.
- *
- * Sources:
- * - Montana Department of Revenue
- * - MCA § 15-30-2103
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
@@ -14,28 +12,23 @@ import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
 const config: StateIncomeTaxConfig = {
   brackets: {
     single: [
-      { min: 0, max: 20500, rate: 0.047 },
-      { min: 20500, max: Infinity, rate: 0.059 },
+      { min: 0, max: 47500, rate: 0.047 },
+      { min: 47500, max: Infinity, rate: 0.0565 },
     ],
     mfj: [
-      { min: 0, max: 41000, rate: 0.047 },
-      { min: 41000, max: Infinity, rate: 0.059 },
+      { min: 0, max: 95000, rate: 0.047 },
+      { min: 95000, max: Infinity, rate: 0.0565 },
     ],
     mfs: [
-      { min: 0, max: 20500, rate: 0.047 },
-      { min: 20500, max: Infinity, rate: 0.059 },
+      { min: 0, max: 47500, rate: 0.047 },
+      { min: 47500, max: Infinity, rate: 0.0565 },
     ],
     hoh: [
-      { min: 0, max: 20500, rate: 0.047 },
-      { min: 20500, max: Infinity, rate: 0.059 },
+      { min: 0, max: 47500, rate: 0.047 },
+      { min: 47500, max: Infinity, rate: 0.0565 },
     ],
   },
-  standardDeduction: {
-    single: 14600,
-    mfj: 29200,
-    mfs: 14600,
-    hoh: 21900,
-  },
+  standardDeduction: { single: 16100, mfj: 32200, mfs: 16100, hoh: 24150 },
 };
 
 export default config;

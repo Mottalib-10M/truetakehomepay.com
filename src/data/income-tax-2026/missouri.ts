@@ -1,12 +1,10 @@
 /**
- * Missouri Income Tax 2026
+ * Missouri income tax, tax year 2026
  *
- * Missouri has 7 progressive brackets (2% to 4.8%).
- * Missouri is gradually reducing its top rate.
- *
- * Sources:
- * - Missouri Department of Revenue
- * - Mo. Rev. Stat. § 143.011
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
@@ -14,48 +12,47 @@ import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
 const config: StateIncomeTaxConfig = {
   brackets: {
     single: [
-      { min: 0, max: 1207, rate: 0.02 },
-      { min: 1207, max: 2414, rate: 0.025 },
-      { min: 2414, max: 3621, rate: 0.03 },
-      { min: 3621, max: 4828, rate: 0.035 },
-      { min: 4828, max: 6035, rate: 0.04 },
-      { min: 6035, max: 7242, rate: 0.045 },
-      { min: 7242, max: Infinity, rate: 0.048 },
+      { min: 0, max: 1348, rate: 0 },
+      { min: 1348, max: 2696, rate: 0.02 },
+      { min: 2696, max: 4044, rate: 0.025 },
+      { min: 4044, max: 5392, rate: 0.03 },
+      { min: 5392, max: 6740, rate: 0.035 },
+      { min: 6740, max: 8088, rate: 0.04 },
+      { min: 8088, max: 9436, rate: 0.045 },
+      { min: 9436, max: Infinity, rate: 0.047 },
     ],
     mfj: [
-      { min: 0, max: 1207, rate: 0.02 },
-      { min: 1207, max: 2414, rate: 0.025 },
-      { min: 2414, max: 3621, rate: 0.03 },
-      { min: 3621, max: 4828, rate: 0.035 },
-      { min: 4828, max: 6035, rate: 0.04 },
-      { min: 6035, max: 7242, rate: 0.045 },
-      { min: 7242, max: Infinity, rate: 0.048 },
+      { min: 0, max: 1348, rate: 0 },
+      { min: 1348, max: 2696, rate: 0.02 },
+      { min: 2696, max: 4044, rate: 0.025 },
+      { min: 4044, max: 5392, rate: 0.03 },
+      { min: 5392, max: 6740, rate: 0.035 },
+      { min: 6740, max: 8088, rate: 0.04 },
+      { min: 8088, max: 9436, rate: 0.045 },
+      { min: 9436, max: Infinity, rate: 0.047 },
     ],
     mfs: [
-      { min: 0, max: 1207, rate: 0.02 },
-      { min: 1207, max: 2414, rate: 0.025 },
-      { min: 2414, max: 3621, rate: 0.03 },
-      { min: 3621, max: 4828, rate: 0.035 },
-      { min: 4828, max: 6035, rate: 0.04 },
-      { min: 6035, max: 7242, rate: 0.045 },
-      { min: 7242, max: Infinity, rate: 0.048 },
+      { min: 0, max: 1348, rate: 0 },
+      { min: 1348, max: 2696, rate: 0.02 },
+      { min: 2696, max: 4044, rate: 0.025 },
+      { min: 4044, max: 5392, rate: 0.03 },
+      { min: 5392, max: 6740, rate: 0.035 },
+      { min: 6740, max: 8088, rate: 0.04 },
+      { min: 8088, max: 9436, rate: 0.045 },
+      { min: 9436, max: Infinity, rate: 0.047 },
     ],
     hoh: [
-      { min: 0, max: 1207, rate: 0.02 },
-      { min: 1207, max: 2414, rate: 0.025 },
-      { min: 2414, max: 3621, rate: 0.03 },
-      { min: 3621, max: 4828, rate: 0.035 },
-      { min: 4828, max: 6035, rate: 0.04 },
-      { min: 6035, max: 7242, rate: 0.045 },
-      { min: 7242, max: Infinity, rate: 0.048 },
+      { min: 0, max: 1348, rate: 0 },
+      { min: 1348, max: 2696, rate: 0.02 },
+      { min: 2696, max: 4044, rate: 0.025 },
+      { min: 4044, max: 5392, rate: 0.03 },
+      { min: 5392, max: 6740, rate: 0.035 },
+      { min: 6740, max: 8088, rate: 0.04 },
+      { min: 8088, max: 9436, rate: 0.045 },
+      { min: 9436, max: Infinity, rate: 0.047 },
     ],
   },
-  standardDeduction: {
-    single: 14600,
-    mfj: 29200,
-    mfs: 14600,
-    hoh: 21900,
-  },
+  standardDeduction: { single: 16100, mfj: 32200, mfs: 16100, hoh: 24150 },
 };
 
 export default config;

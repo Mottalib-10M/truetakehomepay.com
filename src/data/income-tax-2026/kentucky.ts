@@ -1,30 +1,31 @@
 /**
- * Kentucky Income Tax 2026
+ * Kentucky income tax, tax year 2026
  *
- * Kentucky has a flat income tax rate of 4.0% (reduced from 4.5% in 2024).
- * Kentucky standard deduction follows federal.
- *
- * Sources:
- * - Kentucky Department of Revenue
- * - HB 8 (2022) — Kentucky Tax Modernization
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
 
 const config: StateIncomeTaxConfig = {
   brackets: {
-    single: [{ min: 0, max: Infinity, rate: 0.04 }],
-    mfj: [{ min: 0, max: Infinity, rate: 0.04 }],
-    mfs: [{ min: 0, max: Infinity, rate: 0.04 }],
-    hoh: [{ min: 0, max: Infinity, rate: 0.04 }],
+    single: [
+      { min: 0, max: Infinity, rate: 0.035 },
+    ],
+    mfj: [
+      { min: 0, max: Infinity, rate: 0.035 },
+    ],
+    mfs: [
+      { min: 0, max: Infinity, rate: 0.035 },
+    ],
+    hoh: [
+      { min: 0, max: Infinity, rate: 0.035 },
+    ],
   },
-  flatRate: 0.04,
-  standardDeduction: {
-    single: 3160,
-    mfj: 6320,
-    mfs: 3160,
-    hoh: 3160,
-  },
+  flatRate: 0.035,
+  standardDeduction: { single: 3360, mfj: 3360, mfs: 3360, hoh: 3360 },
 };
 
 export default config;

@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     question: 'What is FICA and why is it on my paycheck?',
-    answer: `FICA stands for the Federal Insurance Contributions Act. It funds Social Security (6.2% of wages up to $${(176100).toLocaleString("en-US")}) and Medicare (1.45% of all wages). If you earn over $200,000 (single), you also pay an Additional Medicare Tax of 0.9%. FICA is mandatory — you can't opt out, and your employer pays a matching amount.`,
+    answer: `FICA stands for the Federal Insurance Contributions Act. It funds Social Security (6.2% of wages up to $${(184500).toLocaleString("en-US")}) and Medicare (1.45% of all wages). If you earn over $200,000 (single), you also pay an Additional Medicare Tax of 0.9%. FICA is mandatory — you can't opt out, and your employer pays a matching amount.`,
   },
   {
     question: 'Which states have no income tax?',
@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     question: 'How does my filing status affect my paycheck?',
-    answer: `Your filing status (Single, Married Filing Jointly, Married Filing Separately, or Head of Household) determines your tax brackets and standard deduction. Married Filing Jointly typically results in the lowest tax rate because the brackets are roughly double those of Single filers, and the standard deduction is larger ($31,400 vs $15,700 for ${TAX_YEAR}).`,
+    answer: `Your filing status (Single, Married Filing Jointly, Married Filing Separately, or Head of Household) determines your tax brackets and standard deduction. Married Filing Jointly typically results in the lowest tax rate because the brackets are roughly double those of Single filers, and the standard deduction is larger ($32,200 vs $16,100 for ${TAX_YEAR}).`,
   },
   {
     question: 'Does a 401(k) contribution reduce my taxes?',
@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     question: `What are the ${TAX_YEAR} federal tax brackets?`,
-    answer: `For ${TAX_YEAR}, the federal tax brackets for Single filers are: 10% on income up to $11,925; 12% up to $48,475; 22% up to $103,350; 24% up to $197,300; 32% up to $250,525; 35% up to $626,350; and 37% on income above $626,350. These brackets apply to <em>taxable</em> income (after the standard deduction of $15,700).`,
+    answer: `For ${TAX_YEAR}, the federal tax brackets for Single filers are: 10% on income up to $12,400; 12% up to $50,400; 22% up to $105,700; 24% up to $201,775; 32% up to $256,225; 35% up to $640,600; and 37% on income above $640,600. These brackets apply to <em>taxable</em> income (after the standard deduction of $16,100).`,
   },
 ];
 
@@ -140,12 +140,12 @@ const schema = {
 
         <h3 id="federal-income-tax">Federal Income Tax</h3>
         <p>
-          The US uses a progressive federal income tax system with seven brackets ranging from 10% to 37%. Your filing status (Single, Married Filing Jointly, etc.) determines which brackets apply. Only the income within each bracket is taxed at that rate — not your entire salary. After accounting for the standard deduction ($15,700 for single filers in {TAX_YEAR}), your remaining taxable income flows through each bracket.
+          The US uses a progressive federal income tax system with seven brackets ranging from 10% to 37%. Your filing status (Single, Married Filing Jointly, etc.) determines which brackets apply. Only the income within each bracket is taxed at that rate — not your entire salary. After accounting for the standard deduction ($16,100 for single filers in {TAX_YEAR}), your remaining taxable income flows through each bracket.
         </p>
 
         <h3 id="fica-taxes">FICA Taxes (Social Security + Medicare)</h3>
         <p>
-          FICA taxes are flat-rate payroll taxes. Social Security tax is 6.2% of your wages up to ${(176100).toLocaleString("en-US")} (the {TAX_YEAR} wage base). Medicare tax is 1.45% on all wages, with an additional 0.9% on wages above $200,000 for single filers. Your employer pays a matching amount for both.
+          FICA taxes are flat-rate payroll taxes. Social Security tax is 6.2% of your wages up to ${(184500).toLocaleString("en-US")} (the {TAX_YEAR} wage base). Medicare tax is 1.45% on all wages, with an additional 0.9% on wages above $200,000 for single filers. Your employer pays a matching amount for both.
         </p>
 
         <h3 id="state-income-tax">State Income Tax</h3>
@@ -210,7 +210,7 @@ const schema = {
           Perhaps no aspect of the American tax system is more widely misunderstood than how marginal tax brackets operate. A persistent myth holds that earning more money can actually leave you worse off because moving into a higher tax bracket means all of your income gets taxed at the higher rate. This is categorically false, and understanding why is essential to making sound financial decisions. The federal income tax system is progressive, meaning each bracket applies only to the income within that bracket's range, not to your entire income.
         </p>
         <p>
-          Consider a single filer earning $60,000 in 2025. After the standard deduction of $15,700, their taxable income is $44,300. The first $11,925 is taxed at 10 percent, yielding $1,192.50 in tax. The next $36,550 (from $11,925 to $48,475) is taxed at 12 percent, yielding $4,386. The remaining income does not reach the 22 percent bracket. The total federal income tax is approximately $5,578, which works out to an effective tax rate of about 9.3 percent on gross income, far lower than the 12 percent marginal rate that applies to the last dollar earned. This distinction between marginal and effective tax rates is crucial, and it is one of the core concepts that our paycheck calculator makes tangible by showing you exactly how your income flows through each bracket.
+          Consider a single filer earning $60,000 in 2026. After the standard deduction of $16,100, their taxable income is $43,900. The first $12,400 is taxed at 10 percent, yielding $1,240 in tax. The next $31,500 (from $12,400 to $43,900) is taxed at 12 percent, yielding $3,780. The income does not reach the 22 percent bracket, which starts at $50,400. The total federal income tax is $5,020, which works out to an effective tax rate of about 8.4 percent on gross income, far lower than the 12 percent marginal rate that applies to the last dollar earned. This distinction between marginal and effective tax rates is crucial, and it is one of the core concepts that our paycheck calculator makes tangible by showing you exactly how your income flows through each bracket.
         </p>
         <p>
           The practical implication is that you should never turn down a raise, a bonus, or overtime pay out of fear of "moving into a higher tax bracket." Yes, the additional income will be taxed at a higher marginal rate, but you will always take home more money after taxes when you earn more money before taxes. A $5,000 raise for someone in the 22 percent bracket means roughly $3,900 more in annual take-home pay after federal taxes, not less. Use our <a href="/bonus-tax-calculator/">bonus tax calculator</a> to see exactly how supplemental income is treated.
@@ -268,7 +268,7 @@ const schema = {
   <section class="border-t border-slate-200 px-4 py-8 dark:border-slate-800 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
       <p class="text-xs text-slate-500 dark:text-slate-400">
-        <strong>Sources:</strong> IRS Rev. Proc. 2025-11 (federal brackets), SSA.gov (Social Security wage base), individual state revenue departments (state tax rates). Last updated for tax year {TAX_YEAR}.
+        <strong>Sources:</strong> IRS Rev. Proc. 2025-32 (federal brackets), SSA.gov (Social Security wage base), individual state revenue departments (state tax rates). Last updated for tax year {TAX_YEAR}.
       </p>
       <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
         {DISCLAIMER}

@@ -5,7 +5,7 @@ import SelectField from '../ui/SelectField';
 
 // ─── Constants ────────────────────────────────────────────────────────
 const SS_RATE = 0.062;
-const SS_WAGE_BASE = 176100;
+const SS_WAGE_BASE = 184500;
 const MEDICARE_RATE = 0.0145;
 
 type PayFreq = 'weekly' | 'biweekly' | 'semimonthly' | 'monthly';

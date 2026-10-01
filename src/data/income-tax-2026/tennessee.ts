@@ -1,11 +1,10 @@
 /**
- * Tennessee Income Tax 2026
+ * Tennessee income tax, tax year 2026
  *
- * Tennessee has NO state income tax on earned income.
- * The Hall Tax on interest and dividends was fully eliminated in 2021.
- *
- * Sources:
- * - Tennessee Department of Revenue
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';

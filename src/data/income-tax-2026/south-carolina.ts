@@ -1,15 +1,11 @@
 /**
- * South Carolina Income Tax 2026
+ * South Carolina income tax, tax year 2026
  *
- * South Carolina has a simplified bracket structure after ongoing reform:
- * - 0% on first $3,460
- * - 3% on income from $3,460 to $17,330
- * - 6.4% on income above $17,330
- * The top rate is scheduled to continue decreasing.
- *
- * Sources:
- * - South Carolina Department of Revenue
- * - S.C. Code Ann. § 12-6-510
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * H.4216 (signed 30 March 2026): 1.99% below $30,000 and 5.21% above; the South Carolina Income Adjusted Deduction replaces the federal standard deduction and phases out with federal AGI.
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
@@ -17,31 +13,28 @@ import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
 const config: StateIncomeTaxConfig = {
   brackets: {
     single: [
-      { min: 0, max: 3460, rate: 0 },
-      { min: 3460, max: 17330, rate: 0.03 },
-      { min: 17330, max: Infinity, rate: 0.064 },
+      { min: 0, max: 30000, rate: 0.0199 },
+      { min: 30000, max: Infinity, rate: 0.0521 },
     ],
     mfj: [
-      { min: 0, max: 3460, rate: 0 },
-      { min: 3460, max: 17330, rate: 0.03 },
-      { min: 17330, max: Infinity, rate: 0.064 },
+      { min: 0, max: 30000, rate: 0.0199 },
+      { min: 30000, max: Infinity, rate: 0.0521 },
     ],
     mfs: [
-      { min: 0, max: 3460, rate: 0 },
-      { min: 3460, max: 17330, rate: 0.03 },
-      { min: 17330, max: Infinity, rate: 0.064 },
+      { min: 0, max: 30000, rate: 0.0199 },
+      { min: 30000, max: Infinity, rate: 0.0521 },
     ],
     hoh: [
-      { min: 0, max: 3460, rate: 0 },
-      { min: 3460, max: 17330, rate: 0.03 },
-      { min: 17330, max: Infinity, rate: 0.064 },
+      { min: 0, max: 30000, rate: 0.0199 },
+      { min: 30000, max: Infinity, rate: 0.0521 },
     ],
   },
-  standardDeduction: {
-    single: 14600,
-    mfj: 29200,
-    mfs: 14600,
-    hoh: 21900,
+  standardDeduction: { single: 15000, mfj: 30000, mfs: 15000, hoh: 22500 },
+  deductionPhaseOut: {
+    single: { start: 40000, range: 55000 },
+    mfj: { start: 80000, range: 110000 },
+    mfs: { start: 40000, range: 55000 },
+    hoh: { start: 60000, range: 82500 },
   },
 };
 

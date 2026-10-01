@@ -1,30 +1,31 @@
 /**
- * Michigan Income Tax 2026
+ * Michigan income tax, tax year 2026
  *
- * Michigan has a flat income tax rate of 4.25%.
- * Michigan cities may impose additional local income taxes (handled in local-tax-2026.ts).
- *
- * Sources:
- * - Michigan Department of Treasury
- * - MCL 206.51
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
 
 const config: StateIncomeTaxConfig = {
   brackets: {
-    single: [{ min: 0, max: Infinity, rate: 0.0425 }],
-    mfj: [{ min: 0, max: Infinity, rate: 0.0425 }],
-    mfs: [{ min: 0, max: Infinity, rate: 0.0425 }],
-    hoh: [{ min: 0, max: Infinity, rate: 0.0425 }],
+    single: [
+      { min: 0, max: Infinity, rate: 0.0425 },
+    ],
+    mfj: [
+      { min: 0, max: Infinity, rate: 0.0425 },
+    ],
+    mfs: [
+      { min: 0, max: Infinity, rate: 0.0425 },
+    ],
+    hoh: [
+      { min: 0, max: Infinity, rate: 0.0425 },
+    ],
   },
   flatRate: 0.0425,
-  personalExemption: {
-    single: 5400,
-    mfj: 10800,
-    mfs: 5400,
-    hoh: 5400,
-  },
+  personalExemption: { single: 5900, mfj: 11800, mfs: 5900, hoh: 5900 },
 };
 
 export default config;

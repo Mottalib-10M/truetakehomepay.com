@@ -249,7 +249,7 @@ function SEResultPanel({ result }: { result: SEResultData }) {
               label="Social Security Tax (12.4%)"
               value={socialSecurityPortion}
               color="red"
-              sublabel="On first $176,100 of SE tax base"
+              sublabel="On first $184,500 of SE tax base"
             />
             <SERow
               label="Medicare Tax (2.9%)"

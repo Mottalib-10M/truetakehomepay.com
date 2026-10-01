@@ -1,14 +1,10 @@
 /**
- * Oregon Income Tax 2026
+ * Oregon income tax, tax year 2026
  *
- * Oregon has 4 progressive brackets (4.75% to 9.9%).
- * Oregon has no sales tax, making income tax the primary revenue source.
- * Oregon also has Paid Family & Medical Leave Insurance (PFMLI).
- *
- * Sources:
- * - Oregon Department of Revenue
- * - ORS § 316.037
- * - Oregon Employment Department (PFMLI rates)
+ * Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026
+ * (rates, brackets, standard deduction and personal exemption as of 1 January 2026).
+ * Head of household and married filing separately follow the single schedule
+ * unless the state publishes its own; local income taxes are handled separately.
  */
 
 import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
@@ -16,38 +12,34 @@ import type { StateIncomeTaxConfig } from '../../lib/tax-engine';
 const config: StateIncomeTaxConfig = {
   brackets: {
     single: [
-      { min: 0, max: 4050, rate: 0.0475 },
-      { min: 4050, max: 10200, rate: 0.0675 },
-      { min: 10200, max: 125000, rate: 0.0875 },
+      { min: 0, max: 4550, rate: 0.0475 },
+      { min: 4550, max: 11400, rate: 0.0675 },
+      { min: 11400, max: 125000, rate: 0.0875 },
       { min: 125000, max: Infinity, rate: 0.099 },
     ],
     mfj: [
-      { min: 0, max: 8100, rate: 0.0475 },
-      { min: 8100, max: 20400, rate: 0.0675 },
-      { min: 20400, max: 250000, rate: 0.0875 },
+      { min: 0, max: 9100, rate: 0.0475 },
+      { min: 9100, max: 22800, rate: 0.0675 },
+      { min: 22800, max: 250000, rate: 0.0875 },
       { min: 250000, max: Infinity, rate: 0.099 },
     ],
     mfs: [
-      { min: 0, max: 4050, rate: 0.0475 },
-      { min: 4050, max: 10200, rate: 0.0675 },
-      { min: 10200, max: 125000, rate: 0.0875 },
+      { min: 0, max: 4550, rate: 0.0475 },
+      { min: 4550, max: 11400, rate: 0.0675 },
+      { min: 11400, max: 125000, rate: 0.0875 },
       { min: 125000, max: Infinity, rate: 0.099 },
     ],
     hoh: [
-      { min: 0, max: 8100, rate: 0.0475 },
-      { min: 8100, max: 20400, rate: 0.0675 },
-      { min: 20400, max: 250000, rate: 0.0875 },
+      { min: 0, max: 9100, rate: 0.0475 },
+      { min: 9100, max: 22800, rate: 0.0675 },
+      { min: 22800, max: 250000, rate: 0.0875 },
       { min: 250000, max: Infinity, rate: 0.099 },
     ],
   },
-  standardDeduction: {
-    single: 2605,
-    mfj: 5210,
-    mfs: 2605,
-    hoh: 4195,
-  },
+  standardDeduction: { single: 2910, mfj: 5820, mfs: 2910, hoh: 4690 },
+  personalCredit: { single: 256, mfj: 512, mfs: 256, hoh: 256 },
   specialRules: {
-    pfl: { rate: 0.006, wageBase: 176100 },
+    pfl: { rate: 0.006, wageBase: 184500 },
   },
 };
 

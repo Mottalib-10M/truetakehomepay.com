@@ -4,18 +4,18 @@ import InputField from '../ui/InputField';
 
 // ─── Constants (simplified federal single) ──────────────────────────────
 const FEDERAL_BRACKETS = [
-  { min: 0, max: 11925, rate: 0.10 },
-  { min: 11925, max: 48475, rate: 0.12 },
-  { min: 48475, max: 103350, rate: 0.22 },
-  { min: 103350, max: 197300, rate: 0.24 },
-  { min: 197300, max: 250525, rate: 0.32 },
-  { min: 250525, max: 626350, rate: 0.35 },
-  { min: 626350, max: Infinity, rate: 0.37 },
+  { min: 0, max: 12400, rate: 0.10 },
+  { min: 12400, max: 50400, rate: 0.12 },
+  { min: 50400, max: 105700, rate: 0.22 },
+  { min: 105700, max: 201775, rate: 0.24 },
+  { min: 201775, max: 256225, rate: 0.32 },
+  { min: 256225, max: 640600, rate: 0.35 },
+  { min: 640600, max: Infinity, rate: 0.37 },
 ];
 
-const STANDARD_DEDUCTION = 15700;
+const STANDARD_DEDUCTION = 16100;
 const SS_RATE = 0.062;
-const SS_WAGE_BASE = 176100;
+const SS_WAGE_BASE = 184500;
 const MEDICARE_RATE = 0.0145;
 
 // ─── Tax helpers ────────────────────────────────────────────────────────
@@ -293,7 +293,7 @@ function ResultsPanel({ result }: { result: ResultData }) {
               label="Social Security Tax"
               value={socialSecurity}
               color="red"
-              sublabel={`6.2% on first ${formatCurrencyRound(176100)}`}
+              sublabel={`6.2% on first ${formatCurrencyRound(184500)}`}
             />
             <TaxRow
               label="Medicare Tax"
