@@ -26,7 +26,8 @@ const {
   pageType,
 } = Astro.props;
 
-const canonicalUrl = canonical || new URL(Astro.url.pathname, SITE_URL).toString();
+// Toujours une adresse absolue : une prop relative ('/') sortait telle quelle dans la balise.
+const canonicalUrl = new URL(canonical || Astro.url.pathname, SITE_URL).toString();
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, SITE_URL).toString();
 
 // Determine page type from URL

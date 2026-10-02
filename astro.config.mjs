@@ -17,6 +17,8 @@ export default defineConfig({
     react(),
     sitemap({
       filter: (page) =>
+        // /take-home-pay-calculator/ declare l'accueil comme adresse canonique : hors sitemap
+        !page.endsWith('/take-home-pay-calculator/') &&
         !page.includes('/disclaimer') &&
         !page.includes('/privacy-policy') &&
         !page.includes('/terms-of-service') &&
