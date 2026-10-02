@@ -82,7 +82,7 @@ export default function TipTaxCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [baseWage, tipsPerHour, hoursPerWeek, weeksPerYear]);
 
   useEffect(() => {

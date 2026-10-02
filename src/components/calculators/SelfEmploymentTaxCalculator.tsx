@@ -45,7 +45,7 @@ export default function SelfEmploymentTaxCalculator({
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [incomeInput, defaultIncomeStr, filingStatus, showExpenses, businessExpenses]);
 
   useEffect(() => {

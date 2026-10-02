@@ -114,7 +114,7 @@ export default function EmergencyFundCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [expensesInput, savingsInput, monthlyInput, stabilityInput, earnersInput, dependentsInput, apyInput]);
 
   useEffect(() => {

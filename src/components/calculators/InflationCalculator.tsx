@@ -57,7 +57,7 @@ export default function InflationCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [amountInput, rateInput, yearsInput, direction]);
 
   useEffect(() => {

@@ -72,7 +72,7 @@ export default function MortgageCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [homePrice, downPayment, loanTerm, interestRate, annualPropertyTax, annualInsurance, pmiRate]);
 
   useEffect(() => {

@@ -3,14 +3,14 @@ import Layout from '../layouts/Layout.astro';
 import { SITE_NAME, SITE_URL } from '../lib/constants';
 
 const title = 'Privacy Policy — Your Data Rights and Our Practices';
-const description = `${SITE_NAME} privacy policy. How we protect your data, your CCPA and GDPR rights, and our cookie-less, privacy-first analytics commitment.`;
+const description = `${SITE_NAME} privacy policy. How we handle your data, the analytics tools we use (Microsoft Clarity, Google Analytics) and your CCPA and GDPR rights.`;
 ---
 
 <Layout title={title} description={description} noIndex={true}>
   <section class="px-4 py-16 sm:px-6 lg:px-8">
     <div class="prose prose-slate dark:prose-invert mx-auto max-w-3xl">
       <h1>Privacy Policy</h1>
-      <p><strong>Last updated:</strong> June 2026</p>
+      <p><strong>Last updated:</strong> October 2026</p>
 
       <h2>1. Overview</h2>
       <p>
@@ -43,23 +43,27 @@ const description = `${SITE_NAME} privacy policy. How we protect your data, your
 
       <h3>Analytics</h3>
       <p>
-        We use <a href="https://plausible.io" target="_blank" rel="noopener noreferrer">Plausible Analytics</a>,
-        a privacy-focused, cookie-less analytics service. Plausible does not use cookies, does not collect
-        personal data, does not store IP addresses, does not use fingerprinting, and is fully compliant with
-        GDPR, CCPA, and PECR. We collect only aggregate data such as page views, referral sources, device
-        types, and general geographic regions (country-level).
+        We measure traffic with two tools that load when a page opens, with no prior cookie banner:
+        Microsoft Clarity (Microsoft Corporation) and Google Analytics 4 (Google LLC). Clarity records how
+        pages are used: clicks, scrolling, pages viewed and their address, as sessions and heatmaps; the
+        content of input fields is masked in your browser before anything is sent. Google Analytics
+        receives the pages viewed, the referral source, the device type and an approximate location
+        derived from the IP address.
       </p>
       <p>
-        Plausible processes all data on servers within the European Union. No individual visitors can be
-        identified from the collected data. For more information:
-        <a href="https://plausible.io/data-policy" target="_blank" rel="noopener noreferrer">https://plausible.io/data-policy</a>.
+        Both tools may process this data on servers in the United States. Clarity keeps session recordings
+        for thirty days and aggregated data for up to thirteen months; Google Analytics keeps event data
+        for the period set in the account, fourteen months at most. More information:
+        <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener noreferrer">Microsoft privacy statement</a>
+        and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google privacy policy</a>.
       </p>
 
       <h3>URL Parameters</h3>
       <p>
         When you use our calculators, your inputs may be encoded in the page URL (e.g., ?gross=60000&state=CA)
-        to enable sharing. This data exists only in your browser's address bar and is not transmitted to or
-        stored on our servers.
+        to enable sharing. This data is not transmitted to or stored on our servers. If you open a page
+        through such a shared link, the full address including these parameters is part of the page address
+        recorded by the analytics tools.
       </p>
 
       <h3>Server Log Files</h3>
@@ -72,15 +76,16 @@ const description = `${SITE_NAME} privacy policy. How we protect your data, your
 
       <h2>4. Cookies</h2>
       <p>
-        {SITE_NAME} does not use tracking cookies. No advertising, profiling, or third-party cookies are
-        placed. The only data stored in your browser is your dark mode preference (via localStorage), which
-        is not a cookie and is not transmitted to any server.
+        Microsoft Clarity and Google Analytics set analytics cookies as soon as a page opens:
+        <code>_clck</code> (one year) and <code>_clsk</code> (one day) for Clarity, to which Microsoft may
+        add <code>MUID</code> and <code>CLID</code> on its own domains, and <code>_ga</code> and
+        <code>_ga_HEWD32N50T</code> (two years) for Google Analytics. {SITE_NAME} places no advertising
+        cookies. You can refuse or delete these cookies in your browser settings, or block the domains
+        <code>clarity.ms</code> and <code>googletagmanager.com</code>; the calculators work without them.
       </p>
       <p>
-        localStorage is a local storage mechanism provided by the HTML5 standard. Data stored in localStorage
-        remains on your device and is never sent to external servers. You can clear localStorage data at any
-        time through your browser settings. Since no tracking cookies are used, a cookie consent banner is
-        not legally required.
+        Your dark mode preference is stored via localStorage, which is not a cookie and is not transmitted
+        to any server. You can clear localStorage data at any time through your browser settings.
       </p>
 
       <h2>5. Third-Party Services</h2>
@@ -94,8 +99,8 @@ const description = `${SITE_NAME} privacy policy. How we protect your data, your
         our legitimate interest in a uniform presentation.
       </p>
       <p>
-        We do not integrate any third-party services that profile users. There are no social media buttons,
-        advertising widgets, remarketing services, or other tools that allow third parties to track users.
+        Apart from Microsoft Clarity and Google Analytics, described above, there are no social media
+        buttons, advertising widgets or remarketing services.
       </p>
 
       <h2>6. Your Rights Under CCPA (California Residents)</h2>
@@ -126,7 +131,7 @@ const description = `${SITE_NAME} privacy policy. How we protect your data, your
         <li><strong>Right to lodge a complaint</strong> (Art. 77): lodge a complaint with a supervisory authority.</li>
       </ul>
       <p>
-        Since no personal data is collected, these rights are currently not applicable in practice. For
+        These rights also apply to the data collected by the analytics tools. For
         any enquiry, contact us at contact@truetakehomepay.com. We undertake to respond within 30 days.
       </p>
 

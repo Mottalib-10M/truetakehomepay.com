@@ -58,7 +58,7 @@ export default function MedicareSurtaxCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [wagesInput, investmentInput, filingStatus]);
 
   useEffect(() => {

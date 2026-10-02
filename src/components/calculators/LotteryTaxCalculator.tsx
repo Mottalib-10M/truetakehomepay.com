@@ -61,7 +61,7 @@ export default function LotteryTaxCalculator({
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [winningsInput, otherIncomeInput, stateCode, filingStatus]);
 
   useEffect(() => {

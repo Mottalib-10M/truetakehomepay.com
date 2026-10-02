@@ -69,7 +69,7 @@ export default function TraditionalIRACalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [balanceInput, contribInput, returnInput, yearsInput, taxNowInput, taxRetInput, age50Input]);
 
   useEffect(() => {

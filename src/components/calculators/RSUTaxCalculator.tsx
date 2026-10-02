@@ -66,7 +66,7 @@ export default function RSUTaxCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [sharesInput, vestPriceInput, salePriceInput, incomeInput, holdPeriod]);
 
   useEffect(() => {

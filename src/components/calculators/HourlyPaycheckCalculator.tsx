@@ -63,7 +63,7 @@ export default function HourlyPaycheckCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [rate, hours, weeks]);
 
   useEffect(() => {

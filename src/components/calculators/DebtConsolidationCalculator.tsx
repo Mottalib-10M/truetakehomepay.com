@@ -185,7 +185,7 @@ export default function DebtConsolidationCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [debt1, debt2, debt3, consolRate, consolTerm]);
 
   useEffect(() => {

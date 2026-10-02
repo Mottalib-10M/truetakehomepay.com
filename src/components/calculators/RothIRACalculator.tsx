@@ -63,7 +63,7 @@ export default function RothIRACalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [balanceInput, contribInput, returnInput, yearsInput, age50]);
 
   useEffect(() => {

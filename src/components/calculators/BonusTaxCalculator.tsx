@@ -46,7 +46,7 @@ export default function BonusTaxCalculator({
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [bonusInput, defaultBonusStr, ytdGrossInput, stateCode, defaultState, filingStatus]);
 
   useEffect(() => {

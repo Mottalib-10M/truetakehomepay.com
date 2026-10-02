@@ -94,7 +94,7 @@ export default function SocialSecurityBenefitsCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [income, age, retireAge, yearsWorked]);
 
   useEffect(() => {

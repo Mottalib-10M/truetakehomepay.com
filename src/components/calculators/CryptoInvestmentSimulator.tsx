@@ -251,7 +251,7 @@ export default function CryptoInvestmentSimulator({
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [buyPrice, sellPrice, quantity, holdPeriod, incomeInput, filingStatus, defaultBuyPrice]);
 
   useEffect(() => {

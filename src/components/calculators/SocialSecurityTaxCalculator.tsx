@@ -65,7 +65,7 @@ export default function SocialSecurityTaxCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [wagesInput, freq]);
 
   useEffect(() => {

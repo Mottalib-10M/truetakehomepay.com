@@ -95,7 +95,7 @@ export default function PaycheckCalculator({
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [grossInput, defaultGrossStr, stateCode, defaultState, filingStatus, payFrequency, traditional401k, localTaxCode]);
 
   useEffect(() => {

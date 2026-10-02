@@ -58,7 +58,7 @@ export default function MortgageRefinanceCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [balance, currentRate, currentTerm, newRate, newTerm, closingCosts]);
 
   useEffect(() => {

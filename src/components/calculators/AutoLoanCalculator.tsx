@@ -47,7 +47,7 @@ export default function AutoLoanCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [priceInput, downPaymentInput, tradeInInput, salesTaxInput, rateInput, termInput]);
 
   useEffect(() => {

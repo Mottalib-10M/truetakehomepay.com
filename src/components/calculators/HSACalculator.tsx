@@ -43,7 +43,7 @@ export default function HSACalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [incomeInput, hsaInput, coverage, age55, fedRate, stateRateInput]);
 
   useEffect(() => {

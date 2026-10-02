@@ -62,7 +62,7 @@ export default function SavingsCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [goalInput, currentInput, monthlyInput, rateInput]);
 
   useEffect(() => {

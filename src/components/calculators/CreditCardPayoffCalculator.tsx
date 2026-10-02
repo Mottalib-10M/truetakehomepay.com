@@ -27,7 +27,7 @@ export default function CreditCardPayoffCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [balanceInput, aprInput, paymentInput]);
 
   useEffect(() => {

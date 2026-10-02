@@ -102,7 +102,7 @@ export default function RentVsBuyCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [homePrice, downPaymentPct, mortgageRate, loanTerm, propertyTaxRate, maintenancePct, appreciationRate, monthlyRent, rentIncrease, renterInsurance, yearsToCompare, investmentReturn]);
 
   useEffect(() => {

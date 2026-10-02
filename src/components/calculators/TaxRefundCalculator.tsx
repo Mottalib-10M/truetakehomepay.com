@@ -106,7 +106,7 @@ export default function TaxRefundCalculator() {
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
 
-    window.history.replaceState({}, '', newUrl);
+    History.prototype.replaceState.call(window.history, {}, '', newUrl);
   }, [income, filing, withheld, children, credits, otherIncome, deductions]);
 
   useEffect(() => {
