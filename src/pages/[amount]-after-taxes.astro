@@ -2,7 +2,7 @@
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import PaycheckCalculator from '../components/calculators/PaycheckCalculator';
 import { TAX_YEAR, SITE_URL, AUTHOR_NAME, AUTHOR_CREDENTIALS } from '../lib/constants';
-import { SALARY_AMOUNTS, TOP_10_STATES, STATES } from '../data/state-meta';
+import { SALARY_AMOUNTS, STATE_SALARY_AMOUNTS, TOP_10_STATES, STATES } from '../data/state-meta';
 import { formatCurrencyRound, formatPercent } from '../lib/format-us';
 import {
   computeForState,
@@ -87,7 +87,8 @@ const relatedCalculators = [
     href: `/${amt}-after-taxes/`,
     desc: `${TAX_YEAR} take-home pay`,
   })),
-  ...popularStates.slice(0, 2).map((s) => ({
+  // Les pages par etat n'existent que pour STATE_SALARY_AMOUNTS : ne lier que celles-la.
+  ...(STATE_SALARY_AMOUNTS.includes(amount) ? popularStates.slice(0, 2) : []).map((s) => ({
     title: `${formatted} in ${s.name}`,
     href: `/${s.slug}/${amount}-after-taxes/`,
     desc: `${s.name} take-home pay`,
@@ -238,9 +239,11 @@ const intro = `How much is ${formatted} after taxes in ${TAX_YEAR}? Use our free
               {stateComparisons.map((sc) => (
                 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30">
                   <td class="px-3 py-2.5">
-                    <a href={`/${sc.slug}/${amount}-after-taxes/`} class="font-medium text-navy-700 hover:underline dark:text-navy-400">
-                      {sc.name}
-                    </a>
+                    {STATE_SALARY_AMOUNTS.includes(amount) && TOP_10_STATES.some((c) => STATES[c].slug === sc.slug) ? (
+                      <a href={`/${sc.slug}/${amount}-after-taxes/`} class="font-medium text-navy-700 hover:underline dark:text-navy-400">
+                        {sc.name}
+                      </a>
+                    ) : <span class="font-medium">{sc.name}</span>}
                   </td>
                   <td class="px-3 py-2.5 text-right text-slate-700 dark:text-slate-300">{formatCurrencyRound(sc.federalTax)}</td>
                   <td class="px-3 py-2.5 text-right text-slate-700 dark:text-slate-300">{formatCurrencyRound(sc.stateTax)}</td>
@@ -512,7 +515,7 @@ const intro = `How much is ${formatted} after taxes in ${TAX_YEAR}? Use our free
     </section>
 
     <!-- ═══════ STATE-SPECIFIC LINKS ═══════ -->
-    <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+    {STATE_SALARY_AMOUNTS.includes(amount) && <section class="border-t border-slate-200 bg-slate-50 px-4 py-12 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-3xl">
         <h2 class="mb-6 text-xl font-bold text-slate-900 dark:text-white">
           {formatted} After Taxes by State
@@ -531,7 +534,7 @@ const intro = `How much is ${formatted} after taxes in ${TAX_YEAR}? Use our free
           ))}
         </div>
       </div>
-    </section>
+    </section>}
 
     <!-- ═══════ RELATED SALARY AMOUNTS (cross-links) ═══════ -->
     <section class="border-t border-slate-200 px-4 py-12 dark:border-slate-800 sm:px-6 lg:px-8">

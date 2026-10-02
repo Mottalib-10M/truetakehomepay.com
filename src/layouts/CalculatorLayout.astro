@@ -47,7 +47,10 @@ const breadcrumbs = [
   { name: 'Home', href: '/' },
   ...pathSegments.map((seg, i) => ({
     name: seg.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
-    href: `/${pathSegments.slice(0, i + 1).join('/')}/`,
+    // /<etat>/ n'a pas de page : sur une fiche d'etat, le premier segment mene a son calculateur.
+    href: pathSegments.length === 2 && i === 0 && pathSegments[1].endsWith('-after-taxes')
+      ? `/paycheck-calculator/${seg}/`
+      : `/${pathSegments.slice(0, i + 1).join('/')}/`,
   })),
 ];
 ---
