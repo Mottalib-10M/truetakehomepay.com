@@ -114,7 +114,7 @@ const allSchemas = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clarity.ms https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.clarity.ms https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src 'self'; frame-ancestors 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clarity.ms; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.clarity.ms; frame-src 'self'; frame-ancestors 'self'" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={AUTHOR_NAME} />
@@ -160,26 +160,12 @@ const allSchemas = [
       }
     </script>
 
-    <!-- Microsoft Clarity (conditional) -->
+    {/* Mesure technique et anonyme de la stabilité (RECETTE §15.6, 2026-10-06) : aucun cookie.
+         consentv2 « denied » mis en file AVANT le script Clarity : mode sans cookie (ni _clck, _clsk,
+         MUID, CLID), un identifiant par page vue ; contenu masqué par data-clarity-mask sur <body>. */}
     {CLARITY_PROJECT_ID && (
-      <script is:inline define:vars={{ clarityId: CLARITY_PROJECT_ID, pType: pageType || (isGuide ? 'guide' : 'calculator') }}>
-        (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window,document,"clarity","script",clarityId);
-        window.clarity && window.clarity("set","page_type",pType);
-      </script>
+      <script is:inline set:html={`(function(){window.clarity=window.clarity||function(){(window.clarity.q=window.clarity.q||[]).push(arguments);};window.clarity('consentv2',{ad_Storage:'denied',analytics_Storage:'denied'});var s=document.createElement('script');s.async=true;s.src='https://www.clarity.ms/tag/${CLARITY_PROJECT_ID}';document.head.appendChild(s);})();`} />
     )}
-
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HEWD32N50T"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-HEWD32N50T');
-    </script>
 
     <!-- Structured data -->
     {allSchemas.map((s) => (
@@ -188,7 +174,7 @@ const allSchemas = [
 
     <meta name="generator" content={Astro.generator} />
   </head>
-  <body class="min-h-screen bg-white text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100">
+  <body data-clarity-mask="true" class="min-h-screen bg-white text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100">
     <!-- Skip to content (accessibility) -->
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-navy-700 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg">
       Skip to content

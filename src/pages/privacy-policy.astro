@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { SITE_NAME, SITE_URL } from '../lib/constants';
 
 const title = 'Privacy Policy — Your Data Rights and Our Practices';
-const description = `${SITE_NAME} privacy policy. How we handle your data, the analytics tools we use (Microsoft Clarity, Google Analytics) and your CCPA and GDPR rights.`;
+const description = `${SITE_NAME} privacy policy: no cookies, no paycheck data stored, only an anonymous stability check with cookieless Microsoft Clarity, plus your CCPA rights.`;
 ---
 
 <Layout title={title} description={description} noIndex={true}>
@@ -41,66 +41,54 @@ const description = `${SITE_NAME} privacy policy. How we handle your data, the a
         into the calculators.
       </p>
 
-      <h3>Analytics</h3>
+      <h3>Anonymous Stability Check (Microsoft Clarity, No Cookies)</h3>
       <p>
-        We measure traffic with two tools that load when a page opens, with no prior cookie banner:
-        Microsoft Clarity (Microsoft Corporation) and Google Analytics 4 (Google LLC). Clarity records how
-        pages are used: clicks, scrolling, pages viewed and their address, as sessions and heatmaps; the
-        content of input fields is masked in your browser before anything is sent. Google Analytics
-        receives the pages viewed, the referral source, the device type and an approximate location
-        derived from the IP address.
+        We, the publisher, record no personal information about you. To find paycheck calculators that
+        break or load slowly, we run a technical, anonymous check of how the site behaves: script errors,
+        load times, clicks that do nothing and scroll depth. It uses Microsoft Clarity in its
+        <strong>cookieless mode</strong>: Clarity is told that storage is denied before its script loads,
+        so it sets no <code>_clck</code>, <code>_clsk</code>, <code>MUID</code> or <code>CLID</code> cookie,
+        gives each page view a new identifier and never links visits together. Page text and the amounts
+        you enter (salary, state, filing status, 401(k) rate) are masked in your browser first.
       </p>
+      <ul>
+        <li><strong>Provider:</strong> Microsoft Ireland Operations Limited, One Microsoft Place, South County Business Park, Leopardstown, Dublin 18, Ireland.</li>
+        <li><strong>Retention:</strong> recordings 30 days, aggregated statistics 13 months.</li>
+        <li><strong>Basis:</strong> our legitimate interest in a working site (Art. 6(1)(f) GDPR for EU visitors); under US law, this is not a sale or sharing of personal information and involves no targeted advertising.</li>
+        <li><strong>Opting out:</strong> block <code>clarity.ms</code> in your browser or with a content blocker, or email us; every calculator keeps working.</li>
+      </ul>
       <p>
-        Both tools may process this data on servers in the United States. Clarity keeps session recordings
-        for thirty days and aggregated data for up to thirteen months; Google Analytics keeps event data
-        for the period set in the account, fourteen months at most. More information:
-        <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener noreferrer">Microsoft privacy statement</a>
-        and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google privacy policy</a>.
+        Microsoft may process this data in the United States. More information:
+        <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener noreferrer">Microsoft privacy statement</a>.
       </p>
 
       <h3>URL Parameters</h3>
       <p>
         When you use our calculators, your inputs may be encoded in the page URL (e.g., ?gross=60000&state=CA)
         to enable sharing. This data is not transmitted to or stored on our servers. If you open a page
-        through such a shared link, the full address including these parameters is part of the page address
-        recorded by the analytics tools.
+        through such a shared link, the page address is masked like the rest of the page in the stability
+        check described above.
       </p>
 
       <h3>Server Log Files</h3>
       <p>
-        Our hosting provider (Vercel) may automatically collect standard server log files including browser
-        type, operating system, referrer URL, hostname, time of request, and IP address (anonymised). This
-        data is used for security purposes and automatically deleted. It is not merged with other data
-        sources.
+        Our hosting provider, GitHub Pages (GitHub, Inc.), keeps standard server logs (IP address, time of
+        request, page requested, browser type) for security. We have no access to them and they are not
+        merged with other data sources.
       </p>
 
       <h2>4. Cookies</h2>
       <p>
-        Microsoft Clarity and Google Analytics set analytics cookies as soon as a page opens:
-        <code>_clck</code> (one year) and <code>_clsk</code> (one day) for Clarity, to which Microsoft may
-        add <code>MUID</code> and <code>CLID</code> on its own domains, and <code>_ga</code> and
-        <code>_ga_HEWD32N50T</code> (two years) for Google Analytics. {SITE_NAME} places no advertising
-        cookies. You can refuse or delete these cookies in your browser settings, or block the domains
-        <code>clarity.ms</code> and <code>googletagmanager.com</code>; the calculators work without them.
-      </p>
-      <p>
-        Your dark mode preference is stored via localStorage, which is not a cookie and is not transmitted
-        to any server. You can clear localStorage data at any time through your browser settings.
+        {SITE_NAME} sets <strong>no cookies</strong>, first-party or third-party, so there is no cookie
+        banner and nothing to accept. The calculators keep nothing on your device. If you press the
+        dark/light theme button yourself, your browser remembers that one choice locally (localStorage key
+        <code>theme</code>); it is not a cookie and is never sent anywhere.
       </p>
 
       <h2>5. Third-Party Services</h2>
       <p>
-        This website is hosted on Vercel. Vercel may collect minimal technical data as part of their edge
-        network service. See <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">Vercel's privacy policy</a>.
-      </p>
-      <p>
-        We may load web fonts from third-party content delivery networks for uniform text display. These
-        services may receive your IP address as part of the standard HTTP request. This usage is based on
-        our legitimate interest in a uniform presentation.
-      </p>
-      <p>
-        Apart from Microsoft Clarity and Google Analytics, described above, there are no social media
-        buttons, advertising widgets or remarketing services.
+        Fonts are served from this site. Apart from the cookieless Microsoft Clarity check described above,
+        there are no analytics tools, social media buttons, advertising widgets or remarketing services.
       </p>
 
       <h2>6. Your Rights Under CCPA (California Residents)</h2>
@@ -127,11 +115,10 @@ const description = `${SITE_NAME} privacy policy. How we handle your data, the a
         <li><strong>Right to restriction</strong> (Art. 18): restrict processing in certain cases.</li>
         <li><strong>Right to portability</strong> (Art. 20): receive data in a machine-readable format.</li>
         <li><strong>Right to object</strong> (Art. 21): object to processing on grounds relating to your situation.</li>
-        <li><strong>Right to withdraw consent</strong> (Art. 7): withdraw consent at any time.</li>
         <li><strong>Right to lodge a complaint</strong> (Art. 77): lodge a complaint with a supervisory authority.</li>
       </ul>
       <p>
-        These rights also apply to the data collected by the analytics tools. For
+        We hold no personal data about visitors, but you can always ask. For
         any enquiry, contact us at contact@truetakehomepay.com. We undertake to respond within 30 days.
       </p>
 
