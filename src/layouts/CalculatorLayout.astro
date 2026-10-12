@@ -76,39 +76,37 @@ const breadcrumbs = [
     </ol>
   </nav>
 
-  <!-- Hero -->
-  <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-8 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
+  <!-- Hero : titre et réponse directe, puis le simulateur sans défiler (RECETTE §5, règle du 2026-10-11) -->
+  <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-5 pt-4 dark:from-slate-900 dark:to-slate-950 sm:px-6 sm:pt-6 lg:px-8">
     <div class="mx-auto max-w-7xl text-center">
-      <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+      <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
         {h1}
       </h1>
-      <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+      <p class="mx-auto mt-2 max-w-3xl text-base text-slate-600 sm:mt-3 sm:text-lg dark:text-slate-400">
         {intro}
-      </p>
-      <p class="mt-2 text-sm text-slate-500">
-        Updated for tax year {TAX_YEAR}
-      </p>
-      <!-- Author byline -->
-      <p class="mt-2 flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-        Written by <a href="/about/" class="font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
       </p>
     </div>
   </section>
 
-  {resume && (
-    <section class="px-4 pb-2 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-3xl">
-        <p class="rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
-          {resume}
-        </p>
-      </div>
-    </section>
-  )}
-
   <!-- Calculator slot -->
-  <section class="px-4 pb-16 sm:px-6 lg:px-8" id="calculator">
+  <section class="px-4 pb-10 sm:px-6 lg:px-8" id="calculator">
     <div class="mx-auto max-w-7xl">
       <slot />
+    </div>
+  </section>
+
+  <!-- Date et signature, puis résumé : déplacés juste sous le simulateur (premier écran, 2026-10-11) -->
+  <section class="px-4 pb-8 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <p class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm text-slate-500 dark:text-slate-400">
+        <span>Updated for tax year {TAX_YEAR}</span>
+        <span>Written by <a href="/about/" class="font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a></span>
+      </p>
+      {resume && (
+        <p class="mt-4 rounded-xl border-l-4 border-navy-600 bg-slate-50 p-4 text-base leading-relaxed text-slate-700 dark:border-navy-400 dark:bg-slate-900 dark:text-slate-300">
+          {resume}
+        </p>
+      )}
     </div>
   </section>
 

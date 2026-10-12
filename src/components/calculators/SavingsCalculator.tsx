@@ -211,7 +211,7 @@ export default function SavingsCalculator() {
       </div>
 
       {/* Results panel */}
-      <div className="lg:col-span-3 min-w-0">
+      <div className="lg:col-span-3 min-w-0" data-resultat>
         {result ? (
           <ResultSection result={result} goal={Number(goalInput.replace(/[^0-9.]/g, ''))} currentSavings={Number(currentInput.replace(/[^0-9.]/g, ''))} />
         ) : (

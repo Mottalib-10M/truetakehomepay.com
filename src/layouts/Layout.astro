@@ -184,5 +184,43 @@ const allSchemas = [
       <slot />
     </main>
     <Footer />
+    {/* Téléphone : tant que le résultat du simulateur est sous l'écran, une barre collée en bas
+         montre le chiffre clé (RECETTE §5, règle du 2026-10-11). Ajoutée côté client : aucun
+         texte dupliqué dans le HTML. */}
+    <script is:inline>
+      (function () {
+        if (!('IntersectionObserver' in window)) return;
+        var res = document.querySelector('main [data-resultat]');
+        if (!res || res.closest('[data-simulateur-secondaire]')) return;
+        var mq = window.matchMedia('(max-width: 1023px)');
+        var bar = document.createElement('button');
+        bar.type = 'button';
+        bar.setAttribute('aria-hidden', 'true');
+        bar.tabIndex = -1;
+        bar.className = 'fixed inset-x-0 bottom-0 z-40 flex items-baseline justify-between gap-3 border-t border-navy-200 bg-navy-50 px-4 py-3 text-left shadow-lg dark:border-slate-700 dark:bg-slate-900';
+        bar.style.display = 'none';
+        var lab = document.createElement('span');
+        lab.className = 'text-sm font-medium text-slate-700 dark:text-slate-300';
+        var val = document.createElement('span');
+        val.className = 'tabular-nums text-xl font-bold text-navy-900 dark:text-white';
+        bar.appendChild(lab); bar.appendChild(val);
+        bar.addEventListener('click', function () { res.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+        document.body.appendChild(bar);
+        var below = false;
+        function fill() {
+          var num = res.querySelector('.tabular-nums.font-bold, .font-bold.tabular-nums');
+          var v = num && num.textContent.trim();
+          if (!v || !/\d/.test(v)) return false;
+          var l = num.previousElementSibling;
+          lab.textContent = (l && l.textContent.trim()) || 'Result';
+          val.textContent = v;
+          return true;
+        }
+        function show() { bar.style.display = mq.matches && below && fill() ? 'flex' : 'none'; }
+        new IntersectionObserver(function (e) { below = !e[0].isIntersecting && e[0].boundingClientRect.top > 0; show(); }).observe(res);
+        new MutationObserver(show).observe(res, { childList: true, subtree: true, characterData: true });
+        if (mq.addEventListener) mq.addEventListener('change', show);
+      })();
+    </script>
   </body>
 </html>

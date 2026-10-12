@@ -56,31 +56,35 @@ const schema = {
 ---
 
 <Layout title={title} description={description} schema={schema}>
-  <!-- Hero Section -->
-  <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-12 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
+  <!-- Hero Section : titre et réponse directe, puis le simulateur sans défiler (RECETTE §5, règle du 2026-10-11) -->
+  <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-5 pt-4 dark:from-slate-900 dark:to-slate-950 sm:px-6 sm:pt-6 lg:px-8">
     <div class="mx-auto max-w-7xl">
       <div class="text-center">
-        <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
+        <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
           Paycheck Calculator {TAX_YEAR}
         </h1>
-        <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+        <p class="mx-auto mt-2 max-w-3xl text-base text-slate-600 sm:mt-3 sm:text-lg dark:text-slate-400">
           Calculate your take-home pay after federal and state taxes. Free, accurate, and updated for {TAX_YEAR} tax brackets. All 50 states + DC supported.
-        </p>
-        <p class="mt-2 text-sm text-slate-500 dark:text-slate-500">
-          Updated for tax year {TAX_YEAR} &middot; Bi-weekly pay default &middot; Includes FICA, state tax, 401(k), and more
-        </p>
-        <p class="mt-2 flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-          Written by <a href="/about/" class="font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
         </p>
       </div>
     </div>
   </section>
 
   <!-- Calculator Section -->
-  <section class="px-4 pb-16 sm:px-6 lg:px-8" id="calculator">
+  <section class="px-4 pb-10 sm:px-6 lg:px-8" id="calculator">
     <div class="mx-auto max-w-7xl">
       <PaycheckCalculator client:idle />
     </div>
+  </section>
+
+  <!-- Date et signature : déplacées juste sous le simulateur (premier écran, 2026-10-11) -->
+  <section class="px-4 pb-10 text-center sm:px-6 lg:px-8">
+    <p class="text-sm text-slate-500 dark:text-slate-500">
+      Updated for tax year {TAX_YEAR} &middot; Bi-weekly pay default &middot; Includes FICA, state tax, 401(k), and more
+    </p>
+    <p class="mt-2 flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+      Written by <a href="/about/" class="font-medium text-navy-700 hover:underline dark:text-navy-400">{AUTHOR_NAME}</a>
+    </p>
   </section>
 
   <!-- State Links Grid -->

@@ -305,7 +305,7 @@ export default function StudentLoanCalculator() {
       </div>
 
       {/* Results panel */}
-      <div className="lg:col-span-3 min-w-0">
+      <div className="lg:col-span-3 min-w-0" data-resultat>
         {result ? (
           <div className="space-y-6">
             {/* Warning if payment too low */}

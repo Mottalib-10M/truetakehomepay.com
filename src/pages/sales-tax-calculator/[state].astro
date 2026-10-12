@@ -93,21 +93,22 @@ const faqSchema = {
 
 <Layout title={title} description={description} schema={faqSchema}>
   <!-- Hero -->
-  <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-8 pt-10 dark:from-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
+  <!-- Titre et réponse directe, puis le simulateur sans défiler (RECETTE §5, règle du 2026-10-11) -->
+  <section class="bg-gradient-to-b from-navy-50 to-white px-4 pb-5 pt-4 dark:from-slate-900 dark:to-slate-950 sm:px-6 sm:pt-6 lg:px-8">
     <div class="mx-auto max-w-7xl text-center">
-      <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+      <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
         {name} Sales Tax Calculator {TAX_YEAR}
       </h1>
-      <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+      <p class="mx-auto mt-2 max-w-3xl text-base text-slate-600 sm:mt-3 sm:text-lg dark:text-slate-400">
         Calculate sales tax in {name}. See state and local rates, exemptions, and comparisons.
       </p>
     </div>
   </section>
 
   <!-- Sales Tax Calculator -->
-  <section class="px-4 py-12 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-3xl">
-      <div class="rounded-xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+  <section class="px-4 pb-10 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-5xl">
+      <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8 dark:border-slate-700 dark:bg-slate-800">
         <h2 id="calculator" class="text-xl font-semibold text-slate-900 dark:text-white">Calculate {name} Sales Tax</h2>
 
         {isNoSalesTax && code !== 'AK' && (
@@ -130,15 +131,10 @@ const faqSchema = {
           </div>
         )}
 
+        {/* Champ à gauche, résultat à droite sur ordinateur (premier écran, 2026-10-11) */}
         {!isNoSalesTax && salesTax && (
-          <div class="mt-4">
-            <p class="text-sm text-slate-500 dark:text-slate-400">Average combined rate (state + local) in {name}:</p>
-            <p class="mt-1 text-3xl font-bold text-navy-700 dark:text-navy-300">{formatPercent(salesTax.avgCombinedRate * 100)}</p>
-          </div>
-        )}
-
-        {!isNoSalesTax && salesTax && (
-          <div class="mt-6">
+          <div class="mt-5 grid gap-5 lg:grid-cols-2 lg:items-start">
+            <div>
             <label for="purchase-amount" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
               Purchase Amount ($)
             </label>
@@ -152,11 +148,12 @@ const faqSchema = {
                 class="block w-full rounded-lg border border-slate-300 py-2 pl-7 pr-4 text-slate-900 shadow-sm focus:border-navy-500 focus:ring-navy-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
               />
             </div>
-            <div id="st-result" data-rate={salesTax.avgCombinedRate} class="mt-5 rounded-lg border border-slate-100 bg-slate-50 p-5 dark:border-slate-700 dark:bg-slate-900">
+            </div>
+            <div id="st-result" data-resultat data-rate={salesTax.avgCombinedRate} class="rounded-lg border border-slate-100 bg-slate-50 p-5 dark:border-slate-700 dark:bg-slate-900">
               <div class="grid grid-cols-3 gap-4 text-center">
                 <div>
                   <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Sales Tax</p>
-                  <p id="st-tax" class="mt-1 text-xl font-bold text-slate-900 dark:text-white">
+                  <p id="st-tax" class="tabular-nums mt-1 text-xl font-bold text-slate-900 dark:text-white">
                     {formatCurrencyRound(100 * salesTax.avgCombinedRate)}
                   </p>
                 </div>
@@ -174,6 +171,14 @@ const faqSchema = {
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* Taux moyen : juste sous le simulateur */}
+        {!isNoSalesTax && salesTax && (
+          <div class="mt-4">
+            <p class="text-sm text-slate-500 dark:text-slate-400">Average combined rate (state + local) in {name}:</p>
+            <p class="mt-1 text-3xl font-bold text-navy-700 dark:text-navy-300">{formatPercent(salesTax.avgCombinedRate * 100)}</p>
           </div>
         )}
 

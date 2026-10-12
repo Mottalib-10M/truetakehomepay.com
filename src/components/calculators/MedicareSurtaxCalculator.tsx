@@ -162,7 +162,7 @@ export default function MedicareSurtaxCalculator() {
       </div>
 
       {/* Results panel */}
-      <div className="lg:col-span-3 min-w-0">
+      <div className="lg:col-span-3 min-w-0" data-resultat>
         {result ? (
           <ResultPanel result={result} filingStatus={filingStatus} />
         ) : (

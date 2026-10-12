@@ -130,7 +130,7 @@ export default function TakeHomeComparisonCalculator() {
       </div>
 
       {/* Results panel */}
-      <div className="lg:col-span-3 min-w-0">
+      <div className="lg:col-span-3 min-w-0" data-resultat>
         {results.length > 0 && best && worst ? (
           <ComparisonResults
             results={results}

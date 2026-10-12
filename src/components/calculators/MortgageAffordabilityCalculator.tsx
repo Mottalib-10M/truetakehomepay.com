@@ -264,7 +264,7 @@ export default function MortgageAffordabilityCalculator() {
       </div>
 
       {/* Results panel */}
-      <div className="lg:col-span-3 min-w-0">
+      <div className="lg:col-span-3 min-w-0" data-resultat>
         {result ? (
           <AffordabilityResultPanel result={result} downPayment={Number(down.replace(/[^0-9.]/g, '')) || 0} />
         ) : (

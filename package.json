@@ -10,7 +10,8 @@
     "build": "astro build && node scripts/typo-nbsp.mjs dist",
     "preview": "astro preview",
     "astro": "astro",
-    "check:cookies": "python3 scripts/check-cookies.py ."
+    "check:cookies": "python3 scripts/check-cookies.py .",
+    "check": "python3 scripts/check-cookies.py . && node scripts/check-premier-ecran.mjs ."
   },
   "dependencies": {
     "@astrojs/react": "^5.0.4",

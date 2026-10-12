@@ -291,7 +291,7 @@ export default function NetWorthCalculator() {
       </div>
 
       {/* Results panel */}
-      <div className="lg:col-span-3 min-w-0">
+      <div className="lg:col-span-3 min-w-0" data-resultat>
         <ResultSection result={result} />
       </div>
     </div>
