@@ -208,7 +208,7 @@ const allSchemas = [
         document.body.appendChild(bar);
         var below = false;
         function fill() {
-          var num = res.querySelector('.tabular-nums.font-bold, .font-bold.tabular-nums');
+          var num = res.querySelector('[data-chiffre-cle]') || res.querySelector('.tabular-nums.font-bold, .font-bold.tabular-nums');
           var v = num && num.textContent.trim();
           if (!v || !/\d/.test(v)) return false;
           var l = num.previousElementSibling;

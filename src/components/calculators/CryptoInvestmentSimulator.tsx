@@ -221,7 +221,10 @@ export default function CryptoInvestmentSimulator({
 }: CryptoInvestmentSimulatorProps) {
   // ─── State ──────────────────────────────────────────────────────────
   const [buyPrice, setBuyPrice] = useState(defaultBuyPrice.toString());
-  const [sellPrice, setSellPrice] = useState((defaultBuyPrice * 1.5).toString());
+  // Prix de vente par défaut = achat × 1,5, arrondi à 12 chiffres significatifs pour l'affichage :
+  // 0,8 × 1,5 donnait « 1.2000000000000002 » dans le champ (2026-10-12).
+  const defaultSellPrice = String(Number((defaultBuyPrice * 1.5).toPrecision(12)));
+  const [sellPrice, setSellPrice] = useState(defaultSellPrice);
   const [quantity, setQuantity] = useState('10');
   const [holdPeriod, setHoldPeriod] = useState<'short' | 'long'>('long');
   const [incomeInput, setIncomeInput] = useState('75000');
@@ -241,7 +244,7 @@ export default function CryptoInvestmentSimulator({
   const updateUrl = useCallback(() => {
     const params = new URLSearchParams();
     if (buyPrice && buyPrice !== defaultBuyPrice.toString()) params.set('buy', buyPrice);
-    if (sellPrice && sellPrice !== (defaultBuyPrice * 1.5).toString()) params.set('sell', sellPrice);
+    if (sellPrice && sellPrice !== defaultSellPrice) params.set('sell', sellPrice);
     if (quantity && quantity !== '10') params.set('qty', quantity);
     if (holdPeriod !== 'long') params.set('hold', holdPeriod);
     if (incomeInput && incomeInput !== '75000') params.set('income', incomeInput);
@@ -461,6 +464,7 @@ export default function CryptoInvestmentSimulator({
                     Net {result.isLoss ? 'Loss' : 'Gain'}
                   </p>
                   <p
+                    data-chiffre-cle
                     className={`tabular-nums mt-1 text-2xl font-bold tracking-tight sm:text-3xl ${result.isLoss ? 'text-red-400' : 'text-success-400'}`}
                   >
                     {formatCurrency(result.netProfit)}
