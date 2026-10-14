@@ -188,7 +188,22 @@ export default function trustKit(opts) {
             // Juste avant le premier <h1> ; si ce <h1> est dans un îlot React (<astro-island>),
             // avant l'îlot : React compare son rendu au HTML servi, on n'y insère jamais rien.
             const h1 = html.search(/<h1[\s>]/);
-            if (h1 >= 0) {
+            // Fil d'Ariane avant le <h1> : la date va à droite sur sa ligne fine. Seule sur sa
+            // ligne entre le fil et le titre, elle repoussait le <h1> à 88-95 px de l'en-tête
+            // (RECETTE §10.3, check-layout 13). Le conteneur du fil (largeur, marges) passe sur
+            // la rangée, qui aligne le fil à gauche et la date à droite.
+            const mainAt = html.search(/<main[\s>]/);
+            const navAt = mainAt >= 0 ? html.indexOf('<nav', mainAt) : -1;
+            const navEnd = navAt >= 0 ? html.indexOf('</nav>', navAt) + 6 : -1;
+            const inIsland = (p) => html.lastIndexOf('<astro-island', p) > html.lastIndexOf('</astro-island>', p);
+            if (h1 >= 0 && navAt > 0 && navEnd > navAt && navEnd < h1 && !inIsland(navAt) && /aria-label="Breadcrumb"/.test(html.slice(navAt, navEnd))) {
+              let nav = html.slice(navAt, navEnd); let cls = '';
+              nav = nav.replace(/^<nav\b[^>]*>/, (open) => open.replace(/\sclass="([^"]*)"/, (all, c) => { cls = c; return ''; }));
+              const crumbDate = `<p data-trust-kit class="trust-top" style="margin:0 0 0 auto;font-size:0.8125rem;opacity:0.8">`
+                + `${t.updated} <time datetime="${date}">${dateTexte}</time></p>`;
+              html = html.slice(0, navAt) + `<div data-trust-kit class="${cls}" style="display:flex;flex-wrap:wrap;align-items:baseline;column-gap:1.5rem">`
+                + nav + crumbDate + '</div>' + html.slice(navEnd);
+            } else if (h1 >= 0) {
               let at = h1;
               const open = html.lastIndexOf('<astro-island', h1);
               if (open >= 0 && html.lastIndexOf('</astro-island>', h1) < open) at = open;
