@@ -6,7 +6,7 @@
  * leur en-tête et leur pied : le plus sûr est d'intervenir sur le HTML construit, une fois,
  * au lieu de retoucher des centaines de pages. Après le build, pour chaque page indexable :
  *
- *   - en haut, juste avant le <h1> (il en prend l'alignement) : « Mis à jour le AAAA-MM-JJ »
+ *   - en haut, juste avant le <h1>, sur une page de lecture seulement (Article) : « Mis à jour le 7 octobre 2026 »
  *   - en bas, dans le dernier <footer>, avec la classe du conteneur du pied (même alignement) :
  *     disclaimer, date, liens méthode et auteur (rel="author")
  *   - dans <head> : Organization (founder = Person complet, foundingDate,
@@ -161,7 +161,16 @@ export default function trustKit(opts) {
             const path = f.split('/dist')[1]?.replace(/index\.html$/, '') || '/';
             const { t, lang, about, method } = localeOf(path);
             const dateTexte = dateLisible(date, lang);
-            const top = `<p data-trust-kit class="trust-top" style="margin:0 0 0.5rem;font-size:0.8125rem;opacity:0.8">`
+            // Date en haut seulement sur une page de lecture (Article déclaré) ; sur un
+            // simulateur ou un accueil, elle reste en bas (RECETTE §8.4, 2026-10-15).
+            // Une page qui commence par un simulateur (moins de 250 mots entre le titre et le
+            // premier champ, règle de check-trame) n'est pas une page de lecture, même déclarée Article.
+            const corps = (html.match(/<main\b[\s\S]*?<\/main>/) || [html])[0];
+            const apresTitre = corps.slice(Math.max(corps.indexOf('</h1>'), 0));
+            const champ = apresTitre.search(/<input\b(?![^>]*type="(?:hidden|search|checkbox|radio|submit|button)")[^>]*>|<select\b|<button\b[^>]*\baria-pressed=|role="slider"/i);
+            const motsAvant = champ < 0 ? Infinity : apresTitre.slice(0, champ).replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, ' ').replace(/<[a-zA-Z/!][^>]*>/g, ' ').split(/\s+/).filter(Boolean).length;
+            const lecture = /"@type"\s*:\s*"(?:Article|BlogPosting|NewsArticle)"/.test(html) && motsAvant >= 250;
+            const top = !lecture ? '' : `<p data-trust-kit class="trust-top" style="margin:0 0 0.5rem;font-size:0.8125rem;opacity:0.8">`
               + `${t.updated} <time datetime="${date}">${dateTexte}</time></p>`;
             // Largeur du pied de page : on ne recopie la classe d'un div du pied que si
             // c'est un conteneur de mise en page. Sans ce filtre, un filet décoratif placé
@@ -199,7 +208,8 @@ export default function trustKit(opts) {
             if (h1 >= 0 && navAt > 0 && navEnd > navAt && navEnd < h1 && !inIsland(navAt) && /aria-label="Breadcrumb"/.test(html.slice(navAt, navEnd))) {
               let nav = html.slice(navAt, navEnd); let cls = '';
               nav = nav.replace(/^<nav\b[^>]*>/, (open) => open.replace(/\sclass="([^"]*)"/, (all, c) => { cls = c; return ''; }));
-              const crumbDate = `<p data-trust-kit class="trust-top" style="margin:0 0 0 auto;font-size:0.8125rem;opacity:0.8">`
+              // Sans date (page qui n'est pas de lecture), la rangée garde la même géométrie, fil seul.
+              const crumbDate = !lecture ? '' : `<p data-trust-kit class="trust-top" style="margin:0 0 0 auto;font-size:0.8125rem;opacity:0.8">`
                 + `${t.updated} <time datetime="${date}">${dateTexte}</time></p>`;
               html = html.slice(0, navAt) + `<div data-trust-kit class="${cls}" style="display:flex;flex-wrap:wrap;align-items:baseline;column-gap:1.5rem">`
                 + nav + crumbDate + '</div>' + html.slice(navEnd);
