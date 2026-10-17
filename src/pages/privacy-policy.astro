@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { SITE_NAME, SITE_URL } from '../lib/constants';
 
 const title = 'Privacy Policy — Your Data Rights and Our Practices';
-const description = `${SITE_NAME} privacy policy: no cookies, no paycheck data stored, only an anonymous stability check with cookieless Microsoft Clarity, plus your CCPA rights.`;
+const description = `${SITE_NAME} privacy policy: Google Analytics audience measurement with cookies and no advertising, no paycheck data stored, cookieless Microsoft Clarity, plus your GDPR and CCPA rights.`;
 ---
 
 <Layout title={title} description={description} noIndex={true}>
@@ -41,9 +41,33 @@ const description = `${SITE_NAME} privacy policy: no cookies, no paycheck data s
         into the calculators.
       </p>
 
+      <h3>Audience Measurement with Google Analytics</h3>
+      <p>
+        We use Google Analytics 4 to count visits and see which pages are useful: pages viewed, referring
+        page, visit length, device and browser type, approximate country and city. To do so Google Analytics
+        sets two cookies on your device: <code>_ga</code>, which tells visitors apart with a random
+        identifier, and <code>_ga_HEWD32N50T</code>, which keeps the state of the visit. Their lifetime is
+        set to 13 months at most (390 days) and is not extended on each visit; Google's default is 2 years.
+      </p>
+      <p>
+        The IP address is anonymized: Google Analytics 4 neither logs nor stores it, and only uses it at
+        collection time to derive an approximate country and city. The page address sent to Google Analytics
+        is stripped of its parameters, so the amounts carried by a share link are not included. The site
+        shows no advertising: ad storage, ad user data, ad personalization and Google signals are switched
+        off, and measurement data is shared with no advertiser.
+      </p>
+      <ul>
+        <li><strong>Provider:</strong> Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland, acting as our processor (Art. 28 GDPR); Google LLC for US visitors.</li>
+        <li><strong>Purpose:</strong> audience measurement.</li>
+        <li><strong>Legal basis:</strong> our legitimate interest in knowing how the site is used in order to improve it (Art. 6(1)(f) GDPR for EU visitors); under US law, this is not a sale of personal information and involves no targeted advertising.</li>
+        <li><strong>Retention at Google:</strong> 14 months for visit-level and identifier-level data, then deletion; only anonymous totals remain.</li>
+        <li><strong>Transfers:</strong> data may be transferred to Google LLC in the United States under the EU–U.S. Data Privacy Framework and the European Commission's standard contractual clauses.</li>
+        <li><strong>Opting out:</strong> block or delete cookies in your browser settings, or install the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google Analytics opt-out browser add-on</a>; every calculator keeps working.</li>
+      </ul>
+
       <h3>Anonymous Stability Check (Microsoft Clarity, No Cookies)</h3>
       <p>
-        We, the publisher, record no personal information about you. To find paycheck calculators that
+        To find paycheck calculators that
         break or load slowly, we run a technical, anonymous check of how the site behaves: script errors,
         load times, clicks that do nothing and scroll depth. It uses Microsoft Clarity in its
         <strong>cookieless mode</strong>: Clarity is told that storage is denied before its script loads,
@@ -66,8 +90,8 @@ const description = `${SITE_NAME} privacy policy: no cookies, no paycheck data s
       <p>
         When you use our calculators, your inputs may be encoded in the page URL (e.g., ?gross=60000&state=CA)
         to enable sharing. This data is not transmitted to or stored on our servers. If you open a page
-        through such a shared link, the page address is masked like the rest of the page in the stability
-        check described above.
+        through such a shared link, the page address is masked in the stability check and sent to Google
+        Analytics without its parameters.
       </p>
 
       <h3>Server Log Files</h3>
@@ -79,16 +103,20 @@ const description = `${SITE_NAME} privacy policy: no cookies, no paycheck data s
 
       <h2>4. Cookies</h2>
       <p>
-        {SITE_NAME} sets <strong>no cookies</strong>, first-party or third-party, so there is no cookie
-        banner and nothing to accept. The calculators keep nothing on your device. If you press the
-        dark/light theme button yourself, your browser remembers that one choice locally (localStorage key
-        <code>theme</code>); it is not a cookie and is never sent anywhere.
+        The only cookies {SITE_NAME} sets are the two Google Analytics audience measurement cookies described
+        above (<code>_ga</code> and <code>_ga_HEWD32N50T</code>, 13 months at most): no advertising cookie
+        and no social media cookie. Measurement relies on our legitimate interest, without a prior banner,
+        and you can object at any time by blocking cookies or with the Google Analytics opt-out add-on. The
+        calculators keep nothing on your device. If you press the dark/light theme button yourself, your
+        browser remembers that one choice locally (localStorage key <code>theme</code>), which stays in your
+        browser and is never sent anywhere.
       </p>
 
       <h2>5. Third-Party Services</h2>
       <p>
-        Fonts are served from this site. Apart from the cookieless Microsoft Clarity check described above,
-        there are no analytics tools, social media buttons, advertising widgets or remarketing services.
+        Fonts are served from this site. Apart from Google Analytics and the cookieless Microsoft Clarity
+        check described above, there are no other measurement tools, social media buttons, advertising
+        widgets or remarketing services.
       </p>
 
       <h2>6. Your Rights Under CCPA (California Residents)</h2>
@@ -100,8 +128,8 @@ const description = `${SITE_NAME} privacy policy: no cookies, no paycheck data s
         <li>Not be discriminated against for exercising your privacy rights</li>
       </ul>
       <p>
-        Since we do not collect personal information through our calculators, these rights are effectively
-        exercised by default. We do not sell, trade, or transfer personal data to third parties.
+        We do not collect personal information through our calculators, and we do not sell, trade, or
+        share personal data for advertising; Google Analytics acts as our service provider.
       </p>
 
       <h2>7. Your Rights Under GDPR (EU Users)</h2>
@@ -118,7 +146,7 @@ const description = `${SITE_NAME} privacy policy: no cookies, no paycheck data s
         <li><strong>Right to lodge a complaint</strong> (Art. 77): lodge a complaint with a supervisory authority.</li>
       </ul>
       <p>
-        We hold no personal data about visitors, but you can always ask. For
+        Apart from Google Analytics measurement, we hold no personal data about visitors, but you can always ask. For
         any enquiry, contact us at contact@truetakehomepay.com. We undertake to respond within 30 days.
       </p>
 

@@ -11,6 +11,9 @@ export const AUTHOR_TITLE = 'Founder & Editor';
 export const AUTHOR_CREDENTIALS = 'Publisher of calculators and practical guides';
 export const AUTHOR_EMAIL = 'contact@truetakehomepay.com';
 
+/* Google Analytics 4, régime « sans bandeau » (décision du 2026-10-17) — leave empty to disable */
+export const GA4_ID = 'G-HEWD32N50T';
+
 /* Bing / Clarity — leave empty to disable */
 export const CLARITY_PROJECT_ID = 'xanaj4ll6g';
 export const BING_VERIFY_CODE = '15b1d26333aa4cd7a1cdba8e813bfc7f';

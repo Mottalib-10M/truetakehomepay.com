@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
-import { SITE_NAME, SITE_URL, AUTHOR_NAME, AUTHOR_EMAIL, CLARITY_PROJECT_ID, BING_VERIFY_CODE } from '../lib/constants';
+import { SITE_NAME, SITE_URL, AUTHOR_NAME, AUTHOR_EMAIL, CLARITY_PROJECT_ID, BING_VERIFY_CODE, GA4_ID } from '../lib/constants';
 
 interface Props {
   title: string;
@@ -114,7 +114,7 @@ const allSchemas = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clarity.ms; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.clarity.ms; frame-src 'self'; frame-ancestors 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clarity.ms https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.clarity.ms https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-src 'self'; frame-ancestors 'self'" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={AUTHOR_NAME} />
@@ -160,7 +160,15 @@ const allSchemas = [
       }
     </script>
 
-    {/* Mesure technique et anonyme de la stabilité (RECETTE §15.6, 2026-10-06) : aucun cookie.
+    {/* Google Analytics 4, régime « sans bandeau » (décision de l'éditeur du 2026-10-17) : cookies _ga et
+         _ga_<ID> de 13 mois au plus (cookie_expires, non prolongés), stockage publicitaire refusé, IP anonymisée,
+         adresse de page transmise sans paramètres. Décrit dans /privacy-policy/. Contrôle : scripts/check-cookies.py. */}
+    {GA4_ID && (<>
+      <script is:inline set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('consent','default',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',functionality_storage:'granted',security_storage:'granted'});`} />
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}></script>
+      <script is:inline set:html={`gtag('js',new Date());gtag('config','${GA4_ID}',{anonymize_ip:true,page_location:location.origin+location.pathname,cookie_expires:33696000,cookie_update:false,allow_google_signals:false,allow_ad_personalization_signals:false});`} />
+    </>)}
+    {/* Mesure technique et anonyme de la stabilité (RECETTE §15.6, 2026-10-06)  : Clarity sans cookie.
          consentv2 « denied » mis en file AVANT le script Clarity : mode sans cookie (ni _clck, _clsk,
          MUID, CLID), un identifiant par page vue ; contenu masqué par data-clarity-mask sur <body>. */}
     {CLARITY_PROJECT_ID && (
