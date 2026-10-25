@@ -13,7 +13,7 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   integrations: [
-    trustKit({ lang: 'en', siteUrl: 'https://truetakehomepay.com', siteName: 'TrueTakeHomePay', founded: '2026-06-27', about: '/about/', method: '/methodology/' }),
+    trustKit({ lang: 'en', siteUrl: 'https://truetakehomepay.com', siteName: 'True Take Home Pay', founded: '2026-06-27', about: '/about/', method: '/methodology/' }),
     react(),
     sitemap({
       filter: (page) =>

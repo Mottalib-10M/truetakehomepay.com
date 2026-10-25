@@ -59,7 +59,7 @@ const ogSvg = `
 
   <!-- Site name -->
   <text x="210" y="245" font-family="Inter, system-ui, sans-serif" font-size="26" font-weight="600" fill="#60a5fa" letter-spacing="0.5">
-    US<tspan fill="#94a3b8">paycheck</tspan>
+    <tspan fill="#94a3b8">True</tspan><tspan dx="8">Take Home Pay</tspan>
   </text>
 
   <!-- Main title -->

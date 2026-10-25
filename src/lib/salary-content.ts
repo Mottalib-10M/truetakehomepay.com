@@ -681,7 +681,7 @@ export function getAuthorSchema(pageUrl: string) {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'TrueTakeHomePay',
+      name: 'True Take Home Pay',
       url: 'https://truetakehomepay.com',
     },
     url: pageUrl,

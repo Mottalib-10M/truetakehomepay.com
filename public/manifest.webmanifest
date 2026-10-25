@@ -1,6 +1,6 @@
 {
-  "name": "TrueTakeHomePay — Free US Paycheck & Tax Calculators",
-  "short_name": "TrueTakeHomePay",
+  "name": "True Take Home Pay — Free US Paycheck & Tax Calculators",
+  "short_name": "True Take Home Pay",
   "description": "Free paycheck calculator for all 50 US states. Calculate your take-home pay, federal and state taxes, FICA, 401(k), and more.",
   "start_url": "/",
   "display": "standalone",
